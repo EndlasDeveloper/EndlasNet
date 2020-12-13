@@ -1,0 +1,2 @@
+C:\Users\EndlasLaptop2\source\repos\EndlasNet\EndlasNet\obj\Debug\EndlasNet.csprojAssemblyReference.cache
+C:\Users\EndlasLaptop2\source\repos\EndlasNet\EndlasNet\obj\Debug\EndlasNet.csproj.CoreCompileInputs.cache
