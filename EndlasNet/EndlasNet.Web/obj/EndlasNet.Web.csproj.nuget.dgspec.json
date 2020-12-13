@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\EndlasLaptop2\\source\\repos\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj": {}
+    "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\EndlasLaptop2\\source\\repos\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj": {
+    "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\EndlasLaptop2\\source\\repos\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj",
+        "projectUniqueName": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj",
         "projectName": "EndlasNet.Web",
-        "projectPath": "C:\\Users\\EndlasLaptop2\\source\\repos\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj",
+        "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj",
         "packagesPath": "C:\\Users\\EndlasLaptop2\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\EndlasLaptop2\\source\\repos\\EndlasNet\\EndlasNet.Web\\obj\\",
+        "outputPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Web\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
