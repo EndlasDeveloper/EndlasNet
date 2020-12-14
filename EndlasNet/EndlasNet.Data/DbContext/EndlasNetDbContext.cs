@@ -12,10 +12,10 @@ namespace EndlasNet.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<RawMaterial> RawMaterials { get; set; }
         public DbSet<QuoteSession> QuoteSessions { get; set; }
-        /*public DbSet<LaserQuoteSession> LaserQuoteSessions { get; set; }
+        public DbSet<LaserQuoteSession> LaserQuoteSessions { get; set; }
         public DbSet<MachineQuoteSession> MachineSessions { get; set; }
         public DbSet<IntermediateParam> IntermediateParams { get; set; }
-        public DbSet<Quote> Quotes { get; set; }*/
+        public DbSet<Quote> Quotes { get; set; }
 
 
         public EndlasNetDbContext(string connectionString)
@@ -51,9 +51,9 @@ namespace EndlasNet.Data
             _ = new LaserQuoteSessionMap(modelBuilder.Entity<LaserQuoteSession>());
             _ = new MachineQuoteSessionMap(modelBuilder.Entity<MachineQuoteSession>());
             _ = new RawMaterial_LaserQuoteSessionMap(modelBuilder.Entity<RawMaterial_LaserQuoteSession>());
-         /* _ = new IntermediateParamMap(modelBuilder.Entity<IntermediateParam>);
-            _ = new QuoteMap(modelBuilder.Entity<Quote>);
-            _ = new MultiplicityMap(modelBuilder.Entity<Quote>);*/
+            _ = new IntermediateParamMap(modelBuilder.Entity<IntermediateParam>());
+            _ = new QuoteMap(modelBuilder.Entity<Quote>());
+            _ = new MultiplicityMap(modelBuilder);
 
             ////
             // Seed the Routes table

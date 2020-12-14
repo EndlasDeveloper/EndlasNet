@@ -4,14 +4,16 @@ using EndlasNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    partial class EndlasNetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201214211952_IntermediateParamAndQuoteMigration")]
+    partial class IntermediateParamAndQuoteMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,59 +49,6 @@ namespace EndlasNet.Data.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.IntermediateParam", b =>
-                {
-                    b.Property<int>("IntermediateParamId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<double>("ApproxVolPerLayerCubicCm")
-                        .HasColumnType("float");
-
-                    b.Property<double>("ApproxVolPerLayerCubicIn")
-                        .HasColumnType("float");
-
-                    b.Property<double>("AssumedAvgPassLenIn")
-                        .HasColumnType("float");
-
-                    b.Property<double>("CladAddRateSqInPerMin")
-                        .HasColumnType("float");
-
-                    b.Property<int>("LaserQuoteSessionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PseudoNumPasses")
-                        .HasColumnType("int");
-
-                    b.Property<double>("PseudoWidthIn")
-                        .HasColumnType("float");
-
-                    b.Property<double>("StepIn")
-                        .HasColumnType("float");
-
-                    b.Property<double>("StepMm")
-                        .HasColumnType("float");
-
-                    b.Property<double>("SurfaceVelocity")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TimeBetweenBeadsMin")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TimePerBeadSec")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TimePerLayerMin")
-                        .HasColumnType("float");
-
-                    b.HasKey("IntermediateParamId");
-
-                    b.HasIndex("LaserQuoteSessionId");
-
-                    b.ToTable("IntermediateParams");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
                 {
                     b.Property<int>("LaserQuoteSessionId")
@@ -114,7 +63,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasIndex("QuoteSessionId");
 
-                    b.ToTable("LaserQuoteSessions");
+                    b.ToTable("LaserQuoteSession");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.MachineQuoteSession", b =>
@@ -131,54 +80,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasIndex("QuoteSessionId");
 
-                    b.ToTable("MachineSessions");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.Quote", b =>
-                {
-                    b.Property<int>("QuoteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<double>("CogsTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("EnergyTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("FringeTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("GasTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("LaborDirectTotal")
-                        .HasColumnType("float");
-
-                    b.Property<int>("LaserCladSessionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("LaserQuoteSessionId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("OverheadTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("PowderDirectTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("ProfitTotal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("ShippingTotal")
-                        .HasColumnType("float");
-
-                    b.HasKey("QuoteId");
-
-                    b.HasIndex("LaserQuoteSessionId");
-
-                    b.ToTable("Quotes");
+                    b.ToTable("MachineQuoteSession");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.QuoteSession", b =>
@@ -259,17 +161,6 @@ namespace EndlasNet.Data.Migrations
                     b.ToTable("RawMaterial_LaserQuoteSession");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.IntermediateParam", b =>
-                {
-                    b.HasOne("EndlasNet.Data.LaserQuoteSession", "LaserQuoteSession")
-                        .WithMany()
-                        .HasForeignKey("LaserQuoteSessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LaserQuoteSession");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
                 {
                     b.HasOne("EndlasNet.Data.QuoteSession", "QuoteSession")
@@ -290,15 +181,6 @@ namespace EndlasNet.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("QuoteSession");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.Quote", b =>
-                {
-                    b.HasOne("EndlasNet.Data.LaserQuoteSession", "LaserQuoteSession")
-                        .WithMany()
-                        .HasForeignKey("LaserQuoteSessionId");
-
-                    b.Navigation("LaserQuoteSession");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.QuoteSession", b =>

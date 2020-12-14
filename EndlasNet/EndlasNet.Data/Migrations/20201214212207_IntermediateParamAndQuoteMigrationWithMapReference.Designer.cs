@@ -4,14 +4,16 @@ using EndlasNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    partial class EndlasNetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201214212207_IntermediateParamAndQuoteMigrationWithMapReference")]
+    partial class IntermediateParamAndQuoteMigrationWithMapReference
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,7 +99,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasIndex("LaserQuoteSessionId");
 
-                    b.ToTable("IntermediateParams");
+                    b.ToTable("IntermediateParam");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
@@ -114,7 +116,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasIndex("QuoteSessionId");
 
-                    b.ToTable("LaserQuoteSessions");
+                    b.ToTable("LaserQuoteSession");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.MachineQuoteSession", b =>
@@ -131,7 +133,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasIndex("QuoteSessionId");
 
-                    b.ToTable("MachineSessions");
+                    b.ToTable("MachineQuoteSession");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.Quote", b =>
@@ -178,7 +180,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasIndex("LaserQuoteSessionId");
 
-                    b.ToTable("Quotes");
+                    b.ToTable("Quote");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.QuoteSession", b =>
