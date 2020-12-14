@@ -4,14 +4,16 @@ using EndlasNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    partial class EndlasNetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201214202014_QuoteSessionMigration")]
+    partial class QuoteSessionMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,40 +47,6 @@ namespace EndlasNet.Data.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
-                {
-                    b.Property<int>("LaserQuoteSessionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("QuoteSessionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LaserQuoteSessionId");
-
-                    b.HasIndex("QuoteSessionId");
-
-                    b.ToTable("LaserQuoteSession");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.MachineQuoteSession", b =>
-                {
-                    b.Property<int>("MachineQuoteSessionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("QuoteSessionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MachineQuoteSessionId");
-
-                    b.HasIndex("QuoteSessionId");
-
-                    b.ToTable("MachineQuoteSession");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.QuoteSession", b =>
@@ -144,43 +112,6 @@ namespace EndlasNet.Data.Migrations
                     b.ToTable("RawMaterials");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.RawMaterial_LaserQuoteSession", b =>
-                {
-                    b.Property<int>("LaserQuoteSessionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RawMaterialId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LaserQuoteSessionId", "RawMaterialId");
-
-                    b.HasIndex("RawMaterialId");
-
-                    b.ToTable("RawMaterial_LaserQuoteSession");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
-                {
-                    b.HasOne("EndlasNet.Data.QuoteSession", "QuoteSession")
-                        .WithMany()
-                        .HasForeignKey("QuoteSessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("QuoteSession");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.MachineQuoteSession", b =>
-                {
-                    b.HasOne("EndlasNet.Data.QuoteSession", "QuoteSession")
-                        .WithMany()
-                        .HasForeignKey("QuoteSessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("QuoteSession");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.QuoteSession", b =>
                 {
                     b.HasOne("EndlasNet.Data.Customer", "Customer")
@@ -190,35 +121,6 @@ namespace EndlasNet.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.RawMaterial_LaserQuoteSession", b =>
-                {
-                    b.HasOne("EndlasNet.Data.LaserQuoteSession", "LaserQuoteSession")
-                        .WithMany("RawMat_LasQuoteSes")
-                        .HasForeignKey("LaserQuoteSessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EndlasNet.Data.RawMaterial", "RawMaterial")
-                        .WithMany("RawMat_LasQuoteSes")
-                        .HasForeignKey("RawMaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LaserQuoteSession");
-
-                    b.Navigation("RawMaterial");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
-                {
-                    b.Navigation("RawMat_LasQuoteSes");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.RawMaterial", b =>
-                {
-                    b.Navigation("RawMat_LasQuoteSes");
                 });
 #pragma warning restore 612, 618
         }

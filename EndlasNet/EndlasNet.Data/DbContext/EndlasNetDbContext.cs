@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
@@ -15,9 +10,9 @@ namespace EndlasNet.Data
         private readonly string connectionString = "Server=(localdb)\\mssqllocaldb;Database=EndlasNetDb;Trusted_Connection=True;MultipleActiveResultSets=true";
 
         public DbSet<Customer> Customers { get; set; }
-        /*public DbSet<RawMaterial> RawMaterials { get; set; }
+        public DbSet<RawMaterial> RawMaterials { get; set; }
         public DbSet<QuoteSession> QuoteSessions { get; set; }
-        public DbSet<LaserQuoteSession> LaserQuoteSessions { get; set; }
+        /*public DbSet<LaserQuoteSession> LaserQuoteSessions { get; set; }
         public DbSet<MachineQuoteSession> MachineSessions { get; set; }
         public DbSet<IntermediateParam> IntermediateParams { get; set; }
         public DbSet<Quote> Quotes { get; set; }*/
@@ -51,12 +46,14 @@ namespace EndlasNet.Data
             Contract.Requires(modelBuilder != null);
             base.OnModelCreating(modelBuilder);
             _ = new CustomerMap(modelBuilder.Entity<Customer>());
-            //_ = new QuoteSessionMap(modelBuilder.Entity<QuoteSession>());
-            /* _ = new LaserQuoteSessionMap(modelBuilder.Entity<LaserQuoteSession>());
-             _ = new MachineQuoteSessionMap(modelBuilder.Entity<MachineQuoteSession>());
-             _ = new IntermediateParamMap(modelBuilder.Entity<IntermediateParam>);
-             _ = new QuoteMap(modelBuilder.Entity<Quote>);
-             _ = new MultiplicityMap(modelBuilder.Entity<Quote>);*/
+            _ = new RawMaterialMap(modelBuilder.Entity<RawMaterial>());
+            _ = new QuoteSessionMap(modelBuilder.Entity<QuoteSession>());
+            _ = new LaserQuoteSessionMap(modelBuilder.Entity<LaserQuoteSession>());
+            _ = new MachineQuoteSessionMap(modelBuilder.Entity<MachineQuoteSession>());
+            _ = new RawMaterial_LaserQuoteSessionMap(modelBuilder.Entity<RawMaterial_LaserQuoteSession>());
+         /* _ = new IntermediateParamMap(modelBuilder.Entity<IntermediateParam>);
+            _ = new QuoteMap(modelBuilder.Entity<Quote>);
+            _ = new MultiplicityMap(modelBuilder.Entity<Quote>);*/
 
             ////
             // Seed the Routes table
