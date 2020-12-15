@@ -17,8 +17,7 @@ namespace EndlasNet.Data
             entityBuilder.Property(r => r.CladLayerDensity).IsRequired();
             entityBuilder.Property(r => r.Vendor).IsRequired();
             entityBuilder.Property(r => r.OrderNumber).IsRequired();
-            entityBuilder.Property(r => r.FlowRateSlope).IsRequired();
-            entityBuilder.Property(r => r.FlowRateYIntercept).IsRequired();
+          
         }
     }
 }

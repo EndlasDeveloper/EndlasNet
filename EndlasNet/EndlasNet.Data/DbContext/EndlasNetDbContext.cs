@@ -54,6 +54,7 @@ namespace EndlasNet.Data
             _ = new RawMaterial_LaserQuoteSessionMap(modelBuilder.Entity<RawMaterial_LaserQuoteSession>());
             _ = new IntermediateParamMap(modelBuilder.Entity<IntermediateParam>());
             _ = new QuoteMap(modelBuilder.Entity<Quote>());
+            _ = new RawMaterialEmpiricalMap(modelBuilder.Entity<RawMaterialEmpirical>());
             _ = new MultiplicityMap(modelBuilder);
 
             ////
