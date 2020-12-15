@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20201214211952_IntermediateParamAndQuoteMigration")]
-    partial class IntermediateParamAndQuoteMigration
+    [Migration("20201215140406_ChangedLaserSesHavingQuoteToQuoteSes")]
+    partial class ChangedLaserSesHavingQuoteToQuoteSes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,59 @@ namespace EndlasNet.Data.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("EndlasNet.Data.IntermediateParam", b =>
+                {
+                    b.Property<int>("IntermediateParamId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<double>("ApproxVolPerLayerCubicCm")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ApproxVolPerLayerCubicIn")
+                        .HasColumnType("float");
+
+                    b.Property<double>("AssumedAvgPassLenIn")
+                        .HasColumnType("float");
+
+                    b.Property<double>("CladAddRateSqInPerMin")
+                        .HasColumnType("float");
+
+                    b.Property<int>("LaserQuoteSessionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PseudoNumPasses")
+                        .HasColumnType("int");
+
+                    b.Property<double>("PseudoWidthIn")
+                        .HasColumnType("float");
+
+                    b.Property<double>("StepIn")
+                        .HasColumnType("float");
+
+                    b.Property<double>("StepMm")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SurfaceVelocity")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TimeBetweenBeadsMin")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TimePerBeadSec")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TimePerLayerMin")
+                        .HasColumnType("float");
+
+                    b.HasKey("IntermediateParamId");
+
+                    b.HasIndex("LaserQuoteSessionId");
+
+                    b.ToTable("IntermediateParams");
+                });
+
             modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
                 {
                     b.Property<int>("LaserQuoteSessionId")
@@ -56,14 +109,68 @@ namespace EndlasNet.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<double>("ArgonCost")
+                        .HasColumnType("float");
+
+                    b.Property<double>("EstPowerCost")
+                        .HasColumnType("float");
+
+                    b.Property<double>("FinishedPartWeight")
+                        .HasColumnType("float");
+
+                    b.Property<double>("FringeRate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("HeatTreatedBlankWt")
+                        .HasColumnType("float");
+
+                    b.Property<double>("HeatTreatedPricePerLb")
+                        .HasColumnType("float");
+
+                    b.Property<double>("HourlyLaborRate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("HourlyUseRate")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsFlowRateAnalytical")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("MinHeatTreatmentPrice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("NumLayers")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumParts")
+                        .HasColumnType("int");
+
+                    b.Property<double>("OverheadRate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PartChangeoverTimeHr")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PartSurfaceAreaSqIn")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ProfitRate")
+                        .HasColumnType("float");
+
                     b.Property<int>("QuoteSessionId")
                         .HasColumnType("int");
+
+                    b.Property<double>("SetupTimeMin")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ShippingWeightFactor")
+                        .HasColumnType("float");
 
                     b.HasKey("LaserQuoteSessionId");
 
                     b.HasIndex("QuoteSessionId");
 
-                    b.ToTable("LaserQuoteSession");
+                    b.ToTable("LaserQuoteSessions");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.MachineQuoteSession", b =>
@@ -80,7 +187,51 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasIndex("QuoteSessionId");
 
-                    b.ToTable("MachineQuoteSession");
+                    b.ToTable("MachineSessions");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.Quote", b =>
+                {
+                    b.Property<int>("QuoteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<double>("CogsTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("EnergyTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("FringeTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("GasTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("LaborDirectTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("OverheadTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PowderDirectTotal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ProfitTotal")
+                        .HasColumnType("float");
+
+                    b.Property<int>("QuoteSessionId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("ShippingTotal")
+                        .HasColumnType("float");
+
+                    b.HasKey("QuoteId");
+
+                    b.HasIndex("QuoteSessionId");
+
+                    b.ToTable("Quotes");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.QuoteSession", b =>
@@ -154,11 +305,49 @@ namespace EndlasNet.Data.Migrations
                     b.Property<int>("RawMaterialId")
                         .HasColumnType("int");
 
+                    b.Property<double>("AvgThicknessIn")
+                        .HasColumnType("float");
+
+                    b.Property<double>("EstCaptureEffeciency")
+                        .HasColumnType("float");
+
+                    b.Property<double>("LayerSurfaceAreaSqIn")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PercentBeadOverlap")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PowderRpm")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PowerInWatts")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ProcessingFlowRateLiPerMin")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SpotSizeMm")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SurfaceVelocityMmPerSec")
+                        .HasColumnType("float");
+
                     b.HasKey("LaserQuoteSessionId", "RawMaterialId");
 
                     b.HasIndex("RawMaterialId");
 
                     b.ToTable("RawMaterial_LaserQuoteSession");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.IntermediateParam", b =>
+                {
+                    b.HasOne("EndlasNet.Data.LaserQuoteSession", "LaserQuoteSession")
+                        .WithMany()
+                        .HasForeignKey("LaserQuoteSessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LaserQuoteSession");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
@@ -173,6 +362,17 @@ namespace EndlasNet.Data.Migrations
                 });
 
             modelBuilder.Entity("EndlasNet.Data.MachineQuoteSession", b =>
+                {
+                    b.HasOne("EndlasNet.Data.QuoteSession", "QuoteSession")
+                        .WithMany()
+                        .HasForeignKey("QuoteSessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QuoteSession");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.Quote", b =>
                 {
                     b.HasOne("EndlasNet.Data.QuoteSession", "QuoteSession")
                         .WithMany()

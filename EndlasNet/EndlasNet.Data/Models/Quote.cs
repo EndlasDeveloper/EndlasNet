@@ -2,7 +2,9 @@
 {
     public class Quote
     {
+        // PK
         public int QuoteId { get; set; }
+        // columns
         public double PowderDirectTotal { get; set; }
         public double GasTotal { get; set; }
         public double EnergyTotal { get; set; }
@@ -14,7 +16,7 @@
         public double OverheadTotal { get; set; }
 
         // FK reference
-        public int LaserCladSessionId { get; set; }
-        public LaserQuoteSession LaserQuoteSession { get; set; }
+        public int QuoteSessionId { get; set; }
+        public QuoteSession QuoteSession { get; set; }
     }
 }

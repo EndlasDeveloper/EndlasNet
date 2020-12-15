@@ -2,7 +2,9 @@
 {
     public class IntermediateParam
     {
+        // PK
         public int IntermediateParamId { get; set; }
+        // columns
         public double SurfaceVelocity { get; set; }
         public double StepMm { get; set; }
         public double StepIn { get; set; }

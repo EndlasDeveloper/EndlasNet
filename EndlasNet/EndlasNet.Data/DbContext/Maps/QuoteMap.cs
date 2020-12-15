@@ -26,7 +26,6 @@ namespace EndlasNet.Data
             entityBuilder.Property(q => q.FringeTotal).IsRequired();
             entityBuilder.Property(q => q.ProfitTotal).IsRequired();
             entityBuilder.Property(q => q.OverheadTotal).IsRequired();
-            entityBuilder.Property(q => q.LaserCladSessionId).IsRequired();
         }
     }
 }

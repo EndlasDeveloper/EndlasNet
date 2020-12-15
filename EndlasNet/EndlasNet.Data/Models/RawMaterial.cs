@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace EndlasNet.Data
 {
     public class RawMaterial
     {
+        // PK
         public int RawMaterialId { get; set; }
+        // columns
         public string PowderType { get; set; }
         public double PowderLayerPrice { get; set; }
         public double CladLayerDensity { get; set; }
