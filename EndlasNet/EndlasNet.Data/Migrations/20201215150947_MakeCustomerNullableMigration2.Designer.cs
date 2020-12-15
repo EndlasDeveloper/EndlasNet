@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20201215144504_OptionalLaserServicesMigration2")]
-    partial class OptionalLaserServicesMigration2
+    [Migration("20201215150947_MakeCustomerNullableMigration2")]
+    partial class MakeCustomerNullableMigration2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -137,7 +137,6 @@ namespace EndlasNet.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("OptionalLaserServicesId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<double>("OverheadRate")
@@ -259,7 +258,7 @@ namespace EndlasNet.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("QuoteSessionDate")
@@ -372,9 +371,7 @@ namespace EndlasNet.Data.Migrations
                 {
                     b.HasOne("EndlasNet.Data.OptionalLaserService", "OptionalLaserServices")
                         .WithMany()
-                        .HasForeignKey("OptionalLaserServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OptionalLaserServicesId");
 
                     b.HasOne("EndlasNet.Data.QuoteSession", "QuoteSession")
                         .WithMany()
@@ -413,9 +410,7 @@ namespace EndlasNet.Data.Migrations
                 {
                     b.HasOne("EndlasNet.Data.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.Navigation("Customer");
                 });

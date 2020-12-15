@@ -11,7 +11,7 @@ namespace EndlasNet.Data
         public DateTime QuoteSessionDate { get; set; }
 
         // FK reference
-        public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public int? CustomerId { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

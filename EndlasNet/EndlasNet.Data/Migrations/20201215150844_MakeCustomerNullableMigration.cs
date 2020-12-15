@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EndlasNet.Data.Migrations
 {
-    public partial class OptionalLaserServicesMigration : Migration
+    public partial class MakeCustomerNullableMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,7 +24,7 @@ namespace EndlasNet.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OptionalLaserServices",
+                name: "OptionalLaserService",
                 columns: table => new
                 {
                     OptionalLaserServicesId = table.Column<int>(type: "int", nullable: false)
@@ -35,7 +35,7 @@ namespace EndlasNet.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OptionalLaserServices", x => x.OptionalLaserServicesId);
+                    table.PrimaryKey("PK_OptionalLaserService", x => x.OptionalLaserServicesId);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,17 +101,17 @@ namespace EndlasNet.Data.Migrations
                     ProfitRate = table.Column<double>(type: "float", nullable: false),
                     OverheadRate = table.Column<double>(type: "float", nullable: false),
                     QuoteSessionId = table.Column<int>(type: "int", nullable: false),
-                    OptionalLaserServicesId = table.Column<int>(type: "int", nullable: false)
+                    OptionalLaserServicesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LaserQuoteSessions", x => x.LaserQuoteSessionId);
                     table.ForeignKey(
-                        name: "FK_LaserQuoteSessions_OptionalLaserServices_OptionalLaserServicesId",
+                        name: "FK_LaserQuoteSessions_OptionalLaserService_OptionalLaserServicesId",
                         column: x => x.OptionalLaserServicesId,
-                        principalTable: "OptionalLaserServices",
+                        principalTable: "OptionalLaserService",
                         principalColumn: "OptionalLaserServicesId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_LaserQuoteSessions_QuoteSessions_QuoteSessionId",
                         column: x => x.QuoteSessionId,
@@ -288,7 +288,7 @@ namespace EndlasNet.Data.Migrations
                 name: "RawMaterials");
 
             migrationBuilder.DropTable(
-                name: "OptionalLaserServices");
+                name: "OptionalLaserService");
 
             migrationBuilder.DropTable(
                 name: "QuoteSessions");

@@ -14,7 +14,6 @@ namespace EndlasNet.Data
             // not null
             entityBuilder.Property(q => q.QuoteSessionName).IsRequired();
             entityBuilder.Property(q => q.QuoteSessionDate).IsRequired();
-            entityBuilder.Property(q => q.CustomerId).IsRequired();
         }
     }
 }
