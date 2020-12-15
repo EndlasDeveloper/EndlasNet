@@ -14,9 +14,6 @@ namespace EndlasNet.Data
         public double PartChangeoverTimeHr { get; set; }
         public double PartSurfaceAreaSqIn { get; set; }
         public double SetupTimeMin { get; set; }
-        public double HeatTreatedBlankWt { get; set; }
-        public double HeatTreatedPricePerLb { get; set; }
-        public double MinHeatTreatmentPrice { get; set; }
         public double ShippingWeightFactor { get; set; }
         public double ArgonCost { get; set; }
         public double EstPowerCost { get; set; }
@@ -29,8 +26,13 @@ namespace EndlasNet.Data
         // FK references
         // LaserQuoteSession has 0:many raw material-laser quote sessions
         public IEnumerable<RawMaterial_LaserQuoteSession> RawMat_LasQuoteSes { get; set; }
+
         // LaserQuoteSession has 1 QuoteSession
         public int QuoteSessionId { get; set; }
         public QuoteSession QuoteSession { get; set; }
+
+        // LaserQuoteSession has 0:1 OptionalLaserServices
+        public int? OptionalLaserServicesId { get; set; }
+        public virtual OptionalLaserService OptionalLaserServices { get; set; }
     }
 }

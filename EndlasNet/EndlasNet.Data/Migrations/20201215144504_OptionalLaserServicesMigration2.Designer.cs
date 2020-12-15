@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20201215140406_ChangedLaserSesHavingQuoteToQuoteSes")]
-    partial class ChangedLaserSesHavingQuoteToQuoteSes
+    [Migration("20201215144504_OptionalLaserServicesMigration2")]
+    partial class OptionalLaserServicesMigration2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -121,12 +121,6 @@ namespace EndlasNet.Data.Migrations
                     b.Property<double>("FringeRate")
                         .HasColumnType("float");
 
-                    b.Property<double>("HeatTreatedBlankWt")
-                        .HasColumnType("float");
-
-                    b.Property<double>("HeatTreatedPricePerLb")
-                        .HasColumnType("float");
-
                     b.Property<double>("HourlyLaborRate")
                         .HasColumnType("float");
 
@@ -136,13 +130,14 @@ namespace EndlasNet.Data.Migrations
                     b.Property<bool>("IsFlowRateAnalytical")
                         .HasColumnType("bit");
 
-                    b.Property<double>("MinHeatTreatmentPrice")
-                        .HasColumnType("float");
-
                     b.Property<int>("NumLayers")
                         .HasColumnType("int");
 
                     b.Property<int>("NumParts")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OptionalLaserServicesId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<double>("OverheadRate")
@@ -168,6 +163,8 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasKey("LaserQuoteSessionId");
 
+                    b.HasIndex("OptionalLaserServicesId");
+
                     b.HasIndex("QuoteSessionId");
 
                     b.ToTable("LaserQuoteSessions");
@@ -188,6 +185,27 @@ namespace EndlasNet.Data.Migrations
                     b.HasIndex("QuoteSessionId");
 
                     b.ToTable("MachineSessions");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.OptionalLaserService", b =>
+                {
+                    b.Property<int>("OptionalLaserServicesId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<double>("HeatTreatedBlankWt")
+                        .HasColumnType("float");
+
+                    b.Property<double>("HeatTreatedPricePerLb")
+                        .HasColumnType("float");
+
+                    b.Property<double>("MinHeatTreatmentPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("OptionalLaserServicesId");
+
+                    b.ToTable("OptionalLaserService");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.Quote", b =>
@@ -352,11 +370,19 @@ namespace EndlasNet.Data.Migrations
 
             modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
                 {
+                    b.HasOne("EndlasNet.Data.OptionalLaserService", "OptionalLaserServices")
+                        .WithMany()
+                        .HasForeignKey("OptionalLaserServicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EndlasNet.Data.QuoteSession", "QuoteSession")
                         .WithMany()
                         .HasForeignKey("QuoteSessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("OptionalLaserServices");
 
                     b.Navigation("QuoteSession");
                 });

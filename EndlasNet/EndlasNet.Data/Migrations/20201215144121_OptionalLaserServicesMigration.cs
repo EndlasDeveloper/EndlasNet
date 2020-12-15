@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EndlasNet.Data.Migrations
 {
-    public partial class ChangedLaserSesHavingQuoteToQuoteSes : Migration
+    public partial class OptionalLaserServicesMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,6 +21,21 @@ namespace EndlasNet.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.CustomerId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OptionalLaserServices",
+                columns: table => new
+                {
+                    OptionalLaserServicesId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HeatTreatedBlankWt = table.Column<double>(type: "float", nullable: false),
+                    HeatTreatedPricePerLb = table.Column<double>(type: "float", nullable: false),
+                    MinHeatTreatmentPrice = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OptionalLaserServices", x => x.OptionalLaserServicesId);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,9 +92,6 @@ namespace EndlasNet.Data.Migrations
                     PartChangeoverTimeHr = table.Column<double>(type: "float", nullable: false),
                     PartSurfaceAreaSqIn = table.Column<double>(type: "float", nullable: false),
                     SetupTimeMin = table.Column<double>(type: "float", nullable: false),
-                    HeatTreatedBlankWt = table.Column<double>(type: "float", nullable: false),
-                    HeatTreatedPricePerLb = table.Column<double>(type: "float", nullable: false),
-                    MinHeatTreatmentPrice = table.Column<double>(type: "float", nullable: false),
                     ShippingWeightFactor = table.Column<double>(type: "float", nullable: false),
                     ArgonCost = table.Column<double>(type: "float", nullable: false),
                     EstPowerCost = table.Column<double>(type: "float", nullable: false),
@@ -88,11 +100,18 @@ namespace EndlasNet.Data.Migrations
                     FringeRate = table.Column<double>(type: "float", nullable: false),
                     ProfitRate = table.Column<double>(type: "float", nullable: false),
                     OverheadRate = table.Column<double>(type: "float", nullable: false),
-                    QuoteSessionId = table.Column<int>(type: "int", nullable: false)
+                    QuoteSessionId = table.Column<int>(type: "int", nullable: false),
+                    OptionalLaserServicesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LaserQuoteSessions", x => x.LaserQuoteSessionId);
+                    table.ForeignKey(
+                        name: "FK_LaserQuoteSessions_OptionalLaserServices_OptionalLaserServicesId",
+                        column: x => x.OptionalLaserServicesId,
+                        principalTable: "OptionalLaserServices",
+                        principalColumn: "OptionalLaserServicesId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_LaserQuoteSessions_QuoteSessions_QuoteSessionId",
                         column: x => x.QuoteSessionId,
@@ -218,6 +237,11 @@ namespace EndlasNet.Data.Migrations
                 column: "LaserQuoteSessionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LaserQuoteSessions_OptionalLaserServicesId",
+                table: "LaserQuoteSessions",
+                column: "OptionalLaserServicesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_LaserQuoteSessions_QuoteSessionId",
                 table: "LaserQuoteSessions",
                 column: "QuoteSessionId");
@@ -262,6 +286,9 @@ namespace EndlasNet.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "RawMaterials");
+
+            migrationBuilder.DropTable(
+                name: "OptionalLaserServices");
 
             migrationBuilder.DropTable(
                 name: "QuoteSessions");

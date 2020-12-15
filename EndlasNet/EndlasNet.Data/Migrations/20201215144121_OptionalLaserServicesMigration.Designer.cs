@@ -4,14 +4,16 @@ using EndlasNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    partial class EndlasNetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201215144121_OptionalLaserServicesMigration")]
+    partial class OptionalLaserServicesMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,7 +136,7 @@ namespace EndlasNet.Data.Migrations
                     b.Property<int>("NumParts")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OptionalLaserServicesId")
+                    b.Property<int>("OptionalLaserServicesId")
                         .HasColumnType("int");
 
                     b.Property<double>("OverheadRate")
@@ -184,7 +186,7 @@ namespace EndlasNet.Data.Migrations
                     b.ToTable("MachineSessions");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.OptionalLaserService", b =>
+            modelBuilder.Entity("EndlasNet.Data.OptionalLaserServices", b =>
                 {
                     b.Property<int>("OptionalLaserServicesId")
                         .ValueGeneratedOnAdd()
@@ -202,7 +204,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasKey("OptionalLaserServicesId");
 
-                    b.ToTable("OptionalLaserService");
+                    b.ToTable("OptionalLaserServices");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.Quote", b =>
@@ -367,9 +369,11 @@ namespace EndlasNet.Data.Migrations
 
             modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
                 {
-                    b.HasOne("EndlasNet.Data.OptionalLaserService", "OptionalLaserServices")
+                    b.HasOne("EndlasNet.Data.OptionalLaserServices", "OptionalLaserServices")
                         .WithMany()
-                        .HasForeignKey("OptionalLaserServicesId");
+                        .HasForeignKey("OptionalLaserServicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("EndlasNet.Data.QuoteSession", "QuoteSession")
                         .WithMany()

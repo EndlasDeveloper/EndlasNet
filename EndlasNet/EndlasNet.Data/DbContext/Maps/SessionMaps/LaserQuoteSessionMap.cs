@@ -20,9 +20,6 @@ namespace EndlasNet.Data
             entityBuilder.Property(l => l.PartChangeoverTimeHr).IsRequired();
             entityBuilder.Property(l => l.PartSurfaceAreaSqIn).IsRequired();
             entityBuilder.Property(l => l.SetupTimeMin).IsRequired();
-            entityBuilder.Property(l => l.HeatTreatedBlankWt).IsRequired();
-            entityBuilder.Property(l => l.HeatTreatedPricePerLb).IsRequired();
-            entityBuilder.Property(l => l.MinHeatTreatmentPrice).IsRequired();
             entityBuilder.Property(l => l.ShippingWeightFactor).IsRequired();
             entityBuilder.Property(l => l.ArgonCost).IsRequired();
             entityBuilder.Property(l => l.EstPowerCost).IsRequired();
