@@ -1,14 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Contracts;
 
 namespace EndlasNet.Data
 {
     public class EndlasNetDbContext : DbContext
     {
+        private readonly string connectionString = DbAddresses.endlasNetLocalDBPath;
 
-        // TODO: this is the local host, change to new one after getting remote db setup
-        private readonly string connectionString = "Server=(localdb)\\mssqllocaldb;Database=EndlasNetDb;Trusted_Connection=True;MultipleActiveResultSets=true";
-
+        // define what tables exist in the DbContext
         public DbSet<Customer> Customers { get; set; }
         public DbSet<RawMaterial> RawMaterials { get; set; }
         public DbSet<QuoteSession> QuoteSessions { get; set; }
@@ -16,8 +14,12 @@ namespace EndlasNet.Data
         public DbSet<MachineQuoteSession> MachineSessions { get; set; }
         public DbSet<IntermediateParam> IntermediateParams { get; set; }
         public DbSet<Quote> Quotes { get; set; }
+        public DbSet<RawMaterialEmpirical> RawMaterialEmpiricals { get; set; }
+        public DbSet<RawMaterial_LaserQuoteSession> RawMaterial_LaserQuoteSessions { get; set; }
+        public DbSet<OptionalLaserService> OptionalLaserServices { get; set; }
 
 
+        // setup connection string
         public EndlasNetDbContext(string connectionString)
         {
             this.connectionString = connectionString;
@@ -25,6 +27,7 @@ namespace EndlasNet.Data
 
         public EndlasNetDbContext(DbContextOptions<EndlasNetDbContext> options) : base(options) { }
 
+        // configure ef to use .Data project as target project
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -34,16 +37,10 @@ namespace EndlasNet.Data
                 optionsBuilder.UseSqlServer(connectionString, b => b.MigrationsAssembly("EndlasNet.Data"));
             }
         }
-        /*
-         * This method defines the database model so the database can be created by EntityFrameworkCore.
-         * Inside the map classes are details on specific entity attributes.
-         * The modelBuilder.Entity<Class>().HasData calls seed the database with specific data upon the database's
-         * creation.
-         */
+        // setup column and multiplicity constraints
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // setup the map references so ef knows how to specifically constrain attributes
-            Contract.Requires(modelBuilder != null);
             base.OnModelCreating(modelBuilder);
             _ = new CustomerMap(modelBuilder.Entity<Customer>());
             _ = new RawMaterialMap(modelBuilder.Entity<RawMaterial>());
@@ -58,7 +55,7 @@ namespace EndlasNet.Data
             _ = new MultiplicityMap(modelBuilder);
 
             ////
-            // Seed the Routes table
+            // Seed table example::
             ////
             // example : modelBuilder.Entity<Route>().HasData(new Route { RouteId = "VR-140" });
         }

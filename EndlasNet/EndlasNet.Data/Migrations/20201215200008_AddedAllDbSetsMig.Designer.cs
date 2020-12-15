@@ -4,14 +4,16 @@ using EndlasNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    partial class EndlasNetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201215200008_AddedAllDbSetsMig")]
+    partial class AddedAllDbSetsMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,6 +57,9 @@ namespace EndlasNet.Data.Migrations
                         .UseIdentityColumn();
 
                     b.Property<double>("ApproxVolPerLayerCubicCm")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ApproxVolPerLayerCubicIn")
                         .HasColumnType("float");
 
                     b.Property<double>("AssumedAvgPassLenIn")

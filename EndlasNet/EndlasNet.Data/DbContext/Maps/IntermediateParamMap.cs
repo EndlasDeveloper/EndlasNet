@@ -22,7 +22,6 @@ namespace EndlasNet.Data
             entityBuilder.Property(i => i.TimeBetweenBeadsMin).IsRequired();
             entityBuilder.Property(i => i.TimePerLayerMin).IsRequired();
             entityBuilder.Property(i => i.CladAddRateSqInPerMin).IsRequired();
-            entityBuilder.Property(i => i.ApproxVolPerLayerCubicIn).IsRequired();
             entityBuilder.Property(i => i.ApproxVolPerLayerCubicCm).IsRequired();
             entityBuilder.Property(i => i.LaserQuoteSessionId).IsRequired();
         }

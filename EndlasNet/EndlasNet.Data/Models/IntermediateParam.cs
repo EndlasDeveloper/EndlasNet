@@ -15,7 +15,6 @@
         public double TimeBetweenBeadsMin { get; set; }
         public double TimePerLayerMin { get; set; }
         public double CladAddRateSqInPerMin { get; set; }
-        public double ApproxVolPerLayerCubicIn { get; set; }
         public double ApproxVolPerLayerCubicCm { get; set; }
 
         // FK reference
