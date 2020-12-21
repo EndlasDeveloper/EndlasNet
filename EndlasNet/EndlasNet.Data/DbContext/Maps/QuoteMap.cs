@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
+    /*
+    * Class: QuoteMap
+    * Description: Map object to describe the column constraints in Quote entity
+    */
     public class QuoteMap
     {
         public QuoteMap(EntityTypeBuilder<Quote> entityBuilder)

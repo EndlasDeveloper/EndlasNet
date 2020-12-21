@@ -3,6 +3,10 @@ using System.Diagnostics.Contracts;
 
 namespace EndlasNet.Data
 {
+    /*
+    * Class: RawMaterial_LaserQuoteSessionMap
+    * Description: Map object to describe the column constraints in RawMaterial_LaserQuoteSession entity
+    */
     public class RawMaterial_LaserQuoteSessionMap
     {
         public RawMaterial_LaserQuoteSessionMap(EntityTypeBuilder<RawMaterial_LaserQuoteSession> entityBuilder)

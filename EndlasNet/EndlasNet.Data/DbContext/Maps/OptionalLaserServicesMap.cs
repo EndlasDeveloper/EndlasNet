@@ -3,6 +3,10 @@ using System.Diagnostics.Contracts;
 
 namespace EndlasNet.Data
 {
+    /*
+    * Class: OptionalLaserServicesMap
+    * Description: Map object to describe the column constraints in OptionalLaserServices entity
+    */
     public class OptionalLaserServicesMap
     {
         public OptionalLaserServicesMap(EntityTypeBuilder<OptionalLaserService> entityBuilder)

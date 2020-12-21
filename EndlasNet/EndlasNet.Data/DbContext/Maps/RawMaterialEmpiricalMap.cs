@@ -3,6 +3,10 @@ using System.Diagnostics.Contracts;
 
 namespace EndlasNet.Data
 {
+    /*
+    * Class: RawMaterialEmpiricalMap
+    * Description: Map object to describe the column constraints in RawMaterialEmpirical entity
+    */
     public class RawMaterialEmpiricalMap
     {
         public RawMaterialEmpiricalMap(EntityTypeBuilder<RawMaterialEmpirical> entityBuilder)

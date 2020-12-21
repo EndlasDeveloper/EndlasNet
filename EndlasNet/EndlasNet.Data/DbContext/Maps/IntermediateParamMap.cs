@@ -3,6 +3,10 @@ using System.Diagnostics.Contracts;
 
 namespace EndlasNet.Data
 {
+    /*
+    * Class: IntermediateParamMap
+    * Description: Map object to describe the columns in IntermediateParam entity
+    */
     public class IntermediateParamMap
     {
         public IntermediateParamMap(EntityTypeBuilder<IntermediateParam> entityBuilder)

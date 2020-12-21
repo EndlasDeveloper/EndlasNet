@@ -3,6 +3,10 @@ using System.Diagnostics.Contracts;
 
 namespace EndlasNet.Data
 {
+    /*
+    * Class: MultiplicityMap
+    * Description: Map object to describe multiplicities between entities if it isn't implied in the class structure
+    */
     public class MultiplicityMap
     {
         public MultiplicityMap(ModelBuilder modelBuilder)

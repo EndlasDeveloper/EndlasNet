@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
+    /*
+     * Class: CustomerMap
+     * Description: Map object to describe the columns in Customer entity
+     */
     public class CustomerMap
     {
         public CustomerMap(EntityTypeBuilder<Customer> entityBuilder)

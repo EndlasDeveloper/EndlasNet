@@ -3,6 +3,10 @@ using System.Diagnostics.Contracts;
 
 namespace EndlasNet.Data
 {
+    /*
+    * Class: QuoteSessionMap
+    * Description: Map object to describe the column constraints in QuoteSession entity
+    */
     public class QuoteSessionMap
     {
         public QuoteSessionMap(EntityTypeBuilder<QuoteSession> entityBuilder)

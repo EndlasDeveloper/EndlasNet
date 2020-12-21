@@ -2,6 +2,10 @@
 
 namespace EndlasNet.Data
 {
+    /*
+    * Class: EndlasNetDbContext
+    * Description: DbContext object for EndlasNet. Describes the db and gives an API to access the db.
+    */
     public class EndlasNetDbContext : DbContext
     {
         private readonly string connectionString = DbAddresses.endlasNetLocalDBPath;
