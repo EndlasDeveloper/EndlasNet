@@ -1,5 +1,9 @@
 ﻿namespace EndlasNet.Data
 {
+    /*
+    * Class: OptionalLaserService
+    * Description: Model object/entity describing the OptionalLaserService entity
+    */
     public class OptionalLaserService
     {
         // PK

@@ -1,5 +1,9 @@
-﻿namespace EndlasNet.Data
+﻿    namespace EndlasNet.Data
 {
+    /*
+    * Class: IntermediateParam
+    * Description: Model object/entity describing the IntermediateParam entity
+    */
     public class IntermediateParam
     {
         // PK

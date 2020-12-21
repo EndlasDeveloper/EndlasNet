@@ -1,5 +1,9 @@
 ﻿namespace EndlasNet.Data
 {
+    /*
+    * Class: DbAddresses
+    * Description: Static class to hold different db paths that may be needed
+    */
     public static class DbAddresses
     {
         // local db addreses (paths)

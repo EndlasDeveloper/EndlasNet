@@ -1,5 +1,9 @@
 ﻿namespace EndlasNet.Data
 {
+    /*
+    * Class: Quote
+    * Description: Model object/entity describing the Quote entity
+    */
     public class Quote
     {
         // PK

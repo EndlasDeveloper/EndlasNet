@@ -2,6 +2,10 @@
 
 namespace EndlasNet.Data
 {
+    /*
+    * Class: QuoteSession
+    * Description: Model object/entity describing the QuoteSession entity
+    */
     public class QuoteSession
     {
         // PK

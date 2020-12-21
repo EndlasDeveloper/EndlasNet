@@ -1,5 +1,9 @@
 ﻿namespace EndlasNet.Data
 {
+    /*
+    * Class: Customer
+    * Description: Model object/entity describing the Customer entity
+    */
     public class Customer
     {
         // PK

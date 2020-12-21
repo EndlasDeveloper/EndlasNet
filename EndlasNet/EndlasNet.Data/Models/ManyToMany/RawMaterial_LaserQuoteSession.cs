@@ -1,6 +1,9 @@
 ﻿namespace EndlasNet.Data
 {
-    // Fixes many to many relationship between raw material and laser quote session
+    /*
+    * Class: RawMaterial_LaserQuoteSession
+    * Description: Model object/entity describing the transition table between RawMaterial and LaserQuoteSession
+    */
     public class RawMaterial_LaserQuoteSession
     {
         // Composite PK made of FK from raw mat and laser quote session

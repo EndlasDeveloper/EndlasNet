@@ -2,6 +2,10 @@
 
 namespace EndlasNet.Data
 {
+    /*
+    * Class: LaserQuoteSession
+    * Description: Model object/entity describing the LaserQuoteSession entity
+    */
     public class LaserQuoteSession
     {
         // PK

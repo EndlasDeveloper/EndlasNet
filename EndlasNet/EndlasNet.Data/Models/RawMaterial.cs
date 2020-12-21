@@ -2,6 +2,10 @@
 
 namespace EndlasNet.Data
 {
+    /*
+    * Class: RawMaterial
+    * Description: Model object/entity describing the RawMaterial entity
+    */
     public class RawMaterial
     {
         // PK
