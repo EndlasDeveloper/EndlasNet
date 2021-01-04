@@ -65,6 +65,22 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[5.0.1, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "MySql.Data.Entity": {
+              "target": "Package",
+              "version": "[6.10.9, )"
+            },
+            "MySql.Data.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "MySqlConnector": {
+              "target": "Package",
+              "version": "[1.2.1, )"
             }
           },
           "imports": [
@@ -141,6 +157,22 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[5.0.1, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "MySql.Data.Entity": {
+              "target": "Package",
+              "version": "[6.10.9, )"
+            },
+            "MySql.Data.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "MySqlConnector": {
+              "target": "Package",
+              "version": "[1.2.1, )"
             }
           },
           "imports": [
