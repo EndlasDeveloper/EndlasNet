@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,10 +27,13 @@ namespace EndlasNet.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration.GetConnectionString("endlas_test_db");
+           /* services.AddDbContext<EndlasNetDbContext>(options => options.UseMySQL(connectionString, new MySqlServerVersion(new Version(8, 0, 22)),
+                mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend)));*/
             services.AddControllersWithViews();
             // Add the application context for database managment using ef core
             services.AddDbContext<EndlasNetDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("EndlasNetLocalDb"))); // db ref in appsettings.json
+            options.UseMySQL(Configuration.GetConnectionString("endlas_test_db"))); // db ref in appsettings.json
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

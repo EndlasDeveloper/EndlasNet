@@ -16,6 +16,12 @@ namespace EndlasNet.Data
             modelBuilder.Entity<RawMaterial>().HasMany(r => r.RawMat_LasQuoteSes).WithOne(r => r.RawMaterial);
             // each laser quote session has 0 to many raw material-laser quote sessions
             modelBuilder.Entity<LaserQuoteSession>().HasMany(l => l.RawMat_LasQuoteSes).WithOne(r => r.LaserQuoteSession);
+            // each vendor has 0 to many inserts; each insert has 1 vendor
+            modelBuilder.Entity<Vendor>().HasMany(v => v.Inserts).WithOne(i => i.Vendor);
+            // each employee has 0 to many insert to jobs; each insert to job has 1 employee
+            modelBuilder.Entity<Employee>().HasMany(v => v.InsertToJobs).WithOne(i => i.Employee);
+            // each job has 0 to many insert to jobs; each insert to job has 1 job
+            modelBuilder.Entity<Job>().HasMany(v => v.InsertToJobs).WithOne(i => i.Job);
         }
     }
 }

@@ -22,9 +22,9 @@ namespace EndlasNet.Data
             entityBuilder.HasKey(c => c.CustomerId);  
             // not null
             entityBuilder.Property(c => c.CompanyName).IsRequired();
-            entityBuilder.Property(c => c.PointOfContact).IsRequired();
+            entityBuilder.Property(c => c.POC).IsRequired();
             entityBuilder.Property(c => c.Address).IsRequired();
-            entityBuilder.Property(c => c.PhoneNumber).IsRequired();
+            entityBuilder.Property(c => c.Phone).IsRequired();
         }
     }
 }

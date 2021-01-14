@@ -34,17 +34,101 @@ namespace EndlasNet.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("POC")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PointOfContact")
+                    b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.Employee", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.HasKey("EmployeeId");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.Insert", b =>
+                {
+                    b.Property<int>("InsertId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("InsertToJobId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PurchaseDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PurchaseOrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PurchaseOrderNum")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("PurchaseOrderPrice")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ToolTipRadius")
+                        .HasColumnType("real");
+
+                    b.Property<int>("VendorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VendorPartNum")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("InsertId");
+
+                    b.HasIndex("InsertToJobId");
+
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("Inserts");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.InsertToJob", b =>
+                {
+                    b.Property<int>("InsertToJobId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("DateUsed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.HasKey("InsertToJobId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("InsertToJobs");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.IntermediateParam", b =>
@@ -95,6 +179,18 @@ namespace EndlasNet.Data.Migrations
                     b.HasIndex("LaserQuoteSessionId");
 
                     b.ToTable("IntermediateParams");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.Job", b =>
+                {
+                    b.Property<int>("JobId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.HasKey("JobId");
+
+                    b.ToTable("Jobs");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
@@ -368,6 +464,70 @@ namespace EndlasNet.Data.Migrations
                     b.ToTable("RawMaterial_LaserQuoteSessions");
                 });
 
+            modelBuilder.Entity("EndlasNet.Data.Vendor", b =>
+                {
+                    b.Property<int>("VendorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("POC")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("VendorId");
+
+                    b.ToTable("Vendors");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.Insert", b =>
+                {
+                    b.HasOne("EndlasNet.Data.InsertToJob", "InsertToJob")
+                        .WithMany()
+                        .HasForeignKey("InsertToJobId");
+
+                    b.HasOne("EndlasNet.Data.Vendor", "Vendor")
+                        .WithMany("Inserts")
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InsertToJob");
+
+                    b.Navigation("Vendor");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.InsertToJob", b =>
+                {
+                    b.HasOne("EndlasNet.Data.Employee", "Employee")
+                        .WithMany("InsertToJobs")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EndlasNet.Data.Job", "Job")
+                        .WithMany("InsertToJobs")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Job");
+                });
+
             modelBuilder.Entity("EndlasNet.Data.IntermediateParam", b =>
                 {
                     b.HasOne("EndlasNet.Data.LaserQuoteSession", "LaserQuoteSession")
@@ -455,6 +615,16 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("RawMaterial");
                 });
 
+            modelBuilder.Entity("EndlasNet.Data.Employee", b =>
+                {
+                    b.Navigation("InsertToJobs");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.Job", b =>
+                {
+                    b.Navigation("InsertToJobs");
+                });
+
             modelBuilder.Entity("EndlasNet.Data.LaserQuoteSession", b =>
                 {
                     b.Navigation("RawMat_LasQuoteSes");
@@ -463,6 +633,11 @@ namespace EndlasNet.Data.Migrations
             modelBuilder.Entity("EndlasNet.Data.RawMaterial", b =>
                 {
                     b.Navigation("RawMat_LasQuoteSes");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.Vendor", b =>
+                {
+                    b.Navigation("Inserts");
                 });
 #pragma warning restore 612, 618
         }

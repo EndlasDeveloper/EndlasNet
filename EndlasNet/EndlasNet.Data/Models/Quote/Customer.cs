@@ -10,8 +10,8 @@
         public int CustomerId { get; set; }
         // columns
         public string CompanyName { get; set; }
-        public string PointOfContact { get; set; }
+        public string POC { get; set; } // Point Of Contact
         public string Address { get; set; }
-        public string PhoneNumber { get; set; }
+        public string Phone { get; set; }
     }
 }
