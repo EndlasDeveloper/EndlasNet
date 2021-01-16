@@ -6,6 +6,7 @@
     */
     public static class DbAddresses
     {
+        public const string localDb = "server=127.0.0.1;user=root;password=1qazxsw2!QAZXSW@;database=local_db";
         public const string endlasTestDb = "server=127.0.0.1;user=dba;password=1qazxsw2!QAZXSW@;database=endlas_test_db";
         // local db addreses (paths)
         public const string endlasNetLocalDBPath = "Server=(localdb)\\mssqllocaldb;Database=EndlasNetDb;Trusted_Connection=True;MultipleActiveResultSets=true";

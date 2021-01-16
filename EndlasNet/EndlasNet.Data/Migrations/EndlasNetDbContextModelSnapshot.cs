@@ -17,7 +17,7 @@ namespace EndlasNet.Data.Migrations
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.2");
 
             modelBuilder.Entity("EndlasNet.Data.Customer", b =>
                 {
@@ -45,18 +45,6 @@ namespace EndlasNet.Data.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.Employee", b =>
-                {
-                    b.Property<int>("EmployeeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.HasKey("EmployeeId");
-
-                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.Insert", b =>
@@ -90,7 +78,7 @@ namespace EndlasNet.Data.Migrations
                     b.Property<float>("ToolTipRadius")
                         .HasColumnType("real");
 
-                    b.Property<int>("VendorId")
+                    b.Property<int?>("VendorId")
                         .HasColumnType("int");
 
                     b.Property<string>("VendorPartNum")
@@ -116,17 +104,17 @@ namespace EndlasNet.Data.Migrations
                     b.Property<DateTime>("DateUsed")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<int>("JobId")
                         .HasColumnType("int");
 
-                    b.Property<int>("JobId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("InsertToJobId");
 
-                    b.HasIndex("EmployeeId");
-
                     b.HasIndex("JobId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("InsertToJobs");
                 });
@@ -464,6 +452,35 @@ namespace EndlasNet.Data.Migrations
                     b.ToTable("RawMaterial_LaserQuoteSessions");
                 });
 
+            modelBuilder.Entity("EndlasNet.Data.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short>("Privileges")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+                });
+
             modelBuilder.Entity("EndlasNet.Data.Vendor", b =>
                 {
                     b.Property<int>("VendorId")
@@ -492,6 +509,20 @@ namespace EndlasNet.Data.Migrations
                     b.ToTable("Vendors");
                 });
 
+            modelBuilder.Entity("EndlasNet.Data.Admin", b =>
+                {
+                    b.HasBaseType("EndlasNet.Data.User");
+
+                    b.HasDiscriminator().HasValue("Admin");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.Employee", b =>
+                {
+                    b.HasBaseType("EndlasNet.Data.User");
+
+                    b.HasDiscriminator().HasValue("Employee");
+                });
+
             modelBuilder.Entity("EndlasNet.Data.Insert", b =>
                 {
                     b.HasOne("EndlasNet.Data.InsertToJob", "InsertToJob")
@@ -500,9 +531,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasOne("EndlasNet.Data.Vendor", "Vendor")
                         .WithMany("Inserts")
-                        .HasForeignKey("VendorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VendorId");
 
                     b.Navigation("InsertToJob");
 
@@ -511,21 +540,21 @@ namespace EndlasNet.Data.Migrations
 
             modelBuilder.Entity("EndlasNet.Data.InsertToJob", b =>
                 {
-                    b.HasOne("EndlasNet.Data.Employee", "Employee")
-                        .WithMany("InsertToJobs")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EndlasNet.Data.Job", "Job")
                         .WithMany("InsertToJobs")
                         .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Employee");
+                    b.HasOne("EndlasNet.Data.User", "User")
+                        .WithMany("InsertToJobs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Job");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.IntermediateParam", b =>
@@ -615,11 +644,6 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("RawMaterial");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.Employee", b =>
-                {
-                    b.Navigation("InsertToJobs");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.Job", b =>
                 {
                     b.Navigation("InsertToJobs");
@@ -633,6 +657,11 @@ namespace EndlasNet.Data.Migrations
             modelBuilder.Entity("EndlasNet.Data.RawMaterial", b =>
                 {
                     b.Navigation("RawMat_LasQuoteSes");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.User", b =>
+                {
+                    b.Navigation("InsertToJobs");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.Vendor", b =>

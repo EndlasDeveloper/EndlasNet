@@ -1,0 +1,88 @@
+﻿@model EndlasNet.Data.RawMaterial_LaserQuoteSession
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>RawMaterial_LaserQuoteSession</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RawMaterial)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RawMaterial.OrderNumber)
+        </dd class>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LaserQuoteSession)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LaserQuoteSession.LaserQuoteSessionId)
+        </dd class>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PowerInWatts)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PowerInWatts)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AvgThicknessIn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AvgThicknessIn)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SpotSizeMm)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SpotSizeMm)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PercentBeadOverlap)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PercentBeadOverlap)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SurfaceVelocityMmPerSec)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SurfaceVelocityMmPerSec)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PowderRpm)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PowderRpm)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EstCaptureEffeciency)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EstCaptureEffeciency)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProcessingFlowRateLiPerMin)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProcessingFlowRateLiPerMin)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LayerSurfaceAreaSqIn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LayerSurfaceAreaSqIn)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="RawMaterialId" />
+        <input type="hidden" asp-for="LaserQuoteSessionId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

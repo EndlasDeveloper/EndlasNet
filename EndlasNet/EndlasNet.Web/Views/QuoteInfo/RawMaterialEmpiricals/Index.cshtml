@@ -1,0 +1,41 @@
+﻿@model IEnumerable<EndlasNet.Data.RawMaterialEmpirical>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FlowRateSlope)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlowRateYIntercept)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlowRateSlope)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlowRateYIntercept)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RawMaterialEmpiricalId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RawMaterialEmpiricalId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RawMaterialEmpiricalId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

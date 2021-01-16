@@ -14,9 +14,7 @@ namespace EndlasNet.Data
         public string VendorPartNum { get; set; }
         public float ToolTipRadius { get; set; }
         public string PurchaseDescription { get; set; }
-        public int VendorId { get; set; }
         public Vendor Vendor { get; set; }
-        public int? InsertToJobId { get; set; }
         public virtual InsertToJob InsertToJob { get; set; }
     }
 }

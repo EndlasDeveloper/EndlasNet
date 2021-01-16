@@ -1,0 +1,120 @@
+﻿@model EndlasNet.Data.LaserQuoteSession
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>LaserQuoteSession</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsFlowRateAnalytical)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsFlowRateAnalytical)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FinishedPartWeight)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FinishedPartWeight)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NumLayers)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NumLayers)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NumParts)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NumParts)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PartChangeoverTimeHr)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PartChangeoverTimeHr)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PartSurfaceAreaSqIn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PartSurfaceAreaSqIn)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SetupTimeMin)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SetupTimeMin)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShippingWeightFactor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShippingWeightFactor)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ArgonCost)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ArgonCost)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EstPowerCost)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EstPowerCost)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HourlyLaborRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HourlyLaborRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HourlyUseRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HourlyUseRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FringeRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FringeRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProfitRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProfitRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OverheadRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OverheadRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.QuoteSession)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.QuoteSession.QuoteSessionName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OptionalLaserServices)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OptionalLaserServices.OptionalLaserServicesId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.LaserQuoteSessionId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

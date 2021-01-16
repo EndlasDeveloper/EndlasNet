@@ -1,0 +1,131 @@
+﻿@model IEnumerable<EndlasNet.Data.LaserQuoteSession>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IsFlowRateAnalytical)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinishedPartWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumLayers)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumParts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PartChangeoverTimeHr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PartSurfaceAreaSqIn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SetupTimeMin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShippingWeightFactor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArgonCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstPowerCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HourlyLaborRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HourlyUseRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FringeRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfitRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OverheadRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuoteSession)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OptionalLaserServices)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsFlowRateAnalytical)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinishedPartWeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumLayers)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumParts)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartChangeoverTimeHr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartSurfaceAreaSqIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SetupTimeMin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShippingWeightFactor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArgonCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstPowerCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HourlyLaborRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HourlyUseRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FringeRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfitRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OverheadRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuoteSession.QuoteSessionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OptionalLaserServices.OptionalLaserServicesId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.LaserQuoteSessionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.LaserQuoteSessionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.LaserQuoteSessionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

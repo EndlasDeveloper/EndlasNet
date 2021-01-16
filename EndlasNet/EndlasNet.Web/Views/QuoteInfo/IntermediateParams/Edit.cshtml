@@ -1,0 +1,89 @@
+﻿@model EndlasNet.Data.IntermediateParam
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>IntermediateParam</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IntermediateParamId" />
+            <div class="form-group">
+                <label asp-for="SurfaceVelocity" class="control-label"></label>
+                <input asp-for="SurfaceVelocity" class="form-control" />
+                <span asp-validation-for="SurfaceVelocity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StepMm" class="control-label"></label>
+                <input asp-for="StepMm" class="form-control" />
+                <span asp-validation-for="StepMm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StepIn" class="control-label"></label>
+                <input asp-for="StepIn" class="form-control" />
+                <span asp-validation-for="StepIn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AssumedAvgPassLenIn" class="control-label"></label>
+                <input asp-for="AssumedAvgPassLenIn" class="form-control" />
+                <span asp-validation-for="AssumedAvgPassLenIn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PseudoWidthIn" class="control-label"></label>
+                <input asp-for="PseudoWidthIn" class="form-control" />
+                <span asp-validation-for="PseudoWidthIn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PseudoNumPasses" class="control-label"></label>
+                <input asp-for="PseudoNumPasses" class="form-control" />
+                <span asp-validation-for="PseudoNumPasses" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimePerBeadSec" class="control-label"></label>
+                <input asp-for="TimePerBeadSec" class="form-control" />
+                <span asp-validation-for="TimePerBeadSec" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeBetweenBeadsMin" class="control-label"></label>
+                <input asp-for="TimeBetweenBeadsMin" class="form-control" />
+                <span asp-validation-for="TimeBetweenBeadsMin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimePerLayerMin" class="control-label"></label>
+                <input asp-for="TimePerLayerMin" class="form-control" />
+                <span asp-validation-for="TimePerLayerMin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CladAddRateSqInPerMin" class="control-label"></label>
+                <input asp-for="CladAddRateSqInPerMin" class="form-control" />
+                <span asp-validation-for="CladAddRateSqInPerMin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ApproxVolPerLayerCubicCm" class="control-label"></label>
+                <input asp-for="ApproxVolPerLayerCubicCm" class="form-control" />
+                <span asp-validation-for="ApproxVolPerLayerCubicCm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LaserQuoteSessionId" class="control-label"></label>
+                <select asp-for="LaserQuoteSessionId" class="form-control" asp-items="ViewBag.LaserQuoteSessionId"></select>
+                <span asp-validation-for="LaserQuoteSessionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

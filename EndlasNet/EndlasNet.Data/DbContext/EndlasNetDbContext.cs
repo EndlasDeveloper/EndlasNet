@@ -9,7 +9,7 @@ namespace EndlasNet.Data
     */
     public class EndlasNetDbContext : DbContext
     {
-        private readonly string connectionString = DbAddresses.endlasTestDb;
+        private readonly string connectionString = DbAddresses.endlasNetLocalTestDbPath;
 
         // define what tables exist in the DbContext
         public DbSet<Customer> Customers { get; set; }
@@ -25,10 +25,11 @@ namespace EndlasNet.Data
 
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Insert> Inserts { get; set; }
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<InsertToJob> InsertToJobs { get; set; }
-
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Admin> Admins { get; set; }
         // setup connection string
         public EndlasNetDbContext(string connectionString)
         {
@@ -42,28 +43,7 @@ namespace EndlasNet.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                // use the connection string to find the database, then put the migration assembly folder into OpenAir.Data
-                // These are from the appsettings.json
-                var sshServer = "192.168.1.103";
-                var sshUserName = "endlas_developer";
-                var sshPassword = "endlas_dev1qazxsw2!QAZXSW@";
-
-                var dbServer = "127.0.0.1";
-                var dbUserName = "dba";
-                var dbPwd = "1qazxsw2!QAZXSW@";
-
-                var (sshClient, localPort) = ConnectSshClass.ConnectSsh(sshServer, sshUserName, sshPassword, databaseServer: dbServer);
-                MySqlConnectionStringBuilder csb = new MySqlConnectionStringBuilder
-                {
-                    Server = "127.0.0.1",
-                    Port = localPort,
-                    UserID = dbUserName,
-                    Password = dbPwd,
-                };
-                using (sshClient)
-                {
-                    optionsBuilder.UseMySQL(connectionString, b => b.MigrationsAssembly("EndlasNet.Data"));
-                }
+                optionsBuilder.UseSqlServer(connectionString, b => b.MigrationsAssembly("EndlasNet.Data"));
             }
         }
         // setup column and multiplicity constraints
@@ -82,7 +62,7 @@ namespace EndlasNet.Data
             _ = new QuoteMap(modelBuilder.Entity<Quote>());
             _ = new RawMaterialEmpiricalMap(modelBuilder.Entity<RawMaterialEmpirical>());
             _ = new MultiplicityMap(modelBuilder);
-            _ = new EmployeeMap(modelBuilder.Entity<Employee>());
+            _ = new UserMap(modelBuilder.Entity<User>());
             _ = new JobMap(modelBuilder.Entity<Job>());
             _ = new VendorMap(modelBuilder.Entity<Vendor>());
             _ = new InsertMap(modelBuilder.Entity<Insert>());

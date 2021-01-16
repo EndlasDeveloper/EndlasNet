@@ -1,0 +1,64 @@
+﻿@model EndlasNet.Data.Insert
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Insert</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InsertId" />
+            <div class="form-group">
+                <label asp-for="PurchaseOrderNum" class="control-label"></label>
+                <input asp-for="PurchaseOrderNum" class="form-control" />
+                <span asp-validation-for="PurchaseOrderNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseOrderDate" class="control-label"></label>
+                <input asp-for="PurchaseOrderDate" class="form-control" />
+                <span asp-validation-for="PurchaseOrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseOrderPrice" class="control-label"></label>
+                <input asp-for="PurchaseOrderPrice" class="form-control" />
+                <span asp-validation-for="PurchaseOrderPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorPartNum" class="control-label"></label>
+                <input asp-for="VendorPartNum" class="form-control" />
+                <span asp-validation-for="VendorPartNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ToolTipRadius" class="control-label"></label>
+                <input asp-for="ToolTipRadius" class="form-control" />
+                <span asp-validation-for="ToolTipRadius" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseDescription" class="control-label"></label>
+                <input asp-for="PurchaseDescription" class="form-control" />
+                <span asp-validation-for="PurchaseDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

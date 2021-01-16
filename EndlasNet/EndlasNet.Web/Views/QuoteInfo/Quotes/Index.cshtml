@@ -1,0 +1,89 @@
+﻿@model IEnumerable<EndlasNet.Data.Quote>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PowderDirectTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GasTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnergyTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShippingTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CogsTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LaborDirectTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FringeTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfitTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OverheadTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuoteSession)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PowderDirectTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GasTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnergyTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShippingTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CogsTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LaborDirectTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FringeTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfitTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OverheadTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuoteSession.QuoteSessionName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.QuoteId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.QuoteId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.QuoteId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
