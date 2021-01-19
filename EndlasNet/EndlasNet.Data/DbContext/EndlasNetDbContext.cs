@@ -9,10 +9,10 @@ namespace EndlasNet.Data
     */
     public class EndlasNetDbContext : DbContext
     {
-        private readonly string connectionString = DbAddresses.endlasNetLocalTestDbPath;
+        private readonly string connectionString = DbAddresses.endlasNetLocalDBPath;
 
         // define what tables exist in the DbContext
-        public DbSet<Customer> Customers { get; set; }
+/*        public DbSet<Customer> Customers { get; set; }
         public DbSet<RawMaterial> RawMaterials { get; set; }
         public DbSet<QuoteSession> QuoteSessions { get; set; }
         public DbSet<LaserQuoteSession> LaserQuoteSessions { get; set; }
@@ -21,15 +21,16 @@ namespace EndlasNet.Data
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<RawMaterialEmpirical> RawMaterialEmpiricals { get; set; }
         public DbSet<RawMaterial_LaserQuoteSession> RawMaterial_LaserQuoteSessions { get; set; }
-        public DbSet<OptionalLaserService> OptionalLaserServices { get; set; }
+        public DbSet<OptionalLaserService> OptionalLaserServices { get; set; }*/
 
-        public DbSet<Vendor> Vendors { get; set; }
-        public DbSet<Insert> Inserts { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Job> Jobs { get; set; }
-        public DbSet<InsertToJob> InsertToJobs { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Vendor> Vendors { get; set; }
+        public DbSet<Insert> Inserts { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<InsertToJob> InsertToJobs { get; set; }
+
         // setup connection string
         public EndlasNetDbContext(string connectionString)
         {
@@ -51,7 +52,14 @@ namespace EndlasNet.Data
         {
             // setup the map references so ef knows how to specifically constrain attributes
             base.OnModelCreating(modelBuilder);
-            _ = new CustomerMap(modelBuilder.Entity<Customer>());
+            _ = new UserMap(modelBuilder.Entity<User>());
+            _ = new VendorMap(modelBuilder.Entity<Vendor>());
+            _ = new InsertMap(modelBuilder.Entity<Insert>());
+            _ = new InsertToJobMap(modelBuilder.Entity<InsertToJob>());
+            _ = new JobMap(modelBuilder.Entity<Job>());
+            _ = new InventoryMultiplicityMap(modelBuilder);
+
+/*            _ = new CustomerMap(modelBuilder.Entity<Customer>());
             _ = new RawMaterialMap(modelBuilder.Entity<RawMaterial>());
             _ = new QuoteSessionMap(modelBuilder.Entity<QuoteSession>());
             _ = new LaserQuoteSessionMap(modelBuilder.Entity<LaserQuoteSession>());
@@ -61,12 +69,8 @@ namespace EndlasNet.Data
             _ = new IntermediateParamMap(modelBuilder.Entity<IntermediateParam>());
             _ = new QuoteMap(modelBuilder.Entity<Quote>());
             _ = new RawMaterialEmpiricalMap(modelBuilder.Entity<RawMaterialEmpirical>());
-            _ = new MultiplicityMap(modelBuilder);
-            _ = new UserMap(modelBuilder.Entity<User>());
-            _ = new JobMap(modelBuilder.Entity<Job>());
-            _ = new VendorMap(modelBuilder.Entity<Vendor>());
-            _ = new InsertMap(modelBuilder.Entity<Insert>());
-            _ = new InsertToJobMap(modelBuilder.Entity<InsertToJob>());
+            _ = new MultiplicityMap(modelBuilder);*/
+
 
             ////
             // Seed table example::
