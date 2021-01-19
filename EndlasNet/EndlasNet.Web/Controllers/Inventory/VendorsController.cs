@@ -53,7 +53,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VendorId,VendorName,PointOfContact,VendorAddress,VendorPhone")] Vendor vendor)
+        public async Task<IActionResult> Create([Bind("VendorId,VendorName,PointOfContact,VendorAddress,VendorPhone,DateAdded")] Vendor vendor)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VendorId,VendorName,PointOfContact,VendorAddress,VendorPhone")] Vendor vendor)
+        public async Task<IActionResult> Edit(int id, [Bind("VendorId,VendorName,PointOfContact,VendorAddress,VendorPhone,DateAdded")] Vendor vendor)
         {
             if (id != vendor.VendorId)
             {

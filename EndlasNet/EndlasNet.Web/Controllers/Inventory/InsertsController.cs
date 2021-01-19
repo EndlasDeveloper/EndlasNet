@@ -21,7 +21,7 @@ namespace EndlasNet.Web.Controllers
         // GET: Inserts
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.Inserts.Include(i => i.Vendor);
+            var endlasNetDbContext = _context.Inserts.Include(i => i.User).Include(i => i.Vendor);
             return View(await endlasNetDbContext.ToListAsync());
         }
 
@@ -34,6 +34,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var insert = await _context.Inserts
+                .Include(i => i.User)
                 .Include(i => i.Vendor)
                 .FirstOrDefaultAsync(m => m.InsertId == id);
             if (insert == null)
@@ -47,7 +48,8 @@ namespace EndlasNet.Web.Controllers
         // GET: Inserts/Create
         public IActionResult Create()
         {
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString");
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact");
             return View();
         }
 
@@ -56,7 +58,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("InsertId,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,Description,VendorPartNum,ToolTipRadius,PurchaseDescription,VendorId")] Insert insert)
+        public async Task<IActionResult> Create([Bind("InsertId,Description,InsertCount,DateAdded,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,ToolTipRadius,VendorPartNum,UserId,VendorId")] Insert insert)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +66,8 @@ namespace EndlasNet.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", insert.UserId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", insert.VendorId);
             return View(insert);
         }
 
@@ -81,7 +84,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", insert.UserId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", insert.VendorId);
             return View(insert);
         }
 
@@ -90,7 +94,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("InsertId,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,Description,VendorPartNum,ToolTipRadius,PurchaseDescription,VendorId")] Insert insert)
+        public async Task<IActionResult> Edit(int id, [Bind("InsertId,Description,InsertCount,DateAdded,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,ToolTipRadius,VendorPartNum,UserId,VendorId")] Insert insert)
         {
             if (id != insert.InsertId)
             {
@@ -117,7 +121,8 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", insert.UserId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", insert.VendorId);
             return View(insert);
         }
 
@@ -130,6 +135,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var insert = await _context.Inserts
+                .Include(i => i.User)
                 .Include(i => i.Vendor)
                 .FirstOrDefaultAsync(m => m.InsertId == id);
             if (insert == null)

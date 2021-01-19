@@ -13,6 +13,7 @@ namespace EndlasNet.Data
             // set PK
             entityBuilder.HasKey(v => v.VendorId);
             // not null
+            entityBuilder.Property(v => v.DateAdded).IsRequired();
             entityBuilder.Property(v => v.VendorName).IsRequired();
             entityBuilder.Property(v => v.PointOfContact).IsRequired();
             entityBuilder.Property(v => v.VendorAddress).IsRequired();

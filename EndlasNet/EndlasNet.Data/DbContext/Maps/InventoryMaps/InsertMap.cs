@@ -19,7 +19,8 @@ namespace EndlasNet.Data
             entityBuilder.Property(i => i.Description).IsRequired();
             entityBuilder.Property(i => i.VendorPartNum).IsRequired();
             entityBuilder.Property(i => i.ToolTipRadius).IsRequired();
-            entityBuilder.Property(i => i.PurchaseDescription).IsRequired();
+            entityBuilder.Property(i => i.InsertCount).IsRequired();
+            entityBuilder.Property(i => i.DateAdded).IsRequired();
         }
     }
 }

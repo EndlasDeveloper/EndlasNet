@@ -13,7 +13,6 @@ namespace EndlasNet.Data
             entityBuilder.HasKey(i => i.InsertToJobId);
             // not null
             entityBuilder.Property(i => i.DateUsed).IsRequired();
-            entityBuilder.Property(i => i.UserId).IsRequired();
             entityBuilder.Property(i => i.JobId).IsRequired();
         }
     }

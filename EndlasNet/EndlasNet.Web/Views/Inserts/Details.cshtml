@@ -11,6 +11,24 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.InsertCount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.InsertCount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateAdded)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateAdded)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PurchaseOrderNum)
         </dt>
         <dd class = "col-sm-10">
@@ -29,10 +47,10 @@
             @Html.DisplayFor(model => model.PurchaseOrderPrice)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.ToolTipRadius)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.ToolTipRadius)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.VendorPartNum)
@@ -41,22 +59,16 @@
             @Html.DisplayFor(model => model.VendorPartNum)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ToolTipRadius)
+            @Html.DisplayNameFor(model => model.User)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ToolTipRadius)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PurchaseDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PurchaseDescription)
+            @Html.DisplayFor(model => model.User.AuthString)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Vendor)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Vendor.VendorName)
+            @Html.DisplayFor(model => model.Vendor.PointOfContact)
         </dd>
     </dl>
 </div>

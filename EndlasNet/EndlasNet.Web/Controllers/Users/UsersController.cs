@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EndlasNet.Web.Controllers.User
+namespace EndlasNet.Web.Controllers.Users
 {
     public class UsersController : Controller
     {

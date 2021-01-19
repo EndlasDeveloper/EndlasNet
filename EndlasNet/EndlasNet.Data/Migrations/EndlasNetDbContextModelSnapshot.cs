@@ -26,16 +26,18 @@ namespace EndlasNet.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("InsertToJobId")
+                    b.Property<int>("InsertCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("PurchaseDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("InsertToJobId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PurchaseOrderDate")
                         .HasColumnType("datetime2");
@@ -50,6 +52,9 @@ namespace EndlasNet.Data.Migrations
                     b.Property<float>("ToolTipRadius")
                         .HasColumnType("real");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<int>("VendorId")
                         .HasColumnType("int");
 
@@ -60,6 +65,8 @@ namespace EndlasNet.Data.Migrations
                     b.HasKey("InsertId");
 
                     b.HasIndex("InsertToJobId");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex("VendorId");
 
@@ -110,6 +117,13 @@ namespace EndlasNet.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("AuthString")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -136,9 +150,15 @@ namespace EndlasNet.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("PointOfContact")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("VendorAddress")
                         .IsRequired()
@@ -153,6 +173,8 @@ namespace EndlasNet.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("VendorId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Vendors");
                 });
@@ -177,6 +199,12 @@ namespace EndlasNet.Data.Migrations
                         .WithMany()
                         .HasForeignKey("InsertToJobId");
 
+                    b.HasOne("EndlasNet.Data.User", "User")
+                        .WithMany("Inserts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EndlasNet.Data.Vendor", "Vendor")
                         .WithMany("Inserts")
                         .HasForeignKey("VendorId")
@@ -184,6 +212,8 @@ namespace EndlasNet.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("InsertToJob");
+
+                    b.Navigation("User");
 
                     b.Navigation("Vendor");
                 });
@@ -207,6 +237,15 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("EndlasNet.Data.Vendor", b =>
+                {
+                    b.HasOne("EndlasNet.Data.User", "User")
+                        .WithMany("Vendors")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EndlasNet.Data.Job", b =>
                 {
                     b.Navigation("InsertToJobs");
@@ -214,7 +253,11 @@ namespace EndlasNet.Data.Migrations
 
             modelBuilder.Entity("EndlasNet.Data.User", b =>
                 {
+                    b.Navigation("Inserts");
+
                     b.Navigation("InsertToJobs");
+
+                    b.Navigation("Vendors");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.Vendor", b =>

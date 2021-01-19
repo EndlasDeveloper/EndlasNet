@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 
@@ -52,7 +53,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Privileges")] Admin admin)
+        public async Task<IActionResult> Create([Bind("UserId,AuthString,FirstName,LastName,DateAdded")] Admin admin)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +85,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,FirstName,LastName,Privileges")] Admin admin)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,AuthString,FirstName,LastName,DateAdded")] Admin admin)
         {
             if (id != admin.UserId)
             {

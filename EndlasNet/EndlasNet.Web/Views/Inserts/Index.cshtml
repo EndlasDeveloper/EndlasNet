@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<EndlasNet.Data.Insert>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Inserts";
 }
 
 <h1 class="display-4">Inserts</h1>
@@ -13,6 +13,15 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InsertCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateAdded)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.PurchaseOrderNum)
             </th>
             <th>
@@ -22,16 +31,13 @@
                 @Html.DisplayNameFor(model => model.PurchaseOrderPrice)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.ToolTipRadius)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.VendorPartNum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ToolTipRadius)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PurchaseDescription)
+                @Html.DisplayNameFor(model => model.User)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Vendor)
@@ -43,6 +49,15 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InsertCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateAdded)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
             </td>
             <td>
@@ -52,19 +67,16 @@
                 @Html.DisplayFor(modelItem => item.PurchaseOrderPrice)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.ToolTipRadius)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VendorPartNum)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ToolTipRadius)
+                @Html.DisplayFor(modelItem => item.User.AuthString)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PurchaseDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vendor.VendorName)
+                @Html.DisplayFor(modelItem => item.Vendor.PointOfContact)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.InsertId">Edit</a> |
