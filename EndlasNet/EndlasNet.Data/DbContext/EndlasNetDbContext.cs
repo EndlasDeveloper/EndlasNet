@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
 
 namespace EndlasNet.Data
 {
@@ -69,7 +68,7 @@ namespace EndlasNet.Data
             _ = new IntermediateParamMap(modelBuilder.Entity<IntermediateParam>());
             _ = new QuoteMap(modelBuilder.Entity<Quote>());
             _ = new RawMaterialEmpiricalMap(modelBuilder.Entity<RawMaterialEmpirical>());
-            _ = new MultiplicityMap(modelBuilder);*/
+            _ = new QuoteInfoMultiplicityMap(modelBuilder);*/
 
 
             ////

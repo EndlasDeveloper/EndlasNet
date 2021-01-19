@@ -17,8 +17,7 @@ namespace EndlasNet.Data
                    R/W/D R/W/D* R
          */
         // default privelege to read/write/del*
-        public short Privileges { get; set; } = 3;
         public IEnumerable<InsertToJob> InsertToJobs { get; set; }
-
+        protected User() { }
     }
 }

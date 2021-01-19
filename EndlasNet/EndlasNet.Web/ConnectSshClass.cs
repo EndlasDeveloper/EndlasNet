@@ -1,4 +1,4 @@
-﻿using Renci.SshNet;
+﻿//using Renci.SshNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ namespace EndlasNet.Web
 {
 	public static class ConnectSshClass
 	{
-		public static (SshClient SshClient, uint Port) ConnectSsh(string sshHostName, string sshUserName, string sshPassword = null,
+		/*public static (SshClient SshClient, uint Port) ConnectSsh(string sshHostName, string sshUserName, string sshPassword = null,
 	string sshKeyFile = null, string sshPassPhrase = null, int sshPort = 22, string databaseServer = "localhost", int databasePort = 3306)
 		{
 			//// check arguments and throw exceptions if necessary
@@ -48,5 +48,6 @@ namespace EndlasNet.Web
 
 			return (sshClient, forwardedPort.BoundPort);
 		}
+	}*/
 	}
 }

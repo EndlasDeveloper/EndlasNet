@@ -8,10 +8,10 @@ namespace EndlasNet.Data
     {
         public int VendorId { get; set; }
         // columns
-        public string POC { get; set; } // Point Of Contact
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string Phone { get; set; }
+        public string PointOfContact { get; set; } // Point Of Contact
+        public string VendorName { get; set; }
+        public string VendorAddress { get; set; }
+        public string VendorPhone { get; set; }
         public IEnumerable<Insert> Inserts { get; set; }
 
     }

@@ -15,7 +15,6 @@ namespace EndlasNet.Data
             // not null
             entityBuilder.Property(e => e.FirstName).IsRequired();
             entityBuilder.Property(e => e.LastName).IsRequired();
-            entityBuilder.Property(e => e.Privileges).IsRequired();
         }
     }
 }

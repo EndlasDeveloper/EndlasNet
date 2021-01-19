@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<EndlasNet.Data.Vendor>
 
 @{
-    ViewData["Title"] = "Vendors";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Vendors</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,16 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.POC)
+                @Html.DisplayNameFor(model => model.PointOfContact)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.VendorName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.VendorAddress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                @Html.DisplayNameFor(model => model.VendorPhone)
             </th>
             <th></th>
         </tr>
@@ -31,16 +31,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.POC)
+                @Html.DisplayFor(modelItem => item.PointOfContact)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.VendorName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Address)
+                @Html.DisplayFor(modelItem => item.VendorAddress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Phone)
+                @Html.DisplayFor(modelItem => item.VendorPhone)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.VendorId">Edit</a> |

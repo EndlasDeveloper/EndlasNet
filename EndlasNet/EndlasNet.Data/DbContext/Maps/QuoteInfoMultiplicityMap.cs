@@ -7,9 +7,9 @@ namespace EndlasNet.Data
     * Class: MultiplicityMap
     * Description: Map object to describe multiplicities between entities if it isn't implied in the class structure
     */
-    public class MultiplicityMap
+    public class QuoteInfoMultiplicityMap
     {
-        public MultiplicityMap(ModelBuilder modelBuilder)
+        public QuoteInfoMultiplicityMap(ModelBuilder modelBuilder)
         {
             Contract.Requires(modelBuilder != null);
             // each raw material can have 0 to many raw material-laser quote sessions

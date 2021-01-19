@@ -6,9 +6,6 @@ namespace EndlasNet.Data
 {
     public class Employee : User
     {
-        public Employee() 
-        {
-            Privileges = 3;
-        }
+        public Employee() { }
     }
 }
