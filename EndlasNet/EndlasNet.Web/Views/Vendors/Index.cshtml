@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<EndlasNet.Data.Vendor>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Vendors";
 }
 
 <h1 class="display-4">Vendors</h1>
@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PointOfContact)
+                @Html.DisplayNameFor(model => model.VendorName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VendorName)
+                @Html.DisplayNameFor(model => model.PointOfContact)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.VendorAddress)
@@ -31,10 +31,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.PointOfContact)
+                @Html.DisplayFor(modelItem => item.VendorName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VendorName)
+                @Html.DisplayFor(modelItem => item.PointOfContact)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VendorAddress)

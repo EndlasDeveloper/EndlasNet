@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20210119064642_VendorInsert2")]
-    partial class VendorInsert2
+    [Migration("20210119083502_VendorInsert")]
+    partial class VendorInsert
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,7 +52,7 @@ namespace EndlasNet.Data.Migrations
                     b.Property<float>("ToolTipRadius")
                         .HasColumnType("real");
 
-                    b.Property<int?>("VendorId")
+                    b.Property<int>("VendorId")
                         .HasColumnType("int");
 
                     b.Property<string>("VendorPartNum")
@@ -124,9 +124,6 @@ namespace EndlasNet.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<short>("Privileges")
-                        .HasColumnType("smallint");
-
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
@@ -184,7 +181,9 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasOne("EndlasNet.Data.Vendor", "Vendor")
                         .WithMany("Inserts")
-                        .HasForeignKey("VendorId");
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("InsertToJob");
 

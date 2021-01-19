@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EndlasNet.Data.Migrations
 {
-    public partial class VendorInsertOnly : Migration
+    public partial class VendorInsert : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,7 +27,6 @@ namespace EndlasNet.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Privileges = table.Column<short>(type: "smallint", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -41,10 +40,10 @@ namespace EndlasNet.Data.Migrations
                 {
                     VendorId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    POC = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    VendorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PointOfContact = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VendorAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VendorPhone = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,7 +90,7 @@ namespace EndlasNet.Data.Migrations
                     VendorPartNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ToolTipRadius = table.Column<float>(type: "real", nullable: false),
                     PurchaseDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VendorId = table.Column<int>(type: "int", nullable: true),
+                    VendorId = table.Column<int>(type: "int", nullable: false),
                     InsertToJobId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -108,7 +107,7 @@ namespace EndlasNet.Data.Migrations
                         column: x => x.VendorId,
                         principalTable: "Vendors",
                         principalColumn: "VendorId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
