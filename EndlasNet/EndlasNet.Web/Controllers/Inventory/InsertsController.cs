@@ -47,7 +47,7 @@ namespace EndlasNet.Web.Controllers
         // GET: Inserts/Create
         public IActionResult Create()
         {
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact");
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace EndlasNet.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", insert.VendorId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
             return View(insert);
         }
 
@@ -81,7 +81,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", insert.VendorId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
             return View(insert);
         }
 
@@ -117,7 +117,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", insert.VendorId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
             return View(insert);
         }
 
