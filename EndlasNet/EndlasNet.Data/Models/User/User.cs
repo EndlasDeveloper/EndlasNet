@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace EndlasNet.Data
 {
@@ -14,6 +15,7 @@ namespace EndlasNet.Data
         public string LastName { get; set; }
         public string EndlasEmail { get; set; }
 
+        [StringLength(250, MinimumLength = 8)]
         public string AuthString { get; set; }
 
         public DateTime DateAdded { get; set; }

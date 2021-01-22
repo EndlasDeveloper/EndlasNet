@@ -48,8 +48,8 @@ namespace EndlasNet.Web.Controllers
         // GET: Inserts/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString");
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact");
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail");
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
             return View();
         }
 
@@ -67,8 +67,8 @@ namespace EndlasNet.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", insert.UserId);
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", insert.VendorId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", insert.UserId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
             return View(insert);
         }
 
@@ -85,8 +85,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", insert.UserId);
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", insert.VendorId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", insert.UserId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
             return View(insert);
         }
 
@@ -122,8 +122,8 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", insert.UserId);
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", insert.VendorId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", insert.UserId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
             return View(insert);
         }
 

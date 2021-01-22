@@ -116,7 +116,8 @@ namespace EndlasNet.Data.Migrations
 
                     b.Property<string>("AuthString")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");

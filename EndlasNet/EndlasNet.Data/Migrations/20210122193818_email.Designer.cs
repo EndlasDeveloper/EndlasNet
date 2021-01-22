@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20210122185213_email")]
+    [Migration("20210122193818_email")]
     partial class email
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,7 +118,8 @@ namespace EndlasNet.Data.Migrations
 
                     b.Property<string>("AuthString")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");

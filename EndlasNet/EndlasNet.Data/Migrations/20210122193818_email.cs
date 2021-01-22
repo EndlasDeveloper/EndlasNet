@@ -26,7 +26,7 @@ namespace EndlasNet.Data.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EndlasEmail = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AuthString = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AuthString = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
