@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20210119183924_insert")]
-    partial class insert
+    [Migration("20210122185213_email")]
+    partial class email
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,23 +23,23 @@ namespace EndlasNet.Data.Migrations
 
             modelBuilder.Entity("EndlasNet.Data.Insert", b =>
                 {
-                    b.Property<int>("InsertId")
+                    b.Property<Guid>("InsertId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<int>("InsertCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("InsertToJobId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("InsertToJobId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("PurchaseOrderDate")
                         .HasColumnType("datetime2");
@@ -54,11 +54,11 @@ namespace EndlasNet.Data.Migrations
                     b.Property<float>("ToolTipRadius")
                         .HasColumnType("real");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("VendorId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("VendorId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("VendorPartNum")
                         .IsRequired()
@@ -77,19 +77,18 @@ namespace EndlasNet.Data.Migrations
 
             modelBuilder.Entity("EndlasNet.Data.InsertToJob", b =>
                 {
-                    b.Property<int>("InsertToJobId")
+                    b.Property<Guid>("InsertToJobId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateUsed")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("JobId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("JobId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("InsertToJobId");
 
@@ -102,10 +101,9 @@ namespace EndlasNet.Data.Migrations
 
             modelBuilder.Entity("EndlasNet.Data.Job", b =>
                 {
-                    b.Property<int>("JobId")
+                    b.Property<Guid>("JobId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("JobId");
 
@@ -114,10 +112,9 @@ namespace EndlasNet.Data.Migrations
 
             modelBuilder.Entity("EndlasNet.Data.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AuthString")
                         .IsRequired()
@@ -130,6 +127,10 @@ namespace EndlasNet.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EndlasEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -140,6 +141,9 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("EndlasEmail")
+                        .IsUnique();
+
                     b.ToTable("Users");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
@@ -147,10 +151,9 @@ namespace EndlasNet.Data.Migrations
 
             modelBuilder.Entity("EndlasNet.Data.Vendor", b =>
                 {
-                    b.Property<int>("VendorId")
+                    b.Property<Guid>("VendorId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
@@ -159,8 +162,8 @@ namespace EndlasNet.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("VendorAddress")
                         .IsRequired()
@@ -172,7 +175,8 @@ namespace EndlasNet.Data.Migrations
 
                     b.Property<string>("VendorPhone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("VendorId");
 

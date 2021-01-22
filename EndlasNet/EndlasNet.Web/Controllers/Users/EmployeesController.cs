@@ -25,7 +25,7 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Employees/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -53,10 +53,11 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,AuthString,FirstName,LastName,DateAdded")] Employee employee)
+        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,EndlasEmail,AuthString,DateAdded")] Employee employee)
         {
             if (ModelState.IsValid)
             {
+                employee.UserId = Guid.NewGuid();
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -65,7 +66,7 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Employees/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,7 +86,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,AuthString,FirstName,LastName,DateAdded")] Employee employee)
+        public async Task<IActionResult> Edit(Guid id, [Bind("UserId,FirstName,LastName,EndlasEmail,AuthString,DateAdded")] Employee employee)
         {
             if (id != employee.UserId)
             {
@@ -116,7 +117,7 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Employees/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -136,7 +137,7 @@ namespace EndlasNet.Web.Controllers
         // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var employee = await _context.Employees.FindAsync(id);
             _context.Employees.Remove(employee);
@@ -144,7 +145,7 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeExists(int id)
+        private bool EmployeeExists(Guid id)
         {
             return _context.Employees.Any(e => e.UserId == id);
         }

@@ -26,7 +26,7 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Inserts/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -62,6 +62,7 @@ namespace EndlasNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                insert.InsertId = Guid.NewGuid();
                 _context.Add(insert);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -72,7 +73,7 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Inserts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -94,7 +95,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("InsertId,Description,InsertCount,DateAdded,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,ToolTipRadius,VendorPartNum,UserId,VendorId")] Insert insert)
+        public async Task<IActionResult> Edit(Guid id, [Bind("InsertId,Description,InsertCount,DateAdded,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,ToolTipRadius,VendorPartNum,UserId,VendorId")] Insert insert)
         {
             if (id != insert.InsertId)
             {
@@ -127,7 +128,7 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Inserts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -149,7 +150,7 @@ namespace EndlasNet.Web.Controllers
         // POST: Inserts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var insert = await _context.Inserts.FindAsync(id);
             _context.Inserts.Remove(insert);
@@ -157,7 +158,7 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool InsertExists(int id)
+        private bool InsertExists(Guid id)
         {
             return _context.Inserts.Any(e => e.InsertId == id);
         }

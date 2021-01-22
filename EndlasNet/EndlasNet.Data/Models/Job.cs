@@ -6,7 +6,7 @@ namespace EndlasNet.Data
 { 
     public class Job
     {
-        public int JobId { get; set; }
+        public Guid JobId { get; set; }
         public IEnumerable<InsertToJob> InsertToJobs { get; set; }
     }
 }

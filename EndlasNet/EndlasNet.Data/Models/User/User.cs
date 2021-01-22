@@ -1,15 +1,21 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EndlasNet.Data
 {
+
     public class User
     {
-        public int UserId { get; set; }
-        public string AuthString { get; set; }
+        public Guid UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string EndlasEmail { get; set; }
+
+        public string AuthString { get; set; }
+
         public DateTime DateAdded { get; set; }
 
         public IEnumerable<InsertToJob> InsertToJobs { get; set; }

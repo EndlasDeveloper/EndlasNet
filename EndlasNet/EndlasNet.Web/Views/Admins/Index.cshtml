@@ -4,7 +4,7 @@
     ViewData["Title"] = "Admins";
 }
 
-<h1 class="display-4">Admins</h1>
+<h1>Admins</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,13 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AuthString)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndlasEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthString)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateAdded)
@@ -31,13 +34,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.AuthString)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndlasEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthString)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateAdded)

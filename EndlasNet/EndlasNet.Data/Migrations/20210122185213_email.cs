@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EndlasNet.Data.Migrations
 {
-    public partial class insert : Migration
+    public partial class email : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,8 +11,7 @@ namespace EndlasNet.Data.Migrations
                 name: "Jobs",
                 columns: table => new
                 {
-                    JobId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    JobId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -23,11 +22,11 @@ namespace EndlasNet.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AuthString = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EndlasEmail = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AuthString = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -40,11 +39,10 @@ namespace EndlasNet.Data.Migrations
                 name: "InsertToJobs",
                 columns: table => new
                 {
-                    InsertToJobId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InsertToJobId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DateUsed = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    JobId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    JobId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,14 +65,13 @@ namespace EndlasNet.Data.Migrations
                 name: "Vendors",
                 columns: table => new
                 {
-                    VendorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VendorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VendorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PointOfContact = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VendorAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VendorPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VendorPhone = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,9 +88,8 @@ namespace EndlasNet.Data.Migrations
                 name: "Inserts",
                 columns: table => new
                 {
-                    InsertId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InsertId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     InsertCount = table.Column<int>(type: "int", nullable: false),
                     DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PurchaseOrderNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -101,9 +97,9 @@ namespace EndlasNet.Data.Migrations
                     PurchaseOrderPrice = table.Column<float>(type: "real", nullable: false),
                     ToolTipRadius = table.Column<float>(type: "real", nullable: false),
                     VendorPartNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    VendorId = table.Column<int>(type: "int", nullable: false),
-                    InsertToJobId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VendorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InsertToJobId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -152,6 +148,12 @@ namespace EndlasNet.Data.Migrations
                 name: "IX_InsertToJobs_UserId",
                 table: "InsertToJobs",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_EndlasEmail",
+                table: "Users",
+                column: "EndlasEmail",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vendors_UserId",
