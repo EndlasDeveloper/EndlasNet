@@ -58,6 +58,9 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 vendor.VendorId = Guid.NewGuid();
+                _context.Entry(vendor).Property("CreatedDate").CurrentValue = DateTime.Now;
+                _context.Entry(vendor).Property("UpdatedDate").CurrentValue = DateTime.Now;
+
                 _context.Add(vendor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -97,6 +100,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    _context.Entry(vendor).Property("UpdatedDate").CurrentValue = DateTime.Now;
                     _context.Update(vendor);
                     await _context.SaveChangesAsync();
                 }

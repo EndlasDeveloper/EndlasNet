@@ -17,7 +17,6 @@ namespace EndlasNet.Data
 
         [StringLength(10)]
         public string VendorPhone { get; set; }
-        public DateTime DateAdded { get; set; }
 
         public virtual User User { get; set; }
         public IEnumerable<Insert> Inserts { get; set; }

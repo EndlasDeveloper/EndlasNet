@@ -8,7 +8,7 @@ namespace EndlasNet.Data
     */
     public class EndlasNetDbContext : DbContext
     {
-        private readonly string connectionString = ConnectionStrings.endlasNetLocalDBPath;
+        private readonly string connectionString = ConnectionStrings.endlas_local;
 
         // define what tables exist in the DbContext
 /*        public DbSet<Customer> Customers { get; set; }

@@ -16,7 +16,6 @@ namespace EndlasNet.Data
 
         [Range(1, 1000)]
         public int InsertCount { get; set; }
-        public DateTime DateAdded { get; set; }
         public string PurchaseOrderNum { get; set; }
         public DateTime PurchaseOrderDate { get; set; }
 

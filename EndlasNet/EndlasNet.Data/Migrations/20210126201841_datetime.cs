@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EndlasNet.Data.Migrations
 {
-    public partial class email : Migration
+    public partial class datetime : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,7 +28,9 @@ namespace EndlasNet.Data.Migrations
                     EndlasEmail = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AuthString = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -58,8 +58,8 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 employee.UserId = Guid.NewGuid();
-                // **** HASH AUTH STR ****
-                employee.AuthString = ShaHash.ComputeSha256Hash(employee.AuthString);
+                _context.Entry(employee).Property("CreatedDate").CurrentValue = DateTime.Now;
+                _context.Entry(employee).Property("UpdatedDate").CurrentValue = DateTime.Now;
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +99,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    _context.Entry(employee).Property("UpdatedDate").CurrentValue = DateTime.Now;
                     _context.Update(employee);
                     await _context.SaveChangesAsync();
                 }

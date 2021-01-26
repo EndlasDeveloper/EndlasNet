@@ -24,9 +24,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.VendorPhone)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateAdded)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -44,9 +41,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VendorPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateAdded)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.VendorId">Edit</a> |

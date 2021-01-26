@@ -20,7 +20,10 @@ namespace EndlasNet.Data
             entityBuilder.Property(i => i.VendorPartNum).IsRequired();
             entityBuilder.Property(i => i.ToolTipRadius).IsRequired();
             entityBuilder.Property(i => i.InsertCount).IsRequired();
-            entityBuilder.Property(i => i.DateAdded).IsRequired();
+
+            // shadow properties
+            entityBuilder.Property<DateTime>("CreatedDate");
+            entityBuilder.Property<DateTime>("UpdatedDate");
         }
     }
 }

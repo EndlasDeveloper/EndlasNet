@@ -29,7 +29,7 @@ namespace EndlasNet.Web
             services.AddControllersWithViews();
             // Add the application context for database managment using ef core
             services.AddDbContext<EndlasNetDbContext>(options => options
-            .UseSqlServer(Configuration.GetConnectionString("EndlasNetLocalDb"))); // db ref in appsettings.json
+            .UseSqlServer(Configuration.GetConnectionString("endlas_local"))); // db ref in appsettings.json
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

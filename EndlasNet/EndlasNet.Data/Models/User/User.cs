@@ -18,8 +18,6 @@ namespace EndlasNet.Data
         [StringLength(250, MinimumLength = 8)]
         public string AuthString { get; set; }
 
-        public DateTime DateAdded { get; set; }
-
         public IEnumerable<InsertToJob> InsertToJobs { get; set; }
         public IEnumerable<Insert> Inserts { get; set; }
         public IEnumerable<Vendor> Vendors { get; set; }
