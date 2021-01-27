@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using EndlasNet.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,79 +10,49 @@ namespace EndlasNet.Web.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly UserRepo _db;
+
+        public LoginController(UserRepo db)
+        {
+            _db = db;
+        }
         // GET: LoginController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: LoginController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Login()
         {
+            ViewBag.UserLoginStatus = "success";
             return View();
         }
-
-        // GET: LoginController/Create
-        public ActionResult Create()
+        public IActionResult Logout()
         {
-            return View();
+            HttpContext.Session.Remove("username");
+            HttpContext.Session.Remove("name");
+            HttpContext.Session.Remove("isAdmin");
+            return View("../Home/Index");
         }
-
-        // POST: LoginController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> LoginSubmitAsync(string email, string pwd)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            var user = await _db.GetUser(email);
 
-        // GET: LoginController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+            //Specify on next view what the error was using ViewBag to send message
+            if (user == null || ShaHash.ComputeSha256Hash(pwd) != user.AuthString)
+            {
+                ViewBag.UserLoginStatus = "failed";
+                return View("../Login/Login");
+            }
 
-        // POST: LoginController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            ViewBag.UserLoginStatus = "success";
 
-        // GET: LoginController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+            HttpContext.Session.SetString("username", email);
+            HttpContext.Session.SetString("name", user.FirstName+" "+user.LastName);
 
-        // POST: LoginController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            return View("../Home/Index");
+        }    
     }
 }
