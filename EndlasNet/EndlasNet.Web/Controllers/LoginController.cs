@@ -44,7 +44,7 @@ namespace EndlasNet.Web.Controllers
             if (user == null || ShaHash.ComputeSha256Hash(pwd) != user.AuthString)
             {
                 ViewBag.UserLoginStatus = "failed";
-                return View("../Login/Login");
+                return View("../Login/Index");
             }
 
             ViewBag.UserLoginStatus = "success";

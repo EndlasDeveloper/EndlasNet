@@ -2,20 +2,25 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using EndlasNet.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly UserRepo _db;
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(UserRepo db)
         {
-            _logger = logger;
+            _db = db;
         }
+
 
         public IActionResult Index()
         {
+
+            
             return View();
         }
 

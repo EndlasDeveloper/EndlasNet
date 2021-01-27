@@ -16,6 +16,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
+    <link rel="stylesheet" href="~/css/custom-style.css" />
 </head>
 <body>
 
@@ -30,7 +31,7 @@
                 <input type="text" name="email" placeholder="Email Address" style="width: 300px;" required><br><br>
                 <input type="password" name="pwd" placeholder="Password" style="width: 300px;" required><br><br>
 
-                <input asp-area="" asp-controller="Login" asp-action="LoginSubmit" type="submit" value="Log In">
+                <input class="button-area" id="custominput" asp-area="" asp-controller="Login" asp-action="LoginSubmit" type="submit" value="Log in">
             </form>
             <div>
                 <a asp-area="" asp-controller="Employees" asp-action="Create" type="submit">Create an account</a>
