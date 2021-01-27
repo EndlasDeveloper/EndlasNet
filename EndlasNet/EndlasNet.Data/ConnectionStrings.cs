@@ -12,5 +12,9 @@
         public const string endlas_web = "localhost,1433\\SQLEXPRESS;Database=endlas_db;user id=SA; password=sa1qazxsw2!QAZXSW@;Trusted_Connection=True;Integrated security=False;";
         // local db addreses (paths)
         public const string endlas_local = "Server=(localdb)\\mssqllocaldb;Database=EndlasNetDb;Trusted_Connection=True;MultipleActiveResultSets=true";
+        // local test db
+        public const string endlas_test = "Server=(localdb)\\mssqllocaldb;Database=EndlasNetTestDb;Trusted_Connection=True;MultipleActiveResultSets=true";
+
     }
+
 }

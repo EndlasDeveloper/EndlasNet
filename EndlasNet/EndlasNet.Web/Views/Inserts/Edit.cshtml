@@ -12,16 +12,17 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ToolTipRadius" class="control-label">Tool tip radius (in)</label>
-                <input asp-for="ToolTipRadius" class="form-control" />
-                <span asp-validation-for="ToolTipRadius" class="text-danger"></span>
-            </div>
+
             <input type="hidden" asp-for="MachiningToolId" />
             <div class="form-group">
                 <label asp-for="VendorDescription" class="control-label">Vendor description</label>
                 <input asp-for="VendorDescription" class="form-control" />
                 <span asp-validation-for="VendorDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ToolTipRadius" class="control-label">Tool tip radius (in)</label>
+                <input asp-for="ToolTipRadius" class="form-control" />
+                <span asp-validation-for="ToolTipRadius" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ToolCount" class="control-label">Tool count</label>

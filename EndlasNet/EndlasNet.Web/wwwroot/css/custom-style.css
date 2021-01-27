@@ -1,14 +1,4 @@
 ﻿
-input[type=submit] {
-    background-color: #808080; /* Gray */
-    border: none;
-    color: white;
-    padding: 5px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-}
 
 #custominput {
     background-color: #808080; /* Gray */
@@ -24,4 +14,19 @@ input[type=submit] {
 #custominput:hover {
     background-color: #404040;
     color: white; /* SET COLOR IN BLACK */
-} 
+}
+
+#aforgotpwd {
+    text-align: center;
+    font-size: 12px;
+}
+
+#acreateaccound {
+    text-align: center;
+    font-size: 11px;
+}
+
+#labelnotuser {
+    text-align: center;
+    font-size: 11px;
+}
