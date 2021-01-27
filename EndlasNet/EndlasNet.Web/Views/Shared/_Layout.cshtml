@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,32 +34,39 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Inventory" asp-action="Index">Inventory</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-                        </li>
-                    </ul>
+                        @if (Context.Session.GetString("username") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Inventory" asp-action="Index">Inventory</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                            </li>
+                        }
+                        </ul>
                 </div>
             </div>
-
+            <div>
+            </div>
             <a class="navbar-brand" href="https://www.google.com/gmail/">
 
                 <div class="text-center">
                     <img src="~/img/gmailLogo.png" title="Go to Gmail login" width="45" height="30" />
                 </div>
             </a>
-                <a class="navbar-brand" href="https://app.smartsheet.com/b/home?_ga=2.153976507.267216971.1611743518-1850135157.1611743518">
+            <a class="navbar-brand" href="https://app.smartsheet.com/b/home?_ga=2.153976507.267216971.1611743518-1850135157.1611743518">
 
-                    <div class="text-center">
-                        <img src="~/img/smartsheetLogo.png" title="Go to Smartsheet login" width="50" height="50" />
-                    </div>
+                <div class="text-center">
+                    <img src="~/img/smartsheetLogo.png" title="Go to Smartsheet login" width="50" height="50" />
+                </div>
 
-                </a>
+            </a>
         </nav>
     </header>
     <div class="container">

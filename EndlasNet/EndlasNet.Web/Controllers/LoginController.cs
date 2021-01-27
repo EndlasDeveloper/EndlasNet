@@ -49,10 +49,15 @@ namespace EndlasNet.Web.Controllers
 
             ViewBag.UserLoginStatus = "success";
 
-            HttpContext.Session.SetString("username", email);
-            HttpContext.Session.SetString("name", user.FirstName+" "+user.LastName);
+            HttpContext.Session.SetString("username", user.FirstName + " " + user.LastName);
 
             return View("../Home/Index");
-        }    
+        }
+        [HttpGet]
+        public async Task<bool> LoggedIn()
+        {
+            var myUser = HttpContext.User;
+            return myUser.Identities.Any(x => x.IsAuthenticated);
+        }
     }
 }

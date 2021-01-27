@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -19,9 +20,19 @@ namespace EndlasNet.Web.Controllers
 
         public IActionResult Index()
         {
-
-            
+            // The HttpContext associated with the page can be accessed by the Context property.
+            /*System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            try
+            {
+                sb.Append("Number of items in Session state: " +
+                    Context.Session.Count.ToString() + "<br/>");
+            }
+            catch
+            {
+                sb.Append("Session state not enabled. <br/>");
+            }*/
             return View();
+
         }
 
         public IActionResult Privacy()
