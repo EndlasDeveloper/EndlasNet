@@ -18,6 +18,8 @@ namespace EndlasNet.Web.Controllers
             _context = context;
         }
 
+
+
         // GET: Admins
         public async Task<IActionResult> Index()
         {
