@@ -22,6 +22,8 @@ namespace EndlasNet.Data
             modelBuilder.Entity<User>().HasMany(u => u.Inserts).WithOne(i => i.User);
             modelBuilder.Entity<User>().HasMany(u => u.Vendors).WithOne(v => v.User);
 
+
+
         }
     }
 }

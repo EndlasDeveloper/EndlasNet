@@ -5,26 +5,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace EndlasNet.Data
-{ 
-    public class Insert
+{
+    public class MachiningTool
     {
         // PK
-        public Guid InsertId { get; set; }
+        public Guid MachiningToolId { get; set; }
         // columns
         [StringLength(250)]
-        public string Description { get; set; }
+        public string VendorDescription { get; set; }
 
         [Range(1, 1000)]
-        public int InsertCount { get; set; }
+        public int ToolCount { get; set; }
+
+        [StringLength(25)]
         public string PurchaseOrderNum { get; set; }
         public DateTime PurchaseOrderDate { get; set; }
 
-        [Range(0f, float.MaxValue)]
+        [Range(0f, 1000.0f)]
         public float PurchaseOrderPrice { get; set; }
 
-        [Range(0f, 1000.0f)]
-        public float ToolTipRadius { get; set; }
-        public string VendorPartNum { get; set; }
         // FK references
         [ForeignKey("UserId")]
         public Guid UserId { get; set; }
@@ -33,6 +32,7 @@ namespace EndlasNet.Data
         [ForeignKey("VendorId")]
         public Guid VendorId { get; set; }
         public virtual Vendor Vendor { get; set; }
-        public virtual InsertToJob InsertToJob { get; set; }
+        public virtual ToolToJob ToolToJobs { get; set; }
+
     }
 }

@@ -11,66 +11,58 @@
     <h4>Insert</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VendorDescription)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VendorDescription)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InsertCount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InsertCount)
-        </dd>
-
-    
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PurchaseOrderNum)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PurchaseOrderNum)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PurchaseOrderDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PurchaseOrderDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PurchaseOrderPrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PurchaseOrderPrice)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ToolTipRadius)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ToolTipRadius)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VendorPartNum)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ToolCount)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VendorPartNum)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ToolCount)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PurchaseOrderNum)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PurchaseOrderNum)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PurchaseOrderDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PurchaseOrderDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PurchaseOrderPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PurchaseOrderPrice)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.User)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.AuthString)
-        </dd class>
-        <dt class = "col-sm-2">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.EndlasEmail)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Vendor)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Vendor.PointOfContact)
-        </dd class>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Vendor.VendorName)
+        </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="InsertId" />
+        <input type="hidden" asp-for="MachiningToolId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

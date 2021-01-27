@@ -53,13 +53,14 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,EndlasEmail,AuthString,DateAdded")] Employee employee)
+        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,EndlasEmail,AuthString")] Employee employee)
         {
             if (ModelState.IsValid)
             {
                 employee.UserId = Guid.NewGuid();
-                _context.Entry(employee).Property("CreatedDate").CurrentValue = DateTime.Now;
-                _context.Entry(employee).Property("UpdatedDate").CurrentValue = DateTime.Now;
+
+                // **** HASH AUTH STRING ****
+                employee.AuthString = ShaHash.ComputeSha256Hash(employee.AuthString);
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -88,7 +89,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("UserId,FirstName,LastName,EndlasEmail,AuthString,DateAdded")] Employee employee)
+        public async Task<IActionResult> Edit(Guid id, [Bind("UserId,FirstName,LastName,EndlasEmail,AuthString")] Employee employee)
         {
             if (id != employee.UserId)
             {
@@ -99,7 +100,9 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    _context.Entry(employee).Property("UpdatedDate").CurrentValue = DateTime.Now;
+                    // **** HASH AUTH STRING ****
+                    employee.AuthString = ShaHash.ComputeSha256Hash(employee.AuthString);
+                    // update shadow property
                     _context.Update(employee);
                     await _context.SaveChangesAsync();
                 }

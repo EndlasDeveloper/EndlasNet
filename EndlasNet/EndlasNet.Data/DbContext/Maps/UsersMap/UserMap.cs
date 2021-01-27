@@ -20,9 +20,6 @@ namespace EndlasNet.Data
             entityBuilder.Property(u => u.EndlasEmail).IsRequired();
             // unique
             entityBuilder.HasIndex(u => u.EndlasEmail).IsUnique();
-            // shadow properties
-            entityBuilder.Property<DateTime>("CreatedDate");
-            entityBuilder.Property<DateTime>("UpdatedDate");
         }
     }
 }

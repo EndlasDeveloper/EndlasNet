@@ -15,7 +15,7 @@ namespace EndlasNet.Data
 
         public string VendorAddress { get; set; }
 
-        [StringLength(10)]
+        [DataType(DataType.PhoneNumber)]
         public string VendorPhone { get; set; }
 
         public virtual User User { get; set; }

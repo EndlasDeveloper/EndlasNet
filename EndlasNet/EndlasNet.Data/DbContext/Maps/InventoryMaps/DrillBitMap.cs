@@ -5,10 +5,9 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class InsertMap
+    public class DrillBitMap
     {
-
-        public InsertMap(EntityTypeBuilder<Insert> entityBuilder) 
+        public DrillBitMap(EntityTypeBuilder<DrillBit> entityBuilder)
         {
             entityBuilder.HasKey(m => m.MachiningToolId);
             // not null
@@ -17,12 +16,11 @@ namespace EndlasNet.Data
             entityBuilder.Property(m => m.PurchaseOrderPrice).IsRequired();
             entityBuilder.Property(m => m.VendorDescription).IsRequired();
             entityBuilder.Property(m => m.ToolCount).IsRequired();
-
+            entityBuilder.Property(m => m.DrillBitRadius).IsRequired();
             // shadow properties
             entityBuilder.Property<DateTime>("CreatedDate");
             entityBuilder.Property<DateTime>("UpdatedDate");
             // extra to Insert
-            entityBuilder.Property(i => i.ToolTipRadius).IsRequired();
         }
     }
 }

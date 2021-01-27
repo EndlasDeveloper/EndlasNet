@@ -11,6 +11,9 @@ namespace EndlasNet.Data
         {
             // set PK
             entityBuilder.HasKey(j => j.JobId);
+            // shadow properties
+            entityBuilder.Property<DateTime>("CreatedDate");
+            entityBuilder.Property<DateTime>("UpdatedDate");
         }
     }
 }

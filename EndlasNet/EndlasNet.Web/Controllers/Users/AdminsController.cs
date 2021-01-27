@@ -53,14 +53,15 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,EndlasEmail,AuthString,DateAdded")] Admin admin)
+        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,EndlasEmail,AuthString")] Admin admin)
         {
             if (ModelState.IsValid)
             {
                 admin.UserId = Guid.NewGuid();
-                _context.Entry(admin).Property("CreatedDate").CurrentValue = DateTime.Now;
-                _context.Entry(admin).Property("UpdatedDate").CurrentValue = DateTime.Now;
 
+                // **** HASH AUTH STRING ****
+                admin.AuthString = ShaHash.ComputeSha256Hash(admin.AuthString);
+                // update shadow properties
                 _context.Add(admin);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -89,7 +90,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("UserId,FirstName,LastName,EndlasEmail,AuthString,DateAdded")] Admin admin)
+        public async Task<IActionResult> Edit(Guid id, [Bind("UserId,FirstName,LastName,EndlasEmail,AuthString")] Admin admin)
         {
             if (id != admin.UserId)
             {
@@ -100,7 +101,6 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    _context.Entry(admin).Property("UpdatedDate").CurrentValue = DateTime.Now;
                     _context.Update(admin);
                     await _context.SaveChangesAsync();
                 }

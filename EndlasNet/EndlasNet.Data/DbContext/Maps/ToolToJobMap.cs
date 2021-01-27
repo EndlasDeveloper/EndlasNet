@@ -5,15 +5,18 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class InsertToJobMap
+    public class ToolToJobMap
     {
-        public InsertToJobMap(EntityTypeBuilder<InsertToJob> entityBuilder)
+        public ToolToJobMap(EntityTypeBuilder<ToolToJob> entityBuilder)
         {
             // set PK
-            entityBuilder.HasKey(i => i.InsertToJobId);
+            entityBuilder.HasKey(t => t.ToolToJobId);
             // not null
             entityBuilder.Property(i => i.DateUsed).IsRequired();
             entityBuilder.Property(i => i.JobId).IsRequired();
+            // shadow properties
+            entityBuilder.Property<DateTime>("CreatedDate");
+            entityBuilder.Property<DateTime>("UpdatedDate");
         }
     }
 }

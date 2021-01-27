@@ -4,7 +4,8 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class InsertToJob : ToolToJob
+    public class DrillBit : MachiningTool
     {
+        public float DrillBitRadius { get; set; }
     }
 }

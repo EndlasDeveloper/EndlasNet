@@ -36,7 +36,7 @@ namespace EndlasNet.Web.Controllers
             var insert = await _context.Inserts
                 .Include(i => i.User)
                 .Include(i => i.Vendor)
-                .FirstOrDefaultAsync(m => m.InsertId == id);
+                .FirstOrDefaultAsync(m => m.MachiningToolId == id);
             if (insert == null)
             {
                 return NotFound();
@@ -58,11 +58,11 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("InsertId,Description,InsertCount,DateAdded,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,ToolTipRadius,VendorPartNum,UserId,VendorId")] Insert insert)
+        public async Task<IActionResult> Create([Bind("ToolTipRadius,MachiningToolId,VendorDescription,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,UserId,VendorId")] Insert insert)
         {
             if (ModelState.IsValid)
             {
-                insert.InsertId = Guid.NewGuid();
+                insert.MachiningToolId = Guid.NewGuid();
                 _context.Entry(insert).Property("CreatedDate").CurrentValue = DateTime.Now;
                 _context.Entry(insert).Property("UpdatedDate").CurrentValue = DateTime.Now;
 
@@ -98,9 +98,9 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("InsertId,Description,InsertCount,DateAdded,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,ToolTipRadius,VendorPartNum,UserId,VendorId")] Insert insert)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ToolTipRadius,MachiningToolId,VendorDescription,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,UserId,VendorId")] Insert insert)
         {
-            if (id != insert.InsertId)
+            if (id != insert.MachiningToolId)
             {
                 return NotFound();
             }
@@ -115,7 +115,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InsertExists(insert.InsertId))
+                    if (!InsertExists(insert.MachiningToolId))
                     {
                         return NotFound();
                     }
@@ -142,7 +142,7 @@ namespace EndlasNet.Web.Controllers
             var insert = await _context.Inserts
                 .Include(i => i.User)
                 .Include(i => i.Vendor)
-                .FirstOrDefaultAsync(m => m.InsertId == id);
+                .FirstOrDefaultAsync(m => m.MachiningToolId == id);
             if (insert == null)
             {
                 return NotFound();
@@ -164,7 +164,7 @@ namespace EndlasNet.Web.Controllers
 
         private bool InsertExists(Guid id)
         {
-            return _context.Inserts.Any(e => e.InsertId == id);
+            return _context.Inserts.Any(e => e.MachiningToolId == id);
         }
     }
 }

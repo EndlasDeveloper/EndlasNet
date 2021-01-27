@@ -53,14 +53,11 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VendorId,VendorName,PointOfContact,VendorAddress,VendorPhone,DateAdded")] Vendor vendor)
+        public async Task<IActionResult> Create([Bind("VendorId,VendorName,PointOfContact,VendorAddress,VendorPhone")] Vendor vendor)
         {
             if (ModelState.IsValid)
             {
                 vendor.VendorId = Guid.NewGuid();
-                _context.Entry(vendor).Property("CreatedDate").CurrentValue = DateTime.Now;
-                _context.Entry(vendor).Property("UpdatedDate").CurrentValue = DateTime.Now;
-
                 _context.Add(vendor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -89,7 +86,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("VendorId,VendorName,PointOfContact,VendorAddress,VendorPhone,DateAdded")] Vendor vendor)
+        public async Task<IActionResult> Edit(Guid id, [Bind("VendorId,VendorName,PointOfContact,VendorAddress,VendorPhone")] Vendor vendor)
         {
             if (id != vendor.VendorId)
             {
@@ -100,7 +97,6 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    _context.Entry(vendor).Property("UpdatedDate").CurrentValue = DateTime.Now;
                     _context.Update(vendor);
                     await _context.SaveChangesAsync();
                 }

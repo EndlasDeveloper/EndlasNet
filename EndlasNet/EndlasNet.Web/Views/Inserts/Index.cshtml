@@ -7,16 +7,19 @@
 <h1>Inserts</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create new</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.VendorDescription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InsertCount)
+                @Html.DisplayNameFor(model => model.ToolTipRadius)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToolCount)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PurchaseOrderNum)
@@ -24,32 +27,21 @@
             <th>
                 @Html.DisplayNameFor(model => model.PurchaseOrderDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PurchaseOrderPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ToolTipRadius)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VendorPartNum)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Vendor)
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.VendorDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InsertCount)
+                @Html.DisplayFor(modelItem => item.ToolTipRadius)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ToolCount)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
@@ -57,25 +49,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PurchaseOrderDate)
             </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.PurchaseOrderPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ToolTipRadius)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VendorPartNum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.AuthString)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vendor.PointOfContact)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.InsertId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.InsertId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.InsertId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.MachiningToolId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MachiningToolId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MachiningToolId">Delete</a>
             </td>
         </tr>
 }

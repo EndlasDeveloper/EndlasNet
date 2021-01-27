@@ -8,5 +8,7 @@ namespace EndlasNet.Data
     {
         public Guid JobId { get; set; }
         public IEnumerable<InsertToJob> InsertToJobs { get; set; }
+        public IEnumerable<MillToolToJob> MillToolToJobs { get; set; }
+        public IEnumerable<DrillBitToJob> DrillBitToJobs { get; set; }
     }
 }
