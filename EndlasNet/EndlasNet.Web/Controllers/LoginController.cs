@@ -48,6 +48,7 @@ namespace EndlasNet.Web.Controllers
             ViewBag.UserLoginStatus = "success";
 
             HttpContext.Session.SetString("username", user.FirstName);
+            HttpContext.Session.SetString("userId", user.UserId.ToString());
 
             return View("../Home/Index");
         }

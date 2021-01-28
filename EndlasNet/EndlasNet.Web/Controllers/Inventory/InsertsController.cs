@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -48,7 +49,6 @@ namespace EndlasNet.Web.Controllers
         // GET: Inserts/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail");
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
             return View();
         }
@@ -65,13 +65,14 @@ namespace EndlasNet.Web.Controllers
                 insert.MachiningToolId = Guid.NewGuid();
                 _context.Entry(insert).Property("CreatedDate").CurrentValue = DateTime.Now;
                 _context.Entry(insert).Property("UpdatedDate").CurrentValue = DateTime.Now;
+                insert.UserId = new Guid(HttpContext.Session.GetString("userId"));
 
                 _context.Add(insert);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", insert.UserId);
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
+
             return View(insert);
         }
 
@@ -88,8 +89,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", insert.UserId);
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
+
             return View(insert);
         }
 
@@ -109,6 +110,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    insert.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Entry(insert).Property("UpdatedDate").CurrentValue = DateTime.Now;
                     _context.Update(insert);
                     await _context.SaveChangesAsync();
@@ -126,8 +128,8 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", insert.UserId);
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", insert.VendorId);
+
             return View(insert);
         }
 
