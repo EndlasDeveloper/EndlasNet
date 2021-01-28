@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -57,6 +58,12 @@ namespace EndlasNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                Guid guid = new Guid(HttpContext.Session.GetString("userId"));
+                var fname = HttpContext.Session.GetString("firstname");
+                var lname = HttpContext.Session.GetString("lastname");
+                var email = HttpContext.Session.GetString("email");
+                var authstr = HttpContext.Session.GetString("authstr"); 
+                
                 vendor.VendorId = Guid.NewGuid();
                 _context.Add(vendor);
                 await _context.SaveChangesAsync();

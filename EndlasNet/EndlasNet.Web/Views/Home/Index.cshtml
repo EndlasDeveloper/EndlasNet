@@ -1,8 +1,23 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Endlas Net</h1>
+    @if (Context.Session.GetString("userId") != null)
+    {
+        <h1 class="display-4">@Context.Session.GetString("firstname"),</h1>
+        <h1>Welcome to Endlas Net</h1>
+    }
+    else
+    {
+        <h1 class="display-4">Endlas Net</h1>
+        <a class="ahomelogin" asp-area="" asp-controller="Login" asp-action="Index">          
+            Login
+        </a>
+        <span>to Endlas Net</span>
+    }
     <p>Learn about <a href="https://endlas.com">Endlas LC</a>.</p>
 </div>

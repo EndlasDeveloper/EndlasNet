@@ -20,6 +20,8 @@ namespace EndlasNet.Data
 
         public IEnumerable<InsertToJob> InsertToJobs { get; set; }
         public IEnumerable<Insert> Inserts { get; set; }
+        public IEnumerable<Powder> Powders { get; set; }
+
         public IEnumerable<Vendor> Vendors { get; set; }
     }
 }

@@ -144,6 +144,59 @@ namespace EndlasNet.Data.Migrations
                     b.ToTable("Jobs");
                 });
 
+            modelBuilder.Entity("EndlasNet.Data.Powder", b =>
+                {
+                    b.Property<Guid>("PowderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("CostPerUnitWeight")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LotNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PoDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PoNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PowderName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("VendorDescription")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<Guid>("VendorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Weight")
+                        .HasColumnType("real");
+
+                    b.HasKey("PowderId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("Powders");
+                });
+
             modelBuilder.Entity("EndlasNet.Data.ToolToJob", b =>
                 {
                     b.Property<Guid>("ToolToJobId")
@@ -293,7 +346,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("0d9329ca-2f88-40fe-b7cc-d08af75c85f4"),
+                            UserId = new Guid("18398e4c-2492-4237-9932-c0f24d0a8542"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "James.Tomich@endlas.com",
                             FirstName = "James",
@@ -301,7 +354,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("d3e520f5-f3b9-43ac-ad2a-1b3ba691863e"),
+                            UserId = new Guid("7dac1e8f-bb79-494f-9384-107c78bccc6a"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "Josh.Hammell@endlas.com",
                             FirstName = "Josh",
@@ -309,7 +362,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("38c9c455-eef2-4163-b82f-c127fe7b0282"),
+                            UserId = new Guid("c41b3972-cf49-4335-8198-e644b289d713"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                             EndlasEmail = "Brett.Trotter@endlas.com",
                             FirstName = "Brett",
@@ -368,6 +421,25 @@ namespace EndlasNet.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("ToolToJobs");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Vendor");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.Powder", b =>
+                {
+                    b.HasOne("EndlasNet.Data.User", "User")
+                        .WithMany("Powders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EndlasNet.Data.Vendor", "Vendor")
+                        .WithMany()
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
 
@@ -454,6 +526,8 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("Inserts");
 
                     b.Navigation("InsertToJobs");
+
+                    b.Navigation("Powders");
 
                     b.Navigation("Vendors");
                 });

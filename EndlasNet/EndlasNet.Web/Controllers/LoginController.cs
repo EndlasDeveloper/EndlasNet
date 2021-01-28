@@ -29,7 +29,11 @@ namespace EndlasNet.Web.Controllers
         }
         public IActionResult Logout()
         {
-            HttpContext.Session.Remove("username");
+            HttpContext.Session.Remove("userId");
+            HttpContext.Session.Remove("firstname");
+            HttpContext.Session.Remove("lastname");
+            HttpContext.Session.Remove("email");
+            HttpContext.Session.Remove("authstr");
             return View("../Home/Index");
         }
         [HttpPost]
@@ -47,16 +51,20 @@ namespace EndlasNet.Web.Controllers
 
             ViewBag.UserLoginStatus = "success";
 
-            HttpContext.Session.SetString("username", user.FirstName);
             HttpContext.Session.SetString("userId", user.UserId.ToString());
+            HttpContext.Session.SetString("firstname", user.FirstName);
+            HttpContext.Session.SetString("lastname", user.LastName);
+            HttpContext.Session.SetString("email", user.EndlasEmail);
+            HttpContext.Session.SetString("authstr", user.AuthString);
+
 
             return View("../Home/Index");
         }
         [HttpGet]
-        public async Task<bool> LoggedIn()
+        public Task<bool> LoggedIn()
         {
             var myUser = HttpContext.User;
-            return myUser.Identities.Any(x => x.IsAuthenticated);
+            return Task.FromResult(myUser.Identities.Any(x => x.IsAuthenticated));
         }
     }
 }

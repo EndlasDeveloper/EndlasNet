@@ -5,5 +5,11 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\EndlasLaptop2\Desktop\Deploy</_PublishTargetUrl>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
   </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="endlas_db">
+      <Value>Server=localhost,1433\SQLEXPRESS%3bDatabase=endlas_db%3buser id=SA%3b password=sa1qazxsw2!QAZXSW%40%3bTrusted_Connection=True%3bIntegrated security=False%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
 </Project>

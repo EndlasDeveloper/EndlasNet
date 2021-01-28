@@ -34,7 +34,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if (Context.Session.GetString("username") != null)
+                        @if (Context.Session.GetString("userId") != null)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
@@ -50,12 +50,12 @@
             </div>
             <div>
             </div>
-            @if (Context.Session.GetString("username") != null)
+            @if (Context.Session.GetString("userId") != null)
             {
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-link">
                         <div class="text-center">
-                            User : @Context.Session.GetString("username")
+                            User : @Context.Session.GetString("firstname")
                         </div>
                         <a asp-area="" asp-controller="Login" asp-action="Logout">
                             <div class="text-center">
