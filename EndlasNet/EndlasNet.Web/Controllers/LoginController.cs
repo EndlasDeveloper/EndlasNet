@@ -30,8 +30,6 @@ namespace EndlasNet.Web.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("username");
-            HttpContext.Session.Remove("name");
-            HttpContext.Session.Remove("isAdmin");
             return View("../Home/Index");
         }
         [HttpPost]
@@ -49,7 +47,7 @@ namespace EndlasNet.Web.Controllers
 
             ViewBag.UserLoginStatus = "success";
 
-            HttpContext.Session.SetString("username", user.FirstName + " " + user.LastName);
+            HttpContext.Session.SetString("username", user.FirstName);
 
             return View("../Home/Index");
         }

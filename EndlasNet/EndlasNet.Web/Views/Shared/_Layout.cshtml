@@ -42,18 +42,32 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Inventory" asp-action="Index">Inventory</a>
                             </li>
+
                         }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-                            </li>
-                        }
-                        </ul>
+
+                    </ul>
                 </div>
             </div>
             <div>
             </div>
+            @if (Context.Session.GetString("username") != null)
+            {
+                <h6 class="h6welcome">Welcome @Context.Session.GetString("username")</h6>
+                <a asp-area="" asp-controller="Login" asp-action="Logout">
+                    <div class="text-center" >
+                        Logout
+                    </div>
+                </a>
+            }
+            else
+            {
+                <a asp-area="" asp-controller="Login" asp-action="Index">
+                    <div class="text-center">
+                        Login
+                    </div>
+                </a>
+
+            }
             <a class="navbar-brand" href="https://www.google.com/gmail/">
 
                 <div class="text-center">
@@ -67,6 +81,7 @@
                 </div>
 
             </a>
+
         </nav>
     </header>
     <div class="container">
