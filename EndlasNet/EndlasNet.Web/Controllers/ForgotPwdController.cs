@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Web.Controllers
 {
-    public class ForgotPwd : Controller
+    public class ForgotPwdController : Controller
     {
         // GET: ForgotPwd
         public ActionResult Index()
