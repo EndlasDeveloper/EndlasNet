@@ -13,7 +13,6 @@ namespace EndlasNet.Web.Controllers
     public class InsertsController : Controller
     {
         private readonly EndlasNetDbContext _context;
-
         public InsertsController(EndlasNetDbContext context)
         {
             _context = context;

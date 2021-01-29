@@ -107,6 +107,9 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    _context.Entry(powder).Property("UpdatedDate").CurrentValue = DateTime.Now;
+
                     _context.Update(powder);
                     await _context.SaveChangesAsync();
                 }
