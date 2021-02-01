@@ -4,14 +4,16 @@ using EndlasNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    partial class EndlasNetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210201210343_envSnapshot")]
+    partial class envSnapshot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,33 +81,23 @@ namespace EndlasNet.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("DateTimeCollected")
-                        .HasColumnType("datetime2");
-
                     b.Property<float>("Humidity")
                         .HasColumnType("real");
+
+                    b.Property<Guid?>("JobId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("SnapshotDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<float>("Temperature")
                         .HasColumnType("real");
 
                     b.HasKey("EnvSnapshotId");
 
-                    b.ToTable("EnvironmentalSnapshots");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.EnvironmentalSnapshot_Job", b =>
-                {
-                    b.Property<Guid>("EnvSnapshotId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("JobId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("EnvSnapshotId", "JobId");
-
                     b.HasIndex("JobId");
 
-                    b.ToTable("EnvironmentalSnapshot_Job");
+                    b.ToTable("EnvironmentalSnapshot");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.Insert", b =>
@@ -381,7 +373,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("79585a47-9367-4469-b8ba-e189e7678c1c"),
+                            UserId = new Guid("8a280aa8-ca07-4595-aa18-715d75daaa6e"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "James.Tomich@endlas.com",
                             FirstName = "James",
@@ -389,7 +381,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("d448133a-905f-4c37-a6c3-7788e803162b"),
+                            UserId = new Guid("07fb92c3-8739-4725-8891-52174938994b"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "Josh.Hammell@endlas.com",
                             FirstName = "Josh",
@@ -397,7 +389,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("6447bc86-8afb-4318-8efa-df4e0c32aea1"),
+                            UserId = new Guid("2b232a04-2e1d-47ff-a75b-21459232ce02"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                             EndlasEmail = "BLT@endlas.com",
                             FirstName = "Brett",
@@ -437,23 +429,11 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("Vendor");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.EnvironmentalSnapshot_Job", b =>
+            modelBuilder.Entity("EndlasNet.Data.EnvironmentalSnapshot", b =>
                 {
-                    b.HasOne("EndlasNet.Data.EnvironmentalSnapshot", "EnvironmentalSnapshot")
-                        .WithMany("EnvironmentalSnapshot_Jobs")
-                        .HasForeignKey("EnvSnapshotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EndlasNet.Data.Job", "Job")
-                        .WithMany("EnvironmentalSnapshot_Jobs")
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EnvironmentalSnapshot");
-
-                    b.Navigation("Job");
+                    b.HasOne("EndlasNet.Data.Job", null)
+                        .WithMany("EnvironmentalSnapshots")
+                        .HasForeignKey("JobId");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.Insert", b =>
@@ -566,16 +546,11 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.EnvironmentalSnapshot", b =>
-                {
-                    b.Navigation("EnvironmentalSnapshot_Jobs");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.Job", b =>
                 {
                     b.Navigation("DrillBitToJobs");
 
-                    b.Navigation("EnvironmentalSnapshot_Jobs");
+                    b.Navigation("EnvironmentalSnapshots");
 
                     b.Navigation("InsertToJobs");
 

@@ -26,6 +26,7 @@ namespace EndlasNet.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<EnvironmentalSnapshot> EnvironmentalSnapshots { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Insert> Inserts { get; set; }
         public DbSet<Powder> Powders { get; set; }
@@ -64,6 +65,8 @@ namespace EndlasNet.Data
             _ = new ToolToJobMap(modelBuilder.Entity<ToolToJob>());
             _ = new JobMap(modelBuilder.Entity<Job>());
             _ = new InventoryMultiplicityMap(modelBuilder);
+            _ = new EnvironmentalSnapshotMap(modelBuilder.Entity<EnvironmentalSnapshot>());
+            _ = new EnvironmentalMultiplicityMap(modelBuilder);
 
             /*            _ = new CustomerMap(modelBuilder.Entity<Customer>());
                         _ = new RawMaterialMap(modelBuilder.Entity<RawMaterial>());
@@ -102,7 +105,7 @@ namespace EndlasNet.Data
                 FirstName = "Brett",
                 LastName = "Trotter",
                 AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
-                EndlasEmail = "Brett.Trotter@endlas.com"
+                EndlasEmail = "BLT@endlas.com"
             };
             modelBuilder.Entity<Admin>().HasData(JamesAdmin);
             // auth str: JoshLasers4Life
