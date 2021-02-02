@@ -1,0 +1,40 @@
+﻿@model EndlasNet.Data.EnvironmentalSnapshot
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Environmental snapshot</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DateTimeCollected" class="control-label">Snapshot date</label>
+                <input asp-for="DateTimeCollected" class="form-control" />
+                <span asp-validation-for="DateTimeCollected" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Temperature" class="control-label">Temperature</label>
+                <input asp-for="Temperature" class="form-control" />
+                <span asp-validation-for="Temperature" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Humidity" class="control-label">Humidity</label>
+                <input asp-for="Humidity" class="form-control" />
+                <span asp-validation-for="Humidity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

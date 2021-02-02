@@ -8,6 +8,7 @@ namespace EndlasNet.Data
     {
         // PK
         public Guid JobId { get; set; }
+        public string JobDescription { get; set; }
         // Job has 1:Many Environmental Snapshots
         public IEnumerable<EnvironmentalSnapshot_Job> EnvironmentalSnapshot_Jobs { get; set; }
         // Job has 0:Many InsertToJobs

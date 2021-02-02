@@ -27,6 +27,7 @@ namespace EndlasNet.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<EnvironmentalSnapshot> EnvironmentalSnapshots { get; set; }
+        public DbSet<EnvironmentalSnapshot_Job> EnvironmentalSnapshot_Jobs { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Insert> Inserts { get; set; }
         public DbSet<Powder> Powders { get; set; }
@@ -82,7 +83,14 @@ namespace EndlasNet.Data
 
 
             // auth str: JamesLasers4Life
-
+            var SA = new Admin
+            {
+                UserId = Guid.NewGuid(),
+                FirstName = "Super",
+                LastName = "Admin",
+                AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+                EndlasEmail = "SA@endlas.com"
+            };
             var JamesAdmin = new Admin
             {
                 UserId = Guid.NewGuid(),
@@ -107,6 +115,9 @@ namespace EndlasNet.Data
                 AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                 EndlasEmail = "BLT@endlas.com"
             };
+            // password
+            modelBuilder.Entity<Admin>().HasData(SA);
+            // JimmyLasers4Life
             modelBuilder.Entity<Admin>().HasData(JamesAdmin);
             // auth str: JoshLasers4Life
             modelBuilder.Entity<Admin>().HasData(JoshAdmin);

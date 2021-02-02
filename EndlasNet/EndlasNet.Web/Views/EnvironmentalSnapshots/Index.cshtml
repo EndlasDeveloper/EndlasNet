@@ -1,0 +1,47 @@
+﻿@model IEnumerable<EndlasNet.Data.EnvironmentalSnapshot>
+
+@{
+    ViewData["Title"] = "Environmental Snapshots";
+}
+
+<h1>Environmental snapshots</h1>
+
+<p>
+    <a asp-action="Create">Create new</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Snapshot date
+            </th>
+            <th>
+                Temperature
+            </th>
+            <th>
+                Humidity
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTimeCollected)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Temperature)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Humidity)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EnvSnapshotId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EnvSnapshotId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EnvSnapshotId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
