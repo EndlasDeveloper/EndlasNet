@@ -21,7 +21,8 @@ namespace EndlasNet.Web.Controllers
         // GET: Jobs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Jobs.ToListAsync());
+            var endlasNetDbContext = _context.Jobs.Include(j => j.User);
+            return View(await endlasNetDbContext.ToListAsync());
         }
 
         // GET: Jobs/Details/5
@@ -33,6 +34,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var job = await _context.Jobs
+                .Include(j => j.User)
                 .FirstOrDefaultAsync(m => m.JobId == id);
             if (job == null)
             {
@@ -45,6 +47,7 @@ namespace EndlasNet.Web.Controllers
         // GET: Jobs/Create
         public IActionResult Create()
         {
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail");
             return View();
         }
 
@@ -53,7 +56,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("JobId,JobDescription")] Job job)
+        public async Task<IActionResult> Create([Bind("JobId,EndlasNumber,JobDescription,PurchaseOrderNum,DueDate,UserId")] Job job)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace EndlasNet.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", job.UserId);
             return View(job);
         }
 
@@ -78,6 +82,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", job.UserId);
             return View(job);
         }
 
@@ -86,7 +91,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("JobId,JobDescription")] Job job)
+        public async Task<IActionResult> Edit(Guid id, [Bind("JobId,EndlasNumber,JobDescription,PurchaseOrderNum,DueDate,UserId")] Job job)
         {
             if (id != job.JobId)
             {
@@ -113,6 +118,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", job.UserId);
             return View(job);
         }
 
@@ -125,6 +131,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var job = await _context.Jobs
+                .Include(j => j.User)
                 .FirstOrDefaultAsync(m => m.JobId == id);
             if (job == null)
             {

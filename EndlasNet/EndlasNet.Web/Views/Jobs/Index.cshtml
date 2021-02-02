@@ -13,8 +13,18 @@
     <thead>
         <tr>
             <th>
+                Endlas number
+            </th>
+            <th>
                 Job description
             </th>
+            <th>
+                Purchase order number
+            </th>
+            <th>
+                Due date
+            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -22,7 +32,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.EndlasNumber)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.JobDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |

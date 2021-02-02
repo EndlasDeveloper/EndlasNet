@@ -27,7 +27,6 @@ namespace EndlasNet.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<EnvironmentalSnapshot> EnvironmentalSnapshots { get; set; }
-        public DbSet<EnvironmentalSnapshot_Job> EnvironmentalSnapshot_Jobs { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Insert> Inserts { get; set; }
         public DbSet<Powder> Powders { get; set; }
@@ -63,7 +62,7 @@ namespace EndlasNet.Data
             _ = new InsertMap(modelBuilder.Entity<Insert>());
             _ = new PowderMap(modelBuilder.Entity<Powder>());
             _ = new DrillBitMap(modelBuilder.Entity<DrillBit>());
-            _ = new ToolToJobMap(modelBuilder.Entity<ToolToJob>());
+            //_ = new ToolToJobMap(modelBuilder.Entity<ToolToJob>());
             _ = new JobMap(modelBuilder.Entity<Job>());
             _ = new InventoryMultiplicityMap(modelBuilder);
             _ = new EnvironmentalSnapshotMap(modelBuilder.Entity<EnvironmentalSnapshot>());

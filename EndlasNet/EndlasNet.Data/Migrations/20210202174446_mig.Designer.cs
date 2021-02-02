@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20210128213121_mig")]
+    [Migration("20210202174446_mig")]
     partial class mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,6 +73,26 @@ namespace EndlasNet.Data.Migrations
                     b.HasIndex("VendorId");
 
                     b.ToTable("DrillBits");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.EnvironmentalSnapshot", b =>
+                {
+                    b.Property<Guid>("EnvSnapshotId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateTimeCollected")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("Humidity")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Temperature")
+                        .HasColumnType("real");
+
+                    b.HasKey("EnvSnapshotId");
+
+                    b.ToTable("EnvironmentalSnapshots");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.Insert", b =>
@@ -138,10 +158,29 @@ namespace EndlasNet.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EndlasNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JobDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PurchaseOrderNum")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("JobId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Jobs");
                 });
@@ -205,9 +244,6 @@ namespace EndlasNet.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("DateUsed")
                         .HasColumnType("datetime2");
 
@@ -218,10 +254,7 @@ namespace EndlasNet.Data.Migrations
                     b.Property<Guid>("JobId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ToolToJobId");
@@ -348,7 +381,15 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("18398e4c-2492-4237-9932-c0f24d0a8542"),
+                            UserId = new Guid("6be586bd-0c47-4288-8383-f74021d678dd"),
+                            AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+                            EndlasEmail = "SA@endlas.com",
+                            FirstName = "Super",
+                            LastName = "Admin"
+                        },
+                        new
+                        {
+                            UserId = new Guid("750c0811-4744-4330-811e-a414b650d484"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "James.Tomich@endlas.com",
                             FirstName = "James",
@@ -356,7 +397,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("7dac1e8f-bb79-494f-9384-107c78bccc6a"),
+                            UserId = new Guid("1631d23e-f61f-4af1-bcce-d29ccb23827b"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "Josh.Hammell@endlas.com",
                             FirstName = "Josh",
@@ -364,9 +405,9 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("c41b3972-cf49-4335-8198-e644b289d713"),
+                            UserId = new Guid("aff3c5e9-238a-4228-9861-9aa6b32c41fc"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
-                            EndlasEmail = "Brett.Trotter@endlas.com",
+                            EndlasEmail = "BLT@endlas.com",
                             FirstName = "Brett",
                             LastName = "Trotter"
                         });
@@ -429,6 +470,17 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("Vendor");
                 });
 
+            modelBuilder.Entity("EndlasNet.Data.Job", b =>
+                {
+                    b.HasOne("EndlasNet.Data.User", "User")
+                        .WithMany("Jobs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EndlasNet.Data.Powder", b =>
                 {
                     b.HasOne("EndlasNet.Data.User", "User")
@@ -467,9 +519,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasOne("EndlasNet.Data.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Job");
 
@@ -481,14 +531,13 @@ namespace EndlasNet.Data.Migrations
                     b.HasOne("EndlasNet.Data.Job", "Job")
                         .WithMany("InsertToJobs")
                         .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK_ToolToJob_Jobs_JobId1")
+                        .OnDelete(DeleteBehavior.ClientNoAction)
                         .IsRequired();
 
                     b.HasOne("EndlasNet.Data.User", "User")
                         .WithMany("InsertToJobs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Job");
 
@@ -505,9 +554,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasOne("EndlasNet.Data.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Job");
 
@@ -528,6 +575,8 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("Inserts");
 
                     b.Navigation("InsertToJobs");
+
+                    b.Navigation("Jobs");
 
                     b.Navigation("Powders");
 

@@ -1,4 +1,17 @@
-﻿
+﻿#imglonglaser {
+    width: 15px;
+    height: auto
+}
+
+#pcontact {
+    font-size: 14px;
+}
+
+#nlogin {
+    text-align: center;
+    font-size: 16px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
 
 #custominput {
     background-color: #808080; /* Gray */
@@ -36,12 +49,12 @@
     font-size: 14px;
 }
 
-#pwelcome {
-    text-align: center;
-    font-size: 10px;
-}
 
 #ahomelogin {
     text-align: center;
     font-size: 14px;
 }
+
+
+
+

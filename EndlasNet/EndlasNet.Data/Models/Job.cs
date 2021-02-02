@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace EndlasNet.Data
@@ -8,9 +9,15 @@ namespace EndlasNet.Data
     {
         // PK
         public Guid JobId { get; set; }
+        public string EndlasNumber { get; set; }
         public string JobDescription { get; set; }
-        // Job has 1:Many Environmental Snapshots
-        public IEnumerable<EnvironmentalSnapshot_Job> EnvironmentalSnapshot_Jobs { get; set; }
+        public string PurchaseOrderNum { get; set; }
+        public DateTime DueDate { get; set; }
+
+        [ForeignKey("UserId")]
+        public Guid UserId { get; set; }
+        public virtual User User { get; set; }
+
         // Job has 0:Many InsertToJobs
         public IEnumerable<InsertToJob> InsertToJobs { get; set; }
         // Job has 0:Many MillToolToJobs

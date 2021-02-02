@@ -11,6 +11,10 @@ namespace EndlasNet.Data
         {
             // set PK
             entityBuilder.HasKey(j => j.JobId);
+            entityBuilder.Property(j => j.EndlasNumber).IsRequired();
+            entityBuilder.Property(j => j.JobDescription).IsRequired();
+            entityBuilder.Property(j => j.DueDate).IsRequired();
+
             // shadow properties
             entityBuilder.Property<DateTime>("CreatedDate");
             entityBuilder.Property<DateTime>("UpdatedDate");

@@ -93,21 +93,6 @@ namespace EndlasNet.Data.Migrations
                     b.ToTable("EnvironmentalSnapshots");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.EnvironmentalSnapshot_Job", b =>
-                {
-                    b.Property<Guid>("EnvSnapshotId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("JobId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("EnvSnapshotId", "JobId");
-
-                    b.HasIndex("JobId");
-
-                    b.ToTable("EnvironmentalSnapshot_Jobs");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.Insert", b =>
                 {
                     b.Property<Guid>("MachiningToolId")
@@ -171,13 +156,29 @@ namespace EndlasNet.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EndlasNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("JobDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PurchaseOrderNum")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("JobId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Jobs");
                 });
@@ -241,9 +242,6 @@ namespace EndlasNet.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("DateUsed")
                         .HasColumnType("datetime2");
 
@@ -254,10 +252,7 @@ namespace EndlasNet.Data.Migrations
                     b.Property<Guid>("JobId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ToolToJobId");
@@ -384,7 +379,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("bc4daa13-4478-422e-9530-cff55d09da2d"),
+                            UserId = new Guid("6be586bd-0c47-4288-8383-f74021d678dd"),
                             AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
                             EndlasEmail = "SA@endlas.com",
                             FirstName = "Super",
@@ -392,7 +387,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("18ef9a3e-7b4c-4a04-a37d-213ce09cbf62"),
+                            UserId = new Guid("750c0811-4744-4330-811e-a414b650d484"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "James.Tomich@endlas.com",
                             FirstName = "James",
@@ -400,7 +395,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("6662e17c-5730-42d9-8700-fafeda9f1ad4"),
+                            UserId = new Guid("1631d23e-f61f-4af1-bcce-d29ccb23827b"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "Josh.Hammell@endlas.com",
                             FirstName = "Josh",
@@ -408,7 +403,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("bb9bb09e-b1e8-4132-a10f-9a1985f9ca92"),
+                            UserId = new Guid("aff3c5e9-238a-4228-9861-9aa6b32c41fc"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                             EndlasEmail = "BLT@endlas.com",
                             FirstName = "Brett",
@@ -448,25 +443,6 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("Vendor");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.EnvironmentalSnapshot_Job", b =>
-                {
-                    b.HasOne("EndlasNet.Data.EnvironmentalSnapshot", "EnvironmentalSnapshot")
-                        .WithMany("EnvironmentalSnapshot_Jobs")
-                        .HasForeignKey("EnvSnapshotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EndlasNet.Data.Job", "Job")
-                        .WithMany("EnvironmentalSnapshot_Jobs")
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EnvironmentalSnapshot");
-
-                    b.Navigation("Job");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.Insert", b =>
                 {
                     b.HasOne("EndlasNet.Data.ToolToJob", "ToolToJobs")
@@ -490,6 +466,17 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("User");
 
                     b.Navigation("Vendor");
+                });
+
+            modelBuilder.Entity("EndlasNet.Data.Job", b =>
+                {
+                    b.HasOne("EndlasNet.Data.User", "User")
+                        .WithMany("Jobs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.Powder", b =>
@@ -530,9 +517,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasOne("EndlasNet.Data.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Job");
 
@@ -544,14 +529,13 @@ namespace EndlasNet.Data.Migrations
                     b.HasOne("EndlasNet.Data.Job", "Job")
                         .WithMany("InsertToJobs")
                         .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK_ToolToJob_Jobs_JobId1")
+                        .OnDelete(DeleteBehavior.ClientNoAction)
                         .IsRequired();
 
                     b.HasOne("EndlasNet.Data.User", "User")
                         .WithMany("InsertToJobs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Job");
 
@@ -568,25 +552,16 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasOne("EndlasNet.Data.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Job");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.EnvironmentalSnapshot", b =>
-                {
-                    b.Navigation("EnvironmentalSnapshot_Jobs");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.Job", b =>
                 {
                     b.Navigation("DrillBitToJobs");
-
-                    b.Navigation("EnvironmentalSnapshot_Jobs");
 
                     b.Navigation("InsertToJobs");
 
@@ -598,6 +573,8 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("Inserts");
 
                     b.Navigation("InsertToJobs");
+
+                    b.Navigation("Jobs");
 
                     b.Navigation("Powders");
 

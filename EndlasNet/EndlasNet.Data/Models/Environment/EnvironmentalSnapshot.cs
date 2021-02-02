@@ -13,6 +13,5 @@ namespace EndlasNet.Data
         public float Temperature { get; set; }
         public float Humidity { get; set; }
 
-        public IEnumerable<EnvironmentalSnapshot_Job> EnvironmentalSnapshot_Jobs { get; set; }
     }
 }
