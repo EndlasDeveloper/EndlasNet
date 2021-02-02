@@ -10,28 +10,32 @@
 <div class="text-center">
     @if (Context.Session.GetString("userId") != null)
     {
-        <h2 class="display-4">@Context.Session.GetString("firstname"),</h2>
+        <h2 class="display-4">@Context.Session.GetString("firstname") @Context.Session.GetString("lastname"),</h2>
         <h1>Welcome to Endlas Net</h1>
-        <span>
-            <img src="~/img/laserBeam.png" />
-        </span>
+
+        <img src="~/img/laserBeam.png" />
+        <p style="color:white;font-size:18px;">
+            <a asp-area="" asp-controller="Login" asp-action="Logout">
+                Logout
+            </a>
+        from Endlas Net
+        </p>
     }
     else
     {
-        <h1 class="display-4">Endlas Net</h1>
-        <div>
+    <h1 class="display-4">Endlas Net</h1>
 
-            <img src="~/img/laserBeam.png"/>
-
-        </div>
-        <p style="color:white;font-size:18px;">
+    <img src="~/img/laserBeam.png" />
 
 
-            <a asp-area="" asp-controller="Login" asp-action="Index">
-                Login
-            </a>
-            to Endlas Net
-        </p>
+    <p style="color:white;font-size:18px;">
+
+
+        <a asp-area="" asp-controller="Login" asp-action="Index">
+            Login
+        </a>
+        to Endlas Net
+    </p>
     }
     <p>Learn about <a href="https://endlas.com">Endlas LC</a>.</p>
 </div>
