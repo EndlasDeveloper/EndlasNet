@@ -7,7 +7,7 @@
 <h1>Powders</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create new</a>
 </p>
 <table class="table">
     <thead>
@@ -16,17 +16,16 @@
                 Powder name
             </th>
             <th>
-                Vendor name
+                Powder description
             </th>
             <th>
-                Vendor description
+                Weight (lbs)
             </th>
             <th>
-                PO number
-            </th>
-            <th>
-                Lot number
-            </th>
+                Cost per lb
+            </th>       
+       
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -36,18 +35,14 @@
                 @Html.DisplayFor(modelItem => item.PowderName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Vendor.VendorName)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.VendorDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PoNumber)
+                @Html.DisplayFor(modelItem => item.Weight)
             </td>
-
             <td>
-                @Html.DisplayFor(modelItem => item.LotNumber)
-            </td>  
+                @Html.DisplayFor(modelItem => item.CostPerUnitWeight)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PowderId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.PowderId">Details</a> |

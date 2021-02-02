@@ -18,6 +18,8 @@ namespace EndlasNet.Data
             entityBuilder.Property(p => p.Weight).IsRequired();
             entityBuilder.Property(p => p.CostPerUnitWeight).IsRequired();
             entityBuilder.Property(p => p.LotNumber).IsRequired();
+            entityBuilder.Property(p => p.BottleNumber).IsRequired();
+
 
             // shadow properties
             entityBuilder.Property<DateTime>("CreatedDate");

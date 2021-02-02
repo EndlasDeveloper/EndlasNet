@@ -13,6 +13,7 @@ namespace EndlasNet.Data
             entityBuilder.HasKey(j => j.JobId);
             entityBuilder.Property(j => j.EndlasNumber).IsRequired();
             entityBuilder.Property(j => j.JobDescription).IsRequired();
+            entityBuilder.Property(j => j.Status).IsRequired();
             entityBuilder.Property(j => j.DueDate).IsRequired();
 
             // shadow properties

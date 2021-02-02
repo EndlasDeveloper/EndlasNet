@@ -15,6 +15,7 @@ namespace EndlasNet.Data
         public string VendorDescription { get; set; }
         public string PoNumber { get; set; }
         public DateTime PoDate { get; set; }
+        public string BottleNumber { get; set; }
 
         [Range(1f,1000f)]
         public float Weight { get; set; }

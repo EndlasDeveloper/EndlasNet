@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20210202174446_mig")]
+    [Migration("20210202221800_mig")]
     partial class mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -172,6 +172,10 @@ namespace EndlasNet.Data.Migrations
                     b.Property<string>("PurchaseOrderNum")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
@@ -190,6 +194,10 @@ namespace EndlasNet.Data.Migrations
                     b.Property<Guid>("PowderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BottleNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("CostPerUnitWeight")
                         .HasColumnType("real");
@@ -339,17 +347,6 @@ namespace EndlasNet.Data.Migrations
                     b.ToTable("Vendors");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.DrillBitToJob", b =>
-                {
-                    b.HasBaseType("EndlasNet.Data.ToolToJob");
-
-                    b.HasIndex("JobId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasDiscriminator().HasValue("DrillBitToJob");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.InsertToJob", b =>
                 {
                     b.HasBaseType("EndlasNet.Data.ToolToJob");
@@ -361,17 +358,6 @@ namespace EndlasNet.Data.Migrations
                     b.HasDiscriminator().HasValue("InsertToJob");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.MillToolToJob", b =>
-                {
-                    b.HasBaseType("EndlasNet.Data.ToolToJob");
-
-                    b.HasIndex("JobId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasDiscriminator().HasValue("MillToolToJob");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.Admin", b =>
                 {
                     b.HasBaseType("EndlasNet.Data.User");
@@ -381,7 +367,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("6be586bd-0c47-4288-8383-f74021d678dd"),
+                            UserId = new Guid("da26e2ea-e371-4001-bea2-90f28018f8c4"),
                             AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
                             EndlasEmail = "SA@endlas.com",
                             FirstName = "Super",
@@ -389,7 +375,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("750c0811-4744-4330-811e-a414b650d484"),
+                            UserId = new Guid("f23f55e7-1056-4a37-a983-f9545ca4da71"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "James.Tomich@endlas.com",
                             FirstName = "James",
@@ -397,7 +383,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("1631d23e-f61f-4af1-bcce-d29ccb23827b"),
+                            UserId = new Guid("a124784a-a883-4aa1-95ff-62ed3a82e028"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "Josh.Hammell@endlas.com",
                             FirstName = "Josh",
@@ -405,7 +391,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("aff3c5e9-238a-4228-9861-9aa6b32c41fc"),
+                            UserId = new Guid("38350b78-d316-4d0c-b888-21ed5ed76ee7"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                             EndlasEmail = "BLT@endlas.com",
                             FirstName = "Brett",
@@ -509,29 +495,11 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.DrillBitToJob", b =>
-                {
-                    b.HasOne("EndlasNet.Data.Job", "Job")
-                        .WithMany("DrillBitToJobs")
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EndlasNet.Data.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Job");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.InsertToJob", b =>
                 {
                     b.HasOne("EndlasNet.Data.Job", "Job")
                         .WithMany("InsertToJobs")
                         .HasForeignKey("JobId")
-                        .HasConstraintName("FK_ToolToJob_Jobs_JobId1")
                         .OnDelete(DeleteBehavior.ClientNoAction)
                         .IsRequired();
 
@@ -544,30 +512,9 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.MillToolToJob", b =>
-                {
-                    b.HasOne("EndlasNet.Data.Job", "Job")
-                        .WithMany("MillToolToJobs")
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EndlasNet.Data.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Job");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.Job", b =>
                 {
-                    b.Navigation("DrillBitToJobs");
-
                     b.Navigation("InsertToJobs");
-
-                    b.Navigation("MillToolToJobs");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.User", b =>

@@ -44,6 +44,7 @@ namespace EndlasNet.Data.Migrations
                     JobId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EndlasNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     JobDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PurchaseOrderNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -102,12 +103,6 @@ namespace EndlasNet.Data.Migrations
                         name: "FK_ToolToJob_Jobs_JobId",
                         column: x => x.JobId,
                         principalTable: "Jobs",
-                        principalColumn: "JobId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ToolToJob_Jobs_JobId1",
-                        column: x => x.JobId,
-                        principalTable: "Jobs",
                         principalColumn: "JobId");
                     table.ForeignKey(
                         name: "FK_ToolToJob_Users_UserId",
@@ -126,6 +121,7 @@ namespace EndlasNet.Data.Migrations
                     VendorDescription = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     PoNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PoDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BottleNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Weight = table.Column<float>(type: "real", nullable: false),
                     CostPerUnitWeight = table.Column<float>(type: "real", nullable: false),
                     LotNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -236,10 +232,10 @@ namespace EndlasNet.Data.Migrations
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("6be586bd-0c47-4288-8383-f74021d678dd"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "Super", "Admin" },
-                    { new Guid("750c0811-4744-4330-811e-a414b650d484"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "James.Tomich@endlas.com", "James", "Tomich" },
-                    { new Guid("1631d23e-f61f-4af1-bcce-d29ccb23827b"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "Josh.Hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("aff3c5e9-238a-4228-9861-9aa6b32c41fc"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "BLT@endlas.com", "Brett", "Trotter" }
+                    { new Guid("da26e2ea-e371-4001-bea2-90f28018f8c4"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "Super", "Admin" },
+                    { new Guid("f23f55e7-1056-4a37-a983-f9545ca4da71"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "James.Tomich@endlas.com", "James", "Tomich" },
+                    { new Guid("a124784a-a883-4aa1-95ff-62ed3a82e028"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "Josh.Hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("38350b78-d316-4d0c-b888-21ed5ed76ee7"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "BLT@endlas.com", "Brett", "Trotter" }
                 });
 
             migrationBuilder.CreateIndex(
