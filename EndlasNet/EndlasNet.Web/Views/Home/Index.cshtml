@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Mvc;
-<link rel="stylesheet" href="~/css/custom-style.css" type="text/css"/>
+
+<link rel="stylesheet" href="~/css/custom-style.css" type="text/css" />
 
 @{
     ViewData["Title"] = "Home Page";
@@ -12,19 +13,25 @@
         <h2 class="display-4">@Context.Session.GetString("firstname"),</h2>
         <h1>Welcome to Endlas Net</h1>
         <span>
-            <img id="imglonglaser" src="~/img/longLaser.png" />
+            <img src="~/img/laserBeam.png" />
         </span>
     }
     else
     {
         <h1 class="display-4">Endlas Net</h1>
-        <span>
-            <img id="imglonglaser" src="~/img/longLaser.png" />
-        </span>
-        <a class="ahomelogin" asp-area="" asp-controller="Login" asp-action="Index">
-            Login
-        </a>
-        <span>to Endlas Net</span>
+        <div>
+
+            <img src="~/img/laserBeam.png"/>
+
+        </div>
+        <p style="color:white;font-size:18px;">
+
+
+            <a asp-area="" asp-controller="Login" asp-action="Index">
+                Login
+            </a>
+            to Endlas Net
+        </p>
     }
     <p>Learn about <a href="https://endlas.com">Endlas LC</a>.</p>
 </div>

@@ -19,6 +19,7 @@ namespace EndlasNet.Web.Controllers
 
         public IActionResult Index()
         {
+            
             // The HttpContext associated with the page can be accessed by the Context property.
             /*System.Text.StringBuilder sb = new System.Text.StringBuilder();
             try
@@ -34,7 +35,7 @@ namespace EndlasNet.Web.Controllers
 
         }
 
-        public IActionResult Privacy()
+        public IActionResult Contact()
         {
             return View();
         }
