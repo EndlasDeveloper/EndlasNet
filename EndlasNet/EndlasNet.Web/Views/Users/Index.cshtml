@@ -1,21 +1,35 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+
+@{
     ViewData["Title"] = "Users";
 }
 <h1 class="display-4">Users</h1>
-<body>
+@if (Context.Session.GetString("userId") != null)
+{
+    <body>
+        <div>
+            <ul>
+                <li>
+                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Admins">Admins</a>
+                </li>
+                <li>
+                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Employees">Employees</a>
+                </li>
+            </ul>
+        </div>
+        <div class="container">
+
+        </div>
+
+    </body>
+}
+else
+{
     <div>
-        <ul>
-            <li>
-                <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Admins">Admins</a>
-            </li>
-            <li>
-                <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Employees">Employees</a>
-            </li>
-        </ul>
+        Please
+        <a asp-area="" asp-controller="Login" asp-action="Index">
+            Login
+        </a>
     </div>
-    <div class="container">
-
-    </div>
-
-</body>
+}
 

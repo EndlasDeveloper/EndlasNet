@@ -1,27 +1,42 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+
+@{
     ViewData["Title"] = "Inventory";
 }
 <h1 class="display-4">Inventory</h1>
-<body>
+@if (Context.Session.GetString("userId") != null)
+{
+    <body>
+        <div>
+
+            <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Vendors">Vendors</a>
+
+            <ul>
+                <li>
+                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Inserts">Inserts</a>
+                </li>
+                <li>
+                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Powders">Powders</a>
+                <li>
+                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Inventory">Tooling</a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="container">
+
+        </div>
+
+    </body>
+}
+else
+{
     <div>
-       
-        <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Vendors">Vendors</a>
-        
-        <ul>
-            <li>
-                <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Inserts">Inserts</a>
-            </li>
-            <li>
-                <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Powders">Powders</a>
-            <li>
-                <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Inventory">Tooling</a>
-            </li>
-
-        </ul>
+        Please
+        <a asp-area="" asp-controller="Login" asp-action="Index">
+            Login
+        </a>
     </div>
-    <div class="container">
+}
 
-    </div>
-
-</body>
 
