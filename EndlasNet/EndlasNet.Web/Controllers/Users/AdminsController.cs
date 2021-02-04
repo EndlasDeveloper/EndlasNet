@@ -12,18 +12,43 @@ namespace EndlasNet.Web.Controllers
     public class AdminsController : Controller
     {
         private readonly EndlasNetDbContext _context;
-
+        private AdminRepo repo;
         public AdminsController(EndlasNetDbContext context)
         {
             _context = context;
+            repo = new AdminRepo(context);
         }
 
 
 
         // GET: Admins
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            return View(await _context.Admins.ToListAsync());
+
+            ViewBag.FirstNameDescSortParm = String.IsNullOrEmpty(sortOrder) ? "first_name_desc" : "";
+            ViewBag.LastNameDescSortParm = String.IsNullOrEmpty(sortOrder) ? "last_name_desc" : "";
+            ViewBag.EmailDescSortParm = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
+
+            var admins = await repo.GetAll();
+            
+            switch (sortOrder)
+            {
+                case "first_name_desc":
+                    admins = admins.OrderByDescending(a => a.FirstName);
+                    admins = admins.Reverse();
+                    break;
+                case "last_name_desc":
+                    admins = admins.OrderByDescending(a => a.LastName);
+                    admins = admins.Reverse();
+                    break;
+                case "email_desc":
+                    admins = admins.OrderByDescending(a => a.EndlasEmail);
+                    admins = admins.Reverse();
+                    break;
+                default:
+                    break;
+            }
+            return View(admins.ToList());
         }
 
         // GET: Admins/Details/5

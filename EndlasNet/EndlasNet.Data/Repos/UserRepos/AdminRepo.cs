@@ -32,18 +32,18 @@ namespace EndlasNet.Data
             catch (ArgumentNullException) { } // doesn't exist-->need to handle this better
         }
 
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<Admin>> GetAll()
         {
             var employees = await db.Admins.ToListAsync();
             return employees.AsEnumerable();
         }
 
-        public async Task<User> GetUser(string email)
+        public async Task<Admin> GetUser(string email)
         {
             return await db.Admins.Where(p => p.EndlasEmail == email).FirstOrDefaultAsync();
         }
 
-        public async Task Update(User user)
+        public async Task Update(Admin user)
         {
             var entry = db.Entry(user);
             entry.State = EntityState.Modified;
