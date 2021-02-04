@@ -1,61 +1,77 @@
-﻿@model IEnumerable<EndlasNet.Data.Insert>
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<EndlasNet.Data.Insert>
 
 @{
     ViewData["Title"] = "Inserts";
 }
 
 <h1>Inserts</h1>
+@if (Context.Session.GetString("userId") != null)
+{
+    <p>
+        <a asp-action="Create">Create new</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Vendor description
+                </th>
+                <th>
+                    Tool tip radius (in)
+                </th>
+                <th>
+                    Insert count
+                </th>
+                <th>
+                    Purchase order cost
+                </th>
+                <th>
+                    Purchase order number
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
 
-<p>
-    <a asp-action="Create">Create new</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Vendor description
-            </th>
-            <th>
-                Tool tip radius (in)
-            </th>
-            <th>
-                Insert count
-            </th>
-            <th>
-                Purchase order cost
-            </th>
-            <th>
-                Purchase order number
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
+            @foreach (var item in Model)
+            {
+                <tr>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.VendorDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ToolTipRadius)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ToolCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseOrderPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
-            </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VendorDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToolTipRadius)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToolCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PurchaseOrderPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
+                    </td>
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MachiningToolId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MachiningToolId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MachiningToolId">Delete</a>
-            </td>
-        </tr>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.MachiningToolId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.MachiningToolId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.MachiningToolId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else
+{
+    <div>
+        Please
+        <a asp-area="" asp-controller="Login" asp-action="Index">
+            Login
+        </a>
+    </div>
+}
+
+
