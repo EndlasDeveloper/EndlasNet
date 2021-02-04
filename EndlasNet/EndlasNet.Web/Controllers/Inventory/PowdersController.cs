@@ -13,11 +13,10 @@ namespace EndlasNet.Web.Controllers
     public class PowdersController : Controller
     {
         private readonly EndlasNetDbContext _context;
-        private UserRepo _db;
+
         public PowdersController(EndlasNetDbContext context)
         {
             _context = context;
-            _db = new UserRepo(_context);
         }
 
         // GET: Powders
@@ -59,16 +58,12 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PowderId,PowderName,VendorDescription,PoNumber,PoDate,BottleNumber,Weight,CostPerUnitWeight,LotNumber,UserId,VendorId")] Powder powder)
+        public async Task<IActionResult> Create([Bind("PowderId,PowderName,VendorDescription,PoNumber,PoDate,BottleNumber,ParticleSize,InitWeight,Weight,CostPerUnitWeight,LotNumber,UserId,VendorId")] Powder powder)
         {
             if (ModelState.IsValid)
             {
                 powder.PowderId = Guid.NewGuid();
-                _context.Entry(powder).Property("CreatedDate").CurrentValue = DateTime.Now;
-                _context.Entry(powder).Property("UpdatedDate").CurrentValue = DateTime.Now;
                 powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-
-                //powder.UserId = user.UserId;
                 _context.Add(powder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,7 +94,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PowderId,PowderName,VendorDescription,PoNumber,PoDate,BottleNumber,Weight,CostPerUnitWeight,LotNumber,UserId,VendorId")] Powder powder)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PowderId,PowderName,VendorDescription,PoNumber,PoDate,BottleNumber,ParticleSize,InitWeight,Weight,CostPerUnitWeight,LotNumber,UserId,VendorId")] Powder powder)
         {
             if (id != powder.PowderId)
             {
@@ -110,6 +105,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Update(powder);
                     await _context.SaveChangesAsync();
                 }

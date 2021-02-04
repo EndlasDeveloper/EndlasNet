@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -47,7 +48,6 @@ namespace EndlasNet.Web.Controllers
         // GET: Jobs/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail");
             return View();
         }
 
@@ -61,11 +61,15 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 job.JobId = Guid.NewGuid();
+                // set FK reference for current user
+                job.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                // set Created and Updated dates to now (the time at which the job was created)
+                _context.Entry(job).Property("CreatedDate").CurrentValue = DateTime.Now;
+                _context.Entry(job).Property("UpdatedDate").CurrentValue = DateTime.Now;
                 _context.Add(job);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", job.UserId);
             return View(job);
         }
 
@@ -82,7 +86,6 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", job.UserId);
             return View(job);
         }
 
@@ -102,6 +105,10 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    // set FK reference for current user
+                    job.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    // set UpdatedDate to now (the time the update)
+                    _context.Entry(job).Property("UpdatedDate").CurrentValue = DateTime.Now;
                     _context.Update(job);
                     await _context.SaveChangesAsync();
                 }
@@ -118,7 +125,6 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "EndlasEmail", job.UserId);
             return View(job);
         }
 

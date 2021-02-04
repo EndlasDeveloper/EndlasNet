@@ -17,7 +17,11 @@ namespace EndlasNet.Data
         public DateTime PoDate { get; set; }
         public string BottleNumber { get; set; }
 
-        [Range(1f,1000f)]
+        [Range(0f,2000f)]
+        public float ParticleSize { get; set; }
+        [Range(1.0f, 1000.0f)]
+        public float InitWeight { get; set; }
+        [Range(0f,1000.0f)]
         public float Weight { get; set; }
 
         [Range(0f,float.MaxValue)]

@@ -5,12 +5,19 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
+    public enum Status
+    {
+        Not_Started,
+        In_Progress,
+        Complete,
+        Past_Due
+    }
     public class Job
     {
         public Guid JobId { get; set; }
         public string EndlasNumber { get; set; }
         public string JobDescription { get; set; }
-        public string Status { get; set; } = "Not Started";
+        public Status Status { get; set; } = Status.Not_Started;
         public string PurchaseOrderNum { get; set; }
         public DateTime DueDate { get; set; }
 

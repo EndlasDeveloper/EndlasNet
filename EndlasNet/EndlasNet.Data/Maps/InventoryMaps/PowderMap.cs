@@ -15,6 +15,8 @@ namespace EndlasNet.Data
             entityBuilder.Property(p => p.PowderName).IsRequired();
             entityBuilder.Property(p => p.PoNumber).IsRequired();
             entityBuilder.Property(p => p.PoDate).IsRequired();
+            entityBuilder.Property(p => p.ParticleSize).IsRequired();
+            entityBuilder.Property(p => p.InitWeight).IsRequired();
             entityBuilder.Property(p => p.Weight).IsRequired();
             entityBuilder.Property(p => p.CostPerUnitWeight).IsRequired();
             entityBuilder.Property(p => p.LotNumber).IsRequired();

@@ -16,16 +16,14 @@
                 Powder name
             </th>
             <th>
-                Powder description
+                Vendor description
             </th>
             <th>
                 Weight (lbs)
             </th>
             <th>
                 Cost per lb
-            </th>       
-       
-            <th></th>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -42,7 +40,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CostPerUnitWeight)
-            </td>
+            </td>     
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PowderId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.PowderId">Details</a> |

@@ -17,7 +17,7 @@
             @Html.DisplayFor(model => model.PowderName)
         </dd>
         <dt class = "col-sm-2">
-           Vendor description
+            Vendor description
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.VendorDescription)
@@ -41,6 +41,18 @@
             @Html.DisplayFor(model => model.BottleNumber)
         </dd>
         <dt class = "col-sm-2">
+            Particle size (um)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ParticleSize)
+        </dd>
+        <dt class = "col-sm-2">
+            Initial weight (lbs)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.InitWeight)
+        </dd>
+        <dt class = "col-sm-2">
             Weight (lbs)
         </dt>
         <dd class = "col-sm-10">
@@ -59,13 +71,13 @@
             @Html.DisplayFor(model => model.LotNumber)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
+            User
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.User.EndlasEmail)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Vendor)
+            Vendor
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Vendor.VendorName)
