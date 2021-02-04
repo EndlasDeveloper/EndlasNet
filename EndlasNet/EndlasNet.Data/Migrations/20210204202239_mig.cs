@@ -71,9 +71,7 @@ namespace EndlasNet.Data.Migrations
                     PointOfContact = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VendorAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VendorPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -234,11 +232,16 @@ namespace EndlasNet.Data.Migrations
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("9c859108-4003-48c6-8709-95870e01542d"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "Super", "Admin" },
-                    { new Guid("27644d4a-49ac-4ff1-84da-486ca083c863"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "James.Tomich@endlas.com", "James", "Tomich" },
-                    { new Guid("90468695-62f1-4685-a609-34042d23207d"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "Josh.Hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("9132b9c1-c2b4-49a4-9449-b8ebfb10b2f6"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "BLT@endlas.com", "Brett", "Trotter" }
+                    { new Guid("7850b17e-19e0-4aeb-9eaa-5a3bc70a912b"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "SA", "SA" },
+                    { new Guid("3dfe47ce-79bc-4723-8fcd-bfa5eda7d32d"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "James.Tomich@endlas.com", "James", "Tomich" },
+                    { new Guid("500268c6-67a9-4499-b4ae-2194f799c84f"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "Josh.Hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("a4b925ac-44ff-4557-8810-28d24fbb40f4"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "BLT@endlas.com", "Brett", "Trotter" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Vendors",
+                columns: new[] { "VendorId", "PointOfContact", "UserId", "VendorAddress", "VendorName", "VendorPhone" },
+                values: new object[] { new Guid("f2f0198c-f4c5-4cc2-86af-202222f06e46"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_DrillBits_ToolToJobsToolToJobId",

@@ -17,10 +17,6 @@ namespace EndlasNet.Data
             entityBuilder.Property(v => v.PointOfContact).IsRequired();
             entityBuilder.Property(v => v.VendorAddress).IsRequired();
             entityBuilder.Property(v => v.VendorPhone).IsRequired();
-
-            // shadow properties
-            entityBuilder.Property<DateTime>("CreatedDate");
-            entityBuilder.Property<DateTime>("UpdatedDate");
         }
     }
 }

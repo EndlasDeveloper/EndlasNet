@@ -318,15 +318,9 @@ namespace EndlasNet.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("PointOfContact")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -348,6 +342,16 @@ namespace EndlasNet.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Vendors");
+
+                    b.HasData(
+                        new
+                        {
+                            VendorId = new Guid("f2f0198c-f4c5-4cc2-86af-202222f06e46"),
+                            PointOfContact = "Dummy Point of Contact",
+                            VendorAddress = "Dummy Vendor Address",
+                            VendorName = "Dummy Vendor Name",
+                            VendorPhone = "1234567890"
+                        });
                 });
 
             modelBuilder.Entity("EndlasNet.Data.InsertToJob", b =>
@@ -370,15 +374,15 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("9c859108-4003-48c6-8709-95870e01542d"),
+                            UserId = new Guid("7850b17e-19e0-4aeb-9eaa-5a3bc70a912b"),
                             AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
                             EndlasEmail = "SA@endlas.com",
-                            FirstName = "Super",
-                            LastName = "Admin"
+                            FirstName = "SA",
+                            LastName = "SA"
                         },
                         new
                         {
-                            UserId = new Guid("27644d4a-49ac-4ff1-84da-486ca083c863"),
+                            UserId = new Guid("3dfe47ce-79bc-4723-8fcd-bfa5eda7d32d"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "James.Tomich@endlas.com",
                             FirstName = "James",
@@ -386,7 +390,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("90468695-62f1-4685-a609-34042d23207d"),
+                            UserId = new Guid("500268c6-67a9-4499-b4ae-2194f799c84f"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "Josh.Hammell@endlas.com",
                             FirstName = "Josh",
@@ -394,7 +398,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("9132b9c1-c2b4-49a4-9449-b8ebfb10b2f6"),
+                            UserId = new Guid("a4b925ac-44ff-4557-8810-28d24fbb40f4"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                             EndlasEmail = "BLT@endlas.com",
                             FirstName = "Brett",

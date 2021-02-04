@@ -85,8 +85,8 @@ namespace EndlasNet.Data
             var SA = new Admin
             {
                 UserId = Guid.NewGuid(),
-                FirstName = "Super",
-                LastName = "Admin",
+                FirstName = "SA",
+                LastName = "SA",
                 AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
                 EndlasEmail = "SA@endlas.com"
             };
@@ -122,6 +122,9 @@ namespace EndlasNet.Data
             modelBuilder.Entity<Admin>().HasData(JoshAdmin);
             // auth str: BrettLasers4Life
             modelBuilder.Entity<Admin>().HasData(BrettAdmin);
+
+            modelBuilder.Entity<Vendor>().HasData(new Vendor { VendorId = Guid.NewGuid(), VendorName = "Dummy Vendor Name",
+                PointOfContact = "Dummy Point of Contact", VendorAddress = "Dummy Vendor Address", VendorPhone = "1234567890" });
 
         }
 
