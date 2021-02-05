@@ -1,0 +1,59 @@
+﻿@model EndlasNet.Data.DrillBit
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Drill bit</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DrillBitRadius" class="control-label">Drill bit radius</label>
+                <input asp-for="DrillBitRadius" class="form-control" />
+                <span asp-validation-for="DrillBitRadius" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorDescription" class="control-label">Vendor description</label>
+                <input asp-for="VendorDescription" class="form-control" />
+                <span asp-validation-for="VendorDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ToolCount" class="control-label">Bit count</label>
+                <input asp-for="ToolCount" class="form-control" />
+                <span asp-validation-for="ToolCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseOrderNum" class="control-label">Purchase order number</label>
+                <input asp-for="PurchaseOrderNum" class="form-control" />
+                <span asp-validation-for="PurchaseOrderNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseOrderDate" class="control-label">Purchase order date</label>
+                <input asp-for="PurchaseOrderDate" class="form-control" />
+                <span asp-validation-for="PurchaseOrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseOrderPrice" class="control-label">Purchase order price</label>
+                <input asp-for="PurchaseOrderPrice" class="form-control" />
+                <span asp-validation-for="PurchaseOrderPrice" class="text-danger"></span>
+            </div>     
+            <div class="form-group">
+                <label asp-for="VendorId" class="control-label">Vendor</label>
+                <select asp-for="VendorId" class ="form-control" asp-items="ViewBag.VendorId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
