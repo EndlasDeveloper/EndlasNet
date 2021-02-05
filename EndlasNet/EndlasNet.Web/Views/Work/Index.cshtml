@@ -3,9 +3,10 @@
 @{
     ViewData["Title"] = "Work";
 }
-<h1 class="display-4">Work</h1>
 @if (Context.Session.GetString("userId") != null)
 {
+    <h1 class="display-4">Work</h1>
+
     <body>
         <div>
             <ul>

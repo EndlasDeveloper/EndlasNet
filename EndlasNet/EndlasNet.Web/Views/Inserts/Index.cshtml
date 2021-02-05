@@ -5,9 +5,10 @@
     ViewData["Title"] = "Inserts";
 }
 
-<h1>Inserts</h1>
+
 @if (Context.Session.GetString("userId") != null)
 {
+    <h1>Inserts</h1>
     <p>
         <a asp-action="Create">Create new</a>
     </p>

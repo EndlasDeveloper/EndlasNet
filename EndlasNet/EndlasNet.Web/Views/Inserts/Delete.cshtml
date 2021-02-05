@@ -6,9 +6,10 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
 @if (Context.Session.GetString("userId") != null)
 {
+    <h1>Delete</h1>
+
     <h3>Are you sure you want to delete this?</h3>
     <div>
         <h4>Insert</h4>

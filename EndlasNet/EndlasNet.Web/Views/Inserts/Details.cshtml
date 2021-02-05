@@ -6,9 +6,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 @if (Context.Session.GetString("userId") != null)
 {
+    <h1>Details</h1>
+
     <div>
         <h4>Insert</h4>
         <hr />

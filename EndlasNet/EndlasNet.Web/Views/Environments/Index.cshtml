@@ -1,23 +1,37 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+
+@{
     ViewData["Title"] = "Environment";
 }
-<h1 class="display-4">Environment Data</h1>
-<body>
+@if (Context.Session.GetString("userId") != null)
+{
+    <h1 class="display-4">Environment Data</h1>
+    <body>
+        <div>
+            <ul>
+                <li>
+                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="EnvironmentalSnapshots">Environmental snapshots</a>
+                </li>
+                @* <li>
+                        <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="EnvironmentalSnapshot_Job">Job environments</a>
+                    </li>*@
+
+            </ul>
+        </div>
+        <div class="container">
+
+        </div>
+
+    </body>
+}
+else
+{
     <div>
-        <ul>
-            <li>
-                <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="EnvironmentalSnapshots">Environmental snapshots</a>
-            </li>
-           @* <li>
-                <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="EnvironmentalSnapshot_Job">Job environments</a>
-            </li>*@
-
-        </ul>
+        Please
+        <a asp-area="" asp-controller="Login" asp-action="Index">
+            Login
+        </a>
     </div>
-    <div class="container">
-
-    </div>
-
-</body>
+}
 
 
