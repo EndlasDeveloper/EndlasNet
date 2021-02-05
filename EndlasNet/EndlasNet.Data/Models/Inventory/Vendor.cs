@@ -19,7 +19,7 @@ namespace EndlasNet.Data
         public string VendorPhone { get; set; }
 
         public virtual User User { get; set; }
-        public IEnumerable<Insert> Inserts { get; set; }
+        public IEnumerable<MachiningTool> MachiningTools{ get; set; }
 
     }
 }

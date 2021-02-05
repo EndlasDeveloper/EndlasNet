@@ -19,7 +19,7 @@ namespace EndlasNet.Data
         public string AuthString { get; set; }
 
         public IEnumerable<InsertToJob> InsertToJobs { get; set; }
-        public IEnumerable<Insert> Inserts { get; set; }
+        public IEnumerable<MachiningTool> MachiningTools { get; set; }
         public IEnumerable<Powder> Powders { get; set; }
         public IEnumerable<Job> Jobs { get; set; }
         public IEnumerable<Vendor> Vendors { get; set; }

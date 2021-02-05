@@ -20,7 +20,7 @@ namespace EndlasNet.Data
             modelBuilder.Entity<Job>().HasMany(v => v.InsertToJobs).WithOne(i => i.Job).OnDelete(DeleteBehavior.ClientNoAction);
 
             // each employee has 0 to many insert to jobs; each insert to job has 1 employee
-            modelBuilder.Entity<User>().HasMany(u => u.Inserts).WithOne(i => i.User);
+            modelBuilder.Entity<User>().HasMany(u => u.MachiningTools).WithOne(i => i.User);
             modelBuilder.Entity<User>().HasMany(u => u.Powders).WithOne(v => v.User);
 
             modelBuilder.Entity<User>().HasMany(u => u.Jobs).WithOne(v => v.User);

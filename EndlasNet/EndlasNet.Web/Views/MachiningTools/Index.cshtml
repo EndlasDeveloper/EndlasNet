@@ -1,0 +1,83 @@
+﻿@model IEnumerable<EndlasNet.Data.MachiningTool>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ToolType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToolDiameter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VendorDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToolCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseOrderNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseOrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseOrderPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ToolType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ToolDiameter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VendorDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ToolCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseOrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseOrderPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.AuthString)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vendor.PointOfContact)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MachiningToolId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MachiningToolId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MachiningToolId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

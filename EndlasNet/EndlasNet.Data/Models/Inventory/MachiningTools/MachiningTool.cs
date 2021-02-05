@@ -6,10 +6,18 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
+    public enum ToolTypes
+    {
+        Insert,
+        DrillBit,
+        MillTool
+    }
     public class MachiningTool
     {
         // PK
         public Guid MachiningToolId { get; set; }
+        public ToolTypes ToolType { get; set; }
+        public float ToolDiameter { get; set; }
         // columns
         [StringLength(250)]
         public string VendorDescription { get; set; }
