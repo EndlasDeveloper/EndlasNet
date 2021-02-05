@@ -20,27 +20,43 @@ namespace EndlasNet.Web.Controllers
         }
 
 
-        static string lastOrder = null;
         // GET: Admins
         public async Task<IActionResult> Index(string sortOrder)
         {
          
-            ViewBag.FirstNameSortParm = String.IsNullOrEmpty(sortOrder) ? "first_name_desc" : "";
-            ViewBag.LastNameSortParm = String.IsNullOrEmpty(sortOrder) ? "last_name_desc" : "";
-            ViewBag.EmailSortParm = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
-          
+            ViewBag.FirstNameDescSortParm = String.IsNullOrEmpty(sortOrder) ? "first_name_desc" : "";
+            ViewBag.FirstNameAscSortParm = String.IsNullOrEmpty(sortOrder) ? "first_name_asc" : "";
+
+            ViewBag.LastNameDescSortParm = String.IsNullOrEmpty(sortOrder) ? "last_name_desc" : "";
+            ViewBag.LastNameAscSortParm = String.IsNullOrEmpty(sortOrder) ? "last_name_asc" : "";
+
+            ViewBag.EmailDescSortParm = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
+            ViewBag.EmailAscSortParm = String.IsNullOrEmpty(sortOrder) ? "email_asc" : "";
+
             var admins = await repo.GetAll();
             
             switch (sortOrder)
             {
                 case "first_name_desc":
                     admins = admins.OrderByDescending(a => a.FirstName);
-                    break;              
+                    break;
+                case "first_name_asc":
+                    admins = admins.OrderByDescending(a => a.FirstName);
+                    admins = admins.Reverse();
+                    break;
                 case "last_name_desc":
                     admins = admins.OrderByDescending(a => a.LastName);
                     break;
+                case "last_name_asc":
+                    admins = admins.OrderByDescending(a => a.LastName);
+                    admins = admins.Reverse();
+                    break;
                 case "email_desc":
                     admins = admins.OrderByDescending(a => a.EndlasEmail);
+                    break;
+                case "email_asc":
+                    admins = admins.OrderByDescending(a => a.EndlasEmail);
+                    admins = admins.Reverse();
                     break;
                 default:
                     break;

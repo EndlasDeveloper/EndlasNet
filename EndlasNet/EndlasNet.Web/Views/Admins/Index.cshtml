@@ -13,15 +13,32 @@
     <thead>
         <tr>
             <th>
-                <span>
-                    @Html.ActionLink("First name", "Index", new { sortOrder = ViewBag.FirstNameSortParm })
+                <div>
+                    First name
+                 </div>
+                <span spacing="5">                    
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.FirstNameAscSortParm })                                   
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.FirstNameDescSortParm })
                 </span>
             </th>
             <th>
-                @Html.ActionLink("Last name", "Index", new { sortOrder = ViewBag.LastNameSortParm })
+                <div>
+                    Last name
+                </div>
+                <span>
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.LastNameAscSortParm })
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.LastNameDescSortParm })
+                </span>
             </th>
             <th>
-                @Html.ActionLink("Endlas email", "Index", new { sortOrder = ViewBag.EmailSortParm })
+                <div>
+                    Endlas email
+                </div>
+                <span>
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.EmailAscSortParm })
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.EmailDescSortParm })
+                </span>
+
             </th>
          
             <th></th>
