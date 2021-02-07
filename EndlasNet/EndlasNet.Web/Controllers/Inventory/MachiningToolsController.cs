@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -48,8 +49,20 @@ namespace EndlasNet.Web.Controllers
         // GET: MachiningTools/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString");
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact");
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
+            List<SelectListItem> toolTypes = new List<SelectListItem>() {
+            new SelectListItem {
+                Text = "Insert", Value = "0"
+            },
+            new SelectListItem {
+                Text = "Drill bit", Value = "1"
+            },
+            new SelectListItem {
+                Text = "Mill tool", Value = "2"
+            },
+           
+        };
+            ViewBag.ToolTypes = toolTypes;
             return View();
         }
 
@@ -63,12 +76,14 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 machiningTool.MachiningToolId = Guid.NewGuid();
+                machiningTool.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                _context.Entry(machiningTool).Property("CreatedDate").CurrentValue = DateTime.Now;
+                _context.Entry(machiningTool).Property("UpdatedDate").CurrentValue = DateTime.Now;
                 _context.Add(machiningTool);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", machiningTool.UserId);
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", machiningTool.VendorId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
 
@@ -85,8 +100,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", machiningTool.UserId);
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", machiningTool.VendorId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
 
@@ -106,6 +120,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    _context.Entry(machiningTool).Property("UpdatedDate").CurrentValue = DateTime.Now;
                     _context.Update(machiningTool);
                     await _context.SaveChangesAsync();
                 }
@@ -122,8 +137,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", machiningTool.UserId);
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", machiningTool.VendorId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
 

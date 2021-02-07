@@ -230,14 +230,14 @@ namespace EndlasNet.Data.Migrations
                     MachiningToolId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ToolType = table.Column<int>(type: "int", nullable: false),
                     ToolDiameter = table.Column<float>(type: "real", nullable: false),
-                    VendorDescription = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    VendorDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ToolCount = table.Column<int>(type: "int", nullable: false),
                     PurchaseOrderNum = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     PurchaseOrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PurchaseOrderPrice = table.Column<float>(type: "real", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VendorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ToolToJobsToolToJobId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ToolToJobId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -245,8 +245,8 @@ namespace EndlasNet.Data.Migrations
                 {
                     table.PrimaryKey("PK_MachiningTools", x => x.MachiningToolId);
                     table.ForeignKey(
-                        name: "FK_MachiningTools_ToolToJob_ToolToJobsToolToJobId",
-                        column: x => x.ToolToJobsToolToJobId,
+                        name: "FK_MachiningTools_ToolToJob_ToolToJobId",
+                        column: x => x.ToolToJobId,
                         principalTable: "ToolToJob",
                         principalColumn: "ToolToJobId",
                         onDelete: ReferentialAction.Restrict);
@@ -269,16 +269,16 @@ namespace EndlasNet.Data.Migrations
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("59bccf0f-1cec-4240-9413-b1b43b249303"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "SA", "SA" },
-                    { new Guid("7ef4398a-4910-4567-a2ca-c7f9eeb53cb3"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "James.Tomich@endlas.com", "James", "Tomich" },
-                    { new Guid("a72005c2-4520-4f47-bf69-7a582e53d7c9"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "Josh.Hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("1342b8c4-3370-4d7d-8af9-a68d4af99af4"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "BLT@endlas.com", "Brett", "Trotter" }
+                    { new Guid("a9e76c23-a40a-4aac-be81-2b27e445cd79"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "SA", "SA" },
+                    { new Guid("2d5ce483-c660-4bd2-b639-5b62f3cad653"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "James", "Tomich" },
+                    { new Guid("05b4f57a-d5e4-4987-8023-d6b054170958"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("1213a52b-577b-4097-818c-eec3f18d380f"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Vendors",
                 columns: new[] { "VendorId", "PointOfContact", "UserId", "VendorAddress", "VendorName", "VendorPhone" },
-                values: new object[] { new Guid("ba4408bb-fb0c-433f-a951-0ef4bc00ebf2"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
+                values: new object[] { new Guid("a1985d85-aeb3-420f-908b-df5dab9a274f"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Jobs_CustomerId",
@@ -291,9 +291,9 @@ namespace EndlasNet.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MachiningTools_ToolToJobsToolToJobId",
+                name: "IX_MachiningTools_ToolToJobId",
                 table: "MachiningTools",
-                column: "ToolToJobsToolToJobId");
+                column: "ToolToJobId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MachiningTools_UserId",

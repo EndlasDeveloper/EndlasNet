@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -48,8 +49,7 @@ namespace EndlasNet.Web.Controllers
         // GET: Jobs/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerAddress");
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString");
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName");
             return View();
         }
 
@@ -63,12 +63,14 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 job.JobId = Guid.NewGuid();
+                _context.Entry(job).Property("CreatedDate").CurrentValue = DateTime.Now;
+                _context.Entry(job).Property("UpdatedDate").CurrentValue = DateTime.Now;
+                job.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Add(job);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerAddress", job.CustomerId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", job.UserId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", job.CustomerId);
             return View(job);
         }
 
@@ -85,8 +87,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerAddress", job.CustomerId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", job.UserId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", job.CustomerId);
             return View(job);
         }
 
@@ -106,6 +107,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    _context.Entry(job).Property("UpdatedDate").CurrentValue = DateTime.Now;
                     _context.Update(job);
                     await _context.SaveChangesAsync();
                 }
@@ -122,8 +124,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerAddress", job.CustomerId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", job.UserId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", job.CustomerId);
             return View(job);
         }
 

@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<EndlasNet.Data.MachiningTool>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Machining tools";
 }
 
-<h1>Index</h1>
+<h1>Machining tools</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create new</a>
 </p>
 <table class="table">
     <thead>
@@ -25,19 +25,8 @@
                 @Html.DisplayNameFor(model => model.ToolCount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PurchaseOrderNum)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PurchaseOrderDate)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.PurchaseOrderPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Vendor)
+
             </th>
             <th></th>
         </tr>
@@ -58,19 +47,7 @@
                 @Html.DisplayFor(modelItem => item.ToolCount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseOrderDate)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.PurchaseOrderPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.AuthString)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vendor.PointOfContact)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.MachiningToolId">Edit</a> |

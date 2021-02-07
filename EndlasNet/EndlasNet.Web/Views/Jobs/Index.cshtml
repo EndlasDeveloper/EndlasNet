@@ -22,13 +22,7 @@
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PurchaseOrderNum)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.DueDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Customer)
@@ -49,16 +43,10 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.DueDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.AuthString)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerAddress)
+                @Html.DisplayFor(modelItem => item.Customer.CustomerName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |

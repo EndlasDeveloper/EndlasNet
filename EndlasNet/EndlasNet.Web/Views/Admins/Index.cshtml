@@ -16,10 +16,9 @@
                 <div>
                     First name
                 </div>
-                <span spacing="10">
-                    
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.FirstNameAscSortParm })
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.FirstNameDescSortParm })
+                <span>
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.FirstNameAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.FirstNameDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
                 </span>
             </th>
             <th>
@@ -27,8 +26,8 @@
                     Last name
                 </div>
                 <span>
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.LastNameAscSortParm })
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.LastNameDescSortParm })
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.LastNameAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.LastNameDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
                 </span>
             </th>
             <th>
@@ -36,8 +35,8 @@
                     Endlas email
                 </div>
                 <span>
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.EmailAscSortParm })
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.EmailDescSortParm })
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.EmailAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.EmailDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
                 </span>
 
             </th>
