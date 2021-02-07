@@ -23,15 +23,21 @@ namespace EndlasNet.Data
         public DbSet<RawMaterial_LaserQuoteSession> RawMaterial_LaserQuoteSessions { get; set; }
         public DbSet<OptionalLaserService> OptionalLaserServices { get; set; }*/
 
+        // USERS
         public DbSet<User> Users { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Admin> Admins { get; set; }
-        public DbSet<EnvironmentalSnapshot> EnvironmentalSnapshots { get; set; }
+
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<MachiningTool> MachiningTools { get; set; }
         public DbSet<Powder> Powders { get; set; }
+
+        public DbSet<Part> Parts { get; set; }
+        public DbSet<PartForJob> PartsForJobs { get; set; }
         public DbSet<Job> Jobs { get; set; }
-        public DbSet<InsertToJob> InsertToJobs { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<EnvironmentalSnapshot> EnvironmentalSnapshots { get; set; }
+
 
         // setup connection string
         public EndlasNetDbContext(string connectionString)
@@ -61,12 +67,14 @@ namespace EndlasNet.Data
             _ = new PowderMap(modelBuilder.Entity<Powder>());
             _ = new MachiningToolMap(modelBuilder.Entity<MachiningTool>());
             //_ = new ToolToJobMap(modelBuilder.Entity<ToolToJob>());
+            _ = new CustomerMap(modelBuilder.Entity<Customer>());
             _ = new JobMap(modelBuilder.Entity<Job>());
+            _ = new PartMap(modelBuilder.Entity<Part>());
+            _ = new PartForJobMap(modelBuilder.Entity<PartForJob>());
             _ = new InventoryMultiplicityMap(modelBuilder);
             _ = new EnvironmentalSnapshotMap(modelBuilder.Entity<EnvironmentalSnapshot>());
             _ = new EnvironmentalMultiplicityMap(modelBuilder);
-
-            /*            _ = new CustomerMap(modelBuilder.Entity<Customer>());
+            /*           
                         _ = new RawMaterialMap(modelBuilder.Entity<RawMaterial>());
                         _ = new QuoteSessionMap(modelBuilder.Entity<QuoteSession>());
                         _ = new LaserQuoteSessionMap(modelBuilder.Entity<LaserQuoteSession>());

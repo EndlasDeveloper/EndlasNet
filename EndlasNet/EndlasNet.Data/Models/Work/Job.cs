@@ -24,6 +24,12 @@ namespace EndlasNet.Data
         [ForeignKey("UserId")]
         public Guid UserId { get; set; }
         public User User { get; set; }
+
+        [ForeignKey("CustomerId")]
+        public Guid CustomerId { get; set; }
+        public Customer Customer { get; set; }
+
+        public IEnumerable<PartForJob> PartsForJobs { get; set; }
         public IEnumerable<InsertToJob> InsertToJobs { get; set; }
 
     }

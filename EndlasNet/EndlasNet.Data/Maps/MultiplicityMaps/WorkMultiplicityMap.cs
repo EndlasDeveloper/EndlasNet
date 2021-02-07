@@ -6,13 +6,16 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class InventoryMultiplicityMap
+    public class WorkMultiplicityMap
     {
-        public InventoryMultiplicityMap(ModelBuilder modelBuilder)
+        public WorkMultiplicityMap(ModelBuilder modelBuilder)
         {
             Contract.Requires(modelBuilder != null);
             // each vendor has 0 to many inserts; each insert has 1 vendor
-            modelBuilder.Entity<Vendor>().HasMany(v => v.MachiningTools).WithOne(i => i.Vendor);
+            modelBuilder.Entity<PartForJob>().HasKey(p => new { p.PartId, p.JobId });
+
+            modelBuilder.Entity<Job>().HasMany(j => j.PartsForJobs).WithOne(p => p.Job);
+            modelBuilder.Entity<Part>().HasMany(p => p.PartsForJobs).WithOne(p => p.Part);
             modelBuilder.Entity<Customer>().HasMany(v => v.Jobs).WithOne(i => i.Customer);
 
             // each job has 0 to many insert to jobs; each insert to job has 1 job

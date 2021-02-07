@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,15 +15,13 @@ namespace EndlasNet.Data
     {
         public CustomerMap(EntityTypeBuilder<Customer> entityBuilder)
         {
-            // make .NET happpy
-            Contract.Requires(entityBuilder != null);
             // set PK
             entityBuilder.HasKey(c => c.CustomerId);  
             // not null
-            entityBuilder.Property(c => c.CompanyName).IsRequired();
-            entityBuilder.Property(c => c.POC).IsRequired();
-            entityBuilder.Property(c => c.Address).IsRequired();
-            entityBuilder.Property(c => c.Phone).IsRequired();
+            entityBuilder.Property(c => c.CustomerName).IsRequired();
+            entityBuilder.Property(c => c.PointOfContact).IsRequired();
+            entityBuilder.Property(c => c.CustomerAddress).IsRequired();
+            entityBuilder.Property(c => c.CustomerPhone).IsRequired();
         }
     }
 }

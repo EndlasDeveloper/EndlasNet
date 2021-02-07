@@ -1,30 +1,38 @@
 ﻿@model IEnumerable<EndlasNet.Data.Job>
 
 @{
-    ViewData["Title"] = "Jobs";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Jobs</h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create new</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Endlas number
+                @Html.DisplayNameFor(model => model.EndlasNumber)
             </th>
             <th>
-                Job description
+                @Html.DisplayNameFor(model => model.JobDescription)
             </th>
             <th>
-                Purchase order number
+                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                Due date
+                @Html.DisplayNameFor(model => model.PurchaseOrderNum)
             </th>
-            
+            <th>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -38,10 +46,19 @@
                 @Html.DisplayFor(modelItem => item.JobDescription)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.AuthString)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CustomerAddress)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |

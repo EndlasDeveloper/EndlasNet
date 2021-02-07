@@ -6,27 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
-using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
-    public class JobsController : Controller
+    public class PartsController : Controller
     {
         private readonly EndlasNetDbContext _context;
 
-        public JobsController(EndlasNetDbContext context)
+        public PartsController(EndlasNetDbContext context)
         {
             _context = context;
         }
 
-        // GET: Jobs
+        // GET: Parts
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.Jobs.Include(j => j.User);
+            var endlasNetDbContext = _context.Parts.Include(p => p.User);
             return View(await endlasNetDbContext.ToListAsync());
         }
 
-        // GET: Jobs/Details/5
+        // GET: Parts/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -34,46 +33,43 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs
-                .Include(j => j.User)
-                .FirstOrDefaultAsync(m => m.JobId == id);
-            if (job == null)
+            var part = await _context.Parts
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(m => m.PartId == id);
+            if (part == null)
             {
                 return NotFound();
             }
 
-            return View(job);
+            return View(part);
         }
 
-        // GET: Jobs/Create
+        // GET: Parts/Create
         public IActionResult Create()
         {
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString");
             return View();
         }
 
-        // POST: Jobs/Create
+        // POST: Parts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("JobId,EndlasNumber,JobDescription,PurchaseOrderNum,DueDate,UserId")] Job job)
+        public async Task<IActionResult> Create([Bind("PartId,DrawingNumber,ConditionDescription,InitWeight,Weight,CladdedWeight,ProcessingNotes,UserId")] Part part)
         {
             if (ModelState.IsValid)
             {
-                job.JobId = Guid.NewGuid();
-                // set FK reference for current user
-                job.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                // set Created and Updated dates to now (the time at which the job was created)
-                _context.Entry(job).Property("CreatedDate").CurrentValue = DateTime.Now;
-                _context.Entry(job).Property("UpdatedDate").CurrentValue = DateTime.Now;
-                _context.Add(job);
+                part.PartId = Guid.NewGuid();
+                _context.Add(part);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(job);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", part.UserId);
+            return View(part);
         }
 
-        // GET: Jobs/Edit/5
+        // GET: Parts/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -81,22 +77,23 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs.FindAsync(id);
-            if (job == null)
+            var part = await _context.Parts.FindAsync(id);
+            if (part == null)
             {
                 return NotFound();
             }
-            return View(job);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", part.UserId);
+            return View(part);
         }
 
-        // POST: Jobs/Edit/5
+        // POST: Parts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("JobId,EndlasNumber,JobDescription,PurchaseOrderNum,DueDate,UserId")] Job job)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartId,DrawingNumber,ConditionDescription,InitWeight,Weight,CladdedWeight,ProcessingNotes,UserId")] Part part)
         {
-            if (id != job.JobId)
+            if (id != part.PartId)
             {
                 return NotFound();
             }
@@ -105,16 +102,12 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    // set FK reference for current user
-                    job.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    // set UpdatedDate to now (the time the update)
-                    _context.Entry(job).Property("UpdatedDate").CurrentValue = DateTime.Now;
-                    _context.Update(job);
+                    _context.Update(part);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JobExists(job.JobId))
+                    if (!PartExists(part.PartId))
                     {
                         return NotFound();
                     }
@@ -125,10 +118,11 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(job);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", part.UserId);
+            return View(part);
         }
 
-        // GET: Jobs/Delete/5
+        // GET: Parts/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -136,31 +130,31 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs
-                .Include(j => j.User)
-                .FirstOrDefaultAsync(m => m.JobId == id);
-            if (job == null)
+            var part = await _context.Parts
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(m => m.PartId == id);
+            if (part == null)
             {
                 return NotFound();
             }
 
-            return View(job);
+            return View(part);
         }
 
-        // POST: Jobs/Delete/5
+        // POST: Parts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var job = await _context.Jobs.FindAsync(id);
-            _context.Jobs.Remove(job);
+            var part = await _context.Parts.FindAsync(id);
+            _context.Parts.Remove(part);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool JobExists(Guid id)
+        private bool PartExists(Guid id)
         {
-            return _context.Jobs.Any(e => e.JobId == id);
+            return _context.Parts.Any(e => e.PartId == id);
         }
     }
 }
