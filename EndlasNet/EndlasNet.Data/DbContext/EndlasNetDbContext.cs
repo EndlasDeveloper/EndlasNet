@@ -102,7 +102,7 @@ namespace EndlasNet.Data
                 FirstName = "James",
                 LastName = "Tomich",
                 AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
-                EndlasEmail = "James.Tomich@endlas.com"
+                EndlasEmail = "james.tomich@endlas.com"
             };
             var JoshAdmin = new Admin
             {
@@ -110,7 +110,7 @@ namespace EndlasNet.Data
                 FirstName = "Josh",
                 LastName = "Hammell",
                 AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
-                EndlasEmail = "Josh.Hammell@endlas.com"
+                EndlasEmail = "josh.hammell@endlas.com"
             };
             var BrettAdmin = new Admin
             {
@@ -118,7 +118,7 @@ namespace EndlasNet.Data
                 FirstName = "Brett",
                 LastName = "Trotter",
                 AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
-                EndlasEmail = "BLT@endlas.com"
+                EndlasEmail = "blt@endlas.com"
             };
             // password
             modelBuilder.Entity<Admin>().HasData(SA);

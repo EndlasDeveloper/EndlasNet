@@ -12,11 +12,14 @@ namespace EndlasNet.Web.Controllers
 {
     public class VendorsController : Controller
     {
+        private UserRepo _db;
+
         private readonly EndlasNetDbContext _context;
 
         public VendorsController(EndlasNetDbContext context)
         {
             _context = context;
+            _db = new UserRepo(_context);
         }
 
         // GET: Vendors
@@ -58,12 +61,7 @@ namespace EndlasNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Guid guid = new Guid(HttpContext.Session.GetString("userId"));
-                var fname = HttpContext.Session.GetString("firstname");
-                var lname = HttpContext.Session.GetString("lastname");
-                var email = HttpContext.Session.GetString("email");
-                var authstr = HttpContext.Session.GetString("authstr"); 
-                
+                vendor.User = await _db.GetUser(HttpContext.Session.GetString("email"));
                 vendor.VendorId = Guid.NewGuid();
                 _context.Add(vendor);
                 await _context.SaveChangesAsync();
