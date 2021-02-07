@@ -44,6 +44,10 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.2, )"
@@ -68,7 +72,7 @@
             },
             "bootstrap": {
               "target": "Package",
-              "version": "[4.5.3, )"
+              "version": "[4.6.0, )"
             }
           },
           "imports": [

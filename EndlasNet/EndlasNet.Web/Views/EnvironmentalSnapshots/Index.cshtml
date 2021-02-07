@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<EndlasNet.Data.EnvironmentalSnapshot>
 
 @{
-    ViewData["Title"] = "Environmental Snapshots";
+    ViewData["Title"] = "Environment";
 }
 
-<h1>Environmental snapshots</h1>
+<h1>Environmental snapshot</h1>
 
 <p>
     <a asp-action="Create">Create new</a>
@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                Snapshot date
+                @Html.DisplayNameFor(model => model.DateTimeCollected)
             </th>
             <th>
-                Temperature
+                @Html.DisplayNameFor(model => model.Temperature)
             </th>
             <th>
-                Humidity
+                @Html.DisplayNameFor(model => model.Humidity)
             </th>
             <th></th>
         </tr>

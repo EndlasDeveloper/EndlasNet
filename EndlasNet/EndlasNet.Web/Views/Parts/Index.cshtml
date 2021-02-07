@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<EndlasNet.Data.Part>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Parts";
 }
 
-<h1>Index</h1>
+<h1>Parts</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create new</a>
 </p>
 <table class="table">
     <thead>
@@ -29,6 +29,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ProcessingNotes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DrawingImage)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User)
@@ -56,6 +59,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProcessingNotes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DrawingImage)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.AuthString)

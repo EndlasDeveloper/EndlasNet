@@ -10,14 +10,16 @@ namespace EndlasNet.Data
     {
         public Guid VendorId { get; set; }
         // columns
+        [Display(Name = "Vendor name")]
         public string VendorName { get; set; }
-        public string PointOfContact { get; set; } 
-
+        [Display(Name = "Point of contact")]
+        public string PointOfContact { get; set; }
+        [Display(Name = "Vendor address")]
         public string VendorAddress { get; set; }
-
+        [Display(Name = "Vendor phone")]
         [DataType(DataType.PhoneNumber)]
         public string VendorPhone { get; set; }
-
+        [Display(Name = "User")]
         public virtual User User { get; set; }
         public IEnumerable<MachiningTool> MachiningTools{ get; set; }
 

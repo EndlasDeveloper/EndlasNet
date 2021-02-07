@@ -11,11 +11,15 @@ namespace EndlasNet.Data
     public class User
     {
         public Guid UserId { get; set; }
+        [Display(Name = "First name")]
         public string FirstName { get; set; }
+        [Display(Name = "Last name")]
         public string LastName { get; set; }
+        [Display(Name = "Endlas email")]
         public string EndlasEmail { get; set; }
 
         [StringLength(250, MinimumLength = 8)]
+        [Display(Name = "Password")]
         public string AuthString { get; set; }
 
         public IEnumerable<InsertToJob> InsertToJobs { get; set; }

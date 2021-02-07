@@ -10,29 +10,41 @@ namespace EndlasNet.Data
     {
         public Guid PowderId { get; set; }
         [StringLength(25)]
+        [Display(Name = "Powder name")]
         public string PowderName { get; set; }
         [StringLength(250)]
+        [Display(Name = "Vendor description")]
         public string VendorDescription { get; set; }
+        [Display(Name = "PO number")]
         public string PoNumber { get; set; }
+        [Display(Name = "PO date")]
         public DateTime PoDate { get; set; }
+        [Display(Name = "Bottle number")]
         public string BottleNumber { get; set; }
 
         [Range(0f,2000f)]
+        [Display(Name = "Particle size (um)")]
         public float ParticleSize { get; set; }
         [Range(1.0f, 1000.0f)]
+        [Display(Name = "Initial weight (lbs)")]
         public float InitWeight { get; set; }
         [Range(0f,1000.0f)]
+        [Display(Name = "Weight (lbs)")]
         public float Weight { get; set; }
 
         [Range(0f,float.MaxValue)]
+        [Display(Name = "Cost per pound")]
         public float CostPerUnitWeight { get; set; }
+        [Display(Name = "Lot number")]
         public string LotNumber { get; set; }
         // FK references
         [ForeignKey("UserId")]
+        [Display(Name = "User")]
         public Guid UserId { get; set; }
         public virtual User User { get; set; }
 
         [ForeignKey("VendorId")]
+        [Display(Name = "Vendor")]
         public Guid VendorId { get; set; }
         public virtual Vendor Vendor { get; set; }
 
