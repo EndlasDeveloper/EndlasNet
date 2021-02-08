@@ -45,14 +45,17 @@ namespace EndlasNet.Web.Controllers
             //Specify on next view what the error was using ViewBag to send message
             if (user == null || ShaHash.ComputeSha256Hash(pwd) != user.AuthString)
             {
+                // login failed
                 ViewBag.UserIsLoggedIn = "false";
                 return View("../Login/Index");
             }
+            // login success
             ViewBag.UserIsLoggedIn = "true";
-            
 
+            // set privilege of user to appropriate level for views
+            ViewBag.UserPrivilege = _db.GetUserPrivileges(user); // either "Admin" or "Employee"
           
-
+            // set user credentials for session
             HttpContext.Session.SetString("userId", user.UserId.ToString());
             HttpContext.Session.SetString("firstname", user.FirstName);
             HttpContext.Session.SetString("lastname", user.LastName);

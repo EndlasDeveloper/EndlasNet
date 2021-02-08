@@ -27,15 +27,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.CladdedWeight)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProcessingNotes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DrawingImage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -56,15 +47,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CladdedWeight)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProcessingNotes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DrawingImage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.AuthString)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PartId">Edit</a> |

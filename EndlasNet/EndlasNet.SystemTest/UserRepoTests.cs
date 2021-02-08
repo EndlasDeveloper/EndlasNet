@@ -137,17 +137,21 @@ namespace EndlasNet.SystemTest
         [Test]
         public async Task GetUserPrivilegesTest()
         {
+            /// ARRANGE
             var repo = new UserRepo(_db);
             var admin = CreateAdmin();
             var employee = CreateEmployee();
             await AddForTest(admin);
             await AddForTest(employee);
 
+            /// ACT
             var adminPrivilege = repo.GetUserPrivileges(admin);
             var employeePrivilege = repo.GetUserPrivileges(employee);
 
+            /// ASSERT
             Assert.AreNotEqual(adminPrivilege, employeePrivilege);
-
+            Assert.AreEqual("Admin", adminPrivilege);
+            Assert.AreEqual("Employee", employeePrivilege);
         }
 
         private User CreateUser()
