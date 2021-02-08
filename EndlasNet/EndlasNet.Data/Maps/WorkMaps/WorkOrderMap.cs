@@ -5,9 +5,9 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class JobMap
+    public class WorkOrderMap
     {
-        public JobMap(EntityTypeBuilder<Job> entityBuilder)
+        public WorkOrderMap(EntityTypeBuilder<WorkOrder> entityBuilder)
         {
             // set PK
             entityBuilder.HasKey(j => j.WorkId);

@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class ToolToJob
+    public class MachiningToolForWorkOrder
     {
-        public Guid ToolToJobId { get; set; }
+        public Guid MachiningToolForJobId { get; set; }
         [Display(Name = "Date used")]
         public DateTime DateUsed { get; set; }
 
-        [ForeignKey("JobId")]
-        [Display(Name = "Job")]
-        public Guid JobId { get; set; }
-        public virtual Job Job { get; set; }
+        [ForeignKey("WorkOrderId")]
+        [Display(Name = "Work order")]
+        public Guid WorkOrderId { get; set; }
+        public virtual WorkOrder WorkOrder { get; set; }
 
         [ForeignKey("UserId")]
         [Display(Name = "User")]

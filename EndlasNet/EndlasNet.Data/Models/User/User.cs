@@ -22,7 +22,9 @@ namespace EndlasNet.Data
         [Display(Name = "Password")]
         public string AuthString { get; set; }
 
-        public IEnumerable<InsertToJob> InsertToJobs { get; set; }
+        public IEnumerable<MachiningToolForJob> MachiningToolForJobs{ get; set; }
+        public IEnumerable<MachiningToolForWorkOrder> MachiningToolForWorkOrders { get; set; }
+
         public IEnumerable<MachiningTool> MachiningTools { get; set; }
         public IEnumerable<Powder> Powders { get; set; }
         public IEnumerable<Job> Jobs { get; set; }

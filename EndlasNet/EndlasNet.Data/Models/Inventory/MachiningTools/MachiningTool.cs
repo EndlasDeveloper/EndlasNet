@@ -49,7 +49,7 @@ namespace EndlasNet.Data
         public Guid VendorId { get; set; }
         public virtual Vendor Vendor { get; set; }
         [Display(Name = "Tool to job")]
-        public virtual ToolToJob ToolToJob { get; set; }
+        public virtual MachiningToolForJob ToolToJob { get; set; }
 
     }
 }

@@ -10,23 +10,23 @@ using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
-    public class JobsController : Controller
+    public class WorkOrdersController : Controller
     {
         private readonly EndlasNetDbContext _context;
 
-        public JobsController(EndlasNetDbContext context)
+        public WorkOrdersController(EndlasNetDbContext context)
         {
             _context = context;
         }
 
-        // GET: Jobs
+        // GET: WorkOrders
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.Jobs.Include(j => j.Customer).Include(j => j.User);
+            var endlasNetDbContext = _context.WorkOrders.Include(w => w.User);
             return View(await endlasNetDbContext.ToListAsync());
         }
 
-        // GET: Jobs/Details/5
+        // GET: WorkOrders/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -34,47 +34,45 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs
-                .Include(j => j.Customer)
-                .Include(j => j.User).AsNoTracking()
+            var workOrder = await _context.WorkOrders
+                .Include(w => w.User).AsNoTracking()
                 .FirstOrDefaultAsync(m => m.WorkId == id);
-            if (job == null)
+            if (workOrder == null)
             {
                 return NotFound();
             }
 
-            return View(job);
+            return View(workOrder);
         }
 
-        // GET: Jobs/Create
+        // GET: WorkOrders/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName");
             return View();
         }
 
-        // POST: Jobs/Create
+        // POST: WorkOrders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Job job)
+        public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId")] WorkOrder workOrder)
         {
             if (ModelState.IsValid)
             {
-                job.WorkId = Guid.NewGuid();
-                _context.Entry(job).Property("CreatedDate").CurrentValue = DateTime.Now;
-                _context.Entry(job).Property("UpdatedDate").CurrentValue = DateTime.Now;
-                job.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                _context.Add(job);
+                workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                _context.Entry(workOrder).Property("CreatedDate").CurrentValue = DateTime.Now;
+                _context.Entry(workOrder).Property("UpdatedDate").CurrentValue = DateTime.Now;
+
+                workOrder.WorkId = Guid.NewGuid();
+                _context.Add(workOrder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", job.CustomerId);
-            return View(job);
+            return View(workOrder);
         }
 
-        // GET: Jobs/Edit/5
+        // GET: WorkOrders/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -82,23 +80,22 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs.FindAsync(id);
-            if (job == null)
+            var workOrder = await _context.WorkOrders.FindAsync(id);
+            if (workOrder == null)
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", job.CustomerId);
-            return View(job);
+            return View(workOrder);
         }
 
-        // POST: Jobs/Edit/5
+        // POST: WorkOrders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Job job)
+        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId")] WorkOrder workOrder)
         {
-            if (id != job.WorkId)
+            if (id != workOrder.WorkId)
             {
                 return NotFound();
             }
@@ -107,13 +104,14 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    _context.Entry(job).Property("UpdatedDate").CurrentValue = DateTime.Now;
-                    _context.Update(job);
+                    _context.Entry(workOrder).Property("UpdatedDate").CurrentValue = DateTime.Now;
+
+                    _context.Update(workOrder);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JobExists(job.WorkId))
+                    if (!WorkOrderExists(workOrder.WorkId))
                     {
                         return NotFound();
                     }
@@ -124,11 +122,11 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", job.CustomerId);
-            return View(job);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", workOrder.UserId);
+            return View(workOrder);
         }
 
-        // GET: Jobs/Delete/5
+        // GET: WorkOrders/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -136,32 +134,31 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs
-                .Include(j => j.Customer)
-                .Include(j => j.User)
+            var workOrder = await _context.WorkOrders
+                .Include(w => w.User)
                 .FirstOrDefaultAsync(m => m.WorkId == id);
-            if (job == null)
+            if (workOrder == null)
             {
                 return NotFound();
             }
 
-            return View(job);
+            return View(workOrder);
         }
 
-        // POST: Jobs/Delete/5
+        // POST: WorkOrders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var job = await _context.Jobs.FindAsync(id);
-            _context.Jobs.Remove(job);
+            var workOrder = await _context.WorkOrders.FindAsync(id);
+            _context.WorkOrders.Remove(workOrder);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool JobExists(Guid id)
+        private bool WorkOrderExists(Guid id)
         {
-            return _context.Jobs.Any(e => e.WorkId == id);
+            return _context.WorkOrders.Any(e => e.WorkId == id);
         }
     }
 }

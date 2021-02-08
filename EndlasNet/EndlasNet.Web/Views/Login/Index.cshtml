@@ -23,7 +23,7 @@
     <center>
         <br />
         <div>
-            @if (ViewBag.UserLoginStatus == "failed")
+            @if (ViewBag.IsUserLoggedIn == "false")
             {
                 <p><font color="red">Username or password is incorrect.</font></p>
             }

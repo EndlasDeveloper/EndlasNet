@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class PartForJob
+    public class PartForWorkOrder
     {
-        public Guid PartForJobId { get; set; }
+        public Guid PartForWorkOrderId { get; set; }
 
         [ForeignKey("PartId")]
         [Display(Name = "Part")]
         public Guid? PartId { get; set; }
         public virtual Part Part { get; set; }
 
-        [ForeignKey("JobId")]
-        [Display(Name = "Job")]
-        public Guid? JobId { get; set; }
-        public virtual Job Job { get; set; }
+        [ForeignKey("WorkOrderId")]
+        [Display(Name = "WorkOrder")]
+        public Guid? WorkOrderId { get; set; }
+        public virtual WorkOrder Job { get; set; }
     }
 }

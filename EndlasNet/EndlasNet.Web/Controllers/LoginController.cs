@@ -24,7 +24,7 @@ namespace EndlasNet.Web.Controllers
 
         public ActionResult Login()
         {
-            ViewBag.UserLoginStatus = "success";
+            ViewBag.IsUserLoggedIn = "true";
             return View();
         }
         public IActionResult Logout()
@@ -46,11 +46,11 @@ namespace EndlasNet.Web.Controllers
             if (user == null || ShaHash.ComputeSha256Hash(pwd) != user.AuthString)
             {
                 // login failed
-                ViewBag.UserIsLoggedIn = "false";
+                ViewBag.IsUserLoggedIn = "false";
                 return View("../Login/Index");
             }
             // login success
-            ViewBag.UserIsLoggedIn = "true";
+            ViewBag.IsUserLoggedIn = "true";
 
             // set privilege of user to appropriate level for views
             ViewBag.UserPrivilege = _db.GetUserPrivileges(user); // either "Admin" or "Employee"

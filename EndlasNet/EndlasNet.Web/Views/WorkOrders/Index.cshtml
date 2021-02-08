@@ -1,10 +1,10 @@
-﻿@model IEnumerable<EndlasNet.Data.Job>
+﻿@model IEnumerable<EndlasNet.Data.WorkOrder>
 
 @{
-    ViewData["Title"] = "Jobs";
+    ViewData["Title"] = "Work orders";
 }
 
-<h1>Jobs</h1>
+<h1>Work orders</h1>
 
 <p>
     <a asp-action="Create">Create new</a>
@@ -24,9 +24,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.DueDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer)
-            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -41,13 +39,11 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
-            </td>
+            </td>            
             <td>
                 @Html.DisplayFor(modelItem => item.DueDate)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerName)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.WorkId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.WorkId">Details</a> |

@@ -16,7 +16,7 @@ namespace EndlasNet.Data
             modelBuilder.Entity<Customer>().HasMany(v => v.Jobs).WithOne(i => i.Customer);
 
             // each job has 0 to many insert to jobs; each insert to job has 1 job
-            modelBuilder.Entity<Job>().HasMany(v => v.InsertToJobs).WithOne(i => i.Job);
+            modelBuilder.Entity<Job>().HasMany(v => v.ToolsForJobs).WithOne(i => i.Job);
 
             // each employee has 0 to many insert to jobs; each insert to job has 1 employee
             modelBuilder.Entity<User>().HasMany(u => u.MachiningTools).WithOne(i => i.User);

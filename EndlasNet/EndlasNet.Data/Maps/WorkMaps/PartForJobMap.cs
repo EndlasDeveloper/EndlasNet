@@ -10,7 +10,7 @@ namespace EndlasNet.Data
         public PartForJobMap(EntityTypeBuilder<PartForJob> entityBuilder)
         {
             // set PK
-            entityBuilder.HasKey(p => p.PartForJobId);
+            entityBuilder.HasKey(p => p.PartForWorkId);
      
             // shadow properties
             entityBuilder.Property<DateTime>("CreatedDate");

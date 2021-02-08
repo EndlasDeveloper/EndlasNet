@@ -35,6 +35,7 @@ namespace EndlasNet.Data
         public DbSet<Part> Parts { get; set; }
         public DbSet<PartForJob> PartsForJobs { get; set; }
         public DbSet<Job> Jobs { get; set; }
+        public DbSet<WorkOrder> WorkOrders { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<EnvironmentalSnapshot> EnvironmentalSnapshots { get; set; }
 
@@ -66,11 +67,15 @@ namespace EndlasNet.Data
             _ = new VendorMap(modelBuilder.Entity<Vendor>());
             _ = new PowderMap(modelBuilder.Entity<Powder>());
             _ = new MachiningToolMap(modelBuilder.Entity<MachiningTool>());
-            //_ = new ToolToJobMap(modelBuilder.Entity<ToolToJob>());
             _ = new CustomerMap(modelBuilder.Entity<Customer>());
+            _ = new WorkOrderMap(modelBuilder.Entity<WorkOrder>());
             _ = new JobMap(modelBuilder.Entity<Job>());
             _ = new PartMap(modelBuilder.Entity<Part>());
             _ = new PartForJobMap(modelBuilder.Entity<PartForJob>());
+            _ = new ToolForJobMap(modelBuilder.Entity<MachiningToolForJob>());
+            _ = new ToolForWorkOrderMap(modelBuilder.Entity<MachiningToolForWorkOrder>());
+            _ = new PartForJobMap(modelBuilder.Entity<PartForJob>());
+            _ = new PartForWorkOrderMap(modelBuilder.Entity<PartForWorkOrder>());
             _ = new InventoryMultiplicityMap(modelBuilder);
             _ = new EnvironmentalSnapshotMap(modelBuilder.Entity<EnvironmentalSnapshot>());
             _ = new EnvironmentalMultiplicityMap(modelBuilder);
