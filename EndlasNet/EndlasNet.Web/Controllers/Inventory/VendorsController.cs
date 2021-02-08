@@ -36,7 +36,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var vendor = await _context.Vendors
+            var vendor = await _context.Vendors.AsNoTracking()
                 .FirstOrDefaultAsync(m => m.VendorId == id);
             if (vendor == null)
             {

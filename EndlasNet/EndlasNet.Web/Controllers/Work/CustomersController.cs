@@ -32,7 +32,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var customer = await _context.Customers.AsNoTracking()
                 .FirstOrDefaultAsync(m => m.CustomerId == id);
             if (customer == null)
             {

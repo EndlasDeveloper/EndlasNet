@@ -32,7 +32,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
+            var employee = await _context.Employees.AsNoTracking()
                 .FirstOrDefaultAsync(m => m.UserId == id);
             if (employee == null)
             {

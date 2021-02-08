@@ -36,7 +36,7 @@ namespace EndlasNet.Web.Controllers
 
             var job = await _context.Jobs
                 .Include(j => j.Customer)
-                .Include(j => j.User)
+                .Include(j => j.User).AsNoTracking()
                 .FirstOrDefaultAsync(m => m.JobId == id);
             if (job == null)
             {

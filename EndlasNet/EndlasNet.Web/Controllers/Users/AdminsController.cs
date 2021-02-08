@@ -72,7 +72,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var admin = await _context.Admins
+            var admin = await _context.Admins.AsNoTracking()
                 .FirstOrDefaultAsync(m => m.UserId == id);
             if (admin == null)
             {

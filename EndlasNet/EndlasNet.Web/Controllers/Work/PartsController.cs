@@ -35,7 +35,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var part = await _context.Parts
-                .Include(p => p.User)
+                .Include(p => p.User).AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PartId == id);
             if (part == null)
             {

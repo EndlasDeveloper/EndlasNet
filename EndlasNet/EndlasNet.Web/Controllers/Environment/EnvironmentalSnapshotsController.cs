@@ -32,7 +32,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var environmentalSnapshot = await _context.EnvironmentalSnapshots
+            var environmentalSnapshot = await _context.EnvironmentalSnapshots.AsNoTracking()
                 .FirstOrDefaultAsync(m => m.EnvSnapshotId == id);
             if (environmentalSnapshot == null)
             {

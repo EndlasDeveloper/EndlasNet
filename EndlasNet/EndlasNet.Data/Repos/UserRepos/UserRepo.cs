@@ -44,6 +44,11 @@ namespace EndlasNet.Data
             return await db.Users.Where(p => p.EndlasEmail == email).FirstOrDefaultAsync();
         }
 
+        public async Task<User> GetUser(Guid userId)
+        {
+            return await db.Users.Where(u => u.UserId.ToString() == userId.ToString()).FirstOrDefaultAsync();
+        }
+
         public async Task Update(User user)
         {
             var entry = db.Entry(user);

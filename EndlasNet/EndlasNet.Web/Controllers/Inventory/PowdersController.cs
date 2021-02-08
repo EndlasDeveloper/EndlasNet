@@ -36,7 +36,7 @@ namespace EndlasNet.Web.Controllers
 
             var powder = await _context.Powders
                 .Include(p => p.User)
-                .Include(p => p.Vendor)
+                .Include(p => p.Vendor).AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PowderId == id);
             if (powder == null)
             {

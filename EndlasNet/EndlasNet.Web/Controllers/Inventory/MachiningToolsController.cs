@@ -36,7 +36,7 @@ namespace EndlasNet.Web.Controllers
 
             var machiningTool = await _context.MachiningTools
                 .Include(m => m.User)
-                .Include(m => m.Vendor)
+                .Include(m => m.Vendor).AsNoTracking()
                 .FirstOrDefaultAsync(m => m.MachiningToolId == id);
             if (machiningTool == null)
             {
