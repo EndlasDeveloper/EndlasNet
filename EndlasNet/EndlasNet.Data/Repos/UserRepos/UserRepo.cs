@@ -55,5 +55,14 @@ namespace EndlasNet.Data
             entry.State = EntityState.Modified;
             await db.SaveChangesAsync();
         }
+
+        public string GetUserPrivileges(User user)
+        {
+            try
+            {
+                return (string)db.Entry(user).Property("Discriminator").CurrentValue;
+            } catch(Exception ex) { Console.Out.WriteLine(ex.ToString()); }
+            return null;
+        }
     }
 }

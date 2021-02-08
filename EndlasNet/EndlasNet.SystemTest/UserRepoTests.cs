@@ -122,6 +122,7 @@ namespace EndlasNet.SystemTest
             await AddForTest(user);
             var originalEmail = user.EndlasEmail;
             User usercopy = user;
+            // change user attributes
             user.FirstName = UnitTestUtil.getRandomString(8);
             user.LastName = UnitTestUtil.getRandomString(8);
             user.EndlasEmail = UnitTestUtil.getRandomString(9) + "@endlas.com";
@@ -133,17 +134,51 @@ namespace EndlasNet.SystemTest
 
         }
 
+        [Test]
+        public async Task GetUserPrivilegesTest()
+        {
+            var repo = new UserRepo(_db);
+            var admin = CreateAdmin();
+            var employee = CreateEmployee();
+            await AddForTest(admin);
+            await AddForTest(employee);
+
+            var adminPrivilege = repo.GetUserPrivileges(admin);
+            var employeePrivilege = repo.GetUserPrivileges(employee);
+
+            Assert.AreNotEqual(adminPrivilege, employeePrivilege);
+
+        }
+
         private User CreateUser()
         {
-            return new User
-            {
-                UserId = Guid.NewGuid(),
-                FirstName = UnitTestUtil.getRandomString(8),
-                LastName = UnitTestUtil.getRandomString(8),
-                AuthString = UnitTestUtil.getRandomString(12),
-                EndlasEmail = UnitTestUtil.getRandomString(8) + "@endlas.com"
-            };
+            User user = new User();
+            return SetUserAttributes(user);                  
         }
+
+        private User SetUserAttributes(User user)
+        {
+            user.UserId = Guid.NewGuid();
+            user.FirstName = UnitTestUtil.getRandomString(8);
+            user.LastName = UnitTestUtil.getRandomString(8);
+            user.AuthString = UnitTestUtil.getRandomString(8);
+            user.EndlasEmail = UnitTestUtil.getRandomString(8) + "@endlas.com";
+
+            return user;
+        }
+
+        private Admin CreateAdmin()
+        {
+            Admin admin = new Admin();
+            return (Admin)SetUserAttributes(admin);
+        }
+
+        private Employee CreateEmployee()
+        {
+            Employee employee = new Employee();
+            return (Employee)SetUserAttributes(employee);
+        }
+
         [TearDown]
         public async Task CleanUpAdd()
         {
