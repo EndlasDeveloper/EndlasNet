@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "shTu0LHnZJ0DTdbQvpwT6YFlUuzukgC5F2BN9Uh96NM7CfllroTVxvg6L5JY4l+G+/fqZOL+ZPF+C2w3qK5SHA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Blazor\\Server\\EndlasNet.Blazor.Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\EndlasLaptop2\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.server\\5.0.2\\microsoft.aspnetcore.components.webassembly.server.5.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
