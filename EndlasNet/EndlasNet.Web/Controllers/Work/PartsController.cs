@@ -41,7 +41,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
+            
             return View(part);
         }
 
@@ -62,6 +62,10 @@ namespace EndlasNet.Web.Controllers
             {
                 part.PartId = Guid.NewGuid();
                 part.UserId = new Guid(HttpContext.Session.GetString("userId"));
+
+                _context.Entry(part).Property("CreatedDate").CurrentValue = DateTime.Now;
+                _context.Entry(part).Property("UpdatedDate").CurrentValue = DateTime.Now;
+
                 _context.Add(part);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -101,6 +105,9 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    part.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    _context.Entry(part).Property("UpdatedDate").CurrentValue = DateTime.Now;
+
                     _context.Update(part);
                     await _context.SaveChangesAsync();
                 }

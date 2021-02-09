@@ -100,6 +100,20 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
+            List<SelectListItem> toolTypes = new List<SelectListItem>() {
+            new SelectListItem {
+                Text = "Insert", Value = "0"
+            },
+            new SelectListItem {
+                Text = "Drill bit", Value = "1"
+            },
+            new SelectListItem {
+                Text = "Mill tool", Value = "2"
+            },
+
+        };
+            ViewBag.ToolTypes = toolTypes;
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
@@ -120,6 +134,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    machiningTool.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Entry(machiningTool).Property("UpdatedDate").CurrentValue = DateTime.Now;
                     _context.Update(machiningTool);
                     await _context.SaveChangesAsync();
@@ -137,6 +152,20 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
+            List<SelectListItem> toolTypes = new List<SelectListItem>() {
+            new SelectListItem {
+                Text = "Insert", Value = "0"
+            },
+            new SelectListItem {
+                Text = "Drill bit", Value = "1"
+            },
+            new SelectListItem {
+                Text = "Mill tool", Value = "2"
+            },
+
+        };
+            ViewBag.ToolTypes = toolTypes;
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
