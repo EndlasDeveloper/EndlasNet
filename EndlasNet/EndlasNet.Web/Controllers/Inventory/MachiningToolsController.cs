@@ -42,6 +42,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
 
             return View(machiningTool);
         }
@@ -49,7 +50,7 @@ namespace EndlasNet.Web.Controllers
         // GET: MachiningTools/Create
         public IActionResult Create()
         {
-            PopulateMachiningToolTypeDropdown();
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
             return View();
         }
 
@@ -87,7 +88,6 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            PopulateMachiningToolTypeDropdown();
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
@@ -126,7 +126,6 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            PopulateMachiningToolTypeDropdown();
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
@@ -165,23 +164,6 @@ namespace EndlasNet.Web.Controllers
         private bool MachiningToolExists(Guid id)
         {
             return _context.MachiningTools.Any(e => e.MachiningToolId == id);
-        }
-
-        private void PopulateMachiningToolTypeDropdown()
-        {
-            List<SelectListItem> toolTypes = new List<SelectListItem>() {
-            new SelectListItem {
-                Text = "Insert", Value = "0"
-            },
-            new SelectListItem {
-                Text = "Drill bit", Value = "1"
-            },
-            new SelectListItem {
-                Text = "Mill tool", Value = "2"
-            },
-
-        };
-            ViewBag.ToolTypes = toolTypes;
         }
     }
 }
