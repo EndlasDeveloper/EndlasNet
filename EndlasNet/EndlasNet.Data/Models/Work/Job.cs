@@ -15,7 +15,7 @@ namespace EndlasNet.Data
         [Display(Name = "Job description")]
         public string WorkDescription { get; set; }
         [Display(Name = "Status")]
-        public Status Status { get; set; } = Status.Not_Started;
+        public Status Status { get; set; } = Status.NotStarted;
         [Display(Name = "Purchase order number")]
         public string PurchaseOrderNum { get; set; }
         [Display(Name = "Due date")]

@@ -88,6 +88,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", job.CustomerId);
+            PopulateStatusDropdown();
             return View(job);
         }
 
@@ -107,6 +108,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    job.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Entry(job).Property("UpdatedDate").CurrentValue = DateTime.Now;
                     _context.Update(job);
                     await _context.SaveChangesAsync();
@@ -125,6 +127,7 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", job.CustomerId);
+            PopulateStatusDropdown();
             return View(job);
         }
 
@@ -163,5 +166,24 @@ namespace EndlasNet.Web.Controllers
         {
             return _context.Jobs.Any(e => e.WorkId == id);
         }
+        private void PopulateStatusDropdown()
+        {
+            List<SelectListItem> statusList = new List<SelectListItem>() {
+            new SelectListItem {
+                Text = "Not started", Value = "0"
+            },
+            new SelectListItem {
+                Text = "In progress", Value = "1"
+            },
+            new SelectListItem {
+                Text = "Complete", Value = "2"
+            },
+            new SelectListItem {
+                Text = "Past due", Value = "3"
+            },
+        };
+            ViewBag.ToolTypes = statusList;
+        }
     }
 }
+

@@ -6,10 +6,10 @@ namespace EndlasNet.Data
 {
     public enum Status
     {
-        Not_Started,
-        In_Progress,
+        NotStarted,
+        InProgress,
         Complete,
-        Past_Due
+        PastDue
     }
     public interface IWork
     {

@@ -169,7 +169,6 @@ namespace EndlasNet.Web.Controllers
 
         private void PopulateMachiningToolTypeDropdown()
         {
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
             List<SelectListItem> toolTypes = new List<SelectListItem>() {
             new SelectListItem {
                 Text = "Insert", Value = "0"
