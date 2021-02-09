@@ -49,7 +49,7 @@ namespace EndlasNet.Web.Controllers
         // GET: MachiningTools/Create
         public IActionResult Create()
         {
-            PopulateMachiningToolsDropdown();
+            PopulateMachiningToolTypeDropdown();
             return View();
         }
 
@@ -87,7 +87,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            PopulateMachiningToolsDropdown();
+            PopulateMachiningToolTypeDropdown();
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
@@ -126,7 +126,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            PopulateMachiningToolsDropdown();
+            PopulateMachiningToolTypeDropdown();
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
@@ -167,7 +167,7 @@ namespace EndlasNet.Web.Controllers
             return _context.MachiningTools.Any(e => e.MachiningToolId == id);
         }
 
-        private void PopulateMachiningToolsDropdown()
+        private void PopulateMachiningToolTypeDropdown()
         {
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
             List<SelectListItem> toolTypes = new List<SelectListItem>() {
