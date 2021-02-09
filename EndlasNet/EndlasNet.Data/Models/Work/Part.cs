@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +10,7 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class Part
+    public class Part 
     {
         public Guid PartId { get; set; }
         [Display(Name = "Drawing number")]
@@ -34,5 +36,17 @@ namespace EndlasNet.Data
         public User User { get; set; }
 
         public IEnumerable<PartForJob> PartsForJobs { get; set; }
+    }
+    public class BufferedSingleFileUploadDbModel : PageModel
+    {
+        [BindProperty]
+        public BufferedSingleFileUploadDb FileUpload { get; set; }
+    }
+
+    public class BufferedSingleFileUploadDb
+    {
+        [Required]
+        [Display(Name = "File")]
+        public IFormFile FormFile { get; set; }
     }
 }

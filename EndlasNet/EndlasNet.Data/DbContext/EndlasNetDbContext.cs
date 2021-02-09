@@ -65,8 +65,8 @@ namespace EndlasNet.Data
             _ = new JobMap(modelBuilder.Entity<Job>());
             _ = new PartMap(modelBuilder.Entity<Part>());
             _ = new PartForJobMap(modelBuilder.Entity<PartForJob>());
-            _ = new ToolForJobMap(modelBuilder.Entity<MachiningToolForJob>());
-            _ = new ToolForWorkOrderMap(modelBuilder.Entity<MachiningToolForWorkOrder>());
+            _ = new MachiningToolForJobMap(modelBuilder.Entity<MachiningToolForJob>());
+            _ = new MachiningToolForWorkOrderMap(modelBuilder.Entity<MachiningToolForWorkOrder>());
             _ = new PartForJobMap(modelBuilder.Entity<PartForJob>());
             _ = new PartForWorkOrderMap(modelBuilder.Entity<PartForWorkOrder>());
             // ENVIRONMENT

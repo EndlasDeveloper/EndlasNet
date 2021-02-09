@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using EndlasNet.Web.Models;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -66,6 +68,12 @@ namespace EndlasNet.Web.Controllers
                 _context.Entry(part).Property("CreatedDate").CurrentValue = DateTime.Now;
                 _context.Entry(part).Property("UpdatedDate").CurrentValue = DateTime.Now;
 
+                using (var memoryStream = new MemoryStream())
+                {
+                    part.DrawingImage= memoryStream.ToArray();
+                    //await part.DrawingImage.CopyToAsync(memoryStream);
+
+                }
                 _context.Add(part);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -161,5 +169,34 @@ namespace EndlasNet.Web.Controllers
         {
             return _context.Parts.Any(e => e.PartId == id);
         }
+
+      /*  public async Task<IActionResult> OnPostUploadAsync()
+        {
+            BufferedSingleFileUploadDb pi = new BufferedSingleFileUploadDb();
+            
+            using (var memoryStream = new MemoryStream())
+            {
+                await BufferedSingleFileUploadDb.FileUpload.FormFile.CopyToAsync(memoryStream);
+
+            // Upload the file if less than 2 MB
+            if (memoryStream.Length < 2097152)
+            {
+                var file = new AppFile()
+                {
+                    Content = memoryStream.ToArray()
+                };
+
+                _dbContext.File.Add(file);
+
+                await _dbContext.SaveChangesAsync();
+            }
+            else
+            {
+                ModelState.AddModelError("File", "The file is too large.");
+            }
+        }
+
+            return Page();
+        }*/
     }
 }

@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-cyborg.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-darkly.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
@@ -16,9 +15,6 @@
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-slate.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-solar.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-spacelab.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />

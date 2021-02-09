@@ -1,5 +1,5 @@
-﻿@model EndlasNet.Data.Part
-
+﻿@using EndlasNet.Data;
+@model EndlasNet.Data.Part
 @{
     ViewData["Title"] = "Create";
 }
@@ -51,6 +51,18 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+       @* <form enctype="multipart/form-data" method="post">
+            
+            <dl>
+                <dt>
+                    <label asp-for="FileUpload.FormFile"></label>
+                </dt>
+                <dd>
+                    <input asp-for="FileUpload.FormFile" type="file">
+                </dd>
+            </dl>
+            <input asp-page-handler="Upload" class="btn" type="submit" value="Upload">
+        </form>*@
     </div>
 </div>
 
