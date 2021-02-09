@@ -104,6 +104,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Entry(workOrder).Property("UpdatedDate").CurrentValue = DateTime.Now;
 
                     _context.Update(workOrder);
