@@ -49,7 +49,7 @@ namespace EndlasNet.Web.Controllers
         public IActionResult Create()
         {
             ViewData["JobId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber");
-            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "ConditionDescription");
+            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "DrawingNumber");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["JobId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber", partForJob.JobId);
-            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "ConditionDescription", partForJob.PartId);
+            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "DrawingNumber", partForJob.PartId);
             return View(partForJob);
         }
 
@@ -86,7 +86,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
             ViewData["JobId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber", partForJob.JobId);
-            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "ConditionDescription", partForJob.PartId);
+            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "DrawingNumber", partForJob.PartId);
             return View(partForJob);
         }
 
@@ -123,7 +123,7 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["JobId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber", partForJob.JobId);
-            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "ConditionDescription", partForJob.PartId);
+            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "DrawingNumber", partForJob.PartId);
             return View(partForJob);
         }
 
