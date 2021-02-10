@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EndlasNet.Data.Migrations
 {
-    public partial class mig : Migration
+    public partial class mg : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -293,24 +293,26 @@ namespace EndlasNet.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PartForWorkOrder",
+                name: "PartsForWorkOrders",
                 columns: table => new
                 {
                     PartForWorkOrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PartId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    WorkOrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    WorkOrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PartForWorkOrder", x => x.PartForWorkOrderId);
+                    table.PrimaryKey("PK_PartsForWorkOrders", x => x.PartForWorkOrderId);
                     table.ForeignKey(
-                        name: "FK_PartForWorkOrder_Parts_PartId",
+                        name: "FK_PartsForWorkOrders_Parts_PartId",
                         column: x => x.PartId,
                         principalTable: "Parts",
                         principalColumn: "PartId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PartForWorkOrder_WorkOrders_WorkOrderId",
+                        name: "FK_PartsForWorkOrders_WorkOrders_WorkOrderId",
                         column: x => x.WorkOrderId,
                         principalTable: "WorkOrders",
                         principalColumn: "WorkId",
@@ -361,23 +363,23 @@ namespace EndlasNet.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "CustomerId", "CustomerAddress", "CustomerName", "CustomerPhone", "PointOfContact" },
-                values: new object[] { new Guid("6c6c051b-9f7e-4319-ab8f-b337eea1e54b"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
+                values: new object[] { new Guid("c1b404e2-6cc2-453c-9578-db37cfb5c2a8"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("c15f2c95-6c05-4491-8d48-70b5f77937b0"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "SA", "SA" },
-                    { new Guid("eb033510-3f0b-4f8c-b316-e74ab6726d6f"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "James", "Tomich" },
-                    { new Guid("79b65878-fb7a-4505-9848-d28e53c52240"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("98731b00-b81a-4099-ac41-4688dfdab5e9"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
+                    { new Guid("b575e16a-022b-4ec6-abb7-18cbdf6d0c82"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "SA", "SA" },
+                    { new Guid("8cb9c855-02c5-4733-84bf-79f9d369e24a"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "James", "Tomich" },
+                    { new Guid("e1bb0417-0a80-4a5b-882c-e8c26b5ddf8c"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("2b15ed89-b65a-4210-906b-ee06179b1d88"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Vendors",
                 columns: new[] { "VendorId", "PointOfContact", "UserId", "VendorAddress", "VendorName", "VendorPhone" },
-                values: new object[] { new Guid("d75edb0d-c08a-4238-82f9-7fe976a07ea2"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
+                values: new object[] { new Guid("ec65668f-5683-4289-b35b-d744baf991ed"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Jobs_CustomerId",
@@ -425,16 +427,6 @@ namespace EndlasNet.Data.Migrations
                 column: "VendorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PartForWorkOrder_PartId",
-                table: "PartForWorkOrder",
-                column: "PartId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PartForWorkOrder_WorkOrderId",
-                table: "PartForWorkOrder",
-                column: "WorkOrderId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Parts_UserId",
                 table: "Parts",
                 column: "UserId");
@@ -453,6 +445,16 @@ namespace EndlasNet.Data.Migrations
                 name: "IX_PartsForJobs_UserId",
                 table: "PartsForJobs",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PartsForWorkOrders_PartId",
+                table: "PartsForWorkOrders",
+                column: "PartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PartsForWorkOrders_WorkOrderId",
+                table: "PartsForWorkOrders",
+                column: "WorkOrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Powders_UserId",
@@ -498,10 +500,10 @@ namespace EndlasNet.Data.Migrations
                 name: "MachiningTools");
 
             migrationBuilder.DropTable(
-                name: "PartForWorkOrder");
+                name: "PartsForJobs");
 
             migrationBuilder.DropTable(
-                name: "PartsForJobs");
+                name: "PartsForWorkOrders");
 
             migrationBuilder.DropTable(
                 name: "Powders");
@@ -510,10 +512,10 @@ namespace EndlasNet.Data.Migrations
                 name: "MachiningToolForJob");
 
             migrationBuilder.DropTable(
-                name: "WorkOrders");
+                name: "Parts");
 
             migrationBuilder.DropTable(
-                name: "Parts");
+                name: "WorkOrders");
 
             migrationBuilder.DropTable(
                 name: "Vendors");

@@ -1,14 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace EndlasNet.Data
 {
-    internal class PartForWorkOrderMap
+    public class PartForWorkOrderMap
     {
-        private EntityTypeBuilder<PartForWorkOrder> entityTypeBuilder;
 
         public PartForWorkOrderMap(EntityTypeBuilder<PartForWorkOrder> entityTypeBuilder)
         {
-            this.entityTypeBuilder = entityTypeBuilder;
+            // set PK
+            entityTypeBuilder.HasKey(p => p.PartForWorkOrderId);
+
+            // shadow properties
+            entityTypeBuilder.Property<DateTime>("CreatedDate");
+            entityTypeBuilder.Property<DateTime>("UpdatedDate");
         }
     }
 }
