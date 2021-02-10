@@ -45,5 +45,24 @@ namespace EndlasNet.Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult Work()
+        {
+            return View();
+        }
+
+        public IActionResult Inventory()
+        {
+            return View();
+        }
+
+        public IActionResult Users()
+        {
+            return View();
+        }
+        public IActionResult Environments()
+        {
+            return View();
+        }
     }
 }
