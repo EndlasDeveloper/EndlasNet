@@ -53,7 +53,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
+            SetImageURL(part);
             return View(part);
         }
 
@@ -176,6 +176,21 @@ namespace EndlasNet.Web.Controllers
         private bool PartExists(Guid id)
         {
             return _context.Parts.Any(e => e.PartId == id);
+        }
+
+        // To convert the Byte Array to the author Image
+        public FileContentResult GetImage(byte[] byteArray)
+        { 
+            return byteArray != null
+                ? new FileContentResult(byteArray, "image/jpeg")
+                : null;
+        }
+
+        public void SetImageURL(Part part) 
+        {
+            string imageBase64Data = Convert.ToBase64String(part.DrawingImage);
+            string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+            ViewBag.ImageData = imageDataURL;
         }
     }
 }
