@@ -9,12 +9,15 @@ using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using EndlasNet.Web.Models;
+using System.Net.Http.Headers;
 
 namespace EndlasNet.Web.Controllers
 {
     public class PartsController : Controller
     {
+
         private readonly EndlasNetDbContext _context;
+        private readonly string[] _permittedExtensions = { ".png", ".jpg" };
 
         public PartsController(EndlasNetDbContext context)
         {
@@ -60,20 +63,16 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PartId,DrawingNumber,ConditionDescription,InitWeight,Weight,CladdedWeight,ProcessingNotes,DrawingImage,UserId")] Part part)
         {
+
             if (ModelState.IsValid)
             {
                 part.PartId = Guid.NewGuid();
+                //UploadSingle(part);
                 part.UserId = new Guid(HttpContext.Session.GetString("userId"));
 
                 _context.Entry(part).Property("CreatedDate").CurrentValue = DateTime.Now;
                 _context.Entry(part).Property("UpdatedDate").CurrentValue = DateTime.Now;
 
-                using (var memoryStream = new MemoryStream())
-                {
-                    part.DrawingImage= memoryStream.ToArray();
-                    //await part.DrawingImage.CopyToAsync(memoryStream);
-
-                }
                 _context.Add(part);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -169,34 +168,18 @@ namespace EndlasNet.Web.Controllers
         {
             return _context.Parts.Any(e => e.PartId == id);
         }
-
-      /*  public async Task<IActionResult> OnPostUploadAsync()
+/*
+        public Part UploadSingle(Part part)
         {
-            BufferedSingleFileUploadDb pi = new BufferedSingleFileUploadDb();
-            
-            using (var memoryStream = new MemoryStream())
+            using (var fileStream = part.DrawingFormFile.OpenReadStream())
+            using (var ms = new MemoryStream())
             {
-                await BufferedSingleFileUploadDb.FileUpload.FormFile.CopyToAsync(memoryStream);
-
-            // Upload the file if less than 2 MB
-            if (memoryStream.Length < 2097152)
-            {
-                var file = new AppFile()
-                {
-                    Content = memoryStream.ToArray()
-                };
-
-                _dbContext.File.Add(file);
-
-                await _dbContext.SaveChangesAsync();
+                fileStream.CopyTo(ms);
+                part.DrawingImageRaw = ms.ToArray();
+                //string s = Convert.ToBase64String(fileBytes);
+                // act on the Base64 data
             }
-            else
-            {
-                ModelState.AddModelError("File", "The file is too large.");
-            }
-        }
-
-            return Page();
+            return part;
         }*/
     }
 }
