@@ -1,5 +1,5 @@
-﻿@using EndlasNet.Data;
-@model EndlasNet.Data.Part
+﻿@model EndlasNet.Data.Part
+
 @{
     ViewData["Title"] = "Create";
 }
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="DrawingNumber" class="control-label"></label>
@@ -43,30 +43,20 @@
                 <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <div class="col-md-10">
-                    <p>Upload one or more files using this form:</p>
-                    <label asp-for="DrawingImage" class="control-label"></label>
-                    <input type="file" name="files" multiple="">
-                    <span asp-validation-for="DrawingImage" class="text-danger"></span>
-                </div>
+                <label asp-for="ImageName" class="control-label"></label>
+                <input asp-for="ImageName" class="form-control" />
+                <span asp-validation-for="ImageName" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" accept="image/png,image/jpg" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
-
-        @* <form enctype="multipart/form-data" method="post">
-
-            <dl>
-                <dt>
-                    <label asp-for="FileUpload.FormFile"></label>
-                </dt>
-                <dd>
-                    <input asp-for="FileUpload.FormFile" type="file">
-                </dd>
-            </dl>
-            <input asp-page-handler="Upload" class="btn" type="submit" value="Upload">
-        </form>*@
     </div>
 </div>
 
@@ -74,3 +64,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

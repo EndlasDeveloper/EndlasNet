@@ -8,17 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
-using EndlasNet.Web.Models;
-using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Authorization;
 
 namespace EndlasNet.Web.Controllers
 {
+    public static class FormFileExtenstions
+    {
+        public static async Task<byte[]> GetBytes(this IFormFile formFile)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await formFile.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+            }
+        }
+    }
     public class PartsController : Controller
     {
-
         private readonly EndlasNetDbContext _context;
-        private readonly string[] _permittedExtensions = { ".png", ".jpg" };
 
         public PartsController(EndlasNetDbContext context)
         {
@@ -41,52 +47,37 @@ namespace EndlasNet.Web.Controllers
             }
 
             var part = await _context.Parts
-                .Include(p => p.User).AsNoTracking()
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.PartId == id);
             if (part == null)
             {
                 return NotFound();
             }
-            
+
             return View(part);
         }
 
         // GET: Parts/Create
         public IActionResult Create()
         {
+            
             return View();
         }
+
+
 
         // POST: Parts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartId,DrawingNumber,ConditionDescription,InitWeight,Weight,CladdedWeight,ProcessingNotes,DrawingImage,UserId")] Part part, List<IFormFile> files)
+        public async Task<IActionResult> Create([Bind("PartId,DrawingNumber,ConditionDescription,InitWeight,Weight,CladdedWeight,ProcessingNotes,ImageName,ImageFile,UserId")] Part part)
         {
-
             if (ModelState.IsValid)
             {
-                if(files.Count == 1)
-                {
-                    IFormFile file = files.First();
-                    using (var fileStream = file.OpenReadStream())
-                    using (var ms = new MemoryStream())
-                    {
-                        fileStream.CopyTo(ms);
-                        part.DrawingImage = ms.ToArray();
-                        //string s = Convert.ToBase64String(fileBytes);
-                        // act on the Base64 data
-                    }
-                } else
-                {
-
-                    Console.Out.WriteLine("File count failed.");
-                }
                 part.PartId = Guid.NewGuid();
-                //UploadSingle(part);
+                part.DrawingImage = await FormFileExtenstions.GetBytes(part.ImageFile);
                 part.UserId = new Guid(HttpContext.Session.GetString("userId"));
-
                 _context.Entry(part).Property("CreatedDate").CurrentValue = DateTime.Now;
                 _context.Entry(part).Property("UpdatedDate").CurrentValue = DateTime.Now;
 
@@ -94,6 +85,7 @@ namespace EndlasNet.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(part);
         }
 
@@ -118,20 +110,20 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartId,DrawingNumber,ConditionDescription,InitWeight,Weight,CladdedWeight,ProcessingNotes,DrawingImage,UserId")] Part part)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartId,DrawingNumber,ConditionDescription,InitWeight,Weight,CladdedWeight,ProcessingNotes,ImageName,ImageFile,UserId")] Part part)
         {
-            if (id != part.PartId)
+/*            if (id != part.PartId)
             {
                 return NotFound();
             }
-
+*/
             if (ModelState.IsValid)
             {
                 try
                 {
                     part.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    part.DrawingImage = await FormFileExtenstions.GetBytes(part.ImageFile);
                     _context.Entry(part).Property("UpdatedDate").CurrentValue = DateTime.Now;
-
                     _context.Update(part);
                     await _context.SaveChangesAsync();
                 }
@@ -185,67 +177,5 @@ namespace EndlasNet.Web.Controllers
         {
             return _context.Parts.Any(e => e.PartId == id);
         }
-
-       /* [HttpPost("UploadFiles")]
-        public async Task<IActionResult> Post(List<IFormFile> files)
-        {
-            long size = files.Sum(f => f.Length);
-
-            // full path to file in temp location
-            var filePath = Path.GetTempFileName();
-
-            foreach (var formFile in files)
-            {
-                if (formFile.Length > 0)
-                {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-                }
-            }
-
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-
-            return Ok(new { count = files.Count, size, filePath });
-        }
-
-        */
-            /*        [HttpPost]
-                    public async Task<IActionResult> UploadToDatabase(List<IFormFile> files, string description)
-                    {
-                        foreach (var file in files)
-                        {
-                            var fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                            var extension = Path.GetExtension(file.FileName);
-                            var fileModel = new PartModelDb
-                            {
-
-                            };
-                            using (var dataStream = new MemoryStream())
-                            {
-                                await file.CopyToAsync(dataStream);
-                                fileModel.Data = dataStream.ToArray();
-                            }
-                            context.FilesOnDatabase.Add(fileModel);
-                            context.SaveChanges();
-                        }
-                        TempData["Message"] = "File successfully uploaded to Database";
-                        return RedirectToAction("Index");
-                    }*/
-            /*
-                    public Part UploadSingle(Part part)
-                    {
-                        using (var fileStream = part.DrawingFormFile.OpenReadStream())
-                        using (var ms = new MemoryStream())
-                        {
-                            fileStream.CopyTo(ms);
-                            part.DrawingImageRaw = ms.ToArray();
-                            //string s = Convert.ToBase64String(fileBytes);
-                            // act on the Base64 data
-                        }
-                        return part;
-                    }*/
-        }
+    }
 }

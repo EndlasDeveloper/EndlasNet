@@ -26,7 +26,13 @@ namespace EndlasNet.Data
         [Display(Name = "Processing notes")]
         public string ProcessingNotes { get; set; }
 
-        [Display(Name = "Drawing image")]
+        [Display(Name ="Image name")]
+        public string ImageName { get; set; }
+
+        [NotMapped]
+        [Display(Name ="Upload file")]
+        public IFormFile ImageFile { get; set; }
+
         public byte[] DrawingImage { get; set; }
 
         [Display(Name = "User")]

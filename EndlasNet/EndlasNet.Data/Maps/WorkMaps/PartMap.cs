@@ -17,6 +17,9 @@ namespace EndlasNet.Data
             entityBuilder.Property(p => p.Weight).IsRequired();
             entityBuilder.Property(p => p.CladdedWeight).IsRequired();
             entityBuilder.Property(p => p.ProcessingNotes).IsRequired();
+            entityBuilder.Property(p => p.ImageName).IsRequired();
+            entityBuilder.Property(p => p.DrawingImage).IsRequired();
+
             // shadow properties
             entityBuilder.Property<DateTime>("CreatedDate");
             entityBuilder.Property<DateTime>("UpdatedDate");
