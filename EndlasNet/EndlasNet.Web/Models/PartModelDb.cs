@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Web.Models
 {
-    public class PartViewModel
+    public class PartModelDb : PartImageModel
     {
-        public List<PartModelDb> PartModels { get; set; }
+        public byte[] DrawingImage { get; set; }
     }
 }

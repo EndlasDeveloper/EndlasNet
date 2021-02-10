@@ -26,11 +26,8 @@ namespace EndlasNet.Data
         [Display(Name = "Processing notes")]
         public string ProcessingNotes { get; set; }
 
-        [DataType(DataType.Upload)]
         [Display(Name = "Drawing image")]
-        [Column(TypeName = "image")]
         public byte[] DrawingImage { get; set; }
-       
 
         [Display(Name = "User")]
         [ForeignKey("UserId")]

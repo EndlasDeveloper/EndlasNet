@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EndlasNet.Data;
 
 namespace EndlasNet.Web.Models
 {
-    public class PartViewModel
+    public abstract class PartImageModel
     {
-        public List<PartModelDb> PartModels { get; set; }
+        public Part Part { get; set; }
     }
 }

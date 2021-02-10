@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using EndlasNet.Web.Models;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -61,11 +62,27 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartId,DrawingNumber,ConditionDescription,InitWeight,Weight,CladdedWeight,ProcessingNotes,DrawingImage,UserId")] Part part)
+        public async Task<IActionResult> Create([Bind("PartId,DrawingNumber,ConditionDescription,InitWeight,Weight,CladdedWeight,ProcessingNotes,DrawingImage,UserId")] Part part, List<IFormFile> files)
         {
 
             if (ModelState.IsValid)
             {
+                if(files.Count == 1)
+                {
+                    IFormFile file = files.First();
+                    using (var fileStream = file.OpenReadStream())
+                    using (var ms = new MemoryStream())
+                    {
+                        fileStream.CopyTo(ms);
+                        part.DrawingImage = ms.ToArray();
+                        //string s = Convert.ToBase64String(fileBytes);
+                        // act on the Base64 data
+                    }
+                } else
+                {
+
+                    Console.Out.WriteLine("File count failed.");
+                }
                 part.PartId = Guid.NewGuid();
                 //UploadSingle(part);
                 part.UserId = new Guid(HttpContext.Session.GetString("userId"));
@@ -168,18 +185,67 @@ namespace EndlasNet.Web.Controllers
         {
             return _context.Parts.Any(e => e.PartId == id);
         }
-/*
-        public Part UploadSingle(Part part)
+
+       /* [HttpPost("UploadFiles")]
+        public async Task<IActionResult> Post(List<IFormFile> files)
         {
-            using (var fileStream = part.DrawingFormFile.OpenReadStream())
-            using (var ms = new MemoryStream())
+            long size = files.Sum(f => f.Length);
+
+            // full path to file in temp location
+            var filePath = Path.GetTempFileName();
+
+            foreach (var formFile in files)
             {
-                fileStream.CopyTo(ms);
-                part.DrawingImageRaw = ms.ToArray();
-                //string s = Convert.ToBase64String(fileBytes);
-                // act on the Base64 data
+                if (formFile.Length > 0)
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+                }
             }
-            return part;
-        }*/
-    }
+
+            // process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+
+            return Ok(new { count = files.Count, size, filePath });
+        }
+
+        */
+            /*        [HttpPost]
+                    public async Task<IActionResult> UploadToDatabase(List<IFormFile> files, string description)
+                    {
+                        foreach (var file in files)
+                        {
+                            var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                            var extension = Path.GetExtension(file.FileName);
+                            var fileModel = new PartModelDb
+                            {
+
+                            };
+                            using (var dataStream = new MemoryStream())
+                            {
+                                await file.CopyToAsync(dataStream);
+                                fileModel.Data = dataStream.ToArray();
+                            }
+                            context.FilesOnDatabase.Add(fileModel);
+                            context.SaveChanges();
+                        }
+                        TempData["Message"] = "File successfully uploaded to Database";
+                        return RedirectToAction("Index");
+                    }*/
+            /*
+                    public Part UploadSingle(Part part)
+                    {
+                        using (var fileStream = part.DrawingFormFile.OpenReadStream())
+                        using (var ms = new MemoryStream())
+                        {
+                            fileStream.CopyTo(ms);
+                            part.DrawingImageRaw = ms.ToArray();
+                            //string s = Convert.ToBase64String(fileBytes);
+                            // act on the Base64 data
+                        }
+                        return part;
+                    }*/
+        }
 }
