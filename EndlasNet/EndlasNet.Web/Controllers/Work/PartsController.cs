@@ -11,8 +11,13 @@ using System.IO;
 
 namespace EndlasNet.Web.Controllers
 {
+    /*
+     * Class: FormFileExtensions
+     * Description: Static class to house static method for getting bytes from an IFormFile
+     */
     public static class FormFileExtenstions
     {
+        // returns an IFormFile as a byte array
         public static async Task<byte[]> GetBytes(this IFormFile formFile)
         {
             using (var memoryStream = new MemoryStream())
@@ -47,7 +52,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var part = await _context.Parts
-                .Include(p => p.User)
+                .Include(p => p.User).AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PartId == id);
             if (part == null)
             {

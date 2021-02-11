@@ -35,7 +35,7 @@ namespace EndlasNet.Web.Controllers
 
             var partForWorkOrder = await _context.PartsForWorkOrders
                 .Include(p => p.Job)
-                .Include(p => p.Part)
+                .Include(p => p.Part).AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PartForWorkOrderId == id);
             if (partForWorkOrder == null)
             {

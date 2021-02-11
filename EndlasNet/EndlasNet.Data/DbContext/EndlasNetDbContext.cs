@@ -11,14 +11,19 @@ namespace EndlasNet.Data
     {
         // connection string for context to db
         private readonly string connectionString = ConnectionStrings.endlas_local;
+
+        /*******************DEFINE TABLES TO EXIST****************************/
+
         // USER
         public DbSet<User> Users { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Admin> Admins { get; set; }
+
         // INVENTORY
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<MachiningTool> MachiningTools { get; set; }
         public DbSet<Powder> Powders { get; set; }
+
         // WORK
         public DbSet<Part> Parts { get; set; }
         public DbSet<PartForJob> PartsForJobs { get; set; }
@@ -26,8 +31,12 @@ namespace EndlasNet.Data
         public DbSet<Job> Jobs { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
         public DbSet<Customer> Customers { get; set; }
+
         // ENVIRONMENT
         public DbSet<EnvironmentalSnapshot> EnvironmentalSnapshots { get; set; }
+
+        /*******************END TABLES********************************************/
+
 
         // setup connection string
         public EndlasNetDbContext(string connectionString)
@@ -44,8 +53,8 @@ namespace EndlasNet.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(connectionString, b => b.MigrationsAssembly("EndlasNet.Data"));
+            {   // point mig assembly at this project
+                optionsBuilder.UseSqlServer(connectionString, b => b.MigrationsAssembly("EndlasNet.Data")); 
             }
         }
 
@@ -75,6 +84,8 @@ namespace EndlasNet.Data
             // MULTIPLICITY
             _ = new MultiplicityMap(modelBuilder);
 
+
+            // DEFINE SYSTEM ADMINS ON DATABASE CREATION
             var SA = new Admin
             {
                 UserId = Guid.NewGuid(),
@@ -139,7 +150,6 @@ namespace EndlasNet.Data
             });
 
             // PUT PART DUMMY TO PART TABLE
-
             // PUT JOB DUMMY TO JOB TABLE
         }
 
