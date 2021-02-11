@@ -16,34 +16,14 @@ namespace EndlasNet.Web.Controllers
             _db = db;
         }
 
-
         public IActionResult Index()
-        {
-            
-            // The HttpContext associated with the page can be accessed by the Context property.
-            /*System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            try
-            {
-                sb.Append("Number of items in Session state: " +
-                    Context.Session.Count.ToString() + "<br/>");
-            }
-            catch
-            {
-                sb.Append("Session state not enabled. <br/>");
-            }*/
+        {      
             return View();
-
         }
 
         public IActionResult Contact()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         public IActionResult Work()
@@ -67,6 +47,12 @@ namespace EndlasNet.Web.Controllers
         public IActionResult Help()
         {
             return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
