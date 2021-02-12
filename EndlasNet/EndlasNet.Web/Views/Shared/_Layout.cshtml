@@ -29,7 +29,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                            <a class="nav-link text-black-50" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                         </li>
                         @if (Context.Session.GetString("userId") != null)
                         {
@@ -46,11 +46,6 @@
                                 <a class="nav-link text-black-50" asp-area="" asp-controller="Home" asp-action="Environments">Environment</a>
                             </li>
 
-                            <li class="nav-link">
-                                <div class="text-center">
-                                    <a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
-                                </div>
-                            </li>
                         }
                         else
                         {
@@ -68,19 +63,25 @@
             <div>
             </div>
 
-            <a class="nav-link text-black-50" asp-area="" asp-controller="Home" asp-action="Help">Help</a>
-
-            <a class="navbar-brand" href="https://app.smartsheet.com/b/home?_ga=2.153976507.267216971.1611743518-1850135157.1611743518">
-
+            @if (Context.Session.GetString("userId") != null)
+            {
                 <div class="text-center">
-                    <img src="~/img/smartsheetLogo.png" title="Go to Smartsheet login" width="50" height="50" />
+                    <a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
                 </div>
+            }
+                <a class="nav-link text-black-50" asp-area="" asp-controller="Home" asp-action="Help">Help</a>
 
-            </a>
-            <div>
-                @Context.Session.GetString("firstname") @Context.Session.GetString("lastname")
-            </div>
-        </nav>
+                <a class="navbar-brand" href="https://app.smartsheet.com/b/home?_ga=2.153976507.267216971.1611743518-1850135157.1611743518">
+
+                    <div class="text-center">
+                        <img src="~/img/smartsheetLogo.png" title="Go to Smartsheet login" width="50" height="50" />
+                    </div>
+
+                </a>
+                <div>
+                    @Context.Session.GetString("firstname") @Context.Session.GetString("lastname")
+                </div>
+            </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
