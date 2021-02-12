@@ -20,25 +20,25 @@
 </head>
 <body>
 
-    <center>
         <br />
         <div>
             @if (ViewBag.IsUserLoggedIn == "false")
             {
                 <p><font color="red">Username or password is incorrect.</font></p>
             }
+        </div>
         <form method="post">
-            <input type="text" name="email" placeholder="Email Address" style="width: 300px;" required><br><br>
-            <input type="password" name="pwd" placeholder="Password" style="width: 300px;" required><br><br>
+            <div class="form-group">
+                <input type="text" name="email" placeholder="Email Address" style="width: 300px;" required><br><br>
+                <input type="password" name="pwd" placeholder="Password" style="width: 300px;" required><br><br>
 
-            <input class="button-area" id="custominput" asp-area="" asp-controller="Login" asp-action="LoginSubmit" type="submit" value="Log in">
-
+                <input class="button-area" id="custominput" asp-area="" asp-controller="Login" asp-action="LoginSubmit" type="submit" value="Log in">
+            </div>
         </form>
             <span></span>
             <div>
                 <a id="aforgotpwd" asp-area="" asp-controller="ForgotPwd" asp-action="Index">Forgot password?</a>
             </div>
-</center>
 
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

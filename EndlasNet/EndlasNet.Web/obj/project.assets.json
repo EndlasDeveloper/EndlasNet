@@ -10442,11 +10442,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj",
+      "projectUniqueName": "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj",
       "projectName": "EndlasNet.Web",
-      "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj",
+      "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.Web\\EndlasNet.Web.csproj",
       "packagesPath": "C:\\Users\\EndlasLaptop2\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Web\\obj\\",
+      "outputPath": "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.Web\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -10467,8 +10467,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj": {
-              "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj"
+            "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj": {
+              "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj"
             }
           }
         }

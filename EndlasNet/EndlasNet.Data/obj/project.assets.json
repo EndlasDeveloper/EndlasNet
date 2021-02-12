@@ -9510,11 +9510,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj",
+      "projectUniqueName": "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj",
       "projectName": "EndlasNet.Data",
-      "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj",
+      "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj",
       "packagesPath": "C:\\Users\\EndlasLaptop2\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Data\\obj\\",
+      "outputPath": "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.Data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
