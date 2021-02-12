@@ -26,7 +26,7 @@ namespace EndlasNet.Data
         [Display(Name = "Processing notes")]
         public string ProcessingNotes { get; set; }
 
-        [Display(Name ="Image name")]
+        [Display(Name ="Image title")]
         public string ImageName { get; set; }
 
         [NotMapped]

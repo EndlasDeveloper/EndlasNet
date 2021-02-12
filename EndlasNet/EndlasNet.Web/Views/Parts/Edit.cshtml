@@ -50,7 +50,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" accept="image/png,image/jpg" />
+                <div></div>
+                <input asp-for="ImageFile" accept="image/*"/>
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
 
