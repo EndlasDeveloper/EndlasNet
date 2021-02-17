@@ -12,34 +12,32 @@ namespace EndlasNet.Data
 {
     public class Part 
     {
+        [Key]
         public Guid PartId { get; set; }
-        [Display(Name = "Drawing number")]
-        public string DrawingNumber { get; set; }
+
+        [ForeignKey("WorkId")]
+        [Display(Name ="Work")]
+        public Guid WorkId { get; set; }
+        public Work Work { get; set; }
+
         [Display(Name = "Condition description")]
         public string ConditionDescription { get; set; }
+
         [Display(Name = "Initial weight (lbs)")]
         public float InitWeight { get; set; }
-        [Display(Name = "Weight (lbs)")]
-        public float Weight{ get; set; }
+
         [Display(Name = "Cladded weight (lbs)")]
         public float CladdedWeight { get; set; }
+
+        [Display(Name = "Finished weight (lbs)")]
+        public float FinishedWeight { get; set; }
+
         [Display(Name = "Processing notes")]
         public string ProcessingNotes { get; set; }
 
-        [Display(Name ="Image title")]
-        public string ImageName { get; set; }
-
-        [NotMapped]
-        [Display(Name ="Upload file")]
-        public IFormFile ImageFile { get; set; }
-
-        public byte[] DrawingImage { get; set; }
-
         [Display(Name = "User")]
         [ForeignKey("UserId")]
-        public Guid UserId { get; set; }
-        public User User { get; set; }
-
-        public IEnumerable<PartForJob> PartsForJobs { get; set; }
+        public Guid? UserId { get; set; }
+        public virtual User User { get; set; }
     }
 }

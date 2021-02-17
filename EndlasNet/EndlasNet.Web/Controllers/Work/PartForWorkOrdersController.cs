@@ -21,7 +21,7 @@ namespace EndlasNet.Web.Controllers
         // GET: PartForWorkOrders
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.PartsForWorkOrders.Include(p => p.Job).Include(p => p.Part);
+            var endlasNetDbContext = _context.PartsForWork.Include(p => p.Work).Include(p => p.Part);
             return View(await endlasNetDbContext.ToListAsync());
         }
 
@@ -33,10 +33,10 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForWorkOrder = await _context.PartsForWorkOrders
-                .Include(p => p.Job)
+            var partForWorkOrder = await _context.PartsForWork
+                .Include(p => p.Work)
                 .Include(p => p.Part).AsNoTracking()
-                .FirstOrDefaultAsync(m => m.PartForWorkOrderId == id);
+                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
             if (partForWorkOrder == null)
             {
                 return NotFound();
@@ -80,12 +80,12 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForWorkOrder = await _context.PartsForWorkOrders.FindAsync(id);
+            var partForWorkOrder = await _context.PartsForWork.FindAsync(id);
             if (partForWorkOrder == null)
             {
                 return NotFound();
             }
-            ViewData["WorkOrderId"] = new SelectList(_context.WorkOrders, "WorkId", "EndlasNumber", partForWorkOrder.WorkOrderId);
+            ViewData["WorkOrderId"] = new SelectList(_context.WorkOrders, "WorkId", "EndlasNumber", partForWorkOrder.WorkId);
             ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "ConditionDescription", partForWorkOrder.PartId);
             return View(partForWorkOrder);
         }
@@ -135,10 +135,10 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForWorkOrder = await _context.PartsForWorkOrders
-                .Include(p => p.Job)
+            var partForWorkOrder = await _context.PartsForWork
+                .Include(p => p.Work)
                 .Include(p => p.Part)
-                .FirstOrDefaultAsync(m => m.PartForWorkOrderId == id);
+                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
             if (partForWorkOrder == null)
             {
                 return NotFound();
@@ -152,15 +152,15 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var partForWorkOrder = await _context.PartsForWorkOrders.FindAsync(id);
-            _context.PartsForWorkOrders.Remove(partForWorkOrder);
+            var partForWorkOrder = await _context.PartsForWork.FindAsync(id);
+            _context.PartsForWork.Remove(partForWorkOrder);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PartForWorkOrderExists(Guid id)
         {
-            return _context.PartsForWorkOrders.Any(e => e.PartForWorkOrderId == id);
+            return _context.PartsForWork.Any(e => e.PartForWorkId == id);
         }
     }
 }

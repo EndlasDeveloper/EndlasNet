@@ -13,8 +13,8 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DrawingNumber)
-            </th>
+@*                @Html.DisplayNameFor(model => model.DrawingNumber)
+*@            </th>
             <th>
                 @Html.DisplayNameFor(model => model.ConditionDescription)
             </th>
@@ -22,8 +22,8 @@
                 @Html.DisplayNameFor(model => model.ProcessingNotes)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageName)
-            </th>
+@*                @Html.DisplayNameFor(model => model.ImageName)
+*@            </th>
 
 
             <th></th>
@@ -33,8 +33,8 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DrawingNumber)
-            </td>
+@*                @Html.DisplayFor(modelItem => item.DrawingNumber)
+*@            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ConditionDescription)
             </td>
@@ -42,8 +42,8 @@
                 @Html.DisplayFor(modelItem => item.ProcessingNotes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageName)
-            </td>
+@*                @Html.DisplayFor(modelItem => item.ImageName)
+*@            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PartId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.PartId">Details</a> |

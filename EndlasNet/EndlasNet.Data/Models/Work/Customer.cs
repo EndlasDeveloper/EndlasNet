@@ -22,6 +22,6 @@ namespace EndlasNet.Data
         [Display(Name = "Customer phone")]
         public string CustomerPhone { get; set; }
         // customer has 0 to many jobs
-        public IEnumerable<Job> Jobs { get; set; }
+        public IEnumerable<Work> Work { get; set; }
     }
 }

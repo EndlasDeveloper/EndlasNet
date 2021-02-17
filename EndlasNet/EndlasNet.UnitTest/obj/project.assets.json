@@ -10103,11 +10103,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.UnitTest\\EndlasNet.UnitTest.csproj",
+      "projectUniqueName": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.UnitTest\\EndlasNet.UnitTest.csproj",
       "projectName": "EndlasNet.UnitTest",
-      "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.UnitTest\\EndlasNet.UnitTest.csproj",
+      "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.UnitTest\\EndlasNet.UnitTest.csproj",
       "packagesPath": "C:\\Users\\EndlasLaptop2\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.UnitTest\\obj\\",
+      "outputPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.UnitTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -10128,8 +10128,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj": {
-              "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\clone\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj"
+            "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj": {
+              "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj"
             }
           }
         }

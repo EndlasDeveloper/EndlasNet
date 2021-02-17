@@ -10,12 +10,12 @@
     <h4>Part</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
+@*        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DrawingNumber)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DrawingNumber)
-        </dd>
+        </dd>*@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ConditionDescription)
         </dt>
@@ -28,12 +28,12 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.InitWeight)
         </dd>
-        <dt class="col-sm-2">
+@*        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Weight)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Weight)
-        </dd>
+        </dd>*@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CladdedWeight)
         </dt>
@@ -59,13 +59,13 @@
 <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
     Title:
     <em>
-        @Html.DisplayFor(model => model.ImageName)
-    </em>
+@*        @Html.DisplayFor(model => model.ImageName)
+*@    </em>
 </h6>
 
 <div class="col-sm-2">   
-    <img src="@ViewBag.ImageData" alt="Drawing Image" />    
-</div>
+@*    <img src="@ViewBag.ImageData" alt="Drawing Image" />    
+*@</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.PartId">Edit</a> |
     <a asp-action="Index">Back to list</a>

@@ -21,7 +21,7 @@ namespace EndlasNet.Web.Controllers
         // GET: PartForJobs
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.PartsForJobs.Include(p => p.Job).Include(p => p.Part);
+            var endlasNetDbContext = _context.PartsForWork.Include(p => p.Work).Include(p => p.Part);
             return View(await endlasNetDbContext.ToListAsync());
         }
 
@@ -33,8 +33,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForJobs
-                .Include(p => p.Job)
+            var partForJob = await _context.PartsForWork
+                .Include(p => p.Work)
                 .Include(p => p.Part).AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
             if (partForJob == null)
@@ -80,12 +80,12 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForJobs.FindAsync(id);
+            var partForJob = await _context.PartsForWork.FindAsync(id);
             if (partForJob == null)
             {
                 return NotFound();
             }
-            ViewData["JobId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber", partForJob.JobId);
+            ViewData["JobId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber", partForJob.WorkId);
             ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "DrawingNumber", partForJob.PartId);
             return View(partForJob);
         }
@@ -135,8 +135,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForJobs
-                .Include(p => p.Job)
+            var partForJob = await _context.PartsForWork
+                .Include(p => p.Work)
                 .Include(p => p.Part)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
             if (partForJob == null)
@@ -152,15 +152,15 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var partForJob = await _context.PartsForJobs.FindAsync(id);
-            _context.PartsForJobs.Remove(partForJob);
+            var partForJob = await _context.PartsForWork.FindAsync(id);
+            _context.PartsForWork.Remove(partForJob);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PartForJobExists(Guid id)
         {
-            return _context.PartsForJobs.Any(e => e.PartForWorkId == id);
+            return _context.PartsForWork.Any(e => e.PartForWorkId == id);
         }
     }
 }

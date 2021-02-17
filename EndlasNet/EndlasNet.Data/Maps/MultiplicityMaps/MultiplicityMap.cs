@@ -10,10 +10,9 @@ namespace EndlasNet.Data
             // each vendor has 0 to many inserts; each insert has 1 vendor
             modelBuilder.Entity<Vendor>().HasMany(v => v.MachiningTools).WithOne(i => i.Vendor);
             // each customer has many jobs; each job has 1 customer
-            modelBuilder.Entity<Customer>().HasMany(v => v.Jobs).WithOne(i => i.Customer);
-            // each job has 0 to many tool to to jobs (i.e. each job uses 0 to many tools); each insert to job has 1 job
-            modelBuilder.Entity<Job>().HasMany(v => v.ToolsForJobs).WithOne(i => i.Job);
+            modelBuilder.Entity<Customer>().HasMany(v => v.Work).WithOne(i => i.Customer);
 
+            modelBuilder.Entity<Work>().HasMany(v => v.ToolsForWork).WithOne(t => t.Work);
             /*** USER ***/
             // each employee has (could create) 0 to many insert to jobs; each insert to job has 1 employee that created it
             modelBuilder.Entity<User>().HasMany(u => u.MachiningTools).WithOne(i => i.User);
@@ -27,16 +26,13 @@ namespace EndlasNet.Data
 
             /*** WORK ***/
             // each job has 0 to many parts for jobs (parts assigned to existing jobs); each part for job has exactly one job
-            modelBuilder.Entity<Job>().HasMany(j => j.PartsForJobs).WithOne(p => p.Job);
+            modelBuilder.Entity<Work>().HasMany(j => j.Parts).WithOne(p => p.Work);
             // each job has 0 to many insert to jobs; each insert to job has 1 job
-            modelBuilder.Entity<Job>().HasMany(j => j.ToolsForJobs).WithOne(m => m.Job);
+            modelBuilder.Entity<Work>().HasMany(j => j.ToolsForWork).WithOne(m => m.Work);
             // each WO has 0 to many machining tools for WOs (similar to job-machining tools for jobs); each tool for work order has 1 WO
-            modelBuilder.Entity<WorkOrder>().HasMany(w => w.ToolsForWorksOrders).WithOne(m => m.WorkOrder);
 
-            // each part has 0 to many parts for jobs (assignments to existing jobs); each part for job references exactly one part
-            modelBuilder.Entity<Part>().HasMany(p => p.PartsForJobs).WithOne(p => p.Part);
             // each customer has 0 to many jobs; each job has exactly 1 customer
-            modelBuilder.Entity<Customer>().HasMany(c => c.Jobs).WithOne(j => j.Customer);
+            modelBuilder.Entity<Customer>().HasMany(c => c.Work).WithOne(j => j.Customer);
 
 
 

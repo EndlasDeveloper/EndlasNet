@@ -81,7 +81,7 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 part.PartId = Guid.NewGuid();
-                part.DrawingImage = await FormFileExtenstions.GetBytes(part.ImageFile);
+                //part.DrawingImage = await FormFileExtenstions.GetBytes(part.ImageFile);
                 part.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Entry(part).Property("CreatedDate").CurrentValue = DateTime.Now;
                 _context.Entry(part).Property("UpdatedDate").CurrentValue = DateTime.Now;
@@ -127,7 +127,7 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     part.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    part.DrawingImage = await FormFileExtenstions.GetBytes(part.ImageFile);
+                    // part.DrawingImage = await FormFileExtenstions.GetBytes(part.ImageFile);
                     _context.Entry(part).Property("UpdatedDate").CurrentValue = DateTime.Now;
                     _context.Update(part);
                     await _context.SaveChangesAsync();
@@ -193,9 +193,9 @@ namespace EndlasNet.Web.Controllers
 
         public void SetImageURL(Part part) 
         {
-            string imageBase64Data = Convert.ToBase64String(part.DrawingImage);
-            string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
-            ViewBag.ImageData = imageDataURL;
+            // string imageBase64Data = Convert.ToBase64String(part.DrawingImage);
+            //string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+            //ViewBag.ImageData = imageDataURL;
         }
     }
 }
