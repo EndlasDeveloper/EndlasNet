@@ -1,0 +1,61 @@
+﻿@model IEnumerable<EndlasNet.Data.StaticPartInfo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DrawingNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApproxWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PartDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DrawingNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApproxWeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartDescription)
+            </td>
+     
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+            </td>
+        
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.StaticPartInfoId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.StaticPartInfoId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.StaticPartInfoId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

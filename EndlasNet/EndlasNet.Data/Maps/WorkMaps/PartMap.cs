@@ -7,7 +7,7 @@ namespace EndlasNet.Data
 {
     public class PartMap
     {
-        public PartMap(EntityTypeBuilder<Part> entityBuilder)
+        public PartMap(EntityTypeBuilder<PartForWork> entityBuilder)
         {
             // shadow properties
             entityBuilder.Property<DateTime>("CreatedDate");

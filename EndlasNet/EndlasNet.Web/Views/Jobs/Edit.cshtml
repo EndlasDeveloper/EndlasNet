@@ -1,4 +1,5 @@
-﻿@using EndlasNet.Data; 
+﻿@using EndlasNet.Data;
+
 @model EndlasNet.Data.Job
 
 @{
@@ -17,9 +18,8 @@
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <div class="form-group">
-                    @Html.DropDownListFor(j => j.Status, new SelectList(Enum.GetValues(typeof(Status)), new { @class = "form-control" }))
-                </div>
-                <span asp-validation-for="Status" class="text-danger"></span>
+                    @Html.DropDownListFor(m => m.Status, new SelectList(Enum.GetValues(typeof(Status)), new { @class = "form-control" }))
+                </div>                <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EndlasNumber" class="control-label"></label>
@@ -31,6 +31,7 @@
                 <input asp-for="WorkDescription" class="form-control" />
                 <span asp-validation-for="WorkDescription" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="PurchaseOrderNum" class="control-label"></label>
                 <input asp-for="PurchaseOrderNum" class="form-control" />
@@ -54,6 +55,9 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to list</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -42,6 +42,6 @@ namespace EndlasNet.Data
         public Guid? UserId { get; set; }
         public User User { get; set; }
 
-        public IEnumerable<Part> Parts { get; set; }
+        public IEnumerable<PartForWork> Parts { get; set; }
     }
 }

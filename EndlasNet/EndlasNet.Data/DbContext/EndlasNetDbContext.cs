@@ -26,11 +26,11 @@ namespace EndlasNet.Data
 
         // WORK
         public DbSet<StaticPartInfo> StaticPartInfo{ get; set; }
-        public DbSet<Part> Parts { get; set; }
 
         public DbSet<PartForWork> PartsForWork { get; set; }
-        //public DbSet<PartForJob> PartsForJobs { get; set; }
-        //public DbSet<PartForWorkOrder> PartsForWorkOrders { get; set; }
+        public DbSet<PartForJob> PartsForJobs { get; set; }
+        public DbSet<PartForWorkOrder> PartsForWorkOrders { get; set; }
+        public DbSet<Work> Work { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -76,11 +76,11 @@ namespace EndlasNet.Data
             _ = new CustomerMap(modelBuilder.Entity<Customer>());
             _ = new WorkMap(modelBuilder.Entity<Work>());
             // _ = new JobMap(modelBuilder.Entity<Job>());
-            _ = new PartMap(modelBuilder.Entity<Part>());
+            _ = new PartMap(modelBuilder.Entity<PartForWork>());
             //_ = new MachiningToolForJobMap(modelBuilder.Entity<MachiningToolForJob>());
             _ = new MachiningToolForWorkMap(modelBuilder.Entity<MachiningToolForWork>());
             //_ = new PartForJobMap(modelBuilder.Entity<PartForJob>());
-            //_ = new PartForWorkOrderMap(modelBuilder.Entity<PartForWorkOrder>());
+            _ = new PartForWorkMap(modelBuilder.Entity<PartForWorkOrder>());
             // ENVIRONMENT
             _ = new EnvironmentalSnapshotMap(modelBuilder.Entity<EnvironmentalSnapshot>());
             // MULTIPLICITY

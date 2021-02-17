@@ -6,20 +6,8 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class PartForJob
+    public class PartForJob : PartForWork
     {
-        public Guid PartForWorkId { get; set; }
-
-        [ForeignKey("PartId")]
-        [Display(Name = "Part")]
-        public Guid? PartId { get; set; }
-        public virtual Part Part { get; set; }
-
-        [ForeignKey("JobId")]
-        [Display(Name = "Job")]
-        public Guid? JobId { get; set; }
-        public virtual Job Job { get; set; }
-
-        public virtual User User { get; set; }
+        public PartForJob() { }
     }
 }

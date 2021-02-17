@@ -6,22 +6,52 @@
 
 <h1>Edit</h1>
 
-<h4>Part for job</h4>
+<h4>PartForJob</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PartForWorkId" />
+            <input type="hidden" asp-for="PartId" />
             <div class="form-group">
-                <label asp-for="PartId" class="control-label"></label>
-                <select asp-for="PartId" class="form-control" asp-items="ViewBag.PartId"></select>
-                <span asp-validation-for="PartId" class="text-danger"></span>
+                <label asp-for="WorkId" class="control-label"></label>
+                <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
+                <span asp-validation-for="WorkId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="JobId" class="control-label"></label>
-                <select asp-for="JobId" class="form-control" asp-items="ViewBag.JobId"></select>
-                <span asp-validation-for="JobId" class="text-danger"></span>
+                <label asp-for="StaticPartInfoId" class="control-label"></label>
+                <select asp-for="StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
+                <span asp-validation-for="StaticPartInfoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionDescription" class="control-label"></label>
+                <input asp-for="ConditionDescription" class="form-control" />
+                <span asp-validation-for="ConditionDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InitWeight" class="control-label"></label>
+                <input asp-for="InitWeight" class="form-control" />
+                <span asp-validation-for="InitWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CladdedWeight" class="control-label"></label>
+                <input asp-for="CladdedWeight" class="form-control" />
+                <span asp-validation-for="CladdedWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FinishedWeight" class="control-label"></label>
+                <input asp-for="FinishedWeight" class="form-control" />
+                <span asp-validation-for="FinishedWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProcessingNotes" class="control-label"></label>
+                <input asp-for="ProcessingNotes" class="form-control" />
+                <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -31,6 +61,9 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to list</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

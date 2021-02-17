@@ -26,7 +26,7 @@ namespace EndlasNet.Data
         public string PurchaseOrderNum { get; set; }
 
         [Required]
-        [Display(Name = "Status")]
+        [Display(Name = "Due date")]
         public DateTime DueDate { get; set; }
 
         [ForeignKey("UserId")]
@@ -37,7 +37,7 @@ namespace EndlasNet.Data
         public Guid? CustomerId { get; set; }
         public Customer Customer { get; set; }
 
-        public IEnumerable<Part> Parts { get; set; }
+        public IEnumerable<PartForWork> PartsForWork { get; set; }
         public IEnumerable<MachiningToolForWork> ToolsForWork { get; set; }
     }
 }

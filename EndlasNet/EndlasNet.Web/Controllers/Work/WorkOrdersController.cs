@@ -22,7 +22,7 @@ namespace EndlasNet.Web.Controllers
         // GET: WorkOrders
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.WorkOrders.Include(w => w.User);
+            var endlasNetDbContext = _context.WorkOrders.Include(w => w.Customer).Include(w => w.User);
             return View(await endlasNetDbContext.ToListAsync());
         }
 
@@ -35,7 +35,8 @@ namespace EndlasNet.Web.Controllers
             }
 
             var workOrder = await _context.WorkOrders
-                .Include(w => w.User).AsNoTracking()
+                .Include(w => w.Customer)
+                .Include(w => w.User)
                 .FirstOrDefaultAsync(m => m.WorkId == id);
             if (workOrder == null)
             {
@@ -48,6 +49,7 @@ namespace EndlasNet.Web.Controllers
         // GET: WorkOrders/Create
         public IActionResult Create()
         {
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName");
             return View();
         }
 
@@ -56,19 +58,18 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId")] WorkOrder workOrder)
+        public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] WorkOrder workOrder)
         {
             if (ModelState.IsValid)
             {
-                workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                _context.Entry(workOrder).Property("CreatedDate").CurrentValue = DateTime.Now;
-                _context.Entry(workOrder).Property("UpdatedDate").CurrentValue = DateTime.Now;
-
                 workOrder.WorkId = Guid.NewGuid();
+                workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Add(workOrder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerAddress", workOrder.CustomerId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", workOrder.UserId);
             return View(workOrder);
         }
 
@@ -85,6 +86,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", workOrder.CustomerId);
             return View(workOrder);
         }
 
@@ -93,7 +95,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId")] WorkOrder workOrder)
+        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] WorkOrder workOrder)
         {
             if (id != workOrder.WorkId)
             {
@@ -105,7 +107,6 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    _context.Entry(workOrder).Property("UpdatedDate").CurrentValue = DateTime.Now;
 
                     _context.Update(workOrder);
                     await _context.SaveChangesAsync();
@@ -123,7 +124,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", workOrder.UserId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", workOrder.CustomerId);
             return View(workOrder);
         }
 
@@ -136,6 +137,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var workOrder = await _context.WorkOrders
+                .Include(w => w.Customer)
                 .Include(w => w.User)
                 .FirstOrDefaultAsync(m => m.WorkId == id);
             if (workOrder == null)

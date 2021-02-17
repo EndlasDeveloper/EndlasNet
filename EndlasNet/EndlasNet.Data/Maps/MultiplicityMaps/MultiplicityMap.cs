@@ -21,12 +21,12 @@ namespace EndlasNet.Data
             // each user has (could create) 0 to many powders; each powder has a user that created it 
             modelBuilder.Entity<User>().HasMany(u => u.Powders).WithOne(p => p.User);
             // each user has (could create) 0 to many jobs; each job has a user that created it 
-            modelBuilder.Entity<User>().HasMany(u => u.Jobs).WithOne(j => j.User);
+            modelBuilder.Entity<User>().HasMany(u => u.Work).WithOne(j => j.User);
 
 
             /*** WORK ***/
             // each job has 0 to many parts for jobs (parts assigned to existing jobs); each part for job has exactly one job
-            modelBuilder.Entity<Work>().HasMany(j => j.Parts).WithOne(p => p.Work);
+            modelBuilder.Entity<Work>().HasMany(j => j.PartsForWork).WithOne(p => p.Work);
             // each job has 0 to many insert to jobs; each insert to job has 1 job
             modelBuilder.Entity<Work>().HasMany(j => j.ToolsForWork).WithOne(m => m.Work);
             // each WO has 0 to many machining tools for WOs (similar to job-machining tools for jobs); each tool for work order has 1 WO

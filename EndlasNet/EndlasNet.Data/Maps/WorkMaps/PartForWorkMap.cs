@@ -3,14 +3,11 @@ using System;
 
 namespace EndlasNet.Data
 {
-    public class PartForWorkOrderMap
+    public class PartForWorkMap
     {
 
-        public PartForWorkOrderMap(EntityTypeBuilder<PartForWorkOrder> entityTypeBuilder)
+        public PartForWorkMap(EntityTypeBuilder<PartForWorkOrder> entityTypeBuilder)
         {
-            // set PK
-            entityTypeBuilder.HasKey(p => p.PartForWorkOrderId);
-
             // shadow properties
             entityTypeBuilder.Property<DateTime>("CreatedDate");
             entityTypeBuilder.Property<DateTime>("UpdatedDate");

@@ -36,7 +36,7 @@ namespace EndlasNet.Web.Controllers
 
             var job = await _context.Jobs
                 .Include(j => j.Customer)
-                .Include(j => j.User).AsNoTracking()
+                .Include(j => j.User)
                 .FirstOrDefaultAsync(m => m.WorkId == id);
             if (job == null)
             {
@@ -63,14 +63,12 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 job.WorkId = Guid.NewGuid();
-                _context.Entry(job).Property("CreatedDate").CurrentValue = DateTime.Now;
-                _context.Entry(job).Property("UpdatedDate").CurrentValue = DateTime.Now;
                 job.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Add(job);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", job.CustomerId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerAddress", job.CustomerId);
             return View(job);
         }
 
@@ -108,7 +106,7 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     job.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    _context.Entry(job).Property("UpdatedDate").CurrentValue = DateTime.Now;
+
                     _context.Update(job);
                     await _context.SaveChangesAsync();
                 }
@@ -166,4 +164,3 @@ namespace EndlasNet.Web.Controllers
         }
     }
 }
-

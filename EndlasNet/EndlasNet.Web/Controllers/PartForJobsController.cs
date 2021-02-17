@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
-// TODO: set user when creating a part for job
+
 namespace EndlasNet.Web.Controllers
 {
     public class PartForJobsController : Controller
@@ -21,7 +21,7 @@ namespace EndlasNet.Web.Controllers
         // GET: PartForJobs
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.PartsForWork.Include(p => p.Work).Include(p => p.Part);
+            var endlasNetDbContext = _context.PartsForJobs.Include(p => p.PartInfo).Include(p => p.User).Include(p => p.Work);
             return View(await endlasNetDbContext.ToListAsync());
         }
 
@@ -33,10 +33,11 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForWork
+            var partForJob = await _context.PartsForJobs
+                .Include(p => p.PartInfo)
+                .Include(p => p.User)
                 .Include(p => p.Work)
-                .Include(p => p.Part).AsNoTracking()
-                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
+                .FirstOrDefaultAsync(m => m.PartId == id);
             if (partForJob == null)
             {
                 return NotFound();
@@ -48,8 +49,9 @@ namespace EndlasNet.Web.Controllers
         // GET: PartForJobs/Create
         public IActionResult Create()
         {
-            ViewData["JobId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber");
-            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "DrawingNumber");
+            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber");
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString");
+            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "WorkDescription");
             return View();
         }
 
@@ -58,17 +60,18 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,PartId,JobId")] PartForJob partForJob)
+        public async Task<IActionResult> Create([Bind("PartId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForJob partForJob)
         {
             if (ModelState.IsValid)
             {
-                partForJob.PartForWorkId = Guid.NewGuid();
+                partForJob.PartId = Guid.NewGuid();
                 _context.Add(partForJob);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["JobId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber", partForJob.JobId);
-            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "DrawingNumber", partForJob.PartId);
+            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", partForJob.UserId);
+            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "WorkDescription", partForJob.WorkId);
             return View(partForJob);
         }
 
@@ -80,13 +83,14 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForWork.FindAsync(id);
+            var partForJob = await _context.PartsForJobs.FindAsync(id);
             if (partForJob == null)
             {
                 return NotFound();
             }
-            ViewData["JobId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber", partForJob.WorkId);
-            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "DrawingNumber", partForJob.PartId);
+            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", partForJob.UserId);
+            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "WorkDescription", partForJob.WorkId);
             return View(partForJob);
         }
 
@@ -95,9 +99,9 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,PartId,JobId")] PartForJob partForJob)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForJob partForJob)
         {
-            if (id != partForJob.PartForWorkId)
+            if (id != partForJob.PartId)
             {
                 return NotFound();
             }
@@ -111,7 +115,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PartForJobExists(partForJob.PartForWorkId))
+                    if (!PartForJobExists(partForJob.PartId))
                     {
                         return NotFound();
                     }
@@ -122,8 +126,9 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["JobId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber", partForJob.JobId);
-            ViewData["PartId"] = new SelectList(_context.Parts, "PartId", "DrawingNumber", partForJob.PartId);
+            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", partForJob.UserId);
+            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "WorkDescription", partForJob.WorkId);
             return View(partForJob);
         }
 
@@ -135,10 +140,11 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForWork
+            var partForJob = await _context.PartsForJobs
+                .Include(p => p.PartInfo)
+                .Include(p => p.User)
                 .Include(p => p.Work)
-                .Include(p => p.Part)
-                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
+                .FirstOrDefaultAsync(m => m.PartId == id);
             if (partForJob == null)
             {
                 return NotFound();
@@ -152,15 +158,15 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var partForJob = await _context.PartsForWork.FindAsync(id);
-            _context.PartsForWork.Remove(partForJob);
+            var partForJob = await _context.PartsForJobs.FindAsync(id);
+            _context.PartsForJobs.Remove(partForJob);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PartForJobExists(Guid id)
         {
-            return _context.PartsForWork.Any(e => e.PartForWorkId == id);
+            return _context.PartsForJobs.Any(e => e.PartId == id);
         }
     }
 }

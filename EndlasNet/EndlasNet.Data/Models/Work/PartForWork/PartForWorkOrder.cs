@@ -4,18 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EndlasNet.Data
 {
-    public class PartForWorkOrder
+    public class PartForWorkOrder : PartForWork
     {
-        public Guid PartForWorkOrderId { get; set; }
+        public PartForWorkOrder()
+        {
 
-        [ForeignKey("PartId")]
-        [Display(Name = "Part")]
-        public Guid? PartId { get; set; }
-        public virtual Part Part { get; set; }
-
-        [ForeignKey("WorkOrderId")]
-        [Display(Name = "WorkOrder")]
-        public Guid? WorkOrderId { get; set; }
-        public virtual WorkOrder Job { get; set; }
+        }
     }
 }

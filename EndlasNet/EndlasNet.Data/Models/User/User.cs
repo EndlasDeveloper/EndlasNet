@@ -27,7 +27,7 @@ namespace EndlasNet.Data
 
         public IEnumerable<MachiningTool> MachiningTools { get; set; }
         public IEnumerable<Powder> Powders { get; set; }
-        public IEnumerable<Job> Jobs { get; set; }
+        public IEnumerable<Work> Work { get; set; }
         public IEnumerable<Vendor> Vendors { get; set; }
     }
 }
