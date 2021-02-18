@@ -25,17 +25,24 @@ namespace EndlasNet.Data
         public Guid StaticPartInfoId { get; set; }
         public StaticPartInfo PartInfo { get; set; }
 
+        public string Suffix { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Number of parts")]
+        [Range(1, int.MaxValue)]
+        public int NumParts { get; set; }
+
         [Display(Name = "Condition description")]
         public string ConditionDescription { get; set; }
 
         [Display(Name = "Initial weight (lbs)")]
-        public float InitWeight { get; set; }
+        public float? InitWeight { get; set; }
 
         [Display(Name = "Cladded weight (lbs)")]
-        public float CladdedWeight { get; set; }
+        public float? CladdedWeight { get; set; } 
 
         [Display(Name = "Finished weight (lbs)")]
-        public float FinishedWeight { get; set; }
+        public float? FinishedWeight { get; set; }
 
         [Display(Name = "Processing notes")]
         public string ProcessingNotes { get; set; }

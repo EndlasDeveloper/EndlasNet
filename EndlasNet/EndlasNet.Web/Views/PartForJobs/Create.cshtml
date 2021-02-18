@@ -10,42 +10,32 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="application/x-www-form-urlencoded">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="WorkId" class="control-label">Job</label>
-                <select asp-for="WorkId" class ="form-control" asp-items="ViewBag.WorkId"></select>
+                <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="StaticPartInfoId" class="control-label">Part information</label>
-                <select asp-for="StaticPartInfoId" class ="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
+                <select asp-for="StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="ConditionDescription" class="control-label"></label>
                 <input asp-for="ConditionDescription" class="form-control" />
                 <span asp-validation-for="ConditionDescription" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="InitWeight" class="control-label"></label>
-                <input asp-for="InitWeight" class="form-control" />
-                <span asp-validation-for="InitWeight" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CladdedWeight" class="control-label"></label>
-                <input asp-for="CladdedWeight" class="form-control" />
-                <span asp-validation-for="CladdedWeight" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FinishedWeight" class="control-label"></label>
-                <input asp-for="FinishedWeight" class="form-control" />
-                <span asp-validation-for="FinishedWeight" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="ProcessingNotes" class="control-label"></label>
                 <input asp-for="ProcessingNotes" class="form-control" />
                 <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
             </div>
-
+            <div class="form-group">
+                <label asp-for="NumParts" class="control-label"></label>
+                <input asp-for="NumParts" class="form-control" />
+                <span asp-validation-for="NumParts" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
