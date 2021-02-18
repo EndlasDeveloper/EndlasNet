@@ -6,18 +6,18 @@
 
 <h1>Create</h1>
 
-<h4>PartForJob</h4>
-<hr />
+<h4>Part for job</h4>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="WorkId" class="control-label"></label>
+                <label asp-for="WorkId" class="control-label">Job</label>
                 <select asp-for="WorkId" class ="form-control" asp-items="ViewBag.WorkId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="StaticPartInfoId" class="control-label"></label>
+                <label asp-for="StaticPartInfoId" class="control-label">Part information</label>
                 <select asp-for="StaticPartInfoId" class ="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
             </div>
             <div class="form-group">
@@ -45,10 +45,7 @@
                 <input asp-for="ProcessingNotes" class="form-control" />
                 <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -57,7 +54,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to list</a>
 </div>
 
 @section Scripts {

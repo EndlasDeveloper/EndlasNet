@@ -4,19 +4,19 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Parts for work orders</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create new</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Work)
+                Work order
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PartInfo)
+                Part information
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ConditionDescription)
@@ -30,12 +30,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.FinishedWeight)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProcessingNotes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -43,7 +38,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.WorkId)
+                @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PartInfo.DrawingNumber)
@@ -59,12 +54,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FinishedWeight)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProcessingNotes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.AuthString)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PartId">Edit</a> |

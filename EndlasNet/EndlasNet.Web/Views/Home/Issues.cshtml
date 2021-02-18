@@ -1,7 +1,7 @@
 ﻿<link rel="stylesheet" href="~/css/custom-style.css" type="text/css" />
 
 @{
-    ViewData["Title"] = "Issues";
+    ViewData["Title"] = "Patch notes and issues";
 }
 <h1 class="display-4">@ViewData["Title"]</h1>
 
@@ -11,28 +11,24 @@
     <div>
         <ul>
             <li>
+                Remove the time of day from PO Date (in Tools create/edit). When adding a tool, the time of day cannot be removed from the user input 
+                (because date time has to have that portion of the data filled out). I did change the display values to only show the mm/dd/yyyy, however.
             </li>
             <li>
+                Change name of parts to part-types (or something better if I can think of it) -> PartInfo
             </li>
             <li>
+                Change over the already defined columns from part-info/type to job parts and work order parts. Did major back-end refactor.
+                Now parts for jobs/work orders is all stored in a table named parts. There is a discriminator column to differentiate. 
+            </li>
+            <li>
+                Fixed up all UI elements in existing views. Headers and text formatting is all correct now (I think). 
             </li>
         </ul>
     </div>
     <div style="color:white;font-size:18px;">Tasks</div>
     <div>
-        <ul>
-            <li>
-                Remove the time of day from PO Date (in Tools create/edit).
-            </li>
-            <li>
-                Change name of parts to part-types (or something better if I can think of it).
-            </li>
-            <li>
-                Change name of PartsForJobs/WorkOrder to JobParts and WorkOrderParts. 
-            </li>
-            <li>
-                Change over the already defined columns from part-info/type to job parts and work order parts
-            </li>
+        <ul>  
             <li>
                 Stop user deletes from cascading.
             </li>

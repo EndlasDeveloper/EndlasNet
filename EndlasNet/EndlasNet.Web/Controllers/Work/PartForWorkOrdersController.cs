@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -37,6 +38,7 @@ namespace EndlasNet.Web.Controllers
                 .Include(p => p.PartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PartId == id);
             if (partForWorkOrder == null)
             {
@@ -50,7 +52,6 @@ namespace EndlasNet.Web.Controllers
         public IActionResult Create()
         {
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber");
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString");
             ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
             return View();
         }
@@ -65,12 +66,12 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 partForWorkOrder.PartId = Guid.NewGuid();
+                partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Add(partForWorkOrder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWorkOrder.StaticPartInfoId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", partForWorkOrder.UserId);
             ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber", partForWorkOrder.WorkId);
             return View(partForWorkOrder);
         }
@@ -89,7 +90,6 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWorkOrder.StaticPartInfoId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", partForWorkOrder.UserId);
             ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber", partForWorkOrder.WorkId);
             return View(partForWorkOrder);
         }
@@ -110,6 +110,8 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+
                     _context.Update(partForWorkOrder);
                     await _context.SaveChangesAsync();
                 }
@@ -127,7 +129,6 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWorkOrder.StaticPartInfoId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", partForWorkOrder.UserId);
             ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber", partForWorkOrder.WorkId);
             return View(partForWorkOrder);
         }

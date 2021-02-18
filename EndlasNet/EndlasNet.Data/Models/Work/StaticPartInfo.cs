@@ -17,7 +17,7 @@ namespace EndlasNet.Data
         public string DrawingNumber { get; set; }
 
         [Required]
-        [Display(Name ="Approx weight")]
+        [Display(Name ="Approx weight (lbs)")]
         public float ApproxWeight { get; set; }
 
         [Required]

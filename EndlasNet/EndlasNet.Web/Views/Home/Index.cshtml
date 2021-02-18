@@ -11,14 +11,19 @@
     @if (Context.Session.GetString("userId") != null)
     {
         <h2 class="display-4">@Context.Session.GetString("firstname")</h2>
-        <img src="~/img/laserBeam.png" width="1020" height="70" />
-        <h1>Welcome to Endlas Net</h1>
+        <h1 class="display-4">
+            Welcome to Endlas Net
+            <img src="~/img/laserBeam.png" width="1020" height="70" />
+        </h1>
     }
     else
     {
-        <h1 class="display-4">Endlas Net</h1>
+        <h1 class="display-4">
+            Endlas Net
+            <img src="~/img/laserBeam.png" />
+        </h1>
 
-        <img src="~/img/laserBeam.png" />
+        
 
 
         <p style="color:white;font-size:18px;">

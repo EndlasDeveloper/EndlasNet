@@ -31,6 +31,8 @@ namespace EndlasNet.Data
         [StringLength(25)]
         [Display(Name = "Purchase order number")]
         public string PurchaseOrderNum { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Purchase order date")]
         public DateTime PurchaseOrderDate { get; set; }
 
