@@ -43,15 +43,15 @@ namespace EndlasNet.Data
         // FK references
         [ForeignKey("UserId")]
         [Display(Name = "User")]
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         public virtual User User { get; set; }
 
         [ForeignKey("VendorId")]
         [Display(Name = "Vendor")]
-        public Guid VendorId { get; set; }
+        public Guid? VendorId { get; set; }
         public virtual Vendor Vendor { get; set; }
         [Display(Name = "Tool to job")]
-        public virtual MachiningToolForJob ToolToJob { get; set; }
+        public virtual MachiningToolForWork ToolToWork { get; set; }
 
     }
 }

@@ -35,12 +35,8 @@ namespace EndlasNet.Data
 
         [ForeignKey("CustomerId")]
         [Display(Name ="Customer")]
-        public Guid CustomerId { get; set; }
-        public Customer Customer { get; set; }
-
-        [ForeignKey("UserId")] 
-        public Guid? UserId { get; set; }
-        public User User { get; set; }
+        public Guid? CustomerId { get; set; }
+        public virtual Customer Customer { get; set; }
 
         public IEnumerable<PartForWork> Parts { get; set; }
     }

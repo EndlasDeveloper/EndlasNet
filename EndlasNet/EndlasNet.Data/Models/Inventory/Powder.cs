@@ -40,7 +40,7 @@ namespace EndlasNet.Data
         // FK references
         [ForeignKey("UserId")]
         [Display(Name = "User")]
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         public virtual User User { get; set; }
 
         [ForeignKey("VendorId")]

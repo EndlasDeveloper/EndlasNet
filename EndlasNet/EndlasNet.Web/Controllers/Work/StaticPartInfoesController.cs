@@ -35,7 +35,7 @@ namespace EndlasNet.Web.Controllers
         // GET: StaticPartInfoes
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.StaticPartInfo.Include(s => s.Customer).Include(s => s.User);
+            var endlasNetDbContext = _context.StaticPartInfo.Include(s => s.Customer);
             return View(await endlasNetDbContext.ToListAsync());
         }
 
@@ -49,7 +49,6 @@ namespace EndlasNet.Web.Controllers
 
             var staticPartInfo = await _context.StaticPartInfo
                 .Include(s => s.Customer)
-                .Include(s => s.User)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.StaticPartInfoId == id);
             if (staticPartInfo == null)
@@ -78,7 +77,6 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 staticPartInfo.StaticPartInfoId = Guid.NewGuid();
-                staticPartInfo.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 if(staticPartInfo.ImageFile != null)
                     staticPartInfo.DrawingImage = await FormFileExtenstions.GetBytes(staticPartInfo.ImageFile);
                 _context.Add(staticPartInfo);
@@ -122,7 +120,6 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    staticPartInfo.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     if (staticPartInfo.ImageFile != null)
                         staticPartInfo.DrawingImage = await FormFileExtenstions.GetBytes(staticPartInfo.ImageFile);
                     _context.Update(staticPartInfo);
@@ -155,7 +152,6 @@ namespace EndlasNet.Web.Controllers
 
             var staticPartInfo = await _context.StaticPartInfo
                 .Include(s => s.Customer)
-                .Include(s => s.User)
                 .FirstOrDefaultAsync(m => m.StaticPartInfoId == id);
             if (staticPartInfo == null)
             {

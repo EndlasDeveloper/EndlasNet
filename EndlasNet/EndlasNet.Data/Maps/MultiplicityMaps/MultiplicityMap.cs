@@ -22,7 +22,7 @@ namespace EndlasNet.Data
             modelBuilder.Entity<User>().HasMany(u => u.Powders).WithOne(p => p.User);
             // each user has (could create) 0 to many jobs; each job has a user that created it 
             modelBuilder.Entity<User>().HasMany(u => u.Work).WithOne(j => j.User);
-
+            //modelBuilder.Entity<User>().HasMany(u => u.StaticPartInfo).WithOne(s => s.User);
 
             /*** WORK ***/
             // each job has 0 to many parts for jobs (parts assigned to existing jobs); each part for job has exactly one job
