@@ -11,7 +11,7 @@
     <div>
         <ul>
             <li>
-                Remove the time of day from PO Date (in Tools create/edit). When adding a tool, the time of day cannot be removed from the user input 
+                Remove the time of day from PO Date (in Tools create/edit). When adding a tool, the time of day cannot be removed from the user input
                 (because date time has to have that portion of the data filled out). I did change the display values to only show the mm/dd/yyyy, however.
             </li>
             <li>
@@ -19,10 +19,13 @@
             </li>
             <li>
                 Change over the already defined columns from part-info/type to job parts and work order parts. Did major back-end refactor.
-                Now parts for jobs/work orders is all stored in a table named parts. There is a discriminator column to differentiate. 
+                Now parts for jobs/work orders is all stored in a table named parts. There is a discriminator column to differentiate.
             </li>
             <li>
-                Fixed up all UI elements in existing views. Headers and text formatting is all correct now (I think). 
+                Fixed up all UI elements in existing views. Headers and text formatting is all correct now (I think).
+            </li>
+            <li>
+                Allow part-info image to be null (you don't have to set it when creating or editing).
             </li>
         </ul>
     </div>
@@ -41,9 +44,7 @@
             <li>
                 Put in checks for logins in every view that can access the db.
             </li>
-            <li>
-                Allow part-type image to be null (you don't have to set it when creating or editing).
-            </li>
+
         </ul>
     </div>
     <div style="color:white;font-size:18px;">Known issues</div>

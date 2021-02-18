@@ -56,7 +56,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            SetImageURL(staticPartInfo);
+            if (staticPartInfo.DrawingImage != null)
+                SetImageURL(staticPartInfo);
             return View(staticPartInfo);
         }
 
@@ -78,7 +79,8 @@ namespace EndlasNet.Web.Controllers
             {
                 staticPartInfo.StaticPartInfoId = Guid.NewGuid();
                 staticPartInfo.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                staticPartInfo.DrawingImage = await FormFileExtenstions.GetBytes(staticPartInfo.ImageFile);
+                if(staticPartInfo.ImageFile != null)
+                    staticPartInfo.DrawingImage = await FormFileExtenstions.GetBytes(staticPartInfo.ImageFile);
                 _context.Add(staticPartInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -121,7 +123,8 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     staticPartInfo.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    staticPartInfo.DrawingImage = await FormFileExtenstions.GetBytes(staticPartInfo.ImageFile);
+                    if (staticPartInfo.ImageFile != null)
+                        staticPartInfo.DrawingImage = await FormFileExtenstions.GetBytes(staticPartInfo.ImageFile);
                     _context.Update(staticPartInfo);
                     await _context.SaveChangesAsync();
                 }
@@ -158,7 +161,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            SetImageURL(staticPartInfo);
+            if (staticPartInfo.DrawingImage != null)
+                SetImageURL(staticPartInfo);
             return View(staticPartInfo);
         }
 
