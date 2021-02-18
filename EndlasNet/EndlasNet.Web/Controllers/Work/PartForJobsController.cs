@@ -63,14 +63,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PartId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,UserId")] PartForJob partForJob)
         {
-            var errors = ModelState.SelectMany(x => x.Value.Errors.Select(z => z.Exception));
             if (ModelState.IsValid)
             {
                 for (int i = 0; i < partForJob.NumParts; i++)
                 {
                     var tempPartForJob = partForJob;
                     tempPartForJob.Suffix = "";
-                    SetPartSuffix(tempPartForJob, i);                              
+                    PartSuffixGenerator.SetPartSuffix(tempPartForJob, i);                              
                     tempPartForJob.PartId = Guid.NewGuid();
                     tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Add(tempPartForJob);
@@ -83,25 +82,7 @@ namespace EndlasNet.Web.Controllers
             return View(partForJob);
         }
 
-        private void SetPartSuffix(PartForJob partForJob, int i)
-        {
-            var suffix = new List<char>();
-            
-            int numChars = i % 26 + 1;
-            int trueChar = i;
-            while (trueChar > 26)
-                trueChar /= 26;   
-            
-            for(int j = 0; j < numChars; j++)
-            {
-                suffix.Add((char)(trueChar + 65));
-            }
-            foreach (char letter in suffix)
-            {
-                partForJob.Suffix += letter;
-            }
-        }
-
+      
         // GET: PartForJobs/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
