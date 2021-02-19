@@ -14,34 +14,34 @@ namespace EndlasNet.UnitTest
         [Test]
         public void GetPartSuffixInvalidTest()
         {
-            Assert.IsEmpty(PartSuffixGenerator.GetPartSuffix(-1));
-            Assert.IsEmpty(PartSuffixGenerator.GetPartSuffix(0));
+            Assert.IsNull(PartSuffixGenerator.GetPartSuffix(-1));
         }
 
         [Test]
         public void GetPartSuffixSingleDigit()
         {
             // smallest 1 digit valid edge case
-            suffix = PartSuffixGenerator.GetPartSuffix(1);
+            suffix = PartSuffixGenerator.GetPartSuffix(0);
             Assert.AreEqual("A", suffix);
-            suffix = PartSuffixGenerator.GetPartSuffix(2);
+            suffix = PartSuffixGenerator.GetPartSuffix(1);
             Assert.AreEqual("B", suffix);
             // largest 1 digit edge case
-            suffix = PartSuffixGenerator.GetPartSuffix(26);
+            suffix = PartSuffixGenerator.GetPartSuffix(25);
             Assert.AreEqual("Z", suffix);
         }
 
         [Test]
         public void GetPartSuffixDoubleDigitTest()
-        {
-           
+        {       
             // smallest 2 digit edge case
+            suffix = PartSuffixGenerator.GetPartSuffix(26);
+            Assert.AreEqual("BA", suffix);
             suffix = PartSuffixGenerator.GetPartSuffix(27);
-            Assert.AreEqual("AA", suffix);
-            suffix = PartSuffixGenerator.GetPartSuffix(28);
-            Assert.AreEqual("AB", suffix);
-/*            suffix = PartSuffixGenerator.GetPartSuffix(52);
-            Assert.AreEqual("AZ", suffix);*/
+            Assert.AreEqual("BB", suffix);
+            suffix = PartSuffixGenerator.GetPartSuffix(51);
+            Assert.AreEqual("BZ", suffix);
+            suffix = PartSuffixGenerator.GetPartSuffix(52);
+            Assert.AreEqual("CA", suffix);
         }
     }
 }
