@@ -35,13 +35,13 @@ namespace EndlasNet.UnitTest
         {       
             // smallest 2 digit edge case
             suffix = PartSuffixGenerator.GetPartSuffix(26);
-            Assert.AreEqual("BA", suffix);
+            Assert.AreEqual("AA", suffix);
             suffix = PartSuffixGenerator.GetPartSuffix(27);
-            Assert.AreEqual("BB", suffix);
+            Assert.AreEqual("AB", suffix);
             suffix = PartSuffixGenerator.GetPartSuffix(51);
-            Assert.AreEqual("BZ", suffix);
+            Assert.AreEqual("AZ", suffix);
             suffix = PartSuffixGenerator.GetPartSuffix(52);
-            Assert.AreEqual("CA", suffix);
+            Assert.AreEqual("BA", suffix);
         }
     }
 }

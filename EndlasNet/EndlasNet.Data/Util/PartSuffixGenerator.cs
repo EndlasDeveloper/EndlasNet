@@ -29,12 +29,12 @@ namespace EndlasNet.Data
 
             string suffix = "";
             for (int j = i - 1; j >= 0; j--)
-                suffix += hexaDeciNum[j];
+            {
+                if (j != 0)
+                    hexaDeciNum[j] -= (char)1;
+                suffix += hexaDeciNum[j];              
+            }
             return suffix;
-        }
-
-        public static void SetPartSubSuffix(PartForJob partForJob, int i)
-        {
         }
     }
 }
