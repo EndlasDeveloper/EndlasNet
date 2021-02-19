@@ -42,6 +42,10 @@ namespace EndlasNet.UnitTest
             Assert.AreEqual("AZ", suffix);
             suffix = PartSuffixGenerator.GetPartSuffix(52);
             Assert.AreEqual("BA", suffix);
+            suffix = PartSuffixGenerator.GetPartSuffix(53);
+            Assert.AreEqual("BB", suffix);
+            suffix = PartSuffixGenerator.GetPartSuffix(77);
+            Assert.AreEqual("BZ", suffix);
         }
     }
 }
