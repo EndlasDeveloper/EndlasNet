@@ -68,13 +68,12 @@ namespace EndlasNet.Web.Controllers
                 for (int i = 0; i < partForJob.NumParts; i++)
                 {
                     var tempPartForJob = partForJob;
-                    tempPartForJob.Suffix = "";
-                    PartSuffixGenerator.SetPartSuffix(tempPartForJob, i);                              
+                    tempPartForJob.Suffix = PartSuffixGenerator.GetPartSuffix(i);                              
                     tempPartForJob.PartId = Guid.NewGuid();
                     tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Add(tempPartForJob);
-                    await _context.SaveChangesAsync();
                 }
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
