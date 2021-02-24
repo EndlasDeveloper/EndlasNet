@@ -77,7 +77,7 @@ namespace EndlasNet.Web.Controllers
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.PartId == id);
+                .FirstOrDefaultAsync(m => m.ParfForWorkId == id);
             if (partForJob == null)
             {
                 return NotFound();
@@ -108,7 +108,7 @@ namespace EndlasNet.Web.Controllers
                 {
                     var tempPartForJob = partForJob;
                     tempPartForJob.Suffix = PartSuffixGenerator.GetPartSuffix(i);                              
-                    tempPartForJob.PartId = Guid.NewGuid();
+                    tempPartForJob.ParfForWorkId = Guid.NewGuid();
                     tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Add(tempPartForJob);
                     await _context.SaveChangesAsync();
@@ -147,7 +147,7 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("PartId,WorkId,StaticPartInfoId,Suffix,ConditionDescription,InitWeight,NumParts,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForJob partForJob)
         {
-            if (id != partForJob.PartId)
+            if (id != partForJob.ParfForWorkId)
             {
                 return NotFound();
             }
@@ -162,7 +162,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PartForJobExists(partForJob.PartId))
+                    if (!PartForJobExists(partForJob.ParfForWorkId))
                     {
                         return NotFound();
                     }
@@ -190,7 +190,7 @@ namespace EndlasNet.Web.Controllers
                 .Include(p => p.PartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
-                .FirstOrDefaultAsync(m => m.PartId == id);
+                .FirstOrDefaultAsync(m => m.ParfForWorkId == id);
             if (partForJob == null)
             {
                 return NotFound();
@@ -212,7 +212,7 @@ namespace EndlasNet.Web.Controllers
 
         private bool PartForJobExists(Guid id)
         {
-            return _context.PartsForJobs.Any(e => e.PartId == id);
+            return _context.PartsForJobs.Any(e => e.ParfForWorkId == id);
         }
     }
 }

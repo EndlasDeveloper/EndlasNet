@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PartId" />
+            <input type="hidden" asp-for="ParfForWorkId" />
             <div class="form-group">
                 <label asp-for="WorkId" class="control-label">Job</label>
                 <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
