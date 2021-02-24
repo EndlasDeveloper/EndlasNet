@@ -5,8 +5,30 @@
 }
 <h1 class="display-4">@ViewData["Title"]</h1>
 
-
 <p>
+    <div style="color:white;font-size:18px;">Todo</div>
+    <div>
+        <ul style="font-size:14px;line-height:200%;">
+            <li>
+                Help tab development.
+            </li>
+            <li>
+                Put in checks for logins in every view that can access the db.
+            </li>
+
+        </ul>
+    </div>
+    <div style="color:white;font-size:18px;">Known issues</div>
+    <div>
+        <ul style="font-size:14px;line-height:200%;">
+            <li>
+                Some views do not have login protection implemented yet.
+            </li>
+            <li>
+                On the dropdown for job in part for job, the dropdown will show work orders in addition the the jobs.
+            </li>
+        </ul>
+    </div>
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <div>
         <ul style="font-size:14px;line-height:200%;">
@@ -42,28 +64,9 @@
             <li>
                 Added an @@endlas.com automatically so user doesn't have to type the last part of the email address.
             </li>
-        </ul>
-    </div>
-    <div style="color:white;font-size:18px;">Todo</div>
-    <div>
-        <ul style="font-size:14px;line-height:200%;">
             <li>
-                Help tab development.
-            </li>
-            <li>
-                Put in checks for logins in every view that can access the db.
-            </li>
-
-        </ul>
-    </div>
-    <div style="color:white;font-size:18px;">Known issues</div>
-    <div>
-        <ul style="font-size:14px;line-height:200%;">
-            <li>
-                Some views do not have login protection implemented yet.
-            </li>
-            <li>
-                On the dropdown for job in part for job, the dropdown will show work orders in addition the the jobs. 
+                Refactored the back-end to use data annotations rather than Fluent API. This greatly reduced the number of map files. It also
+                makes the entity objects more descriptive.
             </li>
         </ul>
     </div>
