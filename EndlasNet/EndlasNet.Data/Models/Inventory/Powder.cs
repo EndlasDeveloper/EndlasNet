@@ -35,7 +35,7 @@ namespace EndlasNet.Data
 
         [Required]
         [Range(0f,2000f)]
-        [Display(Name = "Particle size (um)")]
+        [Display(Name = "Particle size (microns)")]
         public float ParticleSize { get; set; }
 
         [Required]
@@ -50,6 +50,7 @@ namespace EndlasNet.Data
 
         [Required]
         [Range(0f,float.MaxValue)]
+        [DataType(DataType.Currency)]
         [Display(Name = "Cost per pound")]
         public float CostPerUnitWeight { get; set; }
         [Display(Name = "Lot number")]

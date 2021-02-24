@@ -9,7 +9,6 @@ namespace EndlasNet.Data
 
     public class MachiningTool
     {
-        // PK
         [Key]
         public Guid MachiningToolId { get; set; }
 
@@ -18,11 +17,11 @@ namespace EndlasNet.Data
         public ToolTypes ToolType { get; set; }
 
         [Required]
-        [Display(Name = "Tool diameter")]
+        [Display(Name = "Tool diameter (radius if insert)")]
         public float ToolDiameter { get; set; }
 
         [Required]
-        [Display(Name = "Vendor description")]
+        [Display(Name = "Vendor tool description")]
         public string VendorDescription { get; set; }
 
         [Range(1, 1000)]
@@ -42,6 +41,7 @@ namespace EndlasNet.Data
 
         [Required]
         [Range(0f, 1000.0f)]
+        [DataType(DataType.Currency)]
         [Display(Name = "Purchase order price")]
         public float PurchaseOrderPrice { get; set; }
 

@@ -21,9 +21,7 @@
             <li>
                 Machining tool: Add an InvoiceNumber (string)
             </li>
-            <li>
-                change the u to a 'mu' in Powder
-            </li>
+
             <li>
                 Powder: Change weight to automatically set to initial weight upon creation.
             </li>
@@ -64,41 +62,9 @@
     <div>
         <ul style="font-size:14px;line-height:200%;">
             <li>
-                Remove the time of day from PO Date (in Tools create/edit). When adding a tool, the time of day cannot be removed from the user input
-                (because date time has to have that portion of the data filled out). I did change the display values to only show the mm/dd/yyyy, however.
+                change the u to a 'mu' in Powder
             </li>
-            <li>
-                Change name of parts to part-types (or something better if I can think of it) -> PartInfo
-            </li>
-            <li>
-                Change over the already defined columns from part-info/type to job parts and work order parts. Did major back-end refactor.
-                Now parts for jobs/work orders is all stored in a table named parts. There is a discriminator column to differentiate.
-            </li>
-            <li>
-                Fixed up all UI elements in existing views. Headers and text formatting is all correct now (I think).
-            </li>
-            <li>
-                Allow part-info image to be null (you don't have to set it when creating or editing).
-            </li>
-            <li>
-                Stop user deletes from cascading.
-            </li>
-            <li>
-                Add rolling suffix for each part for a job or work order
-                <ul>
-                    <li>Goes: A, B, C, D, ... Y, Z, BA, BB, BC, .. ZY, ZZ, BAA, BAB, ...</li>
-                </ul>
-            </li>
-            <li>
-                When creating or editing a part, adding a part image and the title for it is now optional.
-            </li>
-            <li>
-                Added an @@endlas.com automatically so user doesn't have to type the last part of the email address.
-            </li>
-            <li>
-                Refactored the back-end to use data annotations rather than Fluent API. This greatly reduced the number of map files. It also
-                makes the entity objects more descriptive.
-            </li>
+           
         </ul>
     </div>
 </p>

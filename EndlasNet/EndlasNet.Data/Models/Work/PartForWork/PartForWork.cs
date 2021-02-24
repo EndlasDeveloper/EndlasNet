@@ -29,7 +29,6 @@ namespace EndlasNet.Data
 
         [NotMapped]
         [Display(Name = "Number of parts")]
-        [Range(1, int.MaxValue)]
         public int NumParts { get; set; }
 
         [Display(Name = "Condition description")]

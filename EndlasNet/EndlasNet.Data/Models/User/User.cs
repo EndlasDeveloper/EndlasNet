@@ -22,6 +22,7 @@ namespace EndlasNet.Data
         public string LastName { get; set; }
 
         [Required]
+        [DataType(DataType.EmailAddress)]
         [Display(Name = "Endlas email")]
         public string EndlasEmail { get; set; }
 
