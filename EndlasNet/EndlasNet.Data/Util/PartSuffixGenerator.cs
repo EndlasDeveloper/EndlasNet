@@ -11,6 +11,7 @@ namespace EndlasNet.Data
         
         public static string GetPartSuffix(int n)
         {
+            // error check- shouldn't ever be null
             if (n < 0)
                 return null;
 
@@ -30,8 +31,6 @@ namespace EndlasNet.Data
             string suffix = "";
             for (int j = i - 1; j >= 0; j--)
             {
-                if (j != 0)
-                    hexaDeciNum[j] -= (char)1;
                 suffix += hexaDeciNum[j];              
             }
             return suffix;

@@ -9,7 +9,7 @@
 <p>
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <div>
-        <ul>
+        <ul style="font-size:14px;line-height:200%;">
             <li>
                 Remove the time of day from PO Date (in Tools create/edit). When adding a tool, the time of day cannot be removed from the user input
                 (because date time has to have that portion of the data filled out). I did change the display values to only show the mm/dd/yyyy, however.
@@ -30,17 +30,20 @@
             <li>
                 Stop user deletes from cascading.
             </li>
+            <li>
+                Add rolling suffix for each part for a job or work order
+                <ul>
+                    <li>Goes: A, B, C, D, ... Y, Z, BA, BB, BC, .. ZY, ZZ, BAA, BAB, ...</li>
+                </ul>
+            </li>
+            <li>
+                When creating or editing a part, adding a part image and the title for it is now optional.
+            </li>
         </ul>
     </div>
     <div style="color:white;font-size:18px;">Tasks</div>
     <div>
-        <ul>  
-            <li>
-                Add rolling suffix for each part for a job or work order
-                <ul>
-                    <li>Goes: A, B, ... Y, Z, AA, BB, ... (n-1)Y, (n-1)Z, nA, nB</li>
-                </ul>
-            </li>
+        <ul style="font-size:14px;line-height:200%;">
             <li>
                 Help tab development.
             </li>
@@ -55,12 +58,9 @@
     </div>
     <div style="color:white;font-size:18px;">Known issues</div>
     <div>
-        <ul>
+        <ul style="font-size:14px;line-height:200%;">
             <li>
                 Some views do not have login protection implemented yet.
-            </li>
-            <li>
-                When creating or editing a part, adding a part image is not optional.
             </li>
         </ul>
     </div>

@@ -7,19 +7,36 @@
 <h1>Parts for jobs</h1>
 
 <p>
-    <a asp-action="Create">Create new</a>
+    <a asp-action="Create">Initialize a new part batch</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Part information
+                <div>
+                    Part information
+                </div>
+                <span>
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.PartInfoAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.PartInfoDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
+<th>
+                <div>
+                    Job
+                </div>
+                <span>
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.JobAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.JobDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
             <th>
-                Job
-            </th>
-            <th>
-                Suffix
+                <div>
+                    Suffix
+                </div>
+                <span>
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InitWeight)
