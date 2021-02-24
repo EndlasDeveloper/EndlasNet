@@ -20,10 +20,46 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PartForWorkOrders
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            var endlasNetDbContext = _context.PartsForWorkOrders.Include(p => p.PartInfo).Include(p => p.User).Include(p => p.Work);
-            return View(await endlasNetDbContext.ToListAsync());
+            ViewBag.PartInfoDescSortParm = String.IsNullOrEmpty(sortOrder) ? "part_info_desc" : "";
+            ViewBag.PartInfoAscSortParm = String.IsNullOrEmpty(sortOrder) ? "part_info_asc" : "";
+
+            ViewBag.WorkOrderDescSortParm = String.IsNullOrEmpty(sortOrder) ? "wo_desc" : "";
+            ViewBag.WorkOrderAscSortParm = String.IsNullOrEmpty(sortOrder) ? "wo_asc" : "";
+
+            ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
+            ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
+
+            var parts = await _context.PartsForWorkOrders.Include(p => p.PartInfo).Include(p => p.User).Include(p => p.Work).ToListAsync();
+
+            switch (sortOrder)
+            {
+                case "suffix_desc":
+                    parts = parts.OrderByDescending(a => a.Suffix).ToList();
+                    break;
+                case "suffix_asc":
+                    parts = parts.OrderByDescending(a => a.Suffix).ToList();
+                    parts.Reverse();
+                    break;
+                case "wo_desc":
+                    parts = parts.OrderByDescending(a => a.Work.EndlasNumber).ToList();
+                    break;
+                case "wo_asc":
+                    parts = parts.OrderByDescending(a => a.Work.EndlasNumber).ToList();
+                    parts.Reverse();
+                    break;
+                case "part_info_desc":
+                    parts = parts.OrderByDescending(a => a.PartInfo.DrawingNumber).ToList();
+                    break;
+                case "part_info_asc":
+                    parts = parts.OrderByDescending(a => a.PartInfo.DrawingNumber).ToList();
+                    parts.Reverse();
+                    break;
+                default:
+                    break;
+            }
+            return View(parts);
         }
 
         // GET: PartForWorkOrders/Details/5
@@ -61,14 +97,19 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForWorkOrder partForWorkOrder)
+        public async Task<IActionResult> Create([Bind("PartId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,UserId")] PartForWorkOrder partForWorkOrder)
         {
             if (ModelState.IsValid)
             {
-                partForWorkOrder.PartId = Guid.NewGuid();
-                partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                _context.Add(partForWorkOrder);
-                await _context.SaveChangesAsync();
+                for (int i = 0; i < partForWorkOrder.NumParts; i++)
+                {
+                    var tempPartForWorkOrder = partForWorkOrder;
+                    tempPartForWorkOrder.Suffix = PartSuffixGenerator.GetPartSuffix(i);
+                    tempPartForWorkOrder.PartId = Guid.NewGuid();
+                    tempPartForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    _context.Add(tempPartForWorkOrder);
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWorkOrder.StaticPartInfoId);

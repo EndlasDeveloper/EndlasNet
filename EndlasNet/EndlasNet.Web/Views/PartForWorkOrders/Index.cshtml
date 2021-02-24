@@ -7,19 +7,37 @@
 <h1>Parts for work orders</h1>
 
 <p>
-    <a asp-action="Create">Create new</a>
+    <a asp-action="Create">Initialize new part batch</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Work order
+                <div>
+                    Work order
+                </div>
+                <span>
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.WorkOrderAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.WorkOrderDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
             <th>
-                Part information
+                <div>
+                    Part information
+                </div>
+                <span>
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.PartInfoAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.PartInfoDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ConditionDescription)
+                <div>
+                    Suffix
+                </div>
+                <span>
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InitWeight)
@@ -44,7 +62,7 @@
                 @Html.DisplayFor(modelItem => item.PartInfo.DrawingNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ConditionDescription)
+                @Html.DisplayFor(modelItem => item.Suffix)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InitWeight)

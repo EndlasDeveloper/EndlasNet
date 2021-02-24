@@ -1,7 +1,7 @@
 ﻿<link rel="stylesheet" href="~/css/custom-style.css" type="text/css" />
 
 @{
-    ViewData["Title"] = "Patch notes and issues";
+    ViewData["Title"] = "Issues and todo";
 }
 <h1 class="display-4">@ViewData["Title"]</h1>
 
@@ -39,16 +39,16 @@
             <li>
                 When creating or editing a part, adding a part image and the title for it is now optional.
             </li>
+            <li>
+                Added an @@endlas.com automatically so user doesn't have to type the last part of the email address.
+            </li>
         </ul>
     </div>
-    <div style="color:white;font-size:18px;">Tasks</div>
+    <div style="color:white;font-size:18px;">Todo</div>
     <div>
         <ul style="font-size:14px;line-height:200%;">
             <li>
                 Help tab development.
-            </li>
-            <li>
-                Add an @@endlas.com automatically so user doesn't have to type the last part of the email address.
             </li>
             <li>
                 Put in checks for logins in every view that can access the db.
@@ -61,6 +61,9 @@
         <ul style="font-size:14px;line-height:200%;">
             <li>
                 Some views do not have login protection implemented yet.
+            </li>
+            <li>
+                On the dropdown for job in part for job, the dropdown will show work orders in addition the the jobs. 
             </li>
         </ul>
     </div>

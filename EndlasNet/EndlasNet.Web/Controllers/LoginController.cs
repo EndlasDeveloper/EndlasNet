@@ -40,6 +40,7 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginSubmitAsync(string email, string pwd)
         {
+            email += "@endlas.com";
             var user = await _db.GetUser(email);
 
             //Specify on next view what the error was using ViewBag to send message
