@@ -10,7 +10,7 @@ namespace EndlasNet.Data
     public class EndlasNetDbContext : DbContext
     {
         // connection string for context to db
-        private readonly string connectionString = ConnectionStrings.endlas_web;
+        private readonly string connectionString = ConnectionStrings.endlas_local;
 
         /*******************DEFINE TABLES TO EXIST****************************/
 

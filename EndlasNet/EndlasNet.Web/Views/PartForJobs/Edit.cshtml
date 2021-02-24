@@ -10,7 +10,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PartId" />
             <div class="form-group">
@@ -22,6 +22,11 @@
                 <label asp-for="StaticPartInfoId" class="control-label">Part information</label>
                 <select asp-for="StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
                 <span asp-validation-for="StaticPartInfoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Suffix" class="control-label"></label>
+                <input asp-for="Suffix" class="form-control" />
+                <span asp-validation-for="Suffix" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ConditionDescription" class="control-label"></label>
@@ -47,6 +52,11 @@
                 <label asp-for="ProcessingNotes" class="control-label"></label>
                 <input asp-for="ProcessingNotes" class="form-control" />
                 <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumParts" class="control-label"></label>
+                <input asp-for="NumParts" class="form-control" />
+                <span asp-validation-for="NumParts" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

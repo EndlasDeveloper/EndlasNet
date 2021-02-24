@@ -103,6 +103,7 @@ namespace EndlasNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                ViewBag.NumParts = partForJob.NumParts;
                 for (int i = 0; i < partForJob.NumParts; i++)
                 {
                     var tempPartForJob = partForJob;
@@ -127,12 +128,13 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
             var partForJob = await _context.PartsForJobs.FindAsync(id);
+
             if (partForJob == null)
             {
                 return NotFound();
             }
+            
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
             ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber", partForJob.WorkId);
             return View(partForJob);
@@ -143,7 +145,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForJob partForJob)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartId,WorkId,StaticPartInfoId,Suffix,ConditionDescription,InitWeight,NumParts,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForJob partForJob)
         {
             if (id != partForJob.PartId)
             {

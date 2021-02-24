@@ -2,7 +2,7 @@
 using EndlasNet.Data;
 namespace EndlasNet.UnitTest
 {
-    public class PartForJobTests
+    public class PartForWorkTests
     {
         private string suffix;
 
