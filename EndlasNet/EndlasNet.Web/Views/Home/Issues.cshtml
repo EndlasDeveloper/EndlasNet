@@ -15,12 +15,19 @@
             <li>
                 Put in checks for logins in every view that can access the db.
             </li>
+            <li>
+                Fix the edit view for PartForWork. Remove number of parts from the view.
+            </li>
 
         </ul>
     </div>
     <div style="color:white;font-size:18px;">Known issues</div>
     <div>
         <ul style="font-size:14px;line-height:200%;">
+            <li>
+                On PartForWork views, the edit view has number of parts as a field to edit. This field needs to be above 0, but
+                the value isn't used for anything in the controller. If the number of parts set is valid, all the other changes will apply to the entity.
+            </li>
             <li>
                 Some views do not have login protection implemented yet.
             </li>
