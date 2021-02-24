@@ -6,6 +6,13 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
+    public enum Status
+    {
+        NotStarted,
+        InProgress,
+        Complete,
+        PastDue
+    }
     public class Work
     {
         [Key]
