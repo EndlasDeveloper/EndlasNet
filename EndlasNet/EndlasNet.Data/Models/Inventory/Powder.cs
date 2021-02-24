@@ -8,30 +8,47 @@ namespace EndlasNet.Data
 {
     public class Powder
     {
+        [Key]
         public Guid PowderId { get; set; }
+
+        [Required]
         [StringLength(25)]
         [Display(Name = "Powder name")]
         public string PowderName { get; set; }
+
+        [Required]
         [StringLength(250)]
         [Display(Name = "Vendor description")]
         public string VendorDescription { get; set; }
+
+        [Required]
         [Display(Name = "PO number")]
         public string PoNumber { get; set; }
+
+        [Required]
         [Display(Name = "PO date")]
         public DateTime PoDate { get; set; }
+
+        [Required]
         [Display(Name = "Bottle number")]
         public string BottleNumber { get; set; }
 
+        [Required]
         [Range(0f,2000f)]
         [Display(Name = "Particle size (um)")]
         public float ParticleSize { get; set; }
+
+        [Required]
         [Range(1.0f, 1000.0f)]
         [Display(Name = "Initial weight (lbs)")]
         public float InitWeight { get; set; }
+
+        [Required]
         [Range(0f,1000.0f)]
         [Display(Name = "Weight (lbs)")]
         public float Weight { get; set; }
 
+        [Required]
         [Range(0f,float.MaxValue)]
         [Display(Name = "Cost per pound")]
         public float CostPerUnitWeight { get; set; }

@@ -6,36 +6,41 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public enum ToolTypes
-    {
-        Insert,
-        DrillBit,
-        MillTool
-    }
+
     public class MachiningTool
     {
         // PK
+        [Key]
         public Guid MachiningToolId { get; set; }
+
+        [Required]
         [Display(Name = "Tool type")]
         public ToolTypes ToolType { get; set; }
+
+        [Required]
         [Display(Name = "Tool diameter")]
         public float ToolDiameter { get; set; }
-        // columns
+
+        [Required]
         [Display(Name = "Vendor description")]
         public string VendorDescription { get; set; }
 
         [Range(1, 1000)]
         [Display(Name = "Tool count")]
+        [Required]
         public int ToolCount { get; set; }
 
+        [Required]
         [StringLength(25)]
         [Display(Name = "Purchase order number")]
         public string PurchaseOrderNum { get; set; }
 
+        [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Purchase order date")]
         public DateTime PurchaseOrderDate { get; set; }
 
+        [Required]
         [Range(0f, 1000.0f)]
         [Display(Name = "Purchase order price")]
         public float PurchaseOrderPrice { get; set; }

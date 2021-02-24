@@ -11,13 +11,6 @@ namespace EndlasNet.Data
 
         public UserMap(EntityTypeBuilder<User> entityBuilder)
         {
-            // set PK
-            entityBuilder.HasKey(e => e.UserId);
-            // not null
-            entityBuilder.Property(e => e.FirstName).IsRequired();
-            entityBuilder.Property(e => e.LastName).IsRequired();
-            entityBuilder.Property(u => u.AuthString).IsRequired();
-            entityBuilder.Property(u => u.EndlasEmail).IsRequired();
             // unique
             entityBuilder.HasIndex(u => u.EndlasEmail).IsUnique();
         }

@@ -64,28 +64,13 @@ namespace EndlasNet.Data
         // setup column and multiplicity constraints
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // setup the map references so ef knows how to specifically constrain attributes
             base.OnModelCreating(modelBuilder);
-            // USER
+            // USER - make email unique
             _ = new UserMap(modelBuilder.Entity<User>());
-            // INVENTORY
-            _ = new VendorMap(modelBuilder.Entity<Vendor>());
-            _ = new PowderMap(modelBuilder.Entity<Powder>());
-            _ = new MachiningToolMap(modelBuilder.Entity<MachiningTool>());
-            // WORK
-            _ = new CustomerMap(modelBuilder.Entity<Customer>());
-            _ = new WorkMap(modelBuilder.Entity<Work>());
-            // _ = new JobMap(modelBuilder.Entity<Job>());
-            _ = new PartMap(modelBuilder.Entity<PartForWork>());
-            //_ = new MachiningToolForJobMap(modelBuilder.Entity<MachiningToolForJob>());
-            _ = new MachiningToolForWorkMap(modelBuilder.Entity<MachiningToolForWork>());
-            //_ = new PartForJobMap(modelBuilder.Entity<PartForJob>());
-            _ = new PartForWorkMap(modelBuilder.Entity<PartForWorkOrder>());
-            // ENVIRONMENT
-            _ = new EnvironmentalSnapshotMap(modelBuilder.Entity<EnvironmentalSnapshot>());
             // MULTIPLICITY
             _ = new MultiplicityMap(modelBuilder);
-
+            // CREATED/UPDATED DATETIME SHADOW PROPERTIES
+            _ = new CreatedUpdatedDateMap(modelBuilder);
 
             // DEFINE SYSTEM ADMINS ON DATABASE CREATION
             var SA = new Admin

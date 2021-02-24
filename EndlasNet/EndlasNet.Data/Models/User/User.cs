@@ -10,14 +10,22 @@ namespace EndlasNet.Data
 
     public class User
     {
+        [Key]
         public Guid UserId { get; set; }
+
+        [Required]
         [Display(Name = "First name")]
         public string FirstName { get; set; }
+
+        [Required]
         [Display(Name = "Last name")]
         public string LastName { get; set; }
+
+        [Required]
         [Display(Name = "Endlas email")]
         public string EndlasEmail { get; set; }
 
+        [Required]
         [StringLength(250, MinimumLength = 8)]
         [Display(Name = "Password")]
         public string AuthString { get; set; }
