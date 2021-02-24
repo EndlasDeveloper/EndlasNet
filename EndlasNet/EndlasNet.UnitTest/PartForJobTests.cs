@@ -59,5 +59,16 @@ namespace EndlasNet.UnitTest
             suffix = PartSuffixGenerator.GetPartSuffix(17575);
             Assert.AreEqual("ZZZ", suffix);
         }
+
+        [Test]
+        public void GetPartSuffixQuadDigitTest()
+        {
+            // smallest 4 digit edge case
+            suffix = PartSuffixGenerator.GetPartSuffix(17576);
+            Assert.AreEqual("BAAA", suffix);
+            // largest 4 digit edge case
+            suffix = PartSuffixGenerator.GetPartSuffix(456975);
+            Assert.AreEqual("ZZZZ", suffix);
+        }
     }
 }
