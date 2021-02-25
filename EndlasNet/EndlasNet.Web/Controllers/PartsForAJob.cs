@@ -12,22 +12,18 @@ namespace EndlasNet.Web.Controllers
     public class PartsForAJob : Controller
     {
         private readonly EndlasNetDbContext _context;
-
+        private PartForJobRepo repo;
         public PartsForAJob(EndlasNetDbContext context)
         {
             _context = context;
+            repo = new PartForJobRepo(context);
         }
 
         // GET: PartsForAJob
         public async Task<IActionResult> Index(string workId, string partInfoId)
         {
-            var endlasNetDbContext = _context.PartsForJobs
-                .Include(p => p.PartInfo)
-                .Include(p => p.User)
-                .Include(p => p.Work)
-                .Where(p => p.WorkId.ToString() == workId)
-                .Where(p => p.StaticPartInfoId.ToString() == partInfoId);
-            return View(await endlasNetDbContext.ToListAsync());
+            var endlasNetDbContext = await repo.GetBatch(workId, partInfoId);               
+            return View(endlasNetDbContext);
         }
 
         // GET: PartsForAJob/Details/5

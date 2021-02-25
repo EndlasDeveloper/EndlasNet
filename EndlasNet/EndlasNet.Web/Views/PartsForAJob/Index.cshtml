@@ -3,17 +3,16 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h5>
-    Part:@Html.DisplayFor(modelItem => Model.FirstOrDefault().PartInfo.DrawingNumber)
+<h2>Part batch</h2>
+<h5 style="color:gray">
+    <span>Part information drawing number:</span>
+    <span>@Html.DisplayFor(modelItem => Model.FirstOrDefault().PartInfo.DrawingNumber)</span>
     <br />
-    Job: @Html.DisplayFor(modelItem => Model.FirstOrDefault().Work.WorkDescription)
+    <span>Job endlas number:</span>
+    <span>@Html.DisplayFor(modelItem => Model.FirstOrDefault().Work.EndlasNumber)</span>
 
 </h5>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
