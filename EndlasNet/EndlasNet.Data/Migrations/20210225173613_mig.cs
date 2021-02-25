@@ -207,7 +207,7 @@ namespace EndlasNet.Data.Migrations
                 name: "PartsForWork",
                 columns: table => new
                 {
-                    ParfForWorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PartForWorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     WorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StaticPartInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Suffix = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -223,7 +223,7 @@ namespace EndlasNet.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PartsForWork", x => x.ParfForWorkId);
+                    table.PrimaryKey("PK_PartsForWork", x => x.PartForWorkId);
                     table.ForeignKey(
                         name: "FK_PartsForWork_StaticPartInfo_StaticPartInfoId",
                         column: x => x.StaticPartInfoId,
@@ -289,23 +289,23 @@ namespace EndlasNet.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "CustomerId", "CustomerAddress", "CustomerName", "CustomerPhone", "PointOfContact" },
-                values: new object[] { new Guid("622aab10-4262-4fa6-9c1e-3fc3bd03b8a4"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
+                values: new object[] { new Guid("042f4871-5c9c-4d08-920b-042e0c37f213"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("735220af-e2db-44c2-9333-3f80d30627d5"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "SA", "SA" },
-                    { new Guid("18bcf7e3-813c-40c6-88e5-d7ec5f18c74e"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "James", "Tomich" },
-                    { new Guid("9c45a9c6-186c-47ec-8c2f-c5aba793cdd7"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("fe18abb9-e82b-4195-9c3a-8a0151fcc627"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
+                    { new Guid("7ef6ac12-6a6d-4448-8e3c-b6deb20071db"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "SA", "SA" },
+                    { new Guid("940c28c9-b6d3-460d-961d-a018e55cafac"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "James", "Tomich" },
+                    { new Guid("1ce9a295-8ebd-4809-a87a-c35093eeb7c1"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("ee674cbc-eb89-4853-954b-b1771f82dec0"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Vendors",
                 columns: new[] { "VendorId", "PointOfContact", "UserId", "VendorAddress", "VendorName", "VendorPhone" },
-                values: new object[] { new Guid("ac245ab1-d0ad-42f7-b263-1c019f67193d"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
+                values: new object[] { new Guid("3c2155ce-7bef-40c3-834a-e7c1f063a7fa"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_MachiningToolForWork_UserId",

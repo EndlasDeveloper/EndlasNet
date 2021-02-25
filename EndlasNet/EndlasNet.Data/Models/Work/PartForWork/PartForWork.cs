@@ -13,7 +13,7 @@ namespace EndlasNet.Data
     public class PartForWork 
     {
         [Key]
-        public Guid ParfForWorkId { get; set; }
+        public Guid PartForWorkId { get; set; }
 
         [ForeignKey("WorkId")]
         [Display(Name ="Work")]

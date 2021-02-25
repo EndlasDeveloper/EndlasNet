@@ -1,6 +1,7 @@
 ﻿TODO
 Fix the edit view for PartForWork. Remove number of parts from the view.
-Powder: Change weight to automatically set to initial weight upon creation
 
 FINSIHED
 Machining tool: Add an InvoiceNumber (string)
+Fix the edit view for PartForWork. Remove number of parts from the view.
+Powder: Change weight to automatically set to initial weight upon creation

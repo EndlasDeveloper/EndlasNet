@@ -77,7 +77,7 @@ namespace EndlasNet.Web.Controllers
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.ParfForWorkId == id);
+                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
             if (partForJob == null)
             {
                 return NotFound();
@@ -99,7 +99,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,UserId")] PartForJob partForJob)
+        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,UserId")] PartForJob partForJob)
         {
             if (ModelState.IsValid)
             {
@@ -108,7 +108,7 @@ namespace EndlasNet.Web.Controllers
                 {
                     var tempPartForJob = partForJob;
                     tempPartForJob.Suffix = PartSuffixGenerator.GetPartSuffix(i);                              
-                    tempPartForJob.ParfForWorkId = Guid.NewGuid();
+                    tempPartForJob.PartForWorkId = Guid.NewGuid();
                     tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Add(tempPartForJob);
                     await _context.SaveChangesAsync();
@@ -145,13 +145,13 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartId,WorkId,StaticPartInfoId,Suffix,ConditionDescription,InitWeight,NumParts,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForJob partForJob)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,ConditionDescription,InitWeight,NumParts,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,UserId")] PartForJob partForJob)
         {
-            if (id != partForJob.ParfForWorkId)
+            if (id != partForJob.PartForWorkId)
             {
                 return NotFound();
             }
-
+            partForJob.NumParts = 1;
             if (ModelState.IsValid)
             {
                 try
@@ -162,7 +162,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PartForJobExists(partForJob.ParfForWorkId))
+                    if (!PartForJobExists(partForJob.PartForWorkId))
                     {
                         return NotFound();
                     }
@@ -190,7 +190,7 @@ namespace EndlasNet.Web.Controllers
                 .Include(p => p.PartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
-                .FirstOrDefaultAsync(m => m.ParfForWorkId == id);
+                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
             if (partForJob == null)
             {
                 return NotFound();
@@ -212,7 +212,7 @@ namespace EndlasNet.Web.Controllers
 
         private bool PartForJobExists(Guid id)
         {
-            return _context.PartsForJobs.Any(e => e.ParfForWorkId == id);
+            return _context.PartsForJobs.Any(e => e.PartForWorkId == id);
         }
     }
 }
