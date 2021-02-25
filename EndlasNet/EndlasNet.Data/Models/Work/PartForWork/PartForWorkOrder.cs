@@ -8,7 +8,7 @@ namespace EndlasNet.Data
     {
         public PartForWorkOrder()
         {
-
+            
         }
     }
 }

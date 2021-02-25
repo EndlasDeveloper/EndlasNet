@@ -1,4 +1,7 @@
-﻿@model IEnumerable<EndlasNet.Data.PartForJob>
+﻿@using System;
+@using EndlasNet.Data;
+@using System.Collections.Generic;
+@model IEnumerable<EndlasNet.Data.PartForJob>
 
 @{
     ViewData["Title"] = "Parts for jobs";
@@ -20,7 +23,7 @@
                     @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.PartInfoAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
                     @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.PartInfoDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
                 </span>
-<th>
+            <th>
                 <div>
                     Job
                 </div>
@@ -53,32 +56,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PartInfo.DrawingNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Suffix)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InitWeight)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CladdedWeight)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FinishedWeight)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PartForWorkId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PartForWorkId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PartForWorkId">Delete</a>
-            </td>
-        </tr>
+
+     
+@foreach (var item in Model)
+{
+       
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartInfo.DrawingNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Suffix)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InitWeight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CladdedWeight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinishedWeight)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.PartForWorkId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.PartForWorkId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.PartForWorkId">Delete</a>
+        </td>
+    </tr>
 }
     </tbody>
 </table>

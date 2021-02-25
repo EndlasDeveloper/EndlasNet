@@ -32,34 +32,52 @@ namespace EndlasNet.Web.Controllers
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
 
             var parts = await _context.PartsForJobs.Include(p => p.PartInfo).Include(p => p.User).Include(p => p.Work).ToListAsync();
+            var minimizedPartList = new List<PartForJob>();
+            var used = new List<KeyValuePair<Guid, Guid>>();
+            var workIdArr = new string[parts.Count];
+            var staticPartIdArr = new string[parts.Count];
+            foreach(PartForJob part in parts)
+            {
+                KeyValuePair<Guid, Guid> temp = new KeyValuePair<Guid, Guid>(part.WorkId, part.StaticPartInfoId);
+                bool flag = false;
+                for(int i = 0; i < minimizedPartList.Count; i++)
+                {
+                    if (minimizedPartList[i].WorkId.Equals(temp.Key))
+                        if (minimizedPartList[i].StaticPartInfoId.Equals(temp.Value))
+                            flag = true;
+                }
+                if (!flag)
+                    minimizedPartList.Add(part);
+              
+            }
 
             switch (sortOrder)
             {
                 case "suffix_desc":
-                    parts = parts.OrderByDescending(a => a.Suffix).ToList();
+                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.Suffix).ToList();
                     break;
                 case "suffix_asc":
-                    parts = parts.OrderByDescending(a => a.Suffix).ToList();
-                    parts.Reverse();
+                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.Suffix).ToList();
+                    minimizedPartList.Reverse();
                     break;
                 case "job_desc":
-                    parts = parts.OrderByDescending(a => a.Work.EndlasNumber).ToList();
+                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.Work.EndlasNumber).ToList();
                     break;
                 case "job_asc":
-                    parts = parts.OrderByDescending(a => a.Work.EndlasNumber).ToList();
+                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.Work.EndlasNumber).ToList();
                     parts.Reverse();
                     break;
                 case "part_info_desc":
-                    parts = parts.OrderByDescending(a => a.PartInfo.DrawingNumber).ToList();
+                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.PartInfo.DrawingNumber).ToList();
                     break;
                 case "part_info_asc":
-                    parts = parts.OrderByDescending(a => a.PartInfo.DrawingNumber).ToList();
-                    parts.Reverse();
+                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.PartInfo.DrawingNumber).ToList();
+                    minimizedPartList.Reverse();
                     break;
                 default:
                     break;
             }
-            return View(parts);
+            return View(minimizedPartList);
         }
 
 

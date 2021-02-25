@@ -1,7 +1,11 @@
-﻿TODO
-Fix the edit view for PartForWork. Remove number of parts from the view.
+﻿
+TODO
+Parts for jobs: Find a good way to clean up and organize the index.
+In part for job: on Index, make rows collapse into similar PartInfo foreign key references
+
 
 FINSIHED
 Machining tool: Add an InvoiceNumber (string)
 Fix the edit view for PartForWork. Remove number of parts from the view.
 Powder: Change weight to automatically set to initial weight upon creation
+Fix the edit view for PartForWork. Remove number of parts from the view.
