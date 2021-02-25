@@ -127,6 +127,7 @@ namespace EndlasNet.Web.Controllers
                     .Where(p => p.WorkId.Equals(partForJob.WorkId))
                     .Where(p => p.StaticPartInfoId.Equals(partForJob.StaticPartInfoId))
                     .ToListAsync();
+                partForJob.NumParts = existingBatch.Count + partForJob.NumParts;
                 for (int i = existingBatch.Count; i < partForJob.NumParts + existingBatch.Count; i++)
                 {
                     var tempPartForJob = partForJob;
@@ -134,6 +135,7 @@ namespace EndlasNet.Web.Controllers
                     tempPartForJob.PartForWorkId = Guid.NewGuid();
                     tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Add(tempPartForJob);
+
                     await _context.SaveChangesAsync();
                 }
                 return RedirectToAction(nameof(Index));
