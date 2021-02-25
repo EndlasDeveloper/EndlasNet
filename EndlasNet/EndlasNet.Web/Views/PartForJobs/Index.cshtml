@@ -76,11 +76,13 @@
        <td>
            @Html.DisplayFor(modelItem => item.NumParts)
        </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.PartForWorkId">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.PartForWorkId">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.PartForWorkId">Delete</a>
-        </td>
+       <td>
+           <a asp-controller="PartForJobs" asp-action="Index">View list</a> |
+           
+           <a asp-action="Edit" asp-route-id="@item.PartForWorkId">Edit</a> |
+           <a asp-action="Details" asp-route-id="@item.PartForWorkId">Details</a> |
+           <a asp-action="Delete" asp-route-id="@item.PartForWorkId">Delete</a>
+       </td>
     </tr>
 }
     </tbody>
