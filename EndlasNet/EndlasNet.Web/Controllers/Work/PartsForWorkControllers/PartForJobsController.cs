@@ -235,6 +235,11 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public ActionResult ViewList(Guid workId, Guid partInfoId)
+        {
+            return RedirectToAction("Index", "PartsForAJob", new { workId = workId.ToString(), partInfoId = partInfoId.ToString()});
+        }
+
         private bool PartForJobExists(Guid id)
         {
             return _context.PartsForJobs.Any(e => e.PartForWorkId == id);

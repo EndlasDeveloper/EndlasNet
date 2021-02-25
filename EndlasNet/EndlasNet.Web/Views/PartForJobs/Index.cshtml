@@ -12,6 +12,7 @@
 <p>
     <a asp-action="Create">Initialize new part batch</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -38,52 +39,54 @@
                 </div>
             </th>
             @*<th>
-                <div>
-                    Suffix
-                </div>
-                <span>
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                </span>
-            </th>*@
-           @* <th>
-                @Html.DisplayNameFor(model => model.InitWeight)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CladdedWeight)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FinishedWeight)
-            </th>
-*@
+                    <div>
+                        Suffix
+                    </div>
+                    <span>
+                        @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                        @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    </span>
+                </th>*@
+            @* <th>
+                    @Html.DisplayNameFor(model => model.InitWeight)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CladdedWeight)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FinishedWeight)
+                </th>
+            *@
 
             <th></th>
         </tr>
     </thead>
-    <tbody>
 
-     
-@foreach (var item in Model)
-{
-       
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PartInfo.DrawingNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
-        </td>
-       <td>
-           @Html.DisplayFor(modelItem => item.NumParts)
-       </td>
-       <td>
-           <a asp-controller="PartForJobs" asp-action="Index">View list</a> |
-           
-           <a asp-action="Edit" asp-route-id="@item.PartForWorkId">Edit</a> |
-           <a asp-action="Details" asp-route-id="@item.PartForWorkId">Details</a> |
-           <a asp-action="Delete" asp-route-id="@item.PartForWorkId">Delete</a>
-       </td>
-    </tr>
-}
+
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartInfo.DrawingNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumParts)
+                </td>
+                <td>
+               
+                    @Html.ActionLink("View list", "ViewList", new { workId = item.WorkId, partInfoId = item.StaticPartInfoId}) |
+                    <a asp-action="Edit" asp-route-id="@item.PartForWorkId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PartForWorkId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PartForWorkId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
