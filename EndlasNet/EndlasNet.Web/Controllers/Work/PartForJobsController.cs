@@ -122,7 +122,12 @@ namespace EndlasNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                for (int i = 0; i < partForJob.NumParts; i++)
+                // look to see if this part/job already exists. If so, name suffix from that point
+                var existingBatch = await _context.PartsForJobs
+                    .Where(p => p.WorkId.Equals(partForJob.WorkId))
+                    .Where(p => p.StaticPartInfoId.Equals(partForJob.StaticPartInfoId))
+                    .ToListAsync();
+                for (int i = existingBatch.Count; i < partForJob.NumParts + existingBatch.Count; i++)
                 {
                     var tempPartForJob = partForJob;
                     tempPartForJob.Suffix = PartSuffixGenerator.GetPartSuffix(i);                              

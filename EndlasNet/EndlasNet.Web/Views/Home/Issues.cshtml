@@ -14,15 +14,7 @@
                 In static part information: see if can get a thumbnail to appear with drawing number.. remove image title from index and approx weight.
                 Make the thumbnail open details of the static part info.
             </li>
-            <li>
-                Parts for jobs: Find a good way to clean up and organize the index.
-            </li>
-            <li>
-                In part for job: give a way to start the suffix character at something other than 'A'.
-            </li>
-            <li>
-                In part for job: on Index, make rows collapse into similar PartInfo foreign key references
-            </li>
+
             <li>
                 Work on tool for job and powder for job.
             </li>
@@ -37,10 +29,7 @@
     <div style="color:white;font-size:18px;">Known issues</div>
     <div>
         <ul style="font-size:14px;line-height:200%;">
-            <li>
-                On PartForWork views, the edit view has number of parts as a field to edit. This field needs to be above 0, but
-                the value isn't used for anything in the controller. If the number of parts set is valid, all the other changes will apply to the entity.
-            </li>
+           
             <li>
                 Some views do not have login protection implemented yet.
             </li>
@@ -62,10 +51,10 @@
                 </ul>
             </li>
             <li>
-                In part for job: give a way to start the suffix character at something other than 'A'.
+                Parts for jobs: Find a good way to clean up and organize the index.
             </li>
             <li>
-                In part for job: on Index, make rows collapse into similar PartInfo foreign key references
+                In part for job: give a way to start the suffix character at something other than 'A' for a new WorkId-StaticPartInfoId pair.
             </li>
         </ul>
     </div>
@@ -73,7 +62,16 @@
             <div>
                 <ul style="font-size:14px;line-height:200%;">
                     <li>
-                        Made index view only display unique WorkId and StaticPartInfoId pairs
+                        If user creates a batch of parts for a job that already has an existing WorkId-PartInfoId pair, the suffix
+                        begins the lettering from the last suffix rather than beginning at 'A' again.
+                    </li>
+                  <li>
+                        Parts for jobs: Find a good way to clean up and organize the index.
+                        <ul>
+                            <li>
+                                Made index view only display unique WorkId and StaticPartInfoId pairs
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         Changed the unit (um) for particle size in powder to micron.
