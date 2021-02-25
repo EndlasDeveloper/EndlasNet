@@ -60,7 +60,7 @@ namespace EndlasNet.Web.Controllers
                 employee.UserId = Guid.NewGuid();
 
                 // **** HASH AUTH STRING ****
-                employee.AuthString = ShaHash.ComputeSha256Hash(employee.AuthString);
+                employee.AuthString = Security.ComputeSha256Hash(employee.AuthString);
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -101,7 +101,7 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     // **** HASH AUTH STRING ****
-                    employee.AuthString = ShaHash.ComputeSha256Hash(employee.AuthString);
+                    employee.AuthString = Security.ComputeSha256Hash(employee.AuthString);
                     // update shadow property
                     _context.Update(employee);
                     await _context.SaveChangesAsync();

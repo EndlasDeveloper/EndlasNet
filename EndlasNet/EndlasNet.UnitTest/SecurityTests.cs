@@ -17,9 +17,9 @@ namespace EndlasNet.UnitTest
             var differentAuthStr = UnitTestUtil.getRandomString(8);
 
             // ACT
-            var hashedAuthStr = ShaHash.ComputeSha256Hash(testAuthStr);
-            var hashedDiffAuthStr = ShaHash.ComputeSha256Hash(differentAuthStr);
-            var hashedAuthStr2 = ShaHash.ComputeSha256Hash(testAuthStr);
+            var hashedAuthStr = Security.ComputeSha256Hash(testAuthStr);
+            var hashedDiffAuthStr = Security.ComputeSha256Hash(differentAuthStr);
+            var hashedAuthStr2 = Security.ComputeSha256Hash(testAuthStr);
 
             // ASSERT
             // make sure the same auth str gives same hash

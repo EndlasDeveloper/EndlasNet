@@ -100,7 +100,7 @@ namespace EndlasNet.Web.Controllers
                 admin.UserId = Guid.NewGuid();
 
                 // **** HASH AUTH STRING ****
-                admin.AuthString = ShaHash.ComputeSha256Hash(admin.AuthString);
+                admin.AuthString = Security.ComputeSha256Hash(admin.AuthString);
                 // update shadow properties
                 _context.Add(admin);
                 await _context.SaveChangesAsync();

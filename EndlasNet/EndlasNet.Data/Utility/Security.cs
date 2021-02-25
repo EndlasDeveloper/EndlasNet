@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public static class ShaHash
+    public static class Security
     {
         public static string ComputeSha256Hash(string rawData)
         {
