@@ -27,9 +27,9 @@ namespace EndlasNet.Data
 
         public string Suffix { get; set; }
 
-        [NotMapped]
+        [Range(1,10000)]
         [Display(Name = "Number of parts")]
-        public int? NumParts { get; set; }
+        public int NumParts { get; set; }
 
         [Display(Name = "Condition description")]
         public string ConditionDescription { get; set; }

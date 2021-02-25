@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 
+
 namespace EndlasNet.Data
 {
     /*
@@ -38,6 +39,7 @@ namespace EndlasNet.Data
         // ENVIRONMENT
         public DbSet<EnvironmentalSnapshot> EnvironmentalSnapshots { get; set; }
 
+
         /*******************END TABLES********************************************/
 
 
@@ -48,9 +50,12 @@ namespace EndlasNet.Data
         }
 
         public DbContextOptions<EndlasNetDbContext> options;
+
         public EndlasNetDbContext(DbContextOptions<EndlasNetDbContext> options) : base(options) {
             this.options = options;
         }
+
+
 
         // configure ef to use .Data project as target project
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

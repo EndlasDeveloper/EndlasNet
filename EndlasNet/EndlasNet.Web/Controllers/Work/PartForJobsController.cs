@@ -77,6 +77,7 @@ namespace EndlasNet.Web.Controllers
                 default:
                     break;
             }
+            ViewBag.ListCount = minimizedPartList.Count.ToString();
             return View(minimizedPartList);
         }
 

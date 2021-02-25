@@ -34,14 +34,19 @@
             </th>
             <th>
                 <div>
+                    Part count
+                </div>
+            </th>
+            @*<th>
+                <div>
                     Suffix
                 </div>
                 <span>
                     @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
                     @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
                 </span>
-            </th>
-            <th>
+            </th>*@
+           @* <th>
                 @Html.DisplayNameFor(model => model.InitWeight)
             </th>
             <th>
@@ -50,7 +55,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.FinishedWeight)
             </th>
-
+*@
 
             <th></th>
         </tr>
@@ -68,18 +73,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Suffix)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InitWeight)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CladdedWeight)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FinishedWeight)
-        </td>
+       <td>
+           @Html.DisplayFor(modelItem => item.NumParts)
+       </td>
         <td>
             <a asp-action="Edit" asp-route-id="@item.PartForWorkId">Edit</a> |
             <a asp-action="Details" asp-route-id="@item.PartForWorkId">Details</a> |
