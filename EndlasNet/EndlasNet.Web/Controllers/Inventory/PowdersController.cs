@@ -60,6 +60,8 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PowderId,PowderName,VendorDescription,PoNumber,PoDate,BottleNumber,ParticleSize,InitWeight,Weight,CostPerUnitWeight,LotNumber,UserId,VendorId")] Powder powder)
         {
+            // default the weight to the initial weight
+            powder.Weight = powder.InitWeight;
             if (ModelState.IsValid)
             {
                 powder.PowderId = Guid.NewGuid();

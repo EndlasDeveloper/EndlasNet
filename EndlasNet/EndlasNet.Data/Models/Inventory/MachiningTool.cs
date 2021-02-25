@@ -24,7 +24,7 @@ namespace EndlasNet.Data
         [Display(Name = "Vendor tool description")]
         public string VendorDescription { get; set; }
 
-        [Range(1, 1000)]
+        [Range(1, 10000)]
         [Display(Name = "Tool count")]
         [Required]
         public int ToolCount { get; set; }
@@ -40,10 +40,14 @@ namespace EndlasNet.Data
         public DateTime PurchaseOrderDate { get; set; }
 
         [Required]
-        [Range(0f, 1000.0f)]
+        [Range(0f, 10000.0f)]
         [DataType(DataType.Currency)]
         [Display(Name = "Purchase order price")]
         public float PurchaseOrderPrice { get; set; }
+
+        [Required]
+        [Display(Name = "Invoice number")]
+        public string InvoiceNumber { get; set; }
 
         // FK references
         [ForeignKey("UserId")]

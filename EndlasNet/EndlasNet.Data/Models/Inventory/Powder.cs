@@ -44,7 +44,7 @@ namespace EndlasNet.Data
         public float InitWeight { get; set; }
 
         [Required]
-        [Range(0f,1000.0f)]
+        [Range(0f, 1000.0f)]
         [Display(Name = "Weight (lbs)")]
         public float Weight { get; set; }
 
@@ -65,6 +65,5 @@ namespace EndlasNet.Data
         [Display(Name = "Vendor")]
         public Guid VendorId { get; set; }
         public virtual Vendor Vendor { get; set; }
-
     }
 }
