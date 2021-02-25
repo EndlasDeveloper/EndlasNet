@@ -103,7 +103,6 @@ namespace EndlasNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                ViewBag.NumParts = partForJob.NumParts;
                 for (int i = 0; i < partForJob.NumParts; i++)
                 {
                     var tempPartForJob = partForJob;

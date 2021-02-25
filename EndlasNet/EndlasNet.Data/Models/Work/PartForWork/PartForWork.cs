@@ -29,7 +29,7 @@ namespace EndlasNet.Data
 
         [NotMapped]
         [Display(Name = "Number of parts")]
-        public int NumParts { get; set; }
+        public int? NumParts { get; set; }
 
         [Display(Name = "Condition description")]
         public string ConditionDescription { get; set; }

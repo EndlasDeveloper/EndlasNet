@@ -53,11 +53,8 @@
                 <input asp-for="ProcessingNotes" class="form-control" />
                 <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NumParts" class="control-label"></label>
-                <input asp-for="NumParts" class="form-control" />
-                <span asp-validation-for="NumParts" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="NumParts" />
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
