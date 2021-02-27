@@ -39,7 +39,7 @@
                 @Html.DisplayFor(modelItem => item.Vendor.VendorName)
             </td>
             <td>
-                @Html.ActionLink("View line items", "ViewList", new { id = item.PowderOrderId }) |
+                @Html.ActionLink("Manage line items", "ViewList", new { id = item.PowderOrderId }) |
                 <a asp-action="Edit" asp-route-id="@item.PowderOrderId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.PowderOrderId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.PowderOrderId">Delete</a>

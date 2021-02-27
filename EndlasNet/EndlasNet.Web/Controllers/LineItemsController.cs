@@ -50,9 +50,9 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: LineItems/Create
-        public IActionResult Create(Guid? powderOrderId)
+        public IActionResult Create(Guid id)
         {
-            ViewBag.PowderOrderId = powderOrderId;
+            ViewBag.PowderOrderId = id;
             return View();
         }
 

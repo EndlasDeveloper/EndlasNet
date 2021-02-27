@@ -7,7 +7,7 @@
 <h1>Line items</h1>
 
 <p>
-    @Html.ActionLink("Create new", "Create", new { powderOrderId = Model.FirstOrDefault().PowderOrderId })
+    @Html.ActionLink("Create new", "Create", new { id = ViewBag.PowderOrderId })
 </p>
 <table class="table">
     <thead>

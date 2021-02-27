@@ -6,14 +6,14 @@
 
 <h1>Create</h1>
 
-<h4>LineItem</h4>
+<h4>Line item</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <input type="hidden" asp-for="PowderOrderId" class="form-control" asp-items="ViewBag.PowderOrderId" />
+            <input asp-for="PowderOrderId" type="hidden" value="@ViewBag.PowderOrderId"/>
 
             <div class="form-group">
                 <label asp-for="PowderName" class="control-label"></label>
@@ -36,7 +36,6 @@
                 <input asp-for="NumBottles" class="form-control" />
                 <span asp-validation-for="NumBottles" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

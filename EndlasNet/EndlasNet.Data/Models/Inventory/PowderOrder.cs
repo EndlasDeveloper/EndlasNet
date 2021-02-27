@@ -32,10 +32,9 @@ namespace EndlasNet.Data
         public Guid VendorId { get; set; }
         public virtual Vendor Vendor { get; set; }
 
-        [Display(Name ="Number of line items")]
-        [NotMapped]
-        public int NumLineItems { get; set; }
-
+        [ForeignKey("UserId")]
+        public Guid? UserId { get; set; }
+        public virtual User User { get; set; }
         public IEnumerable<LineItem> LineItems { get; set; }
     }
 }

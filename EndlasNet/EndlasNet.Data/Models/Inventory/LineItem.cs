@@ -21,7 +21,6 @@ namespace EndlasNet.Data
         public Guid PowderOrderId { get; set; }
         public virtual PowderOrder PowderOrder { get; set; }
 
-        [NotMapped]
         [Display(Name ="Number of bottles")]
         public int NumBottles { get; set; }
 

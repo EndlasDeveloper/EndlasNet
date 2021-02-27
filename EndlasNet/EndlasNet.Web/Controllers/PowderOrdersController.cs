@@ -56,29 +56,14 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PowderOrderId,PurchaseOrderNum,PurchaseOrderDate,ShippingCost,TaxCost,NumLineItems,VendorId")] PowderOrder powderOrder)
+        public async Task<IActionResult> Create([Bind("PowderOrderId,PurchaseOrderNum,PurchaseOrderDate,ShippingCost,TaxCost,VendorId")] PowderOrder powderOrder)
         {
             if (ModelState.IsValid)
             {             
                 powderOrder.PowderOrderId = Guid.NewGuid();
                 
                 _context.Add(powderOrder);
-                await _context.SaveChangesAsync();
-
-                for (int i = 0; i < powderOrder.NumLineItems; i++)
-                {
-                    var lineItem = new LineItem
-                    {
-                        LineItemId = Guid.NewGuid(),
-                        PowderName = "",
-                        VendorDescription = "",
-                        ParticleSize = 1,
-                        PowderOrder = powderOrder,
-                        PowderOrderId = powderOrder.PowderOrderId
-                    };
-                    _context.Add(lineItem);
-                }
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();            
                 return RedirectToAction(nameof(Index));
             }
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", powderOrder.VendorId);
@@ -107,7 +92,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PowderOrderId,PurchaseOrderNum,PurchaseOrderDate,ShippingCost,TaxCost,NumLineItems,VendorId")] PowderOrder powderOrder)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PowderOrderId,PurchaseOrderNum,PurchaseOrderDate,ShippingCost,TaxCost,VendorId")] PowderOrder powderOrder)
         {
             if (id != powderOrder.PowderOrderId)
             {
