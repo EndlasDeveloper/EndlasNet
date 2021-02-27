@@ -6,33 +6,15 @@
 
 <h1>Edit</h1>
 
-<h4>PartForJob</h4>
+<h4>Part for a job</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PartForWorkId" />
-            <div class="form-group">
-                <label asp-for="WorkId" class="control-label"></label>
-                <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
-                <span asp-validation-for="WorkId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StaticPartInfoId" class="control-label"></label>
-                <select asp-for="StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
-                <span asp-validation-for="StaticPartInfoId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Suffix" class="control-label"></label>
-                <input asp-for="Suffix" class="form-control" />
-                <span asp-validation-for="Suffix" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumParts" class="control-label"></label>
-                <input asp-for="NumParts" class="form-control" />
-                <span asp-validation-for="NumParts" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="WorkId" />
+            <input type="hidden" asp-for="StaticPartInfoId" />
             <div class="form-group">
                 <label asp-for="ConditionDescription" class="control-label"></label>
                 <input asp-for="ConditionDescription" class="form-control" />
@@ -59,10 +41,16 @@
                 <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
+                <label asp-for="Suffix" class="control-label"></label>
+                <input asp-for="Suffix" class="form-control" />
+                <span asp-validation-for="Suffix" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="NumParts" class="control-label"></label>
+                <input asp-for="NumParts" class="form-control" />
+                <span asp-validation-for="NumParts" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -71,7 +59,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to list</a>
 </div>
 
 @section Scripts {

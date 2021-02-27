@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -68,9 +69,6 @@ namespace EndlasNet.Web.Controllers
         // GET: PartsForAJob/Create
         public IActionResult Create()
         {
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber");
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString");
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "Discriminator");
             return View();
         }
 
@@ -84,13 +82,11 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 partForJob.PartForWorkId = Guid.NewGuid();
+                partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Add(partForJob);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", partForJob.UserId);
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "Discriminator", partForJob.WorkId);
             return View(partForJob);
         }
 
@@ -107,9 +103,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", partForJob.UserId);
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "Discriminator", partForJob.WorkId);
+          
             return View(partForJob);
         }
 
@@ -129,7 +123,9 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Update(partForJob);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -143,11 +139,8 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "PartsForAJob", new { id = id, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder = "suffix_asc" });
             }
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", partForJob.UserId);
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "Discriminator", partForJob.WorkId);
             return View(partForJob);
         }
 
@@ -181,6 +174,12 @@ namespace EndlasNet.Web.Controllers
             _context.PartsForJobs.Remove(partForJob);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult RedirectToPartForJob(Guid id)
+        {
+            return RedirectToAction("Edit", "PartsForAJob", new { id = id });
+
         }
 
         private bool PartForJobExists(Guid id)
