@@ -158,7 +158,7 @@ namespace EndlasNet.Web.Controllers
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                         _context.Add(tempPartForJob);
                         await _context.SaveChangesAsync();
-                    } catch(Exception ex) { continue; }
+                    } catch(Exception ex) { ex.ToString(); continue; }
                 }
 
 
