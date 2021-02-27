@@ -47,7 +47,7 @@ namespace EndlasNet.Web.Controllers
         // GET: PowderOrders/Create
         public IActionResult Create()
         {
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact");
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
             return View();
         }
 
@@ -59,11 +59,13 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Create([Bind("PowderOrderId,PurchaseOrderNum,PurchaseOrderDate,ShippingCost,TaxCost,NumLineItems,VendorId")] PowderOrder powderOrder)
         {
             if (ModelState.IsValid)
-            {
+            {             
                 powderOrder.PowderOrderId = Guid.NewGuid();
+                
                 _context.Add(powderOrder);
+                await _context.SaveChangesAsync();
 
-                for(int i = 0; i < powderOrder.NumLineItems; i++)
+                for (int i = 0; i < powderOrder.NumLineItems; i++)
                 {
                     var lineItem = new LineItem
                     {
@@ -96,7 +98,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", powderOrder.VendorId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", powderOrder.VendorId);
             return View(powderOrder);
         }
 
@@ -132,7 +134,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "PointOfContact", powderOrder.VendorId);
+            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", powderOrder.VendorId);
             return View(powderOrder);
         }
 

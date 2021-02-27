@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -36,6 +37,7 @@ namespace EndlasNet.Web.Controllers
             var powder = await _context.Powders
                 .Include(p => p.LineItem)
                 .Include(p => p.User)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PowderId == id);
             if (powder == null)
             {
@@ -48,8 +50,6 @@ namespace EndlasNet.Web.Controllers
         // GET: Powders/Create
         public IActionResult Create()
         {
-            ViewData["LineItemId"] = new SelectList(_context.LineItems, "LineItemId", "LineItemId");
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString");
             return View();
         }
 
@@ -63,12 +63,15 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 powder.PowderId = Guid.NewGuid();
+                _context.Entry(powder).Property("CreatedDate").CurrentValue = DateTime.Now;
+                _context.Entry(powder).Property("UpdatedDate").CurrentValue = DateTime.Now;
+                powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                powder.Weight = powder.InitWeight;
                 _context.Add(powder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LineItemId"] = new SelectList(_context.LineItems, "LineItemId", "LineItemId", powder.LineItemId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", powder.UserId);
+
             return View(powder);
         }
 
@@ -85,8 +88,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["LineItemId"] = new SelectList(_context.LineItems, "LineItemId", "LineItemId", powder.LineItemId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", powder.UserId);
+ 
             return View(powder);
         }
 
@@ -106,6 +108,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Update(powder);
                     await _context.SaveChangesAsync();
                 }
@@ -122,8 +125,6 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LineItemId"] = new SelectList(_context.LineItems, "LineItemId", "LineItemId", powder.LineItemId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", powder.UserId);
             return View(powder);
         }
 

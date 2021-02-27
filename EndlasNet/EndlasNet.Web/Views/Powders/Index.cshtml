@@ -4,11 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Powders</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -27,12 +24,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.LotNumber)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LineItem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -54,12 +46,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.LotNumber)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LineItem.LineItemId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.AuthString)
-            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PowderId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.PowderId">Details</a> |

@@ -32,8 +32,8 @@ namespace EndlasNet.Data
         public Guid VendorId { get; set; }
         public virtual Vendor Vendor { get; set; }
 
-        [NotMapped]
         [Display(Name ="Number of line items")]
+        [NotMapped]
         public int NumLineItems { get; set; }
 
         public IEnumerable<LineItem> LineItems { get; set; }

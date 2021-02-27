@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Line items</h1>
 
 <p>
     @Html.ActionLink("Create new", "Create", new { powderOrderId = Model.FirstOrDefault().PowderOrderId })
@@ -24,6 +24,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.PowderOrder)
             </th>
+  
             <th></th>
         </tr>
     </thead>
@@ -43,7 +44,7 @@
                 @Html.DisplayFor(modelItem => item.PowderOrder.PurchaseOrderNum)
             </td>
             <td>
-                @Html.ActionLink("View list", "ViewList", new { id = item.LineItemId }) |
+                @Html.ActionLink("View bottle list", "ViewList", new { id = item.LineItemId }) |
 
                 <a asp-action="Edit" asp-route-id="@item.LineItemId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.LineItemId">Details</a> |
