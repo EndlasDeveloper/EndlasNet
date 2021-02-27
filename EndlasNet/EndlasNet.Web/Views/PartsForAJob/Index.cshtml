@@ -3,21 +3,26 @@
 @{
     ViewData["Title"] = "Index";
 }
-<h2>Part batch</h2>
-<h5 style="color:gray">
-    <span>Part information drawing number:</span>
-    <span>@Html.DisplayFor(modelItem => Model.FirstOrDefault().PartInfo.DrawingNumber)</span>
-    <br />
-    <span>Job endlas number:</span>
-    <span>@Html.DisplayFor(modelItem => Model.FirstOrDefault().Work.EndlasNumber)</span>
+<h3>
+    Part batch
+</h3>
+<br />
+<h4>
+    @Html.DisplayFor(modelItem => Model.FirstOrDefault().PartInfo.DrawingNumber), @Html.DisplayFor(modelItem => Model.FirstOrDefault().Work.EndlasNumber)
+</h4>
 
-</h5>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Suffix)
+                <div>
+                    Suffix
+                </div>
+                <span>
+                    @Html.ActionLink("Asc ", "Index", new { id = Model.FirstOrDefault().PartForWorkId, workId= Model.FirstOrDefault().WorkId, partInfoId=Model.FirstOrDefault().StaticPartInfoId, sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { id = Model.FirstOrDefault().PartForWorkId, workId = Model.FirstOrDefault().WorkId, partInfoId = Model.FirstOrDefault().StaticPartInfoId, sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ConditionDescription)

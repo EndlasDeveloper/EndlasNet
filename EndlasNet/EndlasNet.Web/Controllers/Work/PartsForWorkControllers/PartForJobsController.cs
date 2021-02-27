@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -127,17 +128,27 @@ namespace EndlasNet.Web.Controllers
                     .Where(p => p.WorkId.Equals(partForJob.WorkId))
                     .Where(p => p.StaticPartInfoId.Equals(partForJob.StaticPartInfoId))
                     .ToListAsync();
+                foreach(PartForJob part in existingBatch)
+                {
+                    part.NumParts = part.NumParts + existingBatch.Count;
+                }
+                // get the new number of parts
                 partForJob.NumParts = existingBatch.Count + partForJob.NumParts;
+                // create each part for the part batch
                 for (int i = existingBatch.Count; i < partForJob.NumParts + existingBatch.Count; i++)
                 {
-                    var tempPartForJob = partForJob;
-                    tempPartForJob.Suffix = PartSuffixGenerator.GetPartSuffix(i);                              
-                    tempPartForJob.PartForWorkId = Guid.NewGuid();
-                    tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    _context.Add(tempPartForJob);
-
-                    await _context.SaveChangesAsync();
+                    try
+                    {
+                        var tempPartForJob = partForJob;
+                        tempPartForJob.Suffix = PartSuffixGenerator.GetPartSuffix(i);
+                        tempPartForJob.PartForWorkId = Guid.NewGuid();
+                        tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                        _context.Add(tempPartForJob);
+                        await _context.SaveChangesAsync();
+                    }catch(Exception ex) { continue; }
                 }
+
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
@@ -235,9 +246,13 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public ActionResult ViewList(Guid workId, Guid partInfoId)
+        public ActionResult ViewList(Guid? id, Guid workId, Guid partInfoId)
         {
-            return RedirectToAction("Index", "PartsForAJob", new { workId = workId.ToString(), partInfoId = partInfoId.ToString()});
+            ViewBag.id = id;
+            ViewBag.workId = workId;
+            ViewBag.partInfoId = partInfoId;
+
+            return RedirectToAction("Index", "PartsForAJob", new { id = id, workId = workId, partInfoId = partInfoId, sortOrder = "suffix_asc" });
         }
 
         private bool PartForJobExists(Guid id)
