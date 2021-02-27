@@ -51,6 +51,9 @@ namespace EndlasNet.Data
         public Guid? UserId { get; set; }
         public virtual User User { get; set; }
 
-
+        [NotMapped]
+        [Display(Name ="Starting suffix")]
+        [RegularExpression(@"^[A-Z]*$")]
+        public string StartSuffix { get; set; } = "A";
     }
 }

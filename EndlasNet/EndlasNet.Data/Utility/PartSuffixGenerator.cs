@@ -35,5 +35,19 @@ namespace EndlasNet.Data
             }
             return suffix;
         }
+
+        public static int SuffixToIndex(string suffix)
+        {
+            if (String.IsNullOrEmpty(suffix))
+                return 0;
+            var suffixArr = suffix.ToCharArray();
+            Array.Reverse(suffixArr);
+            double result = 0;
+            for(int i = suffixArr.Length-1; i >= 0; i--)
+            {
+                result += (suffixArr[i] - 'A') * Math.Pow(26, i);
+            }
+            return (int)result;
+        }
     }
 }

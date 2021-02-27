@@ -70,5 +70,27 @@ namespace EndlasNet.UnitTest
             suffix = PartSuffixGenerator.GetPartSuffix(456975);
             Assert.AreEqual("ZZZZ", suffix);
         }
+
+        [Test]
+        public void SuffixToIndexSingleCharTest()
+        {
+            var result = PartSuffixGenerator.SuffixToIndex("A");
+            Assert.AreEqual(0, result);
+            result = PartSuffixGenerator.SuffixToIndex("B");
+            Assert.AreEqual(1, result);
+            result = PartSuffixGenerator.SuffixToIndex("Z");
+            Assert.AreEqual(25, result);
+        }
+
+        [Test]
+        public void SuffixToIndexDoubleCharTest()
+        {
+            var result = PartSuffixGenerator.SuffixToIndex("BA");
+            Assert.AreEqual(26, result);
+            result = PartSuffixGenerator.SuffixToIndex("BB");
+            Assert.AreEqual(27, result);
+            result = PartSuffixGenerator.SuffixToIndex("ZZ");
+            Assert.AreEqual(675, result);
+        }
     }
 }
