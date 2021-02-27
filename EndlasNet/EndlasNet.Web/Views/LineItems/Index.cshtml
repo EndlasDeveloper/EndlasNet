@@ -1,0 +1,55 @@
+﻿@model IEnumerable<EndlasNet.Data.LineItem>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    @Html.ActionLink("Create new", "Create", new { powderOrderId = Model.FirstOrDefault().PowderOrderId })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PowderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VendorDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParticleSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PowderOrder)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PowderName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VendorDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParticleSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PowderOrder.PurchaseOrderNum)
+            </td>
+            <td>
+                @Html.ActionLink("View list", "ViewList", new { id = item.LineItemId }) |
+
+                <a asp-action="Edit" asp-route-id="@item.LineItemId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.LineItemId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.LineItemId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

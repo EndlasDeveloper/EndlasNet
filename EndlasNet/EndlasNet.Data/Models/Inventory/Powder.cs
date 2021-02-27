@@ -11,32 +11,12 @@ namespace EndlasNet.Data
         [Key]
         public Guid PowderId { get; set; }
 
-        [Required]
-        [StringLength(25)]
-        [Display(Name = "Powder name")]
-        public string PowderName { get; set; }
-
-        [Required]
-        [StringLength(250)]
-        [Display(Name = "Vendor description")]
-        public string VendorDescription { get; set; }
-
-        [Required]
-        [Display(Name = "PO number")]
-        public string PoNumber { get; set; }
-
-        [Required]
-        [Display(Name = "PO date")]
-        public DateTime PoDate { get; set; }
-
+        
         [Required]
         [Display(Name = "Bottle number")]
         public string BottleNumber { get; set; }
 
-        [Required]
-        [Range(0f,2000f)]
-        [Display(Name = "Particle size (microns)")]
-        public float ParticleSize { get; set; }
+       
 
         [Required]
         [Range(1.0f, 1000.0f)]
@@ -51,19 +31,18 @@ namespace EndlasNet.Data
         [Required]
         [Range(0f,float.MaxValue)]
         [DataType(DataType.Currency)]
-        [Display(Name = "Cost per pound")]
-        public float CostPerUnitWeight { get; set; }
-        [Display(Name = "Lot number")]
-        public string LotNumber { get; set; }
-        // FK references
-        [ForeignKey("UserId")]
-        [Display(Name = "User")]
-        public Guid? UserId { get; set; }
-        public virtual User User { get; set; }
+        [Display(Name = "Bottle cost")]
+        public float BottleCost { get; set; }
 
-        [ForeignKey("VendorId")]
-        [Display(Name = "Vendor")]
-        public Guid VendorId { get; set; }
-        public virtual Vendor Vendor { get; set; }
+        [Display(Name = "Lot number")]
+        [Required]
+        public string LotNumber { get; set; }
+
+        [ForeignKey("LineItemId")]
+        public Guid LineItemId { get; set; }
+        public virtual LineItem LineItem { get; set; }
+
+        public Guid? UserId { get; set; }
+        public virtual User User{ get; set; }
     }
 }

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
-using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -22,7 +21,7 @@ namespace EndlasNet.Web.Controllers
         // GET: Powders
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.Powders.Include(p => p.User).Include(p => p.Vendor);
+            var endlasNetDbContext = _context.Powders.Include(p => p.LineItem).Include(p => p.User);
             return View(await endlasNetDbContext.ToListAsync());
         }
 
@@ -35,8 +34,8 @@ namespace EndlasNet.Web.Controllers
             }
 
             var powder = await _context.Powders
+                .Include(p => p.LineItem)
                 .Include(p => p.User)
-                .Include(p => p.Vendor).AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PowderId == id);
             if (powder == null)
             {
@@ -49,7 +48,8 @@ namespace EndlasNet.Web.Controllers
         // GET: Powders/Create
         public IActionResult Create()
         {
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
+            ViewData["LineItemId"] = new SelectList(_context.LineItems, "LineItemId", "LineItemId");
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString");
             return View();
         }
 
@@ -58,19 +58,17 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PowderId,PowderName,VendorDescription,PoNumber,PoDate,BottleNumber,ParticleSize,InitWeight,Weight,CostPerUnitWeight,LotNumber,UserId,VendorId")] Powder powder)
+        public async Task<IActionResult> Create([Bind("PowderId,BottleNumber,InitWeight,Weight,BottleCost,LotNumber,LineItemId,UserId")] Powder powder)
         {
-            // default the weight to the initial weight
-            powder.Weight = powder.InitWeight;
             if (ModelState.IsValid)
             {
                 powder.PowderId = Guid.NewGuid();
-                powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Add(powder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", powder.VendorId);
+            ViewData["LineItemId"] = new SelectList(_context.LineItems, "LineItemId", "LineItemId", powder.LineItemId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", powder.UserId);
             return View(powder);
         }
 
@@ -87,7 +85,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", powder.VendorId);
+            ViewData["LineItemId"] = new SelectList(_context.LineItems, "LineItemId", "LineItemId", powder.LineItemId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", powder.UserId);
             return View(powder);
         }
 
@@ -96,7 +95,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PowderId,PowderName,VendorDescription,PoNumber,PoDate,BottleNumber,ParticleSize,InitWeight,Weight,CostPerUnitWeight,LotNumber,UserId,VendorId")] Powder powder)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PowderId,BottleNumber,InitWeight,Weight,BottleCost,LotNumber,LineItemId,UserId")] Powder powder)
         {
             if (id != powder.PowderId)
             {
@@ -107,7 +106,6 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Update(powder);
                     await _context.SaveChangesAsync();
                 }
@@ -124,7 +122,8 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", powder.VendorId);
+            ViewData["LineItemId"] = new SelectList(_context.LineItems, "LineItemId", "LineItemId", powder.LineItemId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", powder.UserId);
             return View(powder);
         }
 
@@ -137,8 +136,8 @@ namespace EndlasNet.Web.Controllers
             }
 
             var powder = await _context.Powders
+                .Include(p => p.LineItem)
                 .Include(p => p.User)
-                .Include(p => p.Vendor)
                 .FirstOrDefaultAsync(m => m.PowderId == id);
             if (powder == null)
             {

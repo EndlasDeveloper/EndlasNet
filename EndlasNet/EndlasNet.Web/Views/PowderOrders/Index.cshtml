@@ -1,0 +1,61 @@
+﻿@model IEnumerable<EndlasNet.Data.PowderOrder>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseOrderNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseOrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShippingCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaxCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseOrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShippingCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaxCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vendor.VendorName)
+            </td>
+            <td>
+                @Html.ActionLink("View list", "ViewList", new { id = item.PowderOrderId }) |
+
+                <a asp-action="Edit" asp-route-id="@item.PowderOrderId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PowderOrderId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PowderOrderId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
