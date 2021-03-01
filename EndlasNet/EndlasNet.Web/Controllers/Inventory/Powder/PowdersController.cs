@@ -20,9 +20,13 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Powders
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Guid lineItemId, Guid powderOrderId)
         {
-            var endlasNetDbContext = _context.Powders.Include(p => p.LineItem).Include(p => p.User);
+            var endlasNetDbContext = _context.Powders
+                .Include(p => p.LineItem)
+                .Include(p => p.User)
+                .Where(p => p.LineItemId == lineItemId)
+                .Where(p => p.LineItem.PowderOrderId == powderOrderId);
             return View(await endlasNetDbContext.ToListAsync());
         }
 
@@ -58,7 +62,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PowderId,BottleNumber,InitWeight,Weight,BottleCost,LotNumber,LineItemId,UserId")] Powder powder)
+        public async Task<IActionResult> Create([Bind("PowderId,BottleNumber,InitWeight,Weight,BottleCost,LotNumber,LineItemId,UserId")] Powder powder, Guid id)
         {
             if (ModelState.IsValid)
             {

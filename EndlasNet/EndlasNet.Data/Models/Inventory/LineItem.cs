@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,12 +20,14 @@ namespace EndlasNet.Data
 
         [ForeignKey("PowderOrderId")]
         public Guid PowderOrderId { get; set; }
+        [BindProperty(SupportsGet = true)]
         public virtual PowderOrder PowderOrder { get; set; }
 
         [Display(Name ="Number of bottles")]
         public int NumBottles { get; set; }
 
         public IEnumerable<Powder> Powders { get; set; }
+
 
     }
 }

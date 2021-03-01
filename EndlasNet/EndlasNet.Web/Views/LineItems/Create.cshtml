@@ -10,11 +10,9 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <input asp-for="PowderOrderId" type="hidden" value="@ViewBag.PowderOrderId"/>
-
             <div class="form-group">
                 <label asp-for="PowderName" class="control-label"></label>
                 <input asp-for="PowderName" class="form-control" />
@@ -37,14 +35,20 @@
                 <span asp-validation-for="NumBottles" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="PowderOrderId" class="control-label"></label>
+                <input asp-for="PowderOrderId" class="form-control" value="@ViewBag.PowderOrderId" readonly />
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+
             </div>
         </form>
+
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to list</a>
 </div>
 
 @section Scripts {

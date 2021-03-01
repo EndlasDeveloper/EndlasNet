@@ -36,5 +36,10 @@ namespace EndlasNet.Data
         public Guid? UserId { get; set; }
         public virtual User User { get; set; }
         public IEnumerable<LineItem> LineItems { get; set; }
+
+        [NotMapped]
+        [Display(Name ="Number of line item powder bottles")]
+        public int NumLineItemBottles { get; set; }
+
     }
 }

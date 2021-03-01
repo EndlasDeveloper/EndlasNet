@@ -23,11 +23,13 @@ namespace EndlasNet.Web.Controllers
 
         public async Task<IActionResult> Index(Guid id)
         {
-            ViewBag.PowderOrderId = id;
             var endlasNetDbContext = _context.LineItems
                 .Include(l => l.PowderOrder)
-                .Where(l => l.PowderOrderId.Equals(id));
-            return View(await endlasNetDbContext.ToListAsync());
+                .Where(l => l.PowderOrderId == id);
+            if (await endlasNetDbContext.CountAsync() != 0)
+                return View(await endlasNetDbContext.ToListAsync());
+            else
+                return View();
         }
 
         // GET: LineItems/Details/5
@@ -49,12 +51,14 @@ namespace EndlasNet.Web.Controllers
             return View(lineItem);
         }
 
-        // GET: LineItems/Create
-        public IActionResult Create(Guid id)
+        [HttpGet]
+        public IActionResult Create(Guid powderOrderId)
         {
-            ViewBag.PowderOrderId = id;
+            ViewBag.PowderOrderId = powderOrderId;
             return View();
         }
+
+
 
         // POST: LineItems/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -86,7 +90,7 @@ namespace EndlasNet.Web.Controllers
                     _context.Add(newPowder);
                 }
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "LineItems", new { id = lineItem.PowderOrderId });
+                return RedirectToAction("Index", "PowderOrders");
             }
             return View(lineItem);
         }
@@ -172,11 +176,9 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public ActionResult ViewList(Guid id)
+        public ActionResult ViewList(Guid lineItemId, Guid powderOrderId)
         {
-            ViewBag.id = id;
-
-            return RedirectToAction("Index", "Powders", new { id = id });
+            return RedirectToAction("Index", "Powders", new {powderOrderId = powderOrderId, lineItemId = lineItemId});
         }
         private bool LineItemExists(Guid id)
         {
