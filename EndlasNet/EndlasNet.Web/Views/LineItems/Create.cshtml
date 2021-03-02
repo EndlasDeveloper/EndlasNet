@@ -47,7 +47,7 @@
 </div>
 
 <div>
-    @Html.ActionLink("Back to list", "Index", new { powderOrderId = Model.PowderOrderId })
+    @Html.ActionLink("Back to list", "Index", new { powderOrderId = @ViewBag.PowderOrderId })
 </div>
 
 @section Scripts {

@@ -37,6 +37,8 @@
                 <select asp-for="VendorId" class="form-control" asp-items="ViewBag.VendorId"></select>
                 <span asp-validation-for="VendorId" class="text-danger"></span>
             </div>
+            <input asp-for="NumLineItemBottles" class="form-control" hidden readonly />
+            <input asp-for="PowderOrderId" class="form-control" hidden />
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

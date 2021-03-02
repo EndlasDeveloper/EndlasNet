@@ -53,7 +53,10 @@ namespace EndlasNet.Web.Controllers
             return View();
         }
 
-      
+       public IActionResult AddLineItem(Guid powderOrderId)
+        {
+            return RedirectToAction("Create", "LineItems", new { powderOrderId = powderOrderId });
+        }
 
         public IActionResult ManageLineItems(Guid powderOrderId)
         {
@@ -133,7 +136,7 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", powderOrder.VendorId);
             return View(powderOrder);

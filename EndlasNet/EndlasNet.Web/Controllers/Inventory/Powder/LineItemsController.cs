@@ -46,8 +46,9 @@ namespace EndlasNet.Web.Controllers
             return View(lineItem);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(Guid powderOrderId)
         {
+            ViewBag.PowderOrderId = powderOrderId;
             return View();
         }
 
