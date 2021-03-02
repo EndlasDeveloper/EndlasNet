@@ -10,19 +10,16 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Edit" enctype="multipart/form-data">
             <input type="hidden" asp-for="PowderId" />
             <div class="form-group">
                 <label asp-for="BottleNumber" class="control-label"></label>
                 <input asp-for="BottleNumber" class="form-control" />
                 <span asp-validation-for="BottleNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="InitWeight" class="control-label"></label>
-                <input asp-for="InitWeight" class="form-control" />
-                <span asp-validation-for="InitWeight" class="text-danger"></span>
-            </div>
+           
+            <input asp-for="InitWeight" class="form-control" readonly hidden/>
             <div class="form-group">
                 <label asp-for="Weight" class="control-label"></label>
                 <input asp-for="Weight" class="form-control" />
@@ -38,9 +35,9 @@
                 <input asp-for="LotNumber" class="form-control" />
                 <span asp-validation-for="LotNumber" class="text-danger"></span>
             </div>
+            <input asp-for="LineItemId" class="form-control" asp-items="ViewBag.LineItemId" hidden readonly />
 
             <div class="form-group">
-                <input type="hidden" asp-for="LineItemId"/>
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -48,7 +45,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to list</a>
+    @Html.ActionLink("Back to list", "Index", new { lineItemId = Model.LineItemId})
 </div>
 
 @section Scripts {

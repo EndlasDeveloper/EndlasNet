@@ -55,9 +55,9 @@ namespace EndlasNet.Web.Controllers
 
       
 
-        public ActionResult ManageLineItems(Guid id)
+        public IActionResult ManageLineItems(Guid powderOrderId)
         {
-            return RedirectToAction("Index", "LineItems", new { id = id });
+            return RedirectToAction("Index", "LineItems", new { powderOrderId = powderOrderId });
         }
 
         // POST: PowderOrders/Create
@@ -169,10 +169,7 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public ActionResult ViewList(Guid? powderOrderId)
-        {
-            return RedirectToAction("Index", "LineItems", new { powderOrderId = powderOrderId });
-        }
+
         private bool PowderOrderExists(Guid id)
         {
             return _context.PowderOrders.Any(e => e.PowderOrderId == id);

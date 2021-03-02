@@ -35,8 +35,7 @@
                 <span asp-validation-for="NumBottles" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PowderOrderId" class="control-label"></label>
-                <input asp-for="PowderOrderId" class="form-control" value="@ViewBag.PowderOrderId" readonly />
+                <input asp-for="PowderOrderId" class="form-control" value="@ViewBag.PowderOrderId" hidden readonly />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -48,7 +47,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to list</a>
+    @Html.ActionLink("Back to list", "Index", new { powderOrderId = Model.PowderOrderId })
 </div>
 
 @section Scripts {

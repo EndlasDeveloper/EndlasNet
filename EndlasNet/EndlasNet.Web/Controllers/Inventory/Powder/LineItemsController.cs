@@ -13,23 +13,18 @@ namespace EndlasNet.Web.Controllers
     public class LineItemsController : Controller
     {
         private readonly EndlasNetDbContext _context;
-
+        private LineItemRepo repo;
         public LineItemsController(EndlasNetDbContext context)
         {
             _context = context;
+            repo = new LineItemRepo(context);
         }
 
         // GET: LineItems
 
-        public async Task<IActionResult> Index(Guid id)
+        public async Task<IActionResult> Index(Guid powderOrderId)
         {
-            var endlasNetDbContext = _context.LineItems
-                .Include(l => l.PowderOrder)
-                .Where(l => l.PowderOrderId == id);
-            if (await endlasNetDbContext.CountAsync() != 0)
-                return View(await endlasNetDbContext.ToListAsync());
-            else
-                return View();
+            return View(await repo.GetLineItems(powderOrderId));  
         }
 
         // GET: LineItems/Details/5
@@ -51,13 +46,15 @@ namespace EndlasNet.Web.Controllers
             return View(lineItem);
         }
 
-        [HttpGet]
-        public IActionResult Create(Guid powderOrderId)
+        public IActionResult Create()
         {
-            ViewBag.PowderOrderId = powderOrderId;
             return View();
         }
 
+        public IActionResult ManagePowders(Guid lineItemId)
+        {
+            return RedirectToAction("Index", "Powders", new { lineItemId = lineItemId });
+        }
 
 
         // POST: LineItems/Create
@@ -141,7 +138,7 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "LineItems", new { id= lineItem.PowderOrderId });
+                return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
             }
             return View(lineItem);
         }
@@ -173,7 +170,7 @@ namespace EndlasNet.Web.Controllers
             var lineItem = await _context.LineItems.FindAsync(id);
             _context.LineItems.Remove(lineItem);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
         }
 
         public ActionResult ViewList(Guid lineItemId, Guid powderOrderId)

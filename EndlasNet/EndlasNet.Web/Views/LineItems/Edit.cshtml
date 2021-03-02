@@ -10,38 +10,36 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
-            <div class="form-group">
-                <label asp-for="PowderName" class="control-label"></label>
-                <input asp-for="PowderName" class="form-control" />
-                <span asp-validation-for="PowderName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="VendorDescription" class="control-label"></label>
-                <input asp-for="VendorDescription" class="form-control" />
-                <span asp-validation-for="VendorDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ParticleSize" class="control-label"></label>
-                <input asp-for="ParticleSize" class="form-control" />
-                <span asp-validation-for="ParticleSize" class="text-danger"></span>
-            </div>
-         
-            <div class="form-group">
-                <label asp-for="PowderOrderId" class="control-label"></label>
-                <input asp-for="PowderOrderId" class="form-control" asp-items="ViewBag.PowderOrderId" readonly />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input asp-for="LineItemId" class="form-control" hidden readonly />
 
+                    <label asp-for="PowderName" class="control-label"></label>
+                    <input asp-for="PowderName" class="form-control" />
+                    <span asp-validation-for="PowderName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VendorDescription" class="control-label"></label>
+                    <input asp-for="VendorDescription" class="form-control" />
+                    <span asp-validation-for="VendorDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ParticleSize" class="control-label"></label>
+                    <input asp-for="ParticleSize" class="form-control" />
+                    <span asp-validation-for="ParticleSize" class="text-danger"></span>
+                </div>
+
+                <input asp-for="PowderOrderId" class="form-control" hidden readonly />
+                <div class="form-group">
+
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+            </div>
+</div>
 <div>
-    <a asp-action="Index">Back to list</a>
+    @Html.ActionLink("Back to list", "Index", new { lineItemId = Model.LineItemId })
 </div>
 
 @section Scripts {

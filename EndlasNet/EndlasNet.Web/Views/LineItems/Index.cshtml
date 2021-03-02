@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<EndlasNet.Data.LineItem>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Line items";
 }
 
 <h1>Line items</h1>
@@ -20,9 +20,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.ParticleSize)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PowderOrder)
-            </th>
+
   
             <th></th>
         </tr>
@@ -39,13 +37,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ParticleSize)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PowderOrder.PurchaseOrderNum)
-            </td>
-            <td>
-                @Html.ActionLink("Manage powders", "LineItems", "Index", new { powderOrderId = item.PowderOrderId }) |
 
-                <a asp-action="Edit" asp-route-id="@item.LineItemId">Edit</a> |
+            <td>
+                @Html.ActionLink("Manage powders", "ManagePowders", new { lineItemId = item.LineItemId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.LineItemId }) |
                 <a asp-action="Details" asp-route-id="@item.LineItemId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.LineItemId">Delete</a>
             </td>

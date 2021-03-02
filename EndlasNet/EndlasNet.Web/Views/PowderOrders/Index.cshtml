@@ -37,7 +37,7 @@
                 @Html.DisplayFor(modelItem => item.Vendor.VendorName)
             </td>
             <td>
-                @Html.ActionLink("Manage line items", "ManageLineItems", new { id = item.PowderOrderId })
+                @Html.ActionLink("Manage line items", "ManageLineItems", new { powderOrderId = item.PowderOrderId }) |
                 <a asp-action="Details" asp-route-id="@item.PowderOrderId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.PowderOrderId">Delete</a>
             </td>

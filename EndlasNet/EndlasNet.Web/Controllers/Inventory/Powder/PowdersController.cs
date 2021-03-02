@@ -13,21 +13,17 @@ namespace EndlasNet.Web.Controllers
     public class PowdersController : Controller
     {
         private readonly EndlasNetDbContext _context;
-
+        private PowderRepo repo;
         public PowdersController(EndlasNetDbContext context)
         {
             _context = context;
+            repo = new PowderRepo(context);
         }
 
         // GET: Powders
-        public async Task<IActionResult> Index(Guid lineItemId, Guid powderOrderId)
+        public async Task<IActionResult> Index(Guid lineItemId)
         {
-            var endlasNetDbContext = _context.Powders
-                .Include(p => p.LineItem)
-                .Include(p => p.User)
-                .Where(p => p.LineItemId == lineItemId)
-                .Where(p => p.LineItem.PowderOrderId == powderOrderId);
-            return View(await endlasNetDbContext.ToListAsync());
+            return View(await repo.GetLineItemPowders(lineItemId));
         }
 
         // GET: Powders/Details/5
@@ -112,8 +108,9 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    _context.Update(powder);
+                    _context.Entry(powder).Property("CreatedDate").CurrentValue = DateTime.Now;
+                    _context.Entry(powder).Property("UpdatedDate").CurrentValue = DateTime.Now;
+                    powder.UserId = new Guid(HttpContext.Session.GetString("userId")); _context.Update(powder);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -127,7 +124,7 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Powders", new { lineItemId = powder.LineItemId });
             }
             return View(powder);
         }
@@ -160,7 +157,7 @@ namespace EndlasNet.Web.Controllers
             var powder = await _context.Powders.FindAsync(id);
             _context.Powders.Remove(powder);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", new { lineItemId = powder.LineItemId });
         }
 
         private bool PowderExists(Guid id)
