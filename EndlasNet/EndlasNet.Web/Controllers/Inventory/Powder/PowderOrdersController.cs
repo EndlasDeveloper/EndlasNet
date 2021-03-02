@@ -76,7 +76,7 @@ namespace EndlasNet.Web.Controllers
                 await _context.SaveChangesAsync();
                 for(int i = 0; i < powderOrder.NumLineItemBottles; i++)
                 {
-                    var bottle = new Powder { PowderId = Guid.NewGuid(), LineItemId = lineItem.LineItemId, BottleCost=0, BottleNumber="NA", InitWeight=0, Weight=0, LineItem = lineItem, LotNumber="NA", UserId=new Guid(HttpContext.Session.GetString("userId"))};
+                    var bottle = new Powder { PowderId = Guid.NewGuid(), LineItemId = lineItem.LineItemId, BottleCost=0, BottleNumber="NA", InitWeight=1, Weight=1, LineItem = lineItem, LotNumber="NA", UserId=new Guid(HttpContext.Session.GetString("userId"))};
                     _context.Add(bottle);
                 }
                 await _context.SaveChangesAsync();
