@@ -22,9 +22,10 @@ namespace EndlasNet.Web.Controllers
 
         // GET: LineItems
 
-        public async Task<IActionResult> Index(Guid powderOrderId, string powderOrderNum)
+        public async Task<IActionResult> Index(Guid powderOrderId)
         {
-            ViewBag.PowderOrderNum = powderOrderNum;
+            var result = await _context.PowderOrders.FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
+            ViewBag.PurchaseOrderNum = result.PurchaseOrderNum;
             return View(await repo.GetLineItems(powderOrderId));  
         }
 
@@ -48,28 +49,31 @@ namespace EndlasNet.Web.Controllers
             return View(lineItem);
         }
 
-        public IActionResult Create(Guid powderOrderId)
-        {
-            ViewBag.PowderOrderId = powderOrderId;
-            return View();
-        }
-
         public IActionResult ManagePowders(Guid lineItemId, string powderName)
         {
             return RedirectToAction("Index", "Powders", new { lineItemId = lineItemId, powderName = powderName });
         }
 
 
+        public IActionResult Create(Guid powderOrderId)
+        {
+            ViewBag.PowderOrderId = powderOrderId;
+            ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfos, "StaticPowderInfoId", "PowderName");
+            return View();
+        }
+
         // POST: LineItems/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LineItemId,PowderName,VendorDescription,ParticleSize,PowderOrderId,NumBottles")] LineItem lineItem)
+        public async Task<IActionResult> Create([Bind("LineItemId,StaticPowderInfoId,VendorDescription,ParticleSize,PowderOrderId,NumBottles")] LineItem lineItem)
         {
             if (ModelState.IsValid)
             {
                 lineItem.LineItemId = Guid.NewGuid();
+                lineItem.StaticPowderInfo = await _context.StaticPowderInfos.Where(s => s.StaticPowderInfoId == lineItem.StaticPowderInfoId).FirstOrDefaultAsync();
+                lineItem.StaticPowderInfoId = lineItem.StaticPowderInfo.StaticPowderInfoId;
                 _context.Add(lineItem);
                 await _context.SaveChangesAsync();
 
@@ -85,7 +89,9 @@ namespace EndlasNet.Web.Controllers
                         Weight = 0,
                         UserId = new Guid(HttpContext.Session.GetString("userId")),
                         LineItem = lineItem,
-                        LineItemId = lineItem.LineItemId
+                        LineItemId = lineItem.LineItemId,
+                        StaticPowderInfo = lineItem.StaticPowderInfo,
+                        StaticPowderInfoId = lineItem.StaticPowderInfo.StaticPowderInfoId
                     };
                     _context.Add(newPowder);
                 }

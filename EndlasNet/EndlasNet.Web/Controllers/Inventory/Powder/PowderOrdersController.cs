@@ -58,9 +58,9 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction("Create", "LineItems", new { powderOrderId = powderOrderId });
         }
 
-        public IActionResult ManageLineItems(Guid powderOrderId, string powderOrderNum)
+        public IActionResult ManageLineItems(Guid powderOrderId)
         {
-            return RedirectToAction("Index", "LineItems", new { powderOrderId = powderOrderId, powderOrderNum = powderOrderNum });
+            return RedirectToAction("Index", "LineItems", new { powderOrderId = powderOrderId });
         }
 
         // POST: PowderOrders/Create

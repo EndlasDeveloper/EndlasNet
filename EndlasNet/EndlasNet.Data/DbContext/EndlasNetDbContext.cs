@@ -23,6 +23,7 @@ namespace EndlasNet.Data
         // INVENTORY
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<MachiningTool> MachiningTools { get; set; }
+        public DbSet<StaticPowderInfo> StaticPowderInfos { get; set; }
         public DbSet<PowderOrder> PowderOrders { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
         public DbSet<Powder> Powders { get; set; }

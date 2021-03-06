@@ -44,5 +44,9 @@ namespace EndlasNet.Data
 
         public Guid? UserId { get; set; }
         public virtual User User{ get; set; }
+
+        [ForeignKey("StaticPowderInfoId")]
+        public Guid StaticPowderInfoId { get; set; }
+        public StaticPowderInfo StaticPowderInfo { get; set; }
     }
 }

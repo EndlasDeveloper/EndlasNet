@@ -15,6 +15,7 @@ namespace EndlasNet.SystemTest
         {
             private EndlasNetDbContext _db;
             private LineItemRepo repo;
+            StaticPowderInfo powderInfo;
             Vendor vendor;
             PowderOrder powderOrderGood, powderOrderBad;
             [SetUp]
@@ -22,6 +23,16 @@ namespace EndlasNet.SystemTest
             {
                 _db = SingletonTestSetup.Instance().Get();
                 repo = new LineItemRepo(_db);
+
+                powderInfo = new StaticPowderInfo
+                {
+                    StaticPowderInfoId = Guid.NewGuid(),
+                    PowderName = "TestPowder",
+                    Density = 1f,
+                };
+                _db.StaticPowderInfos.Add(powderInfo);
+                _db.SaveChanges();
+
                 vendor = new Vendor
                 {
                     VendorId = Guid.NewGuid(),
@@ -66,7 +77,8 @@ namespace EndlasNet.SystemTest
                 var lineItem1 = new LineItem
                 {
                     LineItemId = Guid.NewGuid(),
-                    PowderName = "",
+                    StaticPowderInfoId = powderInfo.StaticPowderInfoId,
+                    StaticPowderInfo = powderInfo,
                     PowderOrder = powderOrderGood,
                     PowderOrderId = powderOrderGood.PowderOrderId,
                     ParticleSize = 1,
@@ -78,7 +90,8 @@ namespace EndlasNet.SystemTest
                 var lineItem2 = new LineItem
                 {
                     LineItemId = Guid.NewGuid(),
-                    PowderName = "",
+                    StaticPowderInfoId = powderInfo.StaticPowderInfoId,
+                    StaticPowderInfo = powderInfo,
                     PowderOrder = powderOrderBad,
                     PowderOrderId = powderOrderBad.PowderOrderId,
                     ParticleSize = 2,
@@ -109,7 +122,8 @@ namespace EndlasNet.SystemTest
                 }
                 _db.Remove(vendor);
                 _db.Entry(vendor).State = EntityState.Deleted;
-
+                _db.Remove(powderInfo);
+                _db.Entry(powderInfo).State = EntityState.Deleted;
                 // tell the db all the pilots were removed
                 await _db.SaveChangesAsync();
             }

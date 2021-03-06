@@ -1,0 +1,49 @@
+﻿@model EndlasNet.Data.StaticPowderInfo
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>StaticPowderInfo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="StaticPowderInfoId" />
+            <div class="form-group">
+                <label asp-for="PowderName" class="control-label"></label>
+                <input asp-for="PowderName" class="form-control" />
+                <span asp-validation-for="PowderName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Density" class="control-label"></label>
+                <input asp-for="Density" class="form-control" />
+                <span asp-validation-for="Density" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FlowRateSlope" class="control-label"></label>
+                <input asp-for="FlowRateSlope" class="form-control" />
+                <span asp-validation-for="FlowRateSlope" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FlowRateYIntercept" class="control-label"></label>
+                <input asp-for="FlowRateYIntercept" class="form-control" />
+                <span asp-validation-for="FlowRateYIntercept" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

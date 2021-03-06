@@ -33,7 +33,9 @@ namespace EndlasNet.Data
 
             // each customer has 0 to many jobs; each job has exactly 1 customer
             modelBuilder.Entity<Customer>().HasMany(c => c.Work).WithOne(j => j.Customer);
-
+           
+            modelBuilder.Entity<StaticPowderInfo>().HasMany(s => s.LineItems).WithOne(l => l.StaticPowderInfo);
+            modelBuilder.Entity<StaticPowderInfo>().HasMany(s => s.Powders).WithOne(l => l.StaticPowderInfo);
 
 
             /*** QUOTE ***/

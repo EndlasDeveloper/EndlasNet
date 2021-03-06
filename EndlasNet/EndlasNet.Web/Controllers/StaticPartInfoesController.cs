@@ -77,7 +77,7 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 staticPartInfo.StaticPartInfoId = Guid.NewGuid();
-                if(staticPartInfo.ImageFile != null)
+                if (staticPartInfo.ImageFile != null)
                     staticPartInfo.DrawingImage = await FormFileExtenstions.GetBytes(staticPartInfo.ImageFile);
                 _context.Add(staticPartInfo);
                 await _context.SaveChangesAsync();

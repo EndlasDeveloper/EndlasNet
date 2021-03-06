@@ -4,7 +4,7 @@
     ViewData["Title"] = "Line items";
 }
 
-<h1>Line items: @ViewBag.PowderOrderNum</h1>
+<h1>Line items: @ViewBag.PurchaseOrderNum</h1>
 
 <p>
 </p>
@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PowderName)
+                @Html.DisplayNameFor(model => model.StaticPowderInfo.PowderName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.VendorDescription)
@@ -29,7 +29,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.PowderName)
+                @Html.DisplayFor(modelItem => item.StaticPowderInfo.PowderName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VendorDescription)
@@ -39,7 +39,7 @@
             </td>
 
             <td>
-                @Html.ActionLink("Manage powders", "ManagePowders", new { lineItemId = item.LineItemId, powderName = item.PowderName}) |
+                @Html.ActionLink("Manage powders", "ManagePowders", new { lineItemId = item.LineItemId, powderName = item.StaticPowderInfo.PowderName }) |
                 @Html.ActionLink("Edit", "Edit", new { id = item.LineItemId }) |
                 <a asp-action="Details" asp-route-id="@item.LineItemId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.LineItemId">Delete</a>

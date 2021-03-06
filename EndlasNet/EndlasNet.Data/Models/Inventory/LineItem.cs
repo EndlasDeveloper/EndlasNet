@@ -11,8 +11,11 @@ namespace EndlasNet.Data
     {
         [Key]
         public Guid LineItemId { get; set; }
+
+        [ForeignKey("StaticPowderInfoId")]
         [Display(Name ="Powder name")]
-        public string PowderName { get; set; }
+        public Guid? StaticPowderInfoId { get; set; }
+        public virtual StaticPowderInfo StaticPowderInfo { get; set; }
         [Display(Name ="Vendor description")]
         public string VendorDescription { get; set; }
         [Display(Name ="Particle size (microns)")]
