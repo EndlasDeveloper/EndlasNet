@@ -9,7 +9,16 @@
     <div style="color:white;font-size:18px;">Todo</div>
     <div>
         <ul style="font-size:14px;line-height:200%;">
-
+            <li>
+                Look for a coded UI test library.
+            </li>
+            <li>
+                Work on tool for job and powder for job.
+            </li>
+            <li>
+                In static part information: see if can get a thumbnail to appear with drawing number.. remove image title from index and approx weight.
+                Make the thumbnail open details of the static part info.
+            </li>
             <li>
                 Put in checks for logins in every view that can access the db.
             </li>
@@ -29,83 +38,34 @@
             </li>
         </ul>
     </div>
-    <div style="color:white;font-size:18px;">Tasks in progress</div>
+    <div style="color:white;font-size:18px;">Finished tasks</div>
     <div>
         <ul style="font-size:14px;line-height:200%;">
+            <li>
+                Added static powder information entity (class and db table).
+            </li>
+            <li>
+                Added controller/views for CRUD operations static powder information.
+            </li>
+            <li>
+                Updated the add line item (in powder orders) to use saved static powder info to reference the powder name.
+            </li>
+            <li>
+                Added all powders action link under inventory. Shows user all powders with slightly different table schema than 
+                the one for a line item.
+            </li>
+            <li>
+                Update system tests to accomidate the new static powder info entity.
+            </li>
+            <li>
+                Restructured the powder under inventory. Now the user can initially click powder orders. Then the user can add a line item.
+                After a line item exists for an order. Manage line items action link appears. Under this, the line item attributes can be
+                edited. Next to each line item. An action link for managing powder bottles is available. When clicked, the user is shown
+                a list of the powders for the line item. The user can edit the attiributes from this view. All action links to previous and
+                unrelated views seem to work.
+            </li>
+                          
 
-            <li>
-                Work on tool for job and powder for job.
-            </li>
-            <li>
-                In static part information: see if can get a thumbnail to appear with drawing number.. remove image title from index and approx weight.
-                Make the thumbnail open details of the static part info.
-            </li>
         </ul>
     </div>
-            <div style="color:white;font-size:18px;">Finished tasks</div>
-            <div>
-                <ul style="font-size:14px;line-height:200%;">
-                    <li>
-                        Restructured the powder under inventory. Now the user can initially click powder orders. Then the user can add a line item.
-                        After a line item exists for an order. Manage line items action link appears. Under this, the line item attributes can be
-                        edited. Next to each line item. An action link for managing powder bottles is available. When clicked, the user is shown
-                        a list of the powders for the line item. The user can edit the attiributes from this view. All action links to previous and
-                        unrelated views seem to work.
-                    </li>
-                    <li>
-                        Create data-model for PowderOrder, LineItem, and Powder with annotations.
-                    </li>
-                    <li>
-                        Develop UI for creating a powder order with x number of line items.
-                    </li>
-                    <li>
-                        Develop UI for creating x number of bottles from an existing line item.
-                    </li>
-                    <li>
-                        Develop way to edit, look at details, and delete where applicable.
-                    </li>
-                    <li>
-                        In part for job: give a way to start the suffix character at something other than 'A' for a new WorkId-StaticPartInfoId pair.
-                    </li>
-                    <li>
-                        Parts for jobs: Find a good way to clean up and organize the index.
-                        <ul>
-
-                            <li>
-                                Make unique rows clickable to open another view to show all the individual parts for the unique pair
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        Parts for jobs: Find a good way to clean up and organize the index.
-                    </li>
-                    <li>
-                        If user creates a batch of parts for a job that already has an existing WorkId-PartInfoId pair, the suffix
-                        begins the lettering from the last suffix rather than beginning at 'A' again.
-                    </li>
-                    <li>
-                        Parts for jobs: Find a good way to clean up and organize the index.
-                        <ul>
-                            <li>
-                                Made index view only display unique WorkId and StaticPartInfoId pairs
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        Changed the unit (um) for particle size in powder to micron.
-                    </li>
-                    <li>
-                        Machining tool: Added an InvoiceNumber as attribute to entity class and to database schema.
-                    </li>
-                    <li>
-                        Powder: Changed weight to automatically set to initial weight upon creation.
-                    </li>
-                    <li>
-                        Fixed the edit view for PartForJob. Removed number of parts from the view. Works as intended.
-                    </li>
-                    <li>
-                        Fixed the edit view for PartForWorkOrder. Removed number of parts from the view. Works as intended.
-                    </li>
-                </ul>
-            </div>
 </p>
