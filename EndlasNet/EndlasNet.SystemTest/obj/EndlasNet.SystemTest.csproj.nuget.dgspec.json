@@ -66,7 +66,7 @@
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[5.0.2, )"
+              "version": "[5.0.3, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -94,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -126,9 +126,6 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj": {
-                "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj"
-              },
               "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.UnitTest\\EndlasNet.UnitTest.csproj": {
                 "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.UnitTest\\EndlasNet.UnitTest.csproj"
               }
@@ -173,7 +170,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -249,7 +246,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     }

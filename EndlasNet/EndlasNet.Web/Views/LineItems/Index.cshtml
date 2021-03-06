@@ -4,7 +4,7 @@
     ViewData["Title"] = "Line items";
 }
 
-<h1>Line items</h1>
+<h1>Line items: @ViewBag.PowderOrderNum</h1>
 
 <p>
 </p>
@@ -39,7 +39,7 @@
             </td>
 
             <td>
-                @Html.ActionLink("Manage powders", "ManagePowders", new { lineItemId = item.LineItemId }) |
+                @Html.ActionLink("Manage powders", "ManagePowders", new { lineItemId = item.LineItemId, powderName = item.PowderName}) |
                 @Html.ActionLink("Edit", "Edit", new { id = item.LineItemId }) |
                 <a asp-action="Details" asp-route-id="@item.LineItemId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.LineItemId">Delete</a>

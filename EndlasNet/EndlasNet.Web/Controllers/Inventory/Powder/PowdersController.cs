@@ -21,8 +21,9 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Powders
-        public async Task<IActionResult> Index(Guid lineItemId)
+        public async Task<IActionResult> Index(Guid lineItemId, string powderName)
         {
+            ViewBag.PowderName = powderName;
             return View(await repo.GetLineItemPowders(lineItemId));
         }
 

@@ -720,11 +720,11 @@
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Relational.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.SqlServer/5.0.2": {
+      "Microsoft.EntityFrameworkCore.SqlServer/5.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.Data.SqlClient": "2.0.1",
-          "Microsoft.EntityFrameworkCore.Relational": "5.0.2"
+          "Microsoft.EntityFrameworkCore.Relational": "5.0.3"
         },
         "compile": {
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.SqlServer.dll": {}
@@ -3231,7 +3231,7 @@
           "Microsoft.EntityFrameworkCore": "5.0.3",
           "Microsoft.EntityFrameworkCore.Abstractions": "5.0.3",
           "Microsoft.EntityFrameworkCore.Relational": "5.0.3",
-          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.2",
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.3",
           "bootstrap": "4.6.0"
         },
         "compile": {
@@ -4097,17 +4097,17 @@
         "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.SqlServer/5.0.2": {
-      "sha512": "4s2Ydo9/TEj2qD4KceFrhnUZvavNsPHd2cNE47cu5lvGZzFY9GlxR2a6GnlB0maEDVGJdhJ4Pu0giXmvSGKlwA==",
+    "Microsoft.EntityFrameworkCore.SqlServer/5.0.3": {
+      "sha512": "T0cU7999ffojbqEVF7nTp7IoSHrzo748BQRMSmmlmKC+uluQbV18GhtLLu3aOA5Egmja8gFEuN9+QZdViA0Dfw==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.sqlserver/5.0.2",
+      "path": "microsoft.entityframeworkcore.sqlserver/5.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.SqlServer.dll",
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.SqlServer.xml",
-        "microsoft.entityframeworkcore.sqlserver.5.0.2.nupkg.sha512",
+        "microsoft.entityframeworkcore.sqlserver.5.0.3.nupkg.sha512",
         "microsoft.entityframeworkcore.sqlserver.nuspec"
       ]
     },
@@ -10111,7 +10111,6 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "EndlasNet.Data >= 1.0.0",
       "EndlasNet.UnitTest >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 16.5.0",
       "NUnit >= 3.12.0",
@@ -10150,9 +10149,6 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj": {
-              "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Data\\EndlasNet.Data.csproj"
-            },
             "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.UnitTest\\EndlasNet.UnitTest.csproj": {
               "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.UnitTest\\EndlasNet.UnitTest.csproj"
             }
@@ -10197,7 +10193,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }

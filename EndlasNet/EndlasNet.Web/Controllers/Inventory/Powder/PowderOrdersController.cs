@@ -58,9 +58,9 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction("Create", "LineItems", new { powderOrderId = powderOrderId });
         }
 
-        public IActionResult ManageLineItems(Guid powderOrderId)
+        public IActionResult ManageLineItems(Guid powderOrderId, string powderOrderNum)
         {
-            return RedirectToAction("Index", "LineItems", new { powderOrderId = powderOrderId });
+            return RedirectToAction("Index", "LineItems", new { powderOrderId = powderOrderId, powderOrderNum = powderOrderNum });
         }
 
         // POST: PowderOrders/Create
@@ -68,20 +68,12 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PowderOrderId,PurchaseOrderNum,PurchaseOrderDate,ShippingCost,TaxCost,NumLineItemBottles,VendorId")] PowderOrder powderOrder)
+        public async Task<IActionResult> Create([Bind("PowderOrderId,PurchaseOrderNum,PurchaseOrderDate,ShippingCost,TaxCost,VendorId")] PowderOrder powderOrder)
         {
             if (ModelState.IsValid)
             {             
                 powderOrder.PowderOrderId = Guid.NewGuid();
                 _context.Add(powderOrder);
-                var lineItem = new LineItem { LineItemId = Guid.NewGuid(), PowderOrderId = powderOrder.PowderOrderId, NumBottles = powderOrder.NumLineItemBottles };
-                _context.Add(lineItem);
-                await _context.SaveChangesAsync();
-                for(int i = 0; i < powderOrder.NumLineItemBottles; i++)
-                {
-                    var bottle = new Powder { PowderId = Guid.NewGuid(), LineItemId = lineItem.LineItemId, BottleCost=0, BottleNumber="NA", InitWeight=1, Weight=1, LineItem = lineItem, LotNumber="NA", UserId=new Guid(HttpContext.Session.GetString("userId"))};
-                    _context.Add(bottle);
-                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -111,7 +103,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PowderOrderId,PurchaseOrderNum,PurchaseOrderDate,ShippingCost,TaxCost,NumLineItemBottles,VendorId")] PowderOrder powderOrder)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PowderOrderId,PurchaseOrderNum,PurchaseOrderDate,ShippingCost,TaxCost,VendorId")] PowderOrder powderOrder)
         {
             if (id != powderOrder.PowderOrderId)
             {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class PowderRepo
+    public class PowderRepo : IPowderRepo
     {
         private readonly EndlasNetDbContext _db;
         public PowderRepo(EndlasNetDbContext db)

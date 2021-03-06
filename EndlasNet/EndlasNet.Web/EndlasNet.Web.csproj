@@ -60,6 +60,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\EndlasNet.Data\EndlasNet.Data.csproj" />
+	  <ProjectReference Include="..\EndlasNet.Data\EndlasNet.Data.csproj" />
 	</ItemGroup>
 </Project>

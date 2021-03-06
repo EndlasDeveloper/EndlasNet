@@ -132,23 +132,21 @@ namespace EndlasNet.Web.Controllers
             {
                 // look to see if this part/job already exists. If so, name suffix from that point
                 var existingBatch = await _context.PartsForJobs
-                    .Where(p => p.WorkId.Equals(partForJob.WorkId))
-                    .Where(p => p.StaticPartInfoId.Equals(partForJob.StaticPartInfoId))
+                    .Where(p => p.WorkId == partForJob.WorkId)
+                    .Where(p => p.StaticPartInfoId == partForJob.StaticPartInfoId)
                     .ToListAsync();
+                var initCount = partForJob.NumParts;
+                partForJob.NumParts += existingBatch.Count;
 
                 // update the number of parts in each PartForJob
-                foreach(PartForJob part in existingBatch)
+                foreach (PartForJob part in existingBatch)
                 {
                     part.NumParts += existingBatch.Count;
                 }
-                // get the new number of parts
-                partForJob.NumParts += existingBatch.Count;
-                
-                var offset = PartSuffixGenerator.SuffixToIndex(partForJob.StartSuffix);
 
 
                 // create each part for the part batch
-                for (int i = existingBatch.Count + offset; i < partForJob.NumParts + existingBatch.Count + offset; i++)
+                for (int i = existingBatch.Count; i < initCount + existingBatch.Count; i++)
                 {
                     try
                     {
@@ -160,7 +158,12 @@ namespace EndlasNet.Web.Controllers
                         await _context.SaveChangesAsync();
                     } catch(Exception ex) { ex.ToString(); continue; }
                 }
-
+                foreach(PartForJob part in _context.PartsForJobs)
+                {
+                    part.NumParts = partForJob.NumParts;
+                    _context.Update(part);
+                    await _context.SaveChangesAsync();
+                }
 
                 return RedirectToAction(nameof(Index));
             }

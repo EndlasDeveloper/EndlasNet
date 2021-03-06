@@ -3367,7 +3367,7 @@
           "Microsoft.EntityFrameworkCore": "5.0.3",
           "Microsoft.EntityFrameworkCore.Abstractions": "5.0.3",
           "Microsoft.EntityFrameworkCore.Relational": "5.0.3",
-          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.2",
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.3",
           "bootstrap": "4.6.0"
         },
         "compile": {
@@ -10538,7 +10538,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }

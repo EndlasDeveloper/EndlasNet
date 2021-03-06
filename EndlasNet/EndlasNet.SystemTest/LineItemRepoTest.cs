@@ -107,6 +107,9 @@ namespace EndlasNet.SystemTest
                     _db.Remove(item);
                     _db.Entry(item).State = EntityState.Deleted;
                 }
+                _db.Remove(vendor);
+                _db.Entry(vendor).State = EntityState.Deleted;
+
                 // tell the db all the pilots were removed
                 await _db.SaveChangesAsync();
             }

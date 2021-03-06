@@ -22,8 +22,9 @@ namespace EndlasNet.Web.Controllers
 
         // GET: LineItems
 
-        public async Task<IActionResult> Index(Guid powderOrderId)
+        public async Task<IActionResult> Index(Guid powderOrderId, string powderOrderNum)
         {
+            ViewBag.PowderOrderNum = powderOrderNum;
             return View(await repo.GetLineItems(powderOrderId));  
         }
 
@@ -37,6 +38,7 @@ namespace EndlasNet.Web.Controllers
 
             var lineItem = await _context.LineItems
                 .Include(l => l.PowderOrder)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.LineItemId == id);
             if (lineItem == null)
             {
@@ -52,9 +54,9 @@ namespace EndlasNet.Web.Controllers
             return View();
         }
 
-        public IActionResult ManagePowders(Guid lineItemId)
+        public IActionResult ManagePowders(Guid lineItemId, string powderName)
         {
-            return RedirectToAction("Index", "Powders", new { lineItemId = lineItemId });
+            return RedirectToAction("Index", "Powders", new { lineItemId = lineItemId, powderName = powderName });
         }
 
 
@@ -101,7 +103,9 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _context.LineItems.FindAsync(id);
+            var lineItem = await _context.LineItems
+                .Include(l => l.PowderOrder)
+                .FirstOrDefaultAsync(m => m.LineItemId == id);
             if (lineItem == null)
             {
                 return NotFound();

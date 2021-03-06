@@ -6,5 +6,6 @@ namespace EndlasNet.Data
 {
     public class MachiningToolForJob : MachiningToolForWork
     {
+        public MachiningToolForJob() { }
     }
 }

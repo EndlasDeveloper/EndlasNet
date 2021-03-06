@@ -20,7 +20,9 @@ namespace EndlasNet.Data
 
         [ForeignKey("PowderOrderId")]
         public Guid PowderOrderId { get; set; }
+
         [BindProperty(SupportsGet = true)]
+        [Display(Name ="Powder order number")]
         public virtual PowderOrder PowderOrder { get; set; }
 
         [Display(Name ="Number of bottles")]

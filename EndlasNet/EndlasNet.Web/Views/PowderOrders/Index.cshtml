@@ -38,7 +38,7 @@
             </td>
             <td>
                 @Html.ActionLink("Add line item", "AddLineItem", new { powderOrderId = item.PowderOrderId }) |
-                @Html.ActionLink("Manage line items", "ManageLineItems", new { powderOrderId = item.PowderOrderId }) |
+                @Html.ActionLink("Manage line items", "ManageLineItems", new { powderOrderId = item.PowderOrderId, powderOrderNum = item.PurchaseOrderNum }) |
                 <a asp-action="Edit" asp-route-id="@item.PowderOrderId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.PowderOrderId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.PowderOrderId">Delete</a>
