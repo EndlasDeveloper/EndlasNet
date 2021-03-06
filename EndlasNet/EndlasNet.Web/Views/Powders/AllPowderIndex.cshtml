@@ -1,0 +1,60 @@
+﻿@model IEnumerable<EndlasNet.Data.Powder>
+
+@{
+    ViewData["Title"] = "All powders";
+}
+
+<h1>All powders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StaticPowderInfo.PowderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BottleNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BottleCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LotNumber)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StaticPowderInfo.PowderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BottleNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BottleCost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LotNumber)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PowderId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PowderId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PowderId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

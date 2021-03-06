@@ -53,6 +53,6 @@
         <input type="hidden" asp-for="PowderId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
     </form>
-    @Html.ActionLink("Back to list", "Index", new { lineItemId = Model.LineItemId })
-
+    @Html.ActionLink("Line item powders", "Index", new { lineItemId = Model.LineItemId }) |
+    @Html.ActionLink("All powders", "AllPowderIndex")
 </div>

@@ -24,7 +24,8 @@ namespace EndlasNet.Web.Controllers
 
         public async Task<IActionResult> Index(Guid powderOrderId)
         {
-            var result = await _context.PowderOrders.FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
+            var result = await _context.PowderOrders
+                .FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
             ViewBag.PurchaseOrderNum = result.PurchaseOrderNum;
             return View(await repo.GetLineItems(powderOrderId));  
         }
@@ -72,7 +73,8 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 lineItem.LineItemId = Guid.NewGuid();
-                lineItem.StaticPowderInfo = await _context.StaticPowderInfos.Where(s => s.StaticPowderInfoId == lineItem.StaticPowderInfoId).FirstOrDefaultAsync();
+                lineItem.StaticPowderInfo = await _context.StaticPowderInfos
+                    .FirstOrDefaultAsync(s => s.StaticPowderInfoId == lineItem.StaticPowderInfoId);
                 lineItem.StaticPowderInfoId = lineItem.StaticPowderInfo.StaticPowderInfoId;
                 _context.Add(lineItem);
                 await _context.SaveChangesAsync();

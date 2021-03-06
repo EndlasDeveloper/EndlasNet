@@ -51,5 +51,6 @@
 <div>
 
     <a asp-action="Edit" asp-route-id="@Model.PowderId">Edit</a> |
-    @Html.ActionLink("Back to list", "Index", new { lineItemId = Model.LineItemId })
+    @Html.ActionLink("Line item powders", "Index", new { lineItemId = Model.LineItemId }) |
+    @Html.ActionLink("All powders", "AllPowderIndex")
 </div>

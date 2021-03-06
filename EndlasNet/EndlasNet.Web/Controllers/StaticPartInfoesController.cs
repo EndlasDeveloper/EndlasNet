@@ -35,7 +35,8 @@ namespace EndlasNet.Web.Controllers
         // GET: StaticPartInfoes
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.StaticPartInfo.Include(s => s.Customer);
+            var endlasNetDbContext = _context.StaticPartInfo
+                .Include(s => s.Customer);
             return View(await endlasNetDbContext.ToListAsync());
         }
 

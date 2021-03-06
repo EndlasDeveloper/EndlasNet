@@ -24,7 +24,7 @@
                 <label asp-for="InitWeight" class="control-label"></label>
                 <input asp-for="InitWeight" class="form-control" />
                 <span asp-validation-for="InitWeight" class="text-danger"></span>
-            </div>            
+            </div>
             <div class="form-group">
                 <label asp-for="Weight" class="control-label"></label>
                 <input asp-for="Weight" class="form-control" />
@@ -41,7 +41,7 @@
                 <span asp-validation-for="LotNumber" class="text-danger"></span>
             </div>
             <input asp-for="LineItemId" class="form-control" asp-items="ViewBag.LineItemId" hidden readonly />
-
+            <input asp-for="StaticPowderInfoId" asp-items="ViewBag.StaticPowderInfoId" hidden readonly />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -50,7 +50,8 @@
 </div>
 
 <div>
-    @Html.ActionLink("Back to list", "Index", new { lineItemId = Model.LineItemId})
+    @Html.ActionLink("Line item powders", "Index", new { lineItemId = Model.LineItemId }) |
+    @Html.ActionLink("All powders", "AllPowderIndex")
 </div>
 
 @section Scripts {
