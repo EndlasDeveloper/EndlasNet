@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
-    public class PartsForAJob : Controller
+    public class PartsForAJobController : Controller
     {
         private readonly EndlasNetDbContext _context;
         private PartForJobRepo repo;
-        public PartsForAJob(EndlasNetDbContext context)
+        public PartsForAJobController(EndlasNetDbContext context)
         {
             _context = context;
             repo = new PartForJobRepo(context);
@@ -23,12 +23,21 @@ namespace EndlasNet.Web.Controllers
         // GET: PartsForAJob
         public async Task<IActionResult> Index(Guid id, Guid workId, Guid partInfoId, string sortOrder)
         {
+            ViewBag.id = id;
+            ViewBag.workId = workId;
+            ViewBag.partInfoId = partInfoId;
 
             ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
 
             var endlasNetDbContext = await repo.GetBatch(workId.ToString(), partInfoId.ToString());
-
+            foreach(PartForJob partForJob in endlasNetDbContext)
+            {
+                partForJob.StaticPartInfo = await _context.StaticPartInfo
+                    .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForJob.StaticPartInfoId);
+                partForJob.Work = await _context.Work
+                    .FirstOrDefaultAsync(s => s.WorkId == partForJob.WorkId);
+            }
             switch (sortOrder)
             {
                 case "suffix_desc":
@@ -63,8 +72,19 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            ViewBag.id = id;
+            ViewBag.workId = partForJob.WorkId;
+            ViewBag.partInfoId = partForJob.StaticPartInfoId;
 
             return View(partForJob);
+        }
+
+        public IActionResult BackToList(Guid id, Guid workId, Guid partInfoId)
+        {
+            ViewBag.id = id;
+            ViewBag.workId = workId;
+            ViewBag.partInfoId = partInfoId;
+            return RedirectToAction("Index", new { id = id, workId = workId, partInfoId = partInfoId, sortOrder = "" });
         }
 
         // GET: PartsForAJob/Create
@@ -86,7 +106,7 @@ namespace EndlasNet.Web.Controllers
                 partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Add(partForJob);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","PartsForAJob", new { id = partForJob.PartForWorkId, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder = "" });
             }
             return View(partForJob);
         }
@@ -174,7 +194,7 @@ namespace EndlasNet.Web.Controllers
             var partForJob = await _context.PartsForJobs.FindAsync(id);
             _context.PartsForJobs.Remove(partForJob);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","PartsForAJob",new {id = id, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder="" });
         }
 
         public ActionResult RedirectToPartForJob(Guid id)

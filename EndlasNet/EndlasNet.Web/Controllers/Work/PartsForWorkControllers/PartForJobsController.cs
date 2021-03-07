@@ -24,15 +24,17 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Admins
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index()
         {
             var parts = await _context.PartsForJobs
                 .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .ToListAsync();
+            // minimize part list to batched row representation
             var minimizedPartList = await MinimizePartList(parts);
 
+            // set thumbnail image url's
             foreach (PartForJob partForJob in minimizedPartList)
             {
                 ImageURL.SetImageURL(partForJob.StaticPartInfo);
@@ -42,7 +44,6 @@ namespace EndlasNet.Web.Controllers
 
         private async Task<List<PartForJob>> MinimizePartList(List<PartForJob> parts)
         {
-
             List<PartForJob> minimizedPartList = new List<PartForJob>();
             foreach (PartForJob part in parts)
             {
@@ -56,17 +57,13 @@ namespace EndlasNet.Web.Controllers
                             var list = await repo.GetBatch(part.WorkId.ToString(), part.StaticPartInfoId.ToString());
                             minimizedPartList[i].NumParts = list.Count();
                             flag = true;
-                        }
-                            
+                        }                        
                 }
                 if (!flag)
                     minimizedPartList.Add(part);
-
             }
             return minimizedPartList;
         }
-
-
 
         // GET: PartForJobs/Details/5
         public async Task<IActionResult> Details(Guid? id)
@@ -182,10 +179,6 @@ namespace EndlasNet.Web.Controllers
 
         public ActionResult ViewList(Guid? id, Guid workId, Guid partInfoId)
         {
-            ViewBag.id = id;
-            ViewBag.workId = workId;
-            ViewBag.partInfoId = partInfoId;
-
             return RedirectToAction("Index", "PartsForAJob", new { id = id, workId = workId, partInfoId = partInfoId, sortOrder = "suffix_asc" });
         }
 

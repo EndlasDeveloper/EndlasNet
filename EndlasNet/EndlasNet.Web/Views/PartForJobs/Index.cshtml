@@ -19,14 +19,11 @@
             <th>
                 <div>
                     Part drawing image
-                </div>
-               
+                </div>      
             <th>
-
                 <div>
                     Job number
-                </div>
-               
+                </div>             
             </th>
             <th>
                 <div>
@@ -37,21 +34,17 @@
                 <div>
                     Part count
                 </div>
-            </th>
-         
+            </th>        
             <th></th>
         </tr>
     </thead>
 
-
-
     <tbody>
         @foreach (var item in Model)
         {
-
             <tr>
                 <td>
-                    <img src=@Html.DisplayFor(modelItem => item.StaticPartInfo.ImageURL) alt="Drawing Image" style="max-width:50px;max-height:50px" />
+                    <img src=@Html.DisplayFor(modelItem => item.StaticPartInfo.ImageURL) alt="Drawing Image" style="max-width:75px;max-height:60px" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
@@ -63,7 +56,6 @@
                     @Html.DisplayFor(modelItem => item.NumParts)
                 </td>
                 <td>
-               
                     @Html.ActionLink("View list", "ViewList", new { id = item.PartForWorkId, workId = item.WorkId, partInfoId = item.StaticPartInfoId })
                 </td>
             </tr>

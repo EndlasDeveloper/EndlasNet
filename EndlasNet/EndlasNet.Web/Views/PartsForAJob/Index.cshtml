@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<EndlasNet.Data.PartForJob>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Part batch";
 }
 <h3>
     Part batch
@@ -20,8 +20,8 @@
                     Suffix
                 </div>
                 <span>
-                    @Html.ActionLink("Asc ", "Index", new { id = Model.FirstOrDefault().PartForWorkId, workId= Model.FirstOrDefault().WorkId, partInfoId=Model.FirstOrDefault().StaticPartInfoId, sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                    @Html.ActionLink(" Desc", "Index", new { id = Model.FirstOrDefault().PartForWorkId, workId = Model.FirstOrDefault().WorkId, partInfoId = Model.FirstOrDefault().StaticPartInfoId, sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink("Asc ", "Index", new {id = ViewBag.id, workId= ViewBag.workId, partInfoId=ViewBag.partInfoId, sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
                 </span>
             </th>
             <th>

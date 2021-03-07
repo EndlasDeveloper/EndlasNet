@@ -76,6 +76,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="PartForWorkId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to list</a>
+        @Html.ActionLink("Back to list", "BackToList", new {id = Model.PartForWorkId, workId = Model.WorkId, partInfoId = Model.StaticPartInfoId})
     </form>
 </div>
