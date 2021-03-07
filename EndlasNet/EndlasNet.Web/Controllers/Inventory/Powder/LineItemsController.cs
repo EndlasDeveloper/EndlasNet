@@ -40,19 +40,20 @@ namespace EndlasNet.Web.Controllers
 
             var lineItem = await _context.LineItems
                 .Include(l => l.PowderOrder)
+                .Include(l => l.StaticPowderInfo)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.LineItemId == id);
             if (lineItem == null)
             {
                 return NotFound();
             }
-
+           
             return View(lineItem);
         }
 
-        public IActionResult ManagePowders(Guid lineItemId, string powderName)
+        public IActionResult ManagePowders(Guid lineItemId)
         {
-            return RedirectToAction("Index", "Powders", new { lineItemId = lineItemId, powderName = powderName });
+            return RedirectToAction("Index", "Powders", new { lineItemId = lineItemId});
         }
 
 
@@ -113,11 +114,13 @@ namespace EndlasNet.Web.Controllers
 
             var lineItem = await _context.LineItems
                 .Include(l => l.PowderOrder)
+                .Include(l => l.StaticPowderInfo)
                 .FirstOrDefaultAsync(m => m.LineItemId == id);
             if (lineItem == null)
             {
                 return NotFound();
             }
+            ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfos, "StaticPowderInfoId", "PowderName");
             return View(lineItem);
         }
 
@@ -126,7 +129,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("LineItemId,PowderName,VendorDescription,ParticleSize,NumBottles,PowderOrderId")] LineItem lineItem)
+        public async Task<IActionResult> Edit(Guid id, [Bind("LineItemId,PowderName,VendorDescription,ParticleSize,NumBottles,PowderOrderId,StaticPowderInfoId")] LineItem lineItem)
         {
             if (id != lineItem.LineItemId)
             {
@@ -166,12 +169,13 @@ namespace EndlasNet.Web.Controllers
 
             var lineItem = await _context.LineItems
                 .Include(l => l.PowderOrder)
+                .Include(l => l.StaticPowderInfo)
                 .FirstOrDefaultAsync(m => m.LineItemId == id);
             if (lineItem == null)
             {
                 return NotFound();
             }
-
+          
             return View(lineItem);
         }
 

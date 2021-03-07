@@ -10,33 +10,32 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <form asp-action="Edit" enctype="multipart/form-data">
-                <div class="form-group">
-                    <input asp-for="LineItemId" class="form-control" hidden readonly />
 
-                    <label asp-for="StaticPowderInfoId" class="control-label"></label>
-                    <select asp-for="StaticPowderInfoId" class="form-control" />
-                    <span asp-validation-for="StaticPowderInfoId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="VendorDescription" class="control-label"></label>
-                    <input asp-for="VendorDescription" class="form-control" />
-                    <span asp-validation-for="VendorDescription" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ParticleSize" class="control-label"></label>
-                    <input asp-for="ParticleSize" class="form-control" />
-                    <span asp-validation-for="ParticleSize" class="text-danger"></span>
-                </div>
-
-                <input asp-for="PowderOrderId" class="form-control" hidden readonly />
-                <div class="form-group">
-
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
-            </form>
+            <div class="form-group">
+                <label asp-for="StaticPowderInfoId" class="control-label"></label>
+                <select asp-for="StaticPowderInfoId" class="form-control" asp-items="ViewBag.StaticPowderInfoId"></select>
+                <span asp-validation-for="StaticPowderInfoId" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="VendorDescription" class="control-label"></label>
+                <input asp-for="VendorDescription" class="form-control" />
+                <span asp-validation-for="VendorDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParticleSize" class="control-label"></label>
+                <input asp-for="ParticleSize" class="form-control" />
+                <span asp-validation-for="ParticleSize" class="text-danger"></span>
+            </div>
+            <input asp-for="PowderOrderId" class="form-control" hidden readonly />
+            <input asp-for="LineItemId" class="form-control" hidden readonly />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
 <div>
     @Html.ActionLink("Back to list", "Index", new { powderOrderId = Model.PowderOrderId })

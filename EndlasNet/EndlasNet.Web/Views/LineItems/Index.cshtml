@@ -39,10 +39,10 @@
             </td>
 
             <td>
-                @Html.ActionLink("Manage powders", "ManagePowders", new { lineItemId = item.LineItemId, powderName = item.StaticPowderInfo.PowderName }) |
-                @Html.ActionLink("Edit", "Edit", new { id = item.LineItemId }) |
+                @Html.ActionLink("Manage powders", "ManagePowders", "LineItems", new {lineItemId = item.LineItemId}) |
+                <a asp-action="Edit" asp-route-id="@item.LineItemId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.LineItemId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.LineItemId">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.LineItemId">Delete</a> 
             </td>
         </tr>
 }

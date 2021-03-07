@@ -14,18 +14,25 @@ namespace EndlasNet.Web.Controllers
     public class PartForJobsController : Controller
     {
         private readonly EndlasNetDbContext _context;
-         
+        private PartForJobRepo repo;
+
         public PartForJobsController(EndlasNetDbContext context)
         {
             _context = context;
+            repo = new PartForJobRepo(context);
+
         }
 
         // GET: Admins
         public async Task<IActionResult> Index(string sortOrder)
         {
             SetViewBagSortValues(sortOrder);
-            var parts = await _context.PartsForJobs.Include(p => p.StaticPartInfo).Include(p => p.User).Include(p => p.Work).ToListAsync();
-            var minimizedPartList = MinimizePartList(parts);
+            var parts = await _context.PartsForJobs
+                .Include(p => p.StaticPartInfo)
+                .Include(p => p.User)
+                .Include(p => p.Work)
+                .ToListAsync();
+            var minimizedPartList = await MinimizePartList(parts);
 
             foreach (PartForJob partForJob in minimizedPartList)
             {
@@ -46,8 +53,9 @@ namespace EndlasNet.Web.Controllers
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
         }
 
-        private List<PartForJob> MinimizePartList(List<PartForJob> parts)
+        private async Task<List<PartForJob>> MinimizePartList(List<PartForJob> parts)
         {
+
             List<PartForJob> minimizedPartList = new List<PartForJob>();
             foreach (PartForJob part in parts)
             {
@@ -57,13 +65,17 @@ namespace EndlasNet.Web.Controllers
                 {
                     if (minimizedPartList[i].WorkId.Equals(temp.Key))
                         if (minimizedPartList[i].StaticPartInfoId.Equals(temp.Value))
+                        {
+                            var list = await repo.GetBatch(part.WorkId.ToString(), part.StaticPartInfoId.ToString());
+                            minimizedPartList[i].NumParts = list.Count();
                             flag = true;
+                        }
+                            
                 }
                 if (!flag)
                     minimizedPartList.Add(part);
 
             }
-            ViewBag.ListCount = minimizedPartList.Count.ToString();
             return minimizedPartList;
         }
 
