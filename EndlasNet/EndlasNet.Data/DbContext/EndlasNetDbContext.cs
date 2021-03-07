@@ -30,6 +30,7 @@ namespace EndlasNet.Data
 
         // WORK
         public DbSet<StaticPartInfo> StaticPartInfo{ get; set; }
+        public DbSet<MachiningToolForWork> MachiningToolsForWork { get; set; }
         public DbSet<MachiningToolForJob> MachiningToolsForJobs { get; set; }
         public DbSet<MachiningToolForWorkOrder> MachiningToolsForWorkOrders { get; set; }
 

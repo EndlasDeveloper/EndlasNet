@@ -12,7 +12,9 @@ namespace EndlasNet.Data
             // each customer has many jobs; each job has 1 customer
             modelBuilder.Entity<Customer>().HasMany(v => v.Work).WithOne(i => i.Customer);
 
-            modelBuilder.Entity<Work>().HasMany(v => v.ToolsForWork).WithOne(t => t.Work);
+            modelBuilder.Entity<Work>().HasMany(v => v.ToolsForJob).WithOne(t => t.Work);
+            modelBuilder.Entity<Work>().HasMany(v => v.ToolsForWorkOrder).WithOne(t => t.Work);
+
             /*** USER ***/
             // each employee has (could create) 0 to many insert to jobs; each insert to job has 1 employee that created it
             modelBuilder.Entity<User>().HasMany(u => u.MachiningTools).WithOne(i => i.User);
@@ -28,7 +30,9 @@ namespace EndlasNet.Data
             // each job has 0 to many parts for jobs (parts assigned to existing jobs); each part for job has exactly one job
             modelBuilder.Entity<Work>().HasMany(j => j.PartsForWork).WithOne(p => p.Work);
             // each job has 0 to many insert to jobs; each insert to job has 1 job
-            modelBuilder.Entity<Work>().HasMany(j => j.ToolsForWork).WithOne(m => m.Work);
+            modelBuilder.Entity<Work>().HasMany(j => j.ToolsForJob).WithOne(m => m.Work);
+            modelBuilder.Entity<Work>().HasMany(j => j.ToolsForWorkOrder).WithOne(m => m.Work);
+
             // each WO has 0 to many machining tools for WOs (similar to job-machining tools for jobs); each tool for work order has 1 WO
 
             // each customer has 0 to many jobs; each job has exactly 1 customer

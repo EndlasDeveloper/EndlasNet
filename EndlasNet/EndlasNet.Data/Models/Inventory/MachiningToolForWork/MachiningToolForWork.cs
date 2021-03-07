@@ -15,6 +15,7 @@ namespace EndlasNet.Data
         [Display(Name = "Date used")]
         public DateTime DateUsed { get; set; }
 
+        [Required]
         [ForeignKey("WorkId")]
         [Display(Name = "Work")]
         public Guid WorkId { get; set; }

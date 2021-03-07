@@ -39,6 +39,8 @@ namespace EndlasNet.Data
         public virtual Customer Customer { get; set; }
 
         public IEnumerable<PartForWork> PartsForWork { get; set; }
-        public IEnumerable<MachiningToolForWork> ToolsForWork { get; set; }
+        public IEnumerable<MachiningToolForJob> ToolsForJob { get; set; }
+        public IEnumerable<MachiningToolForWorkOrder> ToolsForWorkOrder { get; set; }
+
     }
 }

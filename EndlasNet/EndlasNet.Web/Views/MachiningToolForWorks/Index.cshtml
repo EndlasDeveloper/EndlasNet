@@ -1,0 +1,40 @@
+﻿@model IEnumerable<EndlasNet.Data.MachiningToolForWork>
+
+@{
+    ViewData["Title"] = "Tools for work";
+}
+
+<h1>Machining tools for work</h1>
+
+<p>
+    <a asp-action="Create">Create new</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateUsed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Work.WorkDescription)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateUsed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Work.WorkDescription)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MachiningToolForWorkId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MachiningToolForWorkId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MachiningToolForWorkId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
