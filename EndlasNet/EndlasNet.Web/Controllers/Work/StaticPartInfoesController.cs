@@ -11,18 +11,6 @@ using System.IO;
 
 namespace EndlasNet.Web.Controllers
 {
-    public static class FormFileExtenstions
-    {
-        // returns an IFormFile as a byte array
-        public static async Task<byte[]> GetBytes(this IFormFile formFile)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                await formFile.CopyToAsync(memoryStream);
-                return memoryStream.ToArray();
-            }
-        }
-    }
     public class StaticPartInfoesController : Controller
     {
         private readonly EndlasNetDbContext _context;
@@ -35,9 +23,13 @@ namespace EndlasNet.Web.Controllers
         // GET: StaticPartInfoes
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.StaticPartInfo
-                .Include(s => s.Customer);
-            return View(await endlasNetDbContext.ToListAsync());
+            var endlasNetDbContext = await _context.StaticPartInfo
+                .Include(s => s.Customer).ToListAsync();
+            foreach(StaticPartInfo partInfo in endlasNetDbContext)
+            {
+                ImageURL.SetImageURL(partInfo);
+            }
+            return View(endlasNetDbContext);
         }
 
         // GET: StaticPartInfoes/Details/5
@@ -56,8 +48,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if (staticPartInfo.DrawingImage != null)
-                SetImageURL(staticPartInfo);
+            ImageURL.SetImageURL(staticPartInfo);
             return View(staticPartInfo);
         }
 
@@ -79,7 +70,7 @@ namespace EndlasNet.Web.Controllers
             {
                 staticPartInfo.StaticPartInfoId = Guid.NewGuid();
                 if (staticPartInfo.ImageFile != null)
-                    staticPartInfo.DrawingImage = await FormFileExtenstions.GetBytes(staticPartInfo.ImageFile);
+                    staticPartInfo.DrawingImage = await ImageURL.GetBytes(staticPartInfo.ImageFile);
                 _context.Add(staticPartInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -101,7 +92,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerAddress", staticPartInfo.CustomerId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", staticPartInfo.CustomerId);
             return View(staticPartInfo);
         }
 
@@ -122,7 +113,7 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     if (staticPartInfo.ImageFile != null)
-                        staticPartInfo.DrawingImage = await FormFileExtenstions.GetBytes(staticPartInfo.ImageFile);
+                        staticPartInfo.DrawingImage = await ImageURL.GetBytes(staticPartInfo.ImageFile);
                     _context.Update(staticPartInfo);
                     await _context.SaveChangesAsync();
                 }
@@ -159,7 +150,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
             if (staticPartInfo.DrawingImage != null)
-                SetImageURL(staticPartInfo);
+                ImageURL.SetImageURL(staticPartInfo);
             return View(staticPartInfo);
         }
 
@@ -177,13 +168,6 @@ namespace EndlasNet.Web.Controllers
         private bool StaticPartInfoExists(Guid id)
         {
             return _context.StaticPartInfo.Any(e => e.StaticPartInfoId == id);
-        }
-
-        public void SetImageURL(StaticPartInfo staticPartInfo)
-        {
-            string imageBase64Data = Convert.ToBase64String(staticPartInfo.DrawingImage);
-            string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
-            ViewBag.ImageData = imageDataURL;
-        }
+        }    
     }
 }

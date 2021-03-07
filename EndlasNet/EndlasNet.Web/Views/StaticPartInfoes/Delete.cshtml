@@ -50,7 +50,7 @@
     </h6>
 
     <div class="col-sm-2">
-        <img src="@ViewBag.ImageData" alt="Drawing Image" />
+        <img src="@Html.DisplayFor(model => model.ImageURL)" alt="Drawing Image" />
     </div>
     <br />
     <form asp-action="Delete">

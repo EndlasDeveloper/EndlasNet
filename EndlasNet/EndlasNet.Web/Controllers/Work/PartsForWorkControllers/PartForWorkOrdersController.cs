@@ -31,7 +31,7 @@ namespace EndlasNet.Web.Controllers
             ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
 
-            var parts = await _context.PartsForWorkOrders.Include(p => p.PartInfo).Include(p => p.User).Include(p => p.Work).ToListAsync();
+            var parts = await _context.PartsForWorkOrders.Include(p => p.StaticPartInfo).Include(p => p.User).Include(p => p.Work).ToListAsync();
 
             switch (sortOrder)
             {
@@ -50,10 +50,10 @@ namespace EndlasNet.Web.Controllers
                     parts.Reverse();
                     break;
                 case "part_info_desc":
-                    parts = parts.OrderByDescending(a => a.PartInfo.DrawingNumber).ToList();
+                    parts = parts.OrderByDescending(a => a.StaticPartInfo.DrawingNumber).ToList();
                     break;
                 case "part_info_asc":
-                    parts = parts.OrderByDescending(a => a.PartInfo.DrawingNumber).ToList();
+                    parts = parts.OrderByDescending(a => a.StaticPartInfo.DrawingNumber).ToList();
                     parts.Reverse();
                     break;
                 default:
@@ -71,7 +71,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var partForWorkOrder = await _context.PartsForWorkOrders
-                .Include(p => p.PartInfo)
+                .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .AsNoTracking()
@@ -183,7 +183,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var partForWorkOrder = await _context.PartsForWorkOrders
-                .Include(p => p.PartInfo)
+                .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);

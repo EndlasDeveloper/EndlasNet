@@ -41,6 +41,7 @@ namespace EndlasNet.Web.Controllers
                 default:
                     break;
             }
+
             return View(endlasNetDbContext);
         }
 
@@ -54,7 +55,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var partForJob = await _context.PartsForJobs
-                .Include(p => p.PartInfo)
+                .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
@@ -153,7 +154,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var partForJob = await _context.PartsForJobs
-                .Include(p => p.PartInfo)
+                .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);

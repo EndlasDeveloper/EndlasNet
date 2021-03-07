@@ -24,34 +24,12 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Index(string sortOrder)
         {
             SetViewBagSortValues(sortOrder);
-            var parts = await _context.PartsForJobs.Include(p => p.PartInfo).Include(p => p.User).Include(p => p.Work).ToListAsync();
+            var parts = await _context.PartsForJobs.Include(p => p.StaticPartInfo).Include(p => p.User).Include(p => p.Work).ToListAsync();
             var minimizedPartList = MinimizePartList(parts);
-            
-            switch (sortOrder)
+
+            foreach (PartForJob partForJob in minimizedPartList)
             {
-                case "suffix_desc":
-                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.Suffix).ToList();
-                    break;
-                case "suffix_asc":
-                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.Suffix).ToList();
-                    minimizedPartList.Reverse();
-                    break;
-                case "job_desc":
-                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.Work.EndlasNumber).ToList();
-                    break;
-                case "job_asc":
-                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.Work.EndlasNumber).ToList();
-                    minimizedPartList.Reverse();
-                    break;
-                case "part_info_desc":
-                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.PartInfo.DrawingNumber).ToList();
-                    break;
-                case "part_info_asc":
-                    minimizedPartList = minimizedPartList.OrderByDescending(a => a.PartInfo.DrawingNumber).ToList();
-                    minimizedPartList.Reverse();
-                    break;
-                default:
-                    break;
+                ImageURL.SetImageURL(partForJob.StaticPartInfo);
             }
             return View(minimizedPartList);
         }
@@ -100,7 +78,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var partForJob = await _context.PartsForJobs
-                .Include(p => p.PartInfo)
+                .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .AsNoTracking()
@@ -144,7 +122,6 @@ namespace EndlasNet.Web.Controllers
                     part.NumParts += existingBatch.Count;
                 }
 
-
                 // create each part for the part batch
                 for (int i = existingBatch.Count; i < initCount + existingBatch.Count; i++)
                 {
@@ -158,7 +135,8 @@ namespace EndlasNet.Web.Controllers
                         await _context.SaveChangesAsync();
                     } catch(Exception ex) { ex.ToString(); continue; }
                 }
-                foreach(PartForJob part in _context.PartsForJobs)
+                var partsForJobs = await _context.PartsForJobs.ToListAsync();
+                foreach(PartForJob part in partsForJobs)
                 {
                     part.NumParts = partForJob.NumParts;
                     _context.Update(part);
@@ -180,7 +158,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var partForJob = await _context.PartsForJobs
-                .Include(p => p.PartInfo)
+                .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);

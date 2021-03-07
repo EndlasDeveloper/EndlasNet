@@ -23,7 +23,7 @@ namespace EndlasNet.Data
         [ForeignKey("StaticPartInfoId")]
         [Display(Name ="Part info")]
         public Guid StaticPartInfoId { get; set; }
-        public StaticPartInfo PartInfo { get; set; }
+        public StaticPartInfo StaticPartInfo { get; set; }
 
         public string Suffix { get; set; }
 

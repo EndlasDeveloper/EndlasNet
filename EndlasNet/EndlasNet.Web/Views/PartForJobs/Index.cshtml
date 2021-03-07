@@ -18,46 +18,27 @@
         <tr>
             <th>
                 <div>
-                    Part information
+                    Part drawing image
                 </div>
-                <span>
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.PartInfoAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.PartInfoDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                </span>
+               
+            <th>
+
+                <div>
+                    Job number
+                </div>
+               
+            </th>
             <th>
                 <div>
-                    Job
+                    Part drawing number
                 </div>
-                <span>
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.JobAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.JobDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                </span>
             </th>
             <th>
                 <div>
                     Part count
                 </div>
             </th>
-            @*<th>
-                    <div>
-                        Suffix
-                    </div>
-                    <span>
-                        @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                        @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                    </span>
-                </th>*@
-            @* <th>
-                    @Html.DisplayNameFor(model => model.InitWeight)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CladdedWeight)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FinishedWeight)
-                </th>
-            *@
-
+         
             <th></th>
         </tr>
     </thead>
@@ -70,10 +51,13 @@
 
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PartInfo.DrawingNumber)
+                    <img src=@Html.DisplayFor(modelItem => item.StaticPartInfo.ImageURL) alt="Drawing Image" style="max-width:50px;max-height:50px" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StaticPartInfo.DrawingNumber)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NumParts)
