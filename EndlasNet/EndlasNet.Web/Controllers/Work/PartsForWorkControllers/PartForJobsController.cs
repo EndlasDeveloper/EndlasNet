@@ -26,7 +26,6 @@ namespace EndlasNet.Web.Controllers
         // GET: Admins
         public async Task<IActionResult> Index(string sortOrder)
         {
-            SetViewBagSortValues(sortOrder);
             var parts = await _context.PartsForJobs
                 .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
@@ -39,18 +38,6 @@ namespace EndlasNet.Web.Controllers
                 ImageURL.SetImageURL(partForJob.StaticPartInfo);
             }
             return View(minimizedPartList);
-        }
-
-        private void SetViewBagSortValues(string sortOrder)
-        {
-            ViewBag.PartInfoDescSortParm = String.IsNullOrEmpty(sortOrder) ? "part_info_desc" : "";
-            ViewBag.PartInfoAscSortParm = String.IsNullOrEmpty(sortOrder) ? "part_info_asc" : "";
-
-            ViewBag.JobDescSortParm = String.IsNullOrEmpty(sortOrder) ? "job_desc" : "";
-            ViewBag.JobAscSortParm = String.IsNullOrEmpty(sortOrder) ? "job_asc" : "";
-
-            ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
-            ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
         }
 
         private async Task<List<PartForJob>> MinimizePartList(List<PartForJob> parts)

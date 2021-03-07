@@ -14,13 +14,14 @@
 
             <ul>      
                 <li>
-                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="StaticPowderInfoes">Powder information</a>
+                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="StaticPowderInfoes">Powder information</a> 
                 </li>
+          
                 <li>
-                    <a class="navbar-toggler" type="button" asp-action="AllPowderIndex" asp-controller="Powders">All powders</a>
-                </li>
-                <li>
-                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="PowderOrders">Powder orders</a>
+                    <span style="color:Highlight">
+                        <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="PowderOrders">Powder orders</a> |
+                        <a class="navbar-toggler" type="button" asp-action="AllPowderIndex" asp-controller="Powders">All powders</a>
+                    </span>
                 <li>
                     <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="MachiningTools">Tooling</a>
                     <ul>
