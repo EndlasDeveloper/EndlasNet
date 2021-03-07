@@ -23,10 +23,15 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
+            ViewData["MachiningToolId"] = new SelectList(_context.MachiningTools, "MachiningToolId", "VendorDescription");
+
             var toolsForWork = await _context.MachiningToolsForWork.ToListAsync();
             foreach(MachiningToolForWork toolForWork in toolsForWork)
             {
-                toolForWork.Work = await _context.Work.FirstOrDefaultAsync(m => m.WorkId == toolForWork.WorkId);
+                toolForWork.Work = await _context.Work
+                    .FirstOrDefaultAsync(m => m.WorkId == toolForWork.WorkId);
+                toolForWork.MachiningTool = await _context.MachiningTools
+                    .FirstOrDefaultAsync(m => m.MachiningToolId == toolForWork.MachiningToolId);
             }
             return View(toolsForWork);
         }
@@ -45,8 +50,12 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            machiningToolForWork.Work = await _context.Work.FirstOrDefaultAsync(m => m.WorkId == machiningToolForWork.WorkId);
-            machiningToolForWork.User = await _context.Users.FirstOrDefaultAsync(m => m.UserId == machiningToolForWork.UserId);
+            machiningToolForWork.Work = await _context.Work
+                .FirstOrDefaultAsync(m => m.WorkId == machiningToolForWork.WorkId);
+            machiningToolForWork.MachiningTool = await _context.MachiningTools
+                .FirstOrDefaultAsync(m => m.MachiningToolId == machiningToolForWork.MachiningToolId);
+            machiningToolForWork.User = await _context.Users
+                .FirstOrDefaultAsync(m => m.UserId == machiningToolForWork.UserId);
             return View(machiningToolForWork);
         }
 
@@ -54,6 +63,8 @@ namespace EndlasNet.Web.Controllers
         public IActionResult Create()
         {
             ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
+            ViewData["MachiningToolId"] = new SelectList(_context.MachiningTools, "MachiningToolId", "VendorDescription");
+
             return View();
         }
 
@@ -62,7 +73,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MachiningToolForWorkId,DateUsed,WorkId,UserId")] MachiningToolForWork machiningToolForWork)
+        public async Task<IActionResult> Create([Bind("MachiningToolForWorkId,DateUsed,WorkId,UserId,MachiningToolId")] MachiningToolForWork machiningToolForWork)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +100,12 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
             machiningToolForWork.Work = await _context.Work.FirstOrDefaultAsync(m => m.WorkId == machiningToolForWork.WorkId);
+            machiningToolForWork.MachiningTool = await _context.MachiningTools
+                .FirstOrDefaultAsync(m => m.MachiningToolId == machiningToolForWork.MachiningToolId);
+
             ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
+            ViewData["MachiningToolId"] = new SelectList(_context.MachiningTools, "MachiningToolId", "VendorDescription");
+
             return View(machiningToolForWork);
         }
 
@@ -98,7 +114,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolForWorkId,DateUsed,WorkId,UserId")] MachiningToolForWork machiningToolForWork)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolForWorkId,DateUsed,WorkId,UserId,MachiningToolId")] MachiningToolForWork machiningToolForWork)
         {
             if (id != machiningToolForWork.MachiningToolForWorkId)
             {
@@ -144,6 +160,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
             machiningToolForWork.Work = await _context.Work.FirstOrDefaultAsync(m => m.WorkId == machiningToolForWork.WorkId);
+            machiningToolForWork.MachiningTool = await _context.MachiningTools
+                .FirstOrDefaultAsync(m => m.MachiningToolId == machiningToolForWork.MachiningToolId);
             machiningToolForWork.User = await _context.Users.FirstOrDefaultAsync(m => m.UserId == machiningToolForWork.UserId);
             return View(machiningToolForWork);
         }

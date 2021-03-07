@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20210307072437_mig")]
-    partial class mig
+    [Migration("20210307134008_mig1")]
+    partial class mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,7 +50,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CustomerId = new Guid("719e4967-d660-4823-8149-de8158f00568"),
+                            CustomerId = new Guid("3b27f259-445a-4b66-b8a6-247179be5cbe"),
                             CustomerAddress = "Dummy Customer Address",
                             CustomerName = "Dummy Customer Name",
                             CustomerPhone = "0987654321",
@@ -138,9 +138,6 @@ namespace EndlasNet.Data.Migrations
                     b.Property<float>("ToolDiameter")
                         .HasColumnType("real");
 
-                    b.Property<Guid?>("ToolToWorkMachiningToolForWorkId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("ToolType")
                         .HasColumnType("int");
 
@@ -158,8 +155,6 @@ namespace EndlasNet.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("MachiningToolId");
-
-                    b.HasIndex("ToolToWorkMachiningToolForWorkId");
 
                     b.HasIndex("UserId");
 
@@ -184,6 +179,9 @@ namespace EndlasNet.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("MachiningToolId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
@@ -194,6 +192,8 @@ namespace EndlasNet.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("MachiningToolForWorkId");
+
+                    b.HasIndex("MachiningToolId");
 
                     b.ToTable("MachiningToolsForWork");
 
@@ -475,7 +475,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            VendorId = new Guid("50dde734-0347-4ba1-865c-74516a27068a"),
+                            VendorId = new Guid("028c793c-52bd-440e-ba0a-cfd7cc52f049"),
                             PointOfContact = "Dummy Point of Contact",
                             VendorAddress = "Dummy Vendor Address",
                             VendorName = "Dummy Vendor Name",
@@ -578,7 +578,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("25bc41b7-1bac-4020-a775-ee65e7c8980e"),
+                            UserId = new Guid("04a01d39-e9fa-409b-9775-b16818e1274a"),
                             AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
                             EndlasEmail = "SA@endlas.com",
                             FirstName = "SA",
@@ -586,7 +586,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("2de1bd5c-4afd-45cc-b254-cd9f6baeebf8"),
+                            UserId = new Guid("d47c2e98-016b-4ea2-95d3-ace8f67db830"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "james.tomich@endlas.com",
                             FirstName = "James",
@@ -594,7 +594,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("2ef28f85-18a8-4782-919c-3fbb0c090108"),
+                            UserId = new Guid("97cd640a-bb10-4b63-b36d-a49758b916bc"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "josh.hammell@endlas.com",
                             FirstName = "Josh",
@@ -602,7 +602,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("58ee04ca-c286-44be-830d-af883160a753"),
+                            UserId = new Guid("32814001-e167-4753-8f60-e079bd3f9378"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                             EndlasEmail = "blt@endlas.com",
                             FirstName = "Brett",
@@ -650,10 +650,6 @@ namespace EndlasNet.Data.Migrations
 
             modelBuilder.Entity("EndlasNet.Data.MachiningTool", b =>
                 {
-                    b.HasOne("EndlasNet.Data.MachiningToolForWork", "ToolToWork")
-                        .WithMany()
-                        .HasForeignKey("ToolToWorkMachiningToolForWorkId");
-
                     b.HasOne("EndlasNet.Data.User", "User")
                         .WithMany("MachiningTools")
                         .HasForeignKey("UserId");
@@ -662,16 +658,25 @@ namespace EndlasNet.Data.Migrations
                         .WithMany("MachiningTools")
                         .HasForeignKey("VendorId");
 
-                    b.Navigation("ToolToWork");
-
                     b.Navigation("User");
 
                     b.Navigation("Vendor");
                 });
 
+            modelBuilder.Entity("EndlasNet.Data.MachiningToolForWork", b =>
+                {
+                    b.HasOne("EndlasNet.Data.MachiningTool", "MachiningTool")
+                        .WithMany()
+                        .HasForeignKey("MachiningToolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MachiningTool");
+                });
+
             modelBuilder.Entity("EndlasNet.Data.PartForWork", b =>
                 {
-                    b.HasOne("EndlasNet.Data.StaticPartInfo", "PartInfo")
+                    b.HasOne("EndlasNet.Data.StaticPartInfo", "StaticPartInfo")
                         .WithMany("Parts")
                         .HasForeignKey("StaticPartInfoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -687,7 +692,7 @@ namespace EndlasNet.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PartInfo");
+                    b.Navigation("StaticPartInfo");
 
                     b.Navigation("User");
 

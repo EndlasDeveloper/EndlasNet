@@ -16,6 +16,9 @@
                 @Html.DisplayNameFor(model => model.DateUsed)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.MachiningTool.VendorDescription)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Work.WorkDescription)
             </th>
         </tr>
@@ -25,6 +28,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DateUsed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MachiningTool.VendorDescription)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Work.WorkDescription)

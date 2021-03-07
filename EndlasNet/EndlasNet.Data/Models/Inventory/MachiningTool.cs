@@ -59,8 +59,6 @@ namespace EndlasNet.Data
         [Display(Name = "Vendor")]
         public Guid? VendorId { get; set; }
         public virtual Vendor Vendor { get; set; }
-        [Display(Name = "Tool to job")]
-        public virtual MachiningToolForWork ToolToWork { get; set; }
 
     }
 }
