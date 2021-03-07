@@ -15,23 +15,19 @@
                     <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="StaticPartInfoes">Part information</a>
                 </li>
                 <li>
-                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Jobs">Jobs</a>
+                    <span style="color:Highlight">
+                        <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="Jobs">Jobs</a> |
+                        <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="WorkOrders">Work orders</a>
+                    </span>
     
                     <ul>
                         <li>
-                            <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="PartForJobs">Parts for jobs</a>
+                            <span style="color:Highlight">
+                                <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="PartForJobs">Parts for jobs</a> |
+                                <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="PartForWorkOrders">Parts for work orders</a>
+                            </span>
                         </li>
-                    </ul>
-                
-                <li>
-                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="WorkOrders">Work orders</a>
-                    <ul>
-                        <li>
-                            <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="PartForWorkOrders">Parts for work orders</a>
-                        </li>
-                    </ul>
-                </li>
-
+                    </ul>         
             </ul>
         </div>
         <div class="container">
