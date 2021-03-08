@@ -140,7 +140,7 @@ namespace EndlasNet.Web.Controllers
 
         private async Task<bool> CustomerExists(Guid id)
         {
-            return await repo.ConfirmCustomerExists(id);
+            return await repo.ConfirmCustomerExistsAsync(id);
         }
     }
 }

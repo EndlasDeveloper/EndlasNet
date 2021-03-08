@@ -57,7 +57,7 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<bool> ConfirmCustomerExists(Guid id)
+        public async Task<bool> ConfirmCustomerExistsAsync(Guid id)
         {
             return await _db.Customers.AnyAsync(e => e.CustomerId == id);
         }

@@ -13,9 +13,8 @@ namespace EndlasNet.Web.Controllers
 {
     public class PartForJobsController : Controller
     {
-        private readonly EndlasNetDbContext _context;
         private PartForJobRepo repo;
-
+        private readonly EndlasNetDbContext _context;
         public PartForJobsController(EndlasNetDbContext context)
         {
             _context = context;
@@ -26,11 +25,7 @@ namespace EndlasNet.Web.Controllers
         // GET: Admins
         public async Task<IActionResult> Index()
         {
-            var parts = await _context.PartsForJobs
-                .Include(p => p.StaticPartInfo)
-                .Include(p => p.User)
-                .Include(p => p.Work)
-                .ToListAsync();
+            var parts = await repo.GetAllPartsForJobsAsync();
             // minimize part list to batched row representation
             var minimizedPartList = await MinimizePartList(parts);
 
@@ -72,13 +67,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
-            var partForJob = await _context.PartsForJobs
-                .Include(p => p.StaticPartInfo)
-                .Include(p => p.User)
-                .Include(p => p.Work)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
+            var partForJob = await repo.GetPartForJobDetailsAsync(id);
             if (partForJob == null)
             {
                 return NotFound();
@@ -105,10 +94,7 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 // look to see if this part/job already exists. If so, name suffix from that point
-                var existingBatch = await _context.PartsForJobs
-                    .Where(p => p.WorkId == partForJob.WorkId)
-                    .Where(p => p.StaticPartInfoId == partForJob.StaticPartInfoId)
-                    .ToListAsync();
+                var existingBatch = await repo.GetExistingPartBatch(partForJob);
                 var initCount = partForJob.NumParts;
                 partForJob.NumParts += existingBatch.Count;
 
@@ -127,16 +113,14 @@ namespace EndlasNet.Web.Controllers
                         tempPartForJob.Suffix = PartSuffixGenerator.GetPartSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                        _context.Add(tempPartForJob);
-                        await _context.SaveChangesAsync();
+                        await repo .AddPartForJobAsync(tempPartForJob);
                     } catch(Exception ex) { ex.ToString(); continue; }
                 }
                 var partsForJobs = await _context.PartsForJobs.ToListAsync();
                 foreach(PartForJob part in partsForJobs)
                 {
                     part.NumParts = partForJob.NumParts;
-                    _context.Update(part);
-                    await _context.SaveChangesAsync();
+                    await repo.UpdatePartForJobAsync(part);
                 }
 
                 return RedirectToAction(nameof(Index));
@@ -153,11 +137,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForJobs
-                .Include(p => p.StaticPartInfo)
-                .Include(p => p.User)
-                .Include(p => p.Work)
-                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
+            var partForJob = await repo.DeleteCustomerAsync(id);
+
             if (partForJob == null)
             {
                 return NotFound();
@@ -171,9 +152,7 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var partForJob = await _context.PartsForJobs.FindAsync(id);
-            _context.PartsForJobs.Remove(partForJob);
-            await _context.SaveChangesAsync();
+            await repo.DeletePartForJobConfirmedAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -182,9 +161,9 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction("Index", "PartsForAJob", new { id = id, workId = workId, partInfoId = partInfoId, sortOrder = "suffix_asc" });
         }
 
-        private bool PartForJobExists(Guid id)
+        private async Task<bool> PartForJobExists(Guid id)
         {
-            return _context.PartsForJobs.Any(e => e.PartForWorkId == id);
+            return await repo.ConfirmPartForJobExistsAsync(id);
         }
     }
 }
