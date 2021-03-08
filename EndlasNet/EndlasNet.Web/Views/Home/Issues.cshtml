@@ -25,8 +25,7 @@
                 should be able to download the pdf to the client device.
             </li>
             <li>
-                On creating a MachiningToolForWork, the referenced MachiningTool.ToolCount should decrement till 0. Somehow prevent user from
-                using tools that don't exist (negative numbers).
+                When creating a machining tool for work and the tool count = 0, user is redirected back to create view with no help message (fix this).
             </li>
             <li>
                 Work on powder for job (might be done because can edit powder weight already).
@@ -68,6 +67,10 @@
         <li>
             PartForJob -> If the foreign key reference to StaticPartInfo already exists in another PartForJob, the suffix
             starts from where the last PartForJob suffix ended.
+        </li>
+        <li>
+            On creating a MachiningToolForWork, the referenced MachiningTool.ToolCount should decrement till 0. Somehow prevent user from
+            using tools that don't exist (negative numbers).
         </li>
     </ul>
 
