@@ -1,1 +1,2 @@
-﻿LineItem -> Remove particle size. Add particle size minimum and particle size maximum (to define a range).
+﻿ PartForJob -> If the foreign key reference to StaticPartInfo already exists in another PartForJob, the suffix should
+                start from where the last PartForJob suffix ended.

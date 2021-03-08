@@ -91,6 +91,17 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId")] PartForJob partForJob)
         {
+            var resultList = await _context.PartsForJobs
+                .Where(p => p.StaticPartInfoId == partForJob.StaticPartInfoId)
+                .ToListAsync();
+            var count = resultList.Count;
+            int max = -1;
+            foreach(PartForJob pForJob in resultList)
+            {
+                var temp = PartSuffixGenerator.SuffixToIndex(pForJob.Suffix);
+                if (temp > max)
+                    max = temp;
+            }
             if (ModelState.IsValid)
             {
                 // look to see if this part/job already exists. If so, name suffix from that point
@@ -105,12 +116,12 @@ namespace EndlasNet.Web.Controllers
                 }
 
                 // create each part for the part batch
-                for (int i = existingBatch.Count; i < initCount + existingBatch.Count; i++)
+                for (int i = count; i < initCount + count; i++)
                 {
                     try
                     {
                         var tempPartForJob = partForJob;
-                        tempPartForJob.Suffix = PartSuffixGenerator.GetPartSuffix(i);
+                        tempPartForJob.Suffix = PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                         await repo .AddPartForJobAsync(tempPartForJob);

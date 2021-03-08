@@ -9,7 +9,7 @@ namespace EndlasNet.Data
         // think of alphabet as a set of unique numbers in base-26 counting
         private readonly static int NUM_LETTERS = 26;
         
-        public static string GetPartSuffix(int n)
+        public static string IndexToSuffix(int n)
         {
             // error check- shouldn't ever be null
             if (n < 0)

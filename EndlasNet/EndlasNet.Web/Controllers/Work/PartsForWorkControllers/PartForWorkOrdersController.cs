@@ -104,7 +104,7 @@ namespace EndlasNet.Web.Controllers
                 for (int i = 0; i < partForWorkOrder.NumParts; i++)
                 {
                     var tempPartForWorkOrder = partForWorkOrder;
-                    tempPartForWorkOrder.Suffix = PartSuffixGenerator.GetPartSuffix(i);
+                    tempPartForWorkOrder.Suffix = PartSuffixGenerator.IndexToSuffix(i);
                     tempPartForWorkOrder.PartForWorkId = Guid.NewGuid();
                     tempPartForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Add(tempPartForWorkOrder);
