@@ -10,7 +10,7 @@ namespace EndlasNet.Data
             // each vendor has 0 to many inserts; each insert has 1 vendor
             modelBuilder.Entity<Vendor>().HasMany(v => v.MachiningTools).WithOne(i => i.Vendor);
             // each customer has many jobs; each job has 1 customer
-            modelBuilder.Entity<Customer>().HasMany(v => v.Work).WithOne(i => i.Customer);
+            modelBuilder.Entity<Customer>().HasMany(v => v.Work).WithOne(i => i.Customer).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Work>().HasMany(v => v.ToolsForJob).WithOne(t => t.Work);
             modelBuilder.Entity<Work>().HasMany(v => v.ToolsForWorkOrder).WithOne(t => t.Work);

@@ -5,6 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\EndlasLaptop2\Desktop\Deploy</_PublishTargetUrl>
+    <History>True|2021-03-08T09:16:03.3535236Z;True|2021-03-07T22:17:31.0374555-07:00;True|2021-03-07T22:16:43.6765758-07:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="appsettings.Development.json">

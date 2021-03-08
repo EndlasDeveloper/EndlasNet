@@ -12,16 +12,17 @@ namespace EndlasNet.Web.Controllers
     public class CustomersController : Controller
     {
         private readonly EndlasNetDbContext _context;
-
+        private CustomerRepo repo;
         public CustomersController(EndlasNetDbContext context)
         {
             _context = context;
+            repo = new CustomerRepo(context);
         }
 
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            return View(await repo.GetAllCustomersAsync());
         }
 
         // GET: Customers/Details/5
@@ -32,8 +33,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.AsNoTracking()
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = await repo.GetCustomerDetailsAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -58,8 +58,7 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 customer.CustomerId = Guid.NewGuid();
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
+                await repo.AddCustomerAsync(customer);
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
@@ -73,7 +72,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await repo.GetCustomerEditAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -97,8 +96,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
+                    await repo.UpdateCustomerAsync(customer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +122,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = await repo.DeleteCustomerAsync(id);
             if (customer == null)
             {
                 return NotFound();

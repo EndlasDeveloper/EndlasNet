@@ -1,0 +1,73 @@
+﻿.btn {
+    background-color: DodgerBlue; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+}
+
+#imglonglaser {
+    width: 15px;
+    height: auto
+}
+
+#pcontact {
+    font-size: 14px;
+}
+
+#nlogin {
+    text-align: center;
+    font-size: 16px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+#custominput {
+    background-color: #808080; /* Gray */
+    border: none;
+    color: white;
+    padding: 5px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+}
+
+#custominput:hover {
+    background-color: #404040;
+    color: white; /* SET COLOR IN BLACK */
+}
+
+#aforgotpwd {
+    text-align: center;
+    font-size: 12px;
+}
+
+#acreateaccound {
+    text-align: center;
+    font-size: 11px;
+}
+
+#labelnotuser {
+    text-align: center;
+    font-size: 11px;
+}
+
+#isloggedin {
+    text-align: center;
+    font-size: 14px;
+}
+
+
+#ahomelogin {
+    text-align: center;
+    font-size: 14px;
+}
+
+#tooltypedropdown {
+    width: 1000px;
+    height: 1000px;
+}
+
+
+

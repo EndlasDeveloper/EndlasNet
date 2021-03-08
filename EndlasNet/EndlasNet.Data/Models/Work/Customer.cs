@@ -30,5 +30,6 @@ namespace EndlasNet.Data
         public string CustomerPhone { get; set; }
         // customer has 0 to many jobs
         public IEnumerable<Work> Work { get; set; }
+        public IEnumerable<StaticPartInfo> StaticPartInfos { get; set; }
     }
 }
