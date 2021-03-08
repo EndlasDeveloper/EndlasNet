@@ -1,2 +1,2 @@
-﻿ PartForJob -> If the foreign key reference to StaticPartInfo already exists in another PartForJob, the suffix should
-                start from where the last PartForJob suffix ended.
+﻿On creating a MachiningToolForWork, the referenced MachiningTool.ToolCount should decrement till 0.
+Somehow prevent user from using tools that don't exist (negative numbers).

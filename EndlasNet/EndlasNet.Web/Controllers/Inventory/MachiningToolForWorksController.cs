@@ -60,11 +60,11 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: MachiningToolForWorks/Create
-        public IActionResult Create()
+        public  IActionResult Create()
         {
             ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
             ViewData["MachiningToolId"] = new SelectList(_context.MachiningTools, "MachiningToolId", "VendorDescription");
-
+            ViewData["MachiningToolCount"] = new SelectList(_context.MachiningTools, "MachiningToolId", "ToolCount");
             return View();
         }
 
@@ -77,6 +77,14 @@ namespace EndlasNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var machiningTool = await _context.MachiningTools
+                    .FirstOrDefaultAsync(m => m.MachiningToolId == machiningToolForWork.MachiningToolId);
+                if(machiningTool.ToolCount == 0)
+                {
+                    ViewBag.ZeroToolCount = machiningTool.ToolCount;
+                    return RedirectToAction(nameof(Create));
+                }
+                machiningTool.ToolCount -= 1;
                 machiningToolForWork.MachiningToolForWorkId = Guid.NewGuid();
                 machiningToolForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Add(machiningToolForWork);
