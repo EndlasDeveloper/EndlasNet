@@ -11,11 +11,9 @@ namespace EndlasNet.Web.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly EndlasNetDbContext _context;
         private CustomerRepo repo;
         public CustomersController(EndlasNetDbContext context)
         {
-            _context = context;
             repo = new CustomerRepo(context);
         }
 
@@ -100,7 +98,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.CustomerId))
+                    if (!(await(CustomerExists(customer.CustomerId))))
                     {
                         return NotFound();
                     }
@@ -136,15 +134,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
+            await repo.DeleteCustomerConfirmedAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(Guid id)
+        private async Task<bool> CustomerExists(Guid id)
         {
-            return _context.Customers.Any(e => e.CustomerId == id);
+            return await repo.ConfirmCustomerExists(id);
         }
     }
 }

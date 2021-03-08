@@ -46,7 +46,20 @@ namespace EndlasNet.Data
 
         public async Task<Customer> DeleteCustomerAsync(Guid? id)
         {
-            return await _db.Customers.FirstOrDefaultAsync(c => c.CustomerId == id);
+            return await _db.Customers
+                .FirstOrDefaultAsync(c => c.CustomerId == id);
+        }
+        
+        public async Task DeleteCustomerConfirmedAsync(Guid id)
+        {
+            var customer = await _db.Customers.FindAsync(id);
+            _db.Customers.Remove(customer);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<bool> ConfirmCustomerExists(Guid id)
+        {
+            return await _db.Customers.AnyAsync(e => e.CustomerId == id);
         }
     }
 }
