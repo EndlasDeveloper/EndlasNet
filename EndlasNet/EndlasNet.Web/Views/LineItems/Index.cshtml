@@ -18,7 +18,7 @@
                 @Html.DisplayNameFor(model => model.VendorDescription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ParticleSize)
+                Particle range (microns)
             </th>
 
   
@@ -35,7 +35,7 @@
                 @Html.DisplayFor(modelItem => item.VendorDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ParticleSize)
+                @Html.DisplayFor(modelItem => item.ParticleSizeMin)&nbsp;-&nbsp;@Html.DisplayFor(modelItem => item.ParticleSizeMax)
             </td>
 
             <td>

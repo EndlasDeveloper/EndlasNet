@@ -1,0 +1,1 @@
+﻿LineItem -> Remove particle size. Add particle size minimum and particle size maximum (to define a range).

@@ -81,7 +81,8 @@ namespace EndlasNet.SystemTest
                     StaticPowderInfo = powderInfo,
                     PowderOrder = powderOrderGood,
                     PowderOrderId = powderOrderGood.PowderOrderId,
-                    ParticleSize = 1,
+                    ParticleSizeMin = 1,
+                    ParticleSizeMax = 2,
                     VendorDescription = "",
                     NumBottles = 1
                 };
@@ -94,7 +95,8 @@ namespace EndlasNet.SystemTest
                     StaticPowderInfo = powderInfo,
                     PowderOrder = powderOrderBad,
                     PowderOrderId = powderOrderBad.PowderOrderId,
-                    ParticleSize = 2,
+                    ParticleSizeMin = 2,
+                    ParticleSizeMax = 3,
                     VendorDescription = "",
                     NumBottles = 2
                 };

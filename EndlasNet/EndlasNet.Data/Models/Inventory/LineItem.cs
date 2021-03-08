@@ -18,8 +18,12 @@ namespace EndlasNet.Data
         public virtual StaticPowderInfo StaticPowderInfo { get; set; }
         [Display(Name ="Vendor description")]
         public string VendorDescription { get; set; }
-        [Display(Name ="Particle size (microns)")]
-        public float ParticleSize { get; set; }
+
+        [Display(Name = "Minimum particle size (microns)")]
+        public float ParticleSizeMin { get; set; }
+
+        [Display(Name = "Maximum particle size (microns)")]
+        public float ParticleSizeMax { get; set; }
 
         [ForeignKey("PowderOrderId")]
         public Guid PowderOrderId { get; set; }
