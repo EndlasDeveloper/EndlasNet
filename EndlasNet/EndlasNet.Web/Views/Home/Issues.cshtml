@@ -6,48 +6,34 @@
 <h1 class="display-4">@ViewData["Title"]</h1>
 
 <p>
+    @* ****** WHAT CHANGED ****** *@
     <div style="color:white;font-size:18px;">What changed</div>
     <div>
         <ul style="font-size:14px;line-height:200%;">
-            <li>
-                Added static powder information for both front and back-end. All CRUD operations work. Inventory -> Powder information
-            </li>
-            <li>
-                In static part information view index, added part information drawing image thumbnail to list. Removed image title and approx wt.
-            </li>
-            <li>
-                Part for job has the bugs worked out (as far as I can tell). Part for job index shows collapsed part batches initialized by the user.
-                When view list is clicked, the individual parts in the batch can be viewed, edited, and deleted.
-            </li>
-            <li>
-                In part for job view index, added part information drawing image thumbnail to list.
-            </li>
-            <li>
-                Functionality for using a machining tool for a job is in place. Inventory -> ToolToWork
-            </li>
-            <li>
-                Functionality for creating a powder order, it's line items, and the line item's powder bottles is in place. User can view powder
-                that belongs to a particular line item by following the work flow in the powder order views. Inventory -> Powder orders -> Manage line items -> Manage powders
-            </li>
-            <li>
-                Functionality for viewing all powders is in place. Inventory -> All powders
-            </li>
-
-
-
         </ul>
     </div>
+
+    @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <div>
         <ul style="font-size:14px;line-height:200%;">
             <li>
-                Consider paging and which views to implement paging with.
+                Implement the same mechanics as PartForJob for PartForWorkOrder's views.
             </li>
             <li>
-                Consider search bar on views with many rows to filter.
+                LineItem -> Remove particle size. Add particle size minimum and particle size maximum (to define a range).
             </li>
             <li>
-                Look for a coded UI test library.
+                PartForJob -> If the foreign key reference to StaticPartInfo already exists in another PartForJob, the suffix should
+                start from where the last PartForJob suffix ended.
+            </li>
+            <li>
+                Add FinishDrawing to StaticPartInfo. FinishDrawing is a pdf file that should be able to save to the db, and the user
+                should be able to download the pdf to the client device.
+            </li>
+            <li>
+                On creating a MachiningToolForWork, the referenced MachiningTool.ToolCount should decrement till 0. Somehow prevent user from
+                using tools that don't exist (negative numbers).
             </li>
             <li>
                 Work on powder for job (might be done because can edit powder weight already).
@@ -56,19 +42,13 @@
                 In static part info, make the thumbnail open details of the static part info.
             </li>
             <li>
-                Put in checks for logins in every view that can access the db.
-            </li>
-            <li>
-                Help tab development.
-            </li>
-            <li>
                 Implement repository pattern for all entities and replace the direct context calls in the controllers.
             </li>
-            <li>
-                If the part for job work flow is acceptable, implement the same mechanics for part for work order's views.
-            </li>
+
         </ul>
     </div>
+
+    @* ****** KNOWN ISSUES ****** *@
     <div style="color:white;font-size:18px;">Known issues</div>
     <div>
         <ul style="font-size:14px;line-height:200%;">
@@ -84,12 +64,29 @@
             </li>
         </ul>
     </div>
+
+    @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
-    <div>
-        <ul style="font-size:14px;line-height:200%;">
-            <li>
-                ** See 'What changed' **
-            </li>          
-        </ul>
-    </div>
+    <ul style="font-size:14px;line-height:200%;">
+    </ul>
+
+    @* ****** OTHER CONSIDERATIONS ****** *@
+    <div style="color:white;font-size:18px;">Other considerations</div>
+    <ul style="font-size:14px;line-height:200%;">
+        <li>
+            Look at activity logging (or just logging) in ASP.NET EF Core.
+        </li>
+        <li>
+            Look for a coded UI test library.
+        </li>
+        <li>
+            Consider paging and which views to implement paging with.
+        </li>
+        <li>
+            Consider search bar on views with many rows to filter.
+        </li>
+        <li>
+            Help tab development.
+        </li>
+    </ul>
 </p>
