@@ -71,6 +71,14 @@
             MachiningToolForWork results in a tool count < 0, the user is client if forwarded back to the create page
             with an indicator under the foreign key reference dropdown for machining tool (aka negative tool count is always prevented).
         </li>
+        <li>
+            Realized the list of machining tools in the dropdown could be filtered by tool count > 0 before rendering. Implemented this.
+            Now, only tools with actual tools available are populated in the dropdown for machining tool.
+        </li>
+        <li>
+            Even though the list would only populate with tools with count > 0, it was left a little ambiguious why the list was empty.
+            Added a check to indicate why the dropdown list is empty (appears immediately when create view is rendered).
+        </li>
     </ul>
 
     @* ****** OTHER CONSIDERATIONS ****** *@

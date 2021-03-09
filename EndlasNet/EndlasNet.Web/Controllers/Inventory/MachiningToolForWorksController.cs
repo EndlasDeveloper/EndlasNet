@@ -60,16 +60,21 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: MachiningToolForWorks/Create
-        public  IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            SetCreateViewData();
+            await SetCreateViewData();
             return View();
         }
 
-        private void SetCreateViewData()
+        private async Task SetCreateViewData()
         {
             ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
-            ViewData["MachiningToolId"] = new SelectList(_context.MachiningTools.Where(m => m.ToolCount > 0), "MachiningToolId", "VendorDescription");            
+            var availableTools = await _context.MachiningTools.Where(m => m.ToolCount > 0).ToListAsync();
+            if(availableTools.Count == 0)
+            {
+                ViewBag.HasAvailableTools = "false";
+            }
+            ViewData["MachiningToolId"] = new SelectList(availableTools, "MachiningToolId", "VendorDescription");            
         }
 
         // POST: MachiningToolForWorks/Create
@@ -79,28 +84,10 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MachiningToolForWorkId,DateUsed,WorkId,UserId,MachiningToolId")] MachiningToolForWork machiningToolForWork)
         {
-            /*            if(machiningToolForWork != null)
-                        {
-                            var machiningTool = await _context.MachiningTools
-                                .FirstOrDefaultAsync(m => m.MachiningToolId == machiningToolForWork.MachiningToolId);
-                            if (machiningTool == null || machiningTool.ToolCount <= 0)
-                            {
-                                ModelState.AddModelError("MachiningToolId", "No available machining tools to use.");
-                                ViewBag.ToolCount = machiningTool.ToolCount;
-                            }
-                        }*/
-            var machiningTool = await _context.MachiningTools
-                                .FirstOrDefaultAsync(m => m.MachiningToolId == machiningToolForWork.MachiningToolId);
-            if (machiningTool != null)
-            {
-                if(machiningTool.ToolCount <= 0)
-                {
-                    SetCreateViewData();
-                    ModelState.AddModelError("MachiningTool", "No available tools to use");
-                }
-            }
             if (ModelState.IsValid)
             {
+                var machiningTool = await _context.MachiningTools
+                    .FirstOrDefaultAsync(m => m.MachiningToolId == machiningToolForWork.MachiningToolId);
                 machiningTool.ToolCount -= 1;
                 machiningToolForWork.MachiningToolForWorkId = Guid.NewGuid();
                 machiningToolForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
