@@ -18,6 +18,19 @@
     <div>
         <ul style="font-size:14px;line-height:200%;">
             <li>
+                In create MachiningToolForWork view, change the dropdown for the machining
+                tool from  &lt;vendor description&gt; to &lt;vendor description - purchase order number&gt;
+            </li>
+
+            <li>
+                PowderOrders -> Manage LineItem -> Manage Powders -> Fix the heading
+            </li>
+
+            <li>
+                Want an 'All Parts' action link (similar to 'All powders') to show all parts. (worry about filtering later)
+            </li>
+
+            <li>
                 Implement the same mechanics as PartForJob for PartForWorkOrder's views.
             </li>
             <li>
@@ -28,7 +41,7 @@
                 Work on powder for job (might be done because can edit powder weight already).
             </li>
             <li>
-                In static part info, make the thumbnail open details of the static part info.
+                In static part info, make the thumbnail open details of the static part info?
             </li>
             <li>
                 Implement repository pattern for all entities and replace the direct context calls in the controllers.
@@ -49,7 +62,7 @@
                 Some views do not have login protection implemented yet.
             </li>
             <li>
-                On the dropdown for job in part for job, the dropdown will show work orders in addition the the jobs.
+                On the dropdown for job in part for job, the dropdown will show work orders in addition the the jobs. (look at create GET method)
             </li>
         </ul>
     </div>
@@ -84,6 +97,10 @@
     @* ****** OTHER CONSIDERATIONS ****** *@
     <div style="color:white;font-size:18px;">Other considerations</div>
     <ul style="font-size:14px;line-height:200%;">
+        <li>
+            Put a '?' icon on all data access level views (any view that allows user to interact with the db in any way). When clicked,
+            show a description of the view's purpose within the context of data access and work flow.
+        </li>
         <li>
             Look at activity logging (or just logging) in ASP.NET EF Core.
         </li>
