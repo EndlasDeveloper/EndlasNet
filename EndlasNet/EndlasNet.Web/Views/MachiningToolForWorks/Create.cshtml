@@ -19,14 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="MachiningToolId" class="control-label"></label>
-                <select asp-for="MachiningToolId" class="form-control" asp-items="ViewBag.MachiningToolId"></select>
-                <span asp-validation-for="MachiningTool.ToolCount" class="text-danger"></span>
-
-                @if (ViewBag.ZeroToolCount <= 0)
-                {
-                    <span style="color:firebrick">There are @ViewBag.ZeroToolCount tools left</span>
-                }
-
+                <select asp-for="MachiningToolId" class="form-control" asp-items="ViewBag.MachiningToolId"></select>          
             </div>
 
             <div class="form-group">

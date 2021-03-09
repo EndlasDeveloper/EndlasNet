@@ -25,9 +25,6 @@
                 should be able to download the pdf to the client device.
             </li>
             <li>
-                When creating a machining tool for work and the tool count = 0, user is redirected back to create view with no help message (fix this).
-            </li>
-            <li>
                 Work on powder for job (might be done because can edit powder weight already).
             </li>
             <li>
@@ -69,8 +66,10 @@
             starts from where the last PartForJob suffix ended.
         </li>
         <li>
-            On creating a MachiningToolForWork, the referenced MachiningTool.ToolCount should decrement till 0. Somehow prevent user from
-            using tools that don't exist (negative numbers).
+            On creating a MachiningToolForWork, the referenced MachiningTool.ToolCount decrement still 0. 
+            There is a stop in place to prevent the tool count from reaching negative values. When the creation of a
+            MachiningToolForWork results in a tool count < 0, the user is client if forwarded back to the create page
+            with an indicator under the foreign key reference dropdown for machining tool (aka negative tool count is always prevented).
         </li>
     </ul>
 

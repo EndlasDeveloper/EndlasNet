@@ -1,6 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Mvc;
-
+<!DOCTYPE html>
+<style>
+    form {
+        display: inline;
+    }
+</style>
 <link rel="stylesheet" href="~/css/custom-style.css" type="text/css" />
 
 @{
@@ -21,15 +26,32 @@
         <h1 class="display-4">
             Endlas Net
             <img src="~/img/laserBeam.png" />
-        </h1>    
-        <p style="color:white;font-size:18px;">
-            <a asp-area="" asp-controller="Login" asp-action="Index">
-                Login
-            </a>
-            to Endlas Net.
-        </p>
-    }
+        </h1>
+     
+        <div>
+            @if (ViewBag.IsUserLoggedIn == "false")
+            {
+                <p><font color="red">Username or password is incorrect.</font></p>
+            }
+        </div>
+        <div style="align-content:flex-start">
+            <h5>Login</h5>
+            <form method="post">
+                <div class="form-group">
+                    <input type="text" name="email" placeholder="Endlas email" style="width: 250px;" required /><br><br>
+                    <input type="password" name="pwd" placeholder="Password" style="width: 250px;" required />
+                    <br><br>
 
+                    <input class="button-area" id="custominput" asp-area="" asp-controller="Login" asp-action="LoginSubmit" type="submit" value="Log in">
+                </div>
+            </form>
+        </div>
+        <span></span>
+        <div>
+            <a id="aforgotpwd" asp-area="" asp-controller="ForgotPwd" asp-action="Index">Forgot password?</a>
+        </div>
+    }
+    <br/>
     <p>Learn about <a href="https://endlas.com">Endlas LC</a>.</p>
     <a asp-area="" asp-controller="Home" asp-action="Issues">
         Todo and issues
