@@ -13,20 +13,20 @@ namespace EndlasNet.Web.Controllers
     public class PartForWorkOrdersController : Controller
     {
         private readonly EndlasNetDbContext _context;
-        private PartForWorkOrderRepo repo;
+        private PartForWorkOrderRepo _repo;
 
         public PartForWorkOrdersController(EndlasNetDbContext context)
         {
             _context = context;
-            repo = new PartForWorkOrderRepo(context);
+            _repo = new PartForWorkOrderRepo(context);
         }
 
         // GET: PartForWorkOrders
         public async Task<IActionResult> Index()
         {
-            var parts = await repo.GetAllPartsForWorkOrdersAsync();
+            var parts = await _repo.GetAllPartsForWorkOrdersAsync();
             // minimize part list to batched row representation
-            var minimizedPartList = await MinimizePartList(parts);
+            var minimizedPartList = await PartForWorkUtil.MinimizeWorkOrderPartList(parts, _repo);
 
             // set thumbnail image url's
             foreach (PartForWorkOrder partForJob in minimizedPartList)
@@ -34,29 +34,6 @@ namespace EndlasNet.Web.Controllers
                 ImageURL.SetImageURL(partForJob.StaticPartInfo);
             }
             return View(minimizedPartList);
-        }
-
-        private async Task<List<PartForWorkOrder>> MinimizePartList(List<PartForWorkOrder> parts)
-        {
-            List<PartForWorkOrder> minimizedPartList = new List<PartForWorkOrder>();
-            foreach (PartForWorkOrder part in parts)
-            {
-                KeyValuePair<Guid, Guid> temp = new KeyValuePair<Guid, Guid>(part.WorkId, part.StaticPartInfoId);
-                bool flag = false;
-                for (int i = 0; i < minimizedPartList.Count; i++)
-                {
-                    if (minimizedPartList[i].WorkId.Equals(temp.Key))
-                        if (minimizedPartList[i].StaticPartInfoId.Equals(temp.Value))
-                        {
-                            var list = await repo.GetBatch(part.WorkId.ToString(), part.StaticPartInfoId.ToString());
-                            minimizedPartList[i].NumParts = list.Count();
-                            flag = true;
-                        }
-                }
-                if (!flag)
-                    minimizedPartList.Add(part);
-            }
-            return minimizedPartList;
         }
 
         // GET: PartForWorkOrders/Details/5
@@ -67,12 +44,11 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForWorkOrder = await repo.GetPartForWorkOrderDetailsAsync(id);
+            var partForWorkOrder = await _repo.GetPartForWorkOrderDetailsAsync(id);
             if (partForWorkOrder == null)
             {
                 return NotFound();
             }
-
             return View(partForWorkOrder);
         }
 
@@ -100,12 +76,14 @@ namespace EndlasNet.Web.Controllers
             {
                 var temp = PartSuffixGenerator.SuffixToIndex(pForWorkOrder.Suffix);
                 if (temp > max)
+                {
                     max = temp;
+                }
             }
             if (ModelState.IsValid)
             {
                 // look to see if this part/job already exists. If so, name suffix from that point
-                var existingBatch = await repo.GetExistingPartBatch(partForWorkOrder);
+                var existingBatch = await _repo.GetExistingPartBatch(partForWorkOrder);
                 var initCount = partForWorkOrder.NumParts;
                 partForWorkOrder.NumParts += existingBatch.Count;
 
@@ -124,7 +102,7 @@ namespace EndlasNet.Web.Controllers
                         tempPartForJob.Suffix = PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                        await repo.AddPartForWorkOrderAsync(tempPartForJob);
+                        await _repo.AddPartForWorkOrderAsync(tempPartForJob);
                     }
                     catch (Exception ex) { ex.ToString(); continue; }
                 }
@@ -132,7 +110,7 @@ namespace EndlasNet.Web.Controllers
                 foreach (PartForWorkOrder part in partsForWorkOrders)
                 {
                     part.NumParts = partForWorkOrder.NumParts;
-                    await repo.UpdatePartForWorkOrderAsync(part);
+                    await _repo.UpdatePartForWorkOrderAsync(part);
                 }
 
                 return RedirectToAction(nameof(Index));
