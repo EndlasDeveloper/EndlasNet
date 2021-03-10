@@ -34,29 +34,13 @@ namespace EndlasNet.Web.Controllers
                 ImageURL.SetImageURL(partForJob.StaticPartInfo);
             }
             return View(minimizedPartList);
-        }
-
-        // GET: PartForWorkOrders/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var partForWorkOrder = await _repo.GetPartForWorkOrderDetailsAsync(id);
-            if (partForWorkOrder == null)
-            {
-                return NotFound();
-            }
-            return View(partForWorkOrder);
-        }
+        }    
 
         // GET: PartForWorkOrders/Create
         public IActionResult Create()
         {
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber");
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
+            ViewData["WorkId"] = new SelectList(_context.WorkOrders, "WorkId", "EndlasNumber");
             return View();
         }
 
@@ -67,23 +51,27 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId")] PartForWorkOrder partForWorkOrder)
         {
+            // gets list of tools that have count > 0
             var resultList = await _context.PartsForWorkOrders
                 .Where(p => p.StaticPartInfoId == partForWorkOrder.StaticPartInfoId)
                 .ToListAsync();
             var count = resultList.Count;
-            int max = -1;
+            int maxIndex = -1;
             foreach (PartForWorkOrder pForWorkOrder in resultList)
             {
+                // convert the suffix to base-10 and find the max converted suffix
+                // used to track what suffix a part batch should start with
                 var temp = PartSuffixGenerator.SuffixToIndex(pForWorkOrder.Suffix);
-                if (temp > max)
+                if (temp > maxIndex)
                 {
-                    max = temp;
+                    maxIndex = temp;
                 }
             }
             if (ModelState.IsValid)
             {
                 // look to see if this part/job already exists. If so, name suffix from that point
                 var existingBatch = await _repo.GetExistingPartBatch(partForWorkOrder);
+                // save initial part for work order count
                 var initCount = partForWorkOrder.NumParts;
                 partForWorkOrder.NumParts += existingBatch.Count;
 
@@ -93,103 +81,35 @@ namespace EndlasNet.Web.Controllers
                     part.NumParts += existingBatch.Count;
                 }
 
-                // create each part for the part batch
+                // create each part for the part batch starting at max index
                 for (int i = count; i < initCount + count; i++)
                 {
                     try
                     {
                         var tempPartForJob = partForWorkOrder;
+                        // set suffix
                         tempPartForJob.Suffix = PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
+                        // save user email
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                         await _repo.AddPartForWorkOrderAsync(tempPartForJob);
                     }
                     catch (Exception ex) { ex.ToString(); continue; }
                 }
+                // update the number of parts
                 var partsForWorkOrders = await _context.PartsForWorkOrders.ToListAsync();
                 foreach (PartForWorkOrder part in partsForWorkOrders)
                 {
                     part.NumParts = partForWorkOrder.NumParts;
                     await _repo.UpdatePartForWorkOrderAsync(part);
                 }
-
+                // success, back to index
                 return RedirectToAction(nameof(Index));
             }
+            // fail, keep tracking referenced entities and return the part for work order back to the create view
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWorkOrder.StaticPartInfoId);
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber", partForWorkOrder.WorkId);
+            ViewData["WorkId"] = new SelectList(_context.WorkOrders, "WorkId", "EndlasNumber", partForWorkOrder.WorkId);
             return View(partForWorkOrder);
-        }
-
-
-        // POST: PartForWorkOrders/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,UserId")] PartForWorkOrder partForWorkOrder)
-        {
-            if (id != partForWorkOrder.PartForWorkId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-
-                    _context.Update(partForWorkOrder);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PartForWorkOrderExists(partForWorkOrder.PartForWorkId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWorkOrder.StaticPartInfoId);
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber", partForWorkOrder.WorkId);
-            return View(partForWorkOrder);
-        }
-
-        // GET: PartForWorkOrders/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var partForWorkOrder = await _context.PartsForWorkOrders
-                .Include(p => p.StaticPartInfo)
-                .Include(p => p.User)
-                .Include(p => p.Work)
-                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
-            if (partForWorkOrder == null)
-            {
-                return NotFound();
-            }
-
-            return View(partForWorkOrder);
-        }
-
-        // POST: PartForWorkOrders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var partForWorkOrder = await _context.PartsForWorkOrders.FindAsync(id);
-            _context.PartsForWorkOrders.Remove(partForWorkOrder);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         public ActionResult ViewList(Guid? id, Guid workId, Guid partInfoId)

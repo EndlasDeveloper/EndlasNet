@@ -13,13 +13,14 @@
         <form asp-action="Create" enctype="application/x-www-form-urlencoded">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="WorkId" class="control-label">Job</label>
-                <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
-            </div>
-            <div class="form-group">
                 <label asp-for="StaticPartInfoId" class="control-label">Part information</label>
                 <select asp-for="StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
             </div>
+            <div class="form-group">
+                <label asp-for="WorkId" class="control-label">Work order</label>
+                <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
+            </div>
+
             <div class="form-group">
                 <label asp-for="NumParts" class="control-label"></label>
                 <input asp-for="NumParts" class="form-control" />
@@ -27,10 +28,10 @@
             </div>
 
             @*<div class="form-group">
-                    <label asp-for="StartSuffix" class="control-label"></label>
-                    <input asp-for="StartSuffix" class="form-control" />
-                    <span asp-validation-for="StartSuffix" class="text-danger"></span>
-                </div>*@
+            <label asp-for="StartSuffix" class="control-label"></label>
+            <input asp-for="StartSuffix" class="form-control" />
+            <span asp-validation-for="StartSuffix" class="text-danger"></span>
+        </div>*@
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -36,29 +36,12 @@ namespace EndlasNet.Web.Controllers
             }
             return View(minimizedPartList);
         }
-     
-
-        // GET: PartForJobs/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var partForJob = await _repo.GetPartForJobDetailsAsync(id);
-            if (partForJob == null)
-            {
-                return NotFound();
-            }
-
-            return View(partForJob);
-        }
 
         // GET: PartForJobs/Create
         public IActionResult Create()
         {
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber");
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
+            ViewData["WorkId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber");
             return View();
         }
 
@@ -115,34 +98,8 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber", partForJob.WorkId);
+            ViewData["WorkId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber", partForJob.WorkId);
             return View(partForJob);
-        }
-        // GET: PartForJobs/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var partForJob = await _repo.DeleteCustomerAsync(id);
-
-            if (partForJob == null)
-            {
-                return NotFound();
-            }
-
-            return View(partForJob);
-        }
-
-        // POST: PartForJobs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            await _repo.DeletePartForJobConfirmedAsync(id);
-            return RedirectToAction(nameof(Index));
         }
 
         public ActionResult ViewList(Guid? id, Guid workId, Guid partInfoId)

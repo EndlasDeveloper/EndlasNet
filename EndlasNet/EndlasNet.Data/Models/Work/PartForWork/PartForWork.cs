@@ -55,5 +55,8 @@ namespace EndlasNet.Data
         [Display(Name ="Starting suffix")]
         [RegularExpression(@"^[A-Z]*$")]
         public string StartSuffix { get; set; } = "A";
+
+        [NotMapped]
+        public string WorkType { get; set; }
     }
 }

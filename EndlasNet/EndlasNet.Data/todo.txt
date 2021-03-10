@@ -1,2 +1,1 @@
-﻿Implement the same mechanics as PartForJob for PartForWorkOrder's views.
- 
+﻿ 
