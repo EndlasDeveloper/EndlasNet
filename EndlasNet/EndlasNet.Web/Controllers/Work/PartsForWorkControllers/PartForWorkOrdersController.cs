@@ -13,53 +13,50 @@ namespace EndlasNet.Web.Controllers
     public class PartForWorkOrdersController : Controller
     {
         private readonly EndlasNetDbContext _context;
+        private PartForWorkOrderRepo repo;
 
         public PartForWorkOrdersController(EndlasNetDbContext context)
         {
             _context = context;
+            repo = new PartForWorkOrderRepo(context);
         }
 
         // GET: PartForWorkOrders
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index()
         {
-            ViewBag.PartInfoDescSortParm = String.IsNullOrEmpty(sortOrder) ? "part_info_desc" : "";
-            ViewBag.PartInfoAscSortParm = String.IsNullOrEmpty(sortOrder) ? "part_info_asc" : "";
+            var parts = await repo.GetAllPartsForWorkOrdersAsync();
+            // minimize part list to batched row representation
+            var minimizedPartList = await MinimizePartList(parts);
 
-            ViewBag.WorkOrderDescSortParm = String.IsNullOrEmpty(sortOrder) ? "wo_desc" : "";
-            ViewBag.WorkOrderAscSortParm = String.IsNullOrEmpty(sortOrder) ? "wo_asc" : "";
-
-            ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
-            ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
-
-            var parts = await _context.PartsForWorkOrders.Include(p => p.StaticPartInfo).Include(p => p.User).Include(p => p.Work).ToListAsync();
-
-            switch (sortOrder)
+            // set thumbnail image url's
+            foreach (PartForWorkOrder partForJob in minimizedPartList)
             {
-                case "suffix_desc":
-                    parts = parts.OrderByDescending(a => a.Suffix).ToList();
-                    break;
-                case "suffix_asc":
-                    parts = parts.OrderByDescending(a => a.Suffix).ToList();
-                    parts.Reverse();
-                    break;
-                case "wo_desc":
-                    parts = parts.OrderByDescending(a => a.Work.EndlasNumber).ToList();
-                    break;
-                case "wo_asc":
-                    parts = parts.OrderByDescending(a => a.Work.EndlasNumber).ToList();
-                    parts.Reverse();
-                    break;
-                case "part_info_desc":
-                    parts = parts.OrderByDescending(a => a.StaticPartInfo.DrawingNumber).ToList();
-                    break;
-                case "part_info_asc":
-                    parts = parts.OrderByDescending(a => a.StaticPartInfo.DrawingNumber).ToList();
-                    parts.Reverse();
-                    break;
-                default:
-                    break;
+                ImageURL.SetImageURL(partForJob.StaticPartInfo);
             }
-            return View(parts);
+            return View(minimizedPartList);
+        }
+
+        private async Task<List<PartForWorkOrder>> MinimizePartList(List<PartForWorkOrder> parts)
+        {
+            List<PartForWorkOrder> minimizedPartList = new List<PartForWorkOrder>();
+            foreach (PartForWorkOrder part in parts)
+            {
+                KeyValuePair<Guid, Guid> temp = new KeyValuePair<Guid, Guid>(part.WorkId, part.StaticPartInfoId);
+                bool flag = false;
+                for (int i = 0; i < minimizedPartList.Count; i++)
+                {
+                    if (minimizedPartList[i].WorkId.Equals(temp.Key))
+                        if (minimizedPartList[i].StaticPartInfoId.Equals(temp.Value))
+                        {
+                            var list = await repo.GetBatch(part.WorkId.ToString(), part.StaticPartInfoId.ToString());
+                            minimizedPartList[i].NumParts = list.Count();
+                            flag = true;
+                        }
+                }
+                if (!flag)
+                    minimizedPartList.Add(part);
+            }
+            return minimizedPartList;
         }
 
         // GET: PartForWorkOrders/Details/5
@@ -70,12 +67,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForWorkOrder = await _context.PartsForWorkOrders
-                .Include(p => p.StaticPartInfo)
-                .Include(p => p.User)
-                .Include(p => p.Work)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
+            var partForWorkOrder = await repo.GetPartForWorkOrderDetailsAsync(id);
             if (partForWorkOrder == null)
             {
                 return NotFound();
@@ -97,19 +89,52 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,UserId")] PartForWorkOrder partForWorkOrder)
+        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId")] PartForWorkOrder partForWorkOrder)
         {
+            var resultList = await _context.PartsForWorkOrders
+                .Where(p => p.StaticPartInfoId == partForWorkOrder.StaticPartInfoId)
+                .ToListAsync();
+            var count = resultList.Count;
+            int max = -1;
+            foreach (PartForWorkOrder pForWorkOrder in resultList)
+            {
+                var temp = PartSuffixGenerator.SuffixToIndex(pForWorkOrder.Suffix);
+                if (temp > max)
+                    max = temp;
+            }
             if (ModelState.IsValid)
             {
-                for (int i = 0; i < partForWorkOrder.NumParts; i++)
+                // look to see if this part/job already exists. If so, name suffix from that point
+                var existingBatch = await repo.GetExistingPartBatch(partForWorkOrder);
+                var initCount = partForWorkOrder.NumParts;
+                partForWorkOrder.NumParts += existingBatch.Count;
+
+                // update the number of parts in each PartForJob
+                foreach (PartForWorkOrder part in existingBatch)
                 {
-                    var tempPartForWorkOrder = partForWorkOrder;
-                    tempPartForWorkOrder.Suffix = PartSuffixGenerator.IndexToSuffix(i);
-                    tempPartForWorkOrder.PartForWorkId = Guid.NewGuid();
-                    tempPartForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    _context.Add(tempPartForWorkOrder);
-                    await _context.SaveChangesAsync();
+                    part.NumParts += existingBatch.Count;
                 }
+
+                // create each part for the part batch
+                for (int i = count; i < initCount + count; i++)
+                {
+                    try
+                    {
+                        var tempPartForJob = partForWorkOrder;
+                        tempPartForJob.Suffix = PartSuffixGenerator.IndexToSuffix(i);
+                        tempPartForJob.PartForWorkId = Guid.NewGuid();
+                        tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                        await repo.AddPartForWorkOrderAsync(tempPartForJob);
+                    }
+                    catch (Exception ex) { ex.ToString(); continue; }
+                }
+                var partsForWorkOrders = await _context.PartsForWorkOrders.ToListAsync();
+                foreach (PartForWorkOrder part in partsForWorkOrders)
+                {
+                    part.NumParts = partForWorkOrder.NumParts;
+                    await repo.UpdatePartForWorkOrderAsync(part);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWorkOrder.StaticPartInfoId);
@@ -117,23 +142,6 @@ namespace EndlasNet.Web.Controllers
             return View(partForWorkOrder);
         }
 
-        // GET: PartForWorkOrders/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var partForWorkOrder = await _context.PartsForWorkOrders.FindAsync(id);
-            if (partForWorkOrder == null)
-            {
-                return NotFound();
-            }
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWorkOrder.StaticPartInfoId);
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber", partForWorkOrder.WorkId);
-            return View(partForWorkOrder);
-        }
 
         // POST: PartForWorkOrders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -204,6 +212,11 @@ namespace EndlasNet.Web.Controllers
             _context.PartsForWorkOrders.Remove(partForWorkOrder);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult ViewList(Guid? id, Guid workId, Guid partInfoId)
+        {
+            return RedirectToAction("Index", "PartsForAWorkOrder", new { id = id, workId = workId, partInfoId = partInfoId, sortOrder = "suffix_asc" });
         }
 
         private bool PartForWorkOrderExists(Guid id)

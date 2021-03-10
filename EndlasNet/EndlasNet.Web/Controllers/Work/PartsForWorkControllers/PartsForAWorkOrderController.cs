@@ -10,17 +10,17 @@ using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
-    public class PartsForAJobController : Controller
+    public class PartsForAWorkOrderController : Controller
     {
         private readonly EndlasNetDbContext _context;
-        private PartForJobRepo repo;
-        public PartsForAJobController(EndlasNetDbContext context)
+        private PartForWorkOrderRepo repo;
+        public PartsForAWorkOrderController(EndlasNetDbContext context)
         {
             _context = context;
-            repo = new PartForJobRepo(context);
+            repo = new PartForWorkOrderRepo(context);
         }
 
-        // GET: PartsForAJob
+        // GET: PartsForAWorkOrder
         public async Task<IActionResult> Index(Guid id, Guid workId, Guid partInfoId, string sortOrder)
         {
             ViewBag.id = id;
@@ -31,12 +31,12 @@ namespace EndlasNet.Web.Controllers
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
 
             var endlasNetDbContext = await repo.GetBatch(workId.ToString(), partInfoId.ToString());
-            foreach(PartForJob partForJob in endlasNetDbContext)
+            foreach (PartForWorkOrder partForWorkOrder in endlasNetDbContext)
             {
-                partForJob.StaticPartInfo = await _context.StaticPartInfo
-                    .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForJob.StaticPartInfoId);
-                partForJob.Work = await _context.Work
-                    .FirstOrDefaultAsync(s => s.WorkId == partForJob.WorkId);
+                partForWorkOrder.StaticPartInfo = await _context.StaticPartInfo
+                    .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWorkOrder.StaticPartInfoId);
+                partForWorkOrder.Work = await _context.Work
+                    .FirstOrDefaultAsync(s => s.WorkId == partForWorkOrder.WorkId);
             }
             switch (sortOrder)
             {
@@ -53,9 +53,7 @@ namespace EndlasNet.Web.Controllers
 
             return View(endlasNetDbContext);
         }
-
-
-        // GET: PartsForAJob/Details/5
+        // GET: PartsForAWorkOrder/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -63,21 +61,21 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForJobs
+            var partForWorkOrder = await _context.PartsForWorkOrders
                 .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
-            if (partForJob == null)
+            if (partForWorkOrder == null)
             {
                 return NotFound();
             }
             ViewBag.id = id;
-            ViewBag.workId = partForJob.WorkId;
-            ViewBag.partInfoId = partForJob.StaticPartInfoId;
+            ViewBag.workId = partForWorkOrder.WorkId;
+            ViewBag.partInfoId = partForWorkOrder.StaticPartInfoId;
 
-            return View(partForJob);
+            return View(partForWorkOrder);
         }
 
         public IActionResult BackToList(Guid id, Guid workId, Guid partInfoId)
@@ -88,31 +86,35 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction("Index", new { id = id, workId = workId, partInfoId = partInfoId, sortOrder = "" });
         }
 
-        // GET: PartsForAJob/Create
+        // GET: PartsForAWorkOrder/Create
         public IActionResult Create()
-        {
+        {           
             return View();
         }
 
-        // POST: PartsForAJob/Create
+        // POST: PartsForAWorkOrder/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForJob partForJob)
+        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForWorkOrder partForWorkOrder)
         {
             if (ModelState.IsValid)
             {
-                partForJob.PartForWorkId = Guid.NewGuid();
-                partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                _context.Add(partForJob);
+                partForWorkOrder.PartForWorkId = Guid.NewGuid();
+                partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+
+                _context.Add(partForWorkOrder);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index","PartsForAJob", new { id = partForJob.PartForWorkId, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder = "" });
+                return RedirectToAction("Index", "PartsForAWorkOrder",
+                    new { id = partForWorkOrder.PartForWorkId, workId = partForWorkOrder.WorkId,
+                        partInfoId = partForWorkOrder.StaticPartInfoId, sortOrder = "" });
+
             }
-            return View(partForJob);
+            return View(partForWorkOrder);
         }
 
-        // GET: PartsForAJob/Edit/5
+        // GET: PartsForAWorkOrder/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -120,23 +122,22 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForJobs.FindAsync(id);
-            if (partForJob == null)
+            var partForWorkOrder = await _context.PartsForWorkOrders.FindAsync(id);
+            if (partForWorkOrder == null)
             {
                 return NotFound();
             }
-          
-            return View(partForJob);
+            return View(partForWorkOrder);
         }
 
-        // POST: PartsForAJob/Edit/5
+        // POST: PartsForAWorkOrder/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForJob partForJob)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForWorkOrder partForWorkOrder)
         {
-            if (id != partForJob.PartForWorkId)
+            if (id != partForWorkOrder.PartForWorkId)
             {
                 return NotFound();
             }
@@ -145,14 +146,13 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    _context.Update(partForJob);
-
+                    partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    _context.Update(partForWorkOrder);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PartForJobExists(partForJob.PartForWorkId))
+                    if (!PartForWorkOrderExists(partForWorkOrder.PartForWorkId))
                     {
                         return NotFound();
                     }
@@ -161,12 +161,15 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "PartsForAJob", new { id = id, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder = "suffix_asc" });
+
+                return RedirectToAction("Index", "PartsForAWorkOrder", new { id = id, workId = partForWorkOrder.WorkId,
+                    partInfoId = partForWorkOrder.StaticPartInfoId, sortOrder = "suffix_asc" });
             }
-            return View(partForJob);
+
+            return View(partForWorkOrder);
         }
 
-        // GET: PartsForAJob/Delete/5
+        // GET: PartsForAWorkOrder/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -174,39 +177,39 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForJobs
+            var partForWorkOrder = await _context.PartsForWorkOrders
                 .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
-            if (partForJob == null)
+            if (partForWorkOrder == null)
             {
                 return NotFound();
             }
 
-            return View(partForJob);
+            return View(partForWorkOrder);
         }
 
-        // POST: PartsForAJob/Delete/5
+        // POST: PartsForAWorkOrder/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var partForJob = await _context.PartsForJobs.FindAsync(id);
-            _context.PartsForJobs.Remove(partForJob);
+            var partForWorkOrder = await _context.PartsForWorkOrders.FindAsync(id);
+            _context.PartsForWorkOrders.Remove(partForWorkOrder);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index","PartsForAJob",new {id = id, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder="" });
+            return RedirectToAction("Index", "PartsForAWorkOrder", new { id = id, workId = partForWorkOrder.WorkId,
+                partInfoId = partForWorkOrder.StaticPartInfoId, sortOrder = "" });
         }
 
-        public ActionResult RedirectToPartForJob(Guid id)
+        public ActionResult RedirectToPartForWorkOrder(Guid id)
         {
-            return RedirectToAction("Edit", "PartsForAJob", new { id = id });
-
+            return RedirectToAction("Edit", "PartsForAWorkOrder", new { id = id });
         }
 
-        private bool PartForJobExists(Guid id)
+        private bool PartForWorkOrderExists(Guid id)
         {
-            return _context.PartsForJobs.Any(e => e.PartForWorkId == id);
+            return _context.PartsForWorkOrders.Any(e => e.PartForWorkId == id);
         }
     }
 }

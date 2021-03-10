@@ -1,0 +1,78 @@
+﻿@model IEnumerable<EndlasNet.Data.PartForWorkOrder>
+
+@{
+    ViewData["Title"] = "Part batch";
+}
+<h3>
+    Work order part batch
+</h3>
+<br />
+<h4>
+    @Html.DisplayFor(modelItem => Model.FirstOrDefault().StaticPartInfo.DrawingNumber), @Html.DisplayFor(modelItem => Model.FirstOrDefault().Work.EndlasNumber)
+</h4>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <div>
+                    Suffix
+                </div>
+                <span>
+                    @Html.ActionLink("Asc ", "Index", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Desc", "Index", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConditionDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InitWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CladdedWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinishedWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProcessingNotes)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Suffix)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConditionDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InitWeight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CladdedWeight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinishedWeight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProcessingNotes)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PartForWorkId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PartForWorkId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PartForWorkId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

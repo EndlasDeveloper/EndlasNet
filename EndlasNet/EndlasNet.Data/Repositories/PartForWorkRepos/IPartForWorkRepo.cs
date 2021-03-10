@@ -7,6 +7,6 @@ namespace EndlasNet.Data
 {
     public interface IPartForWorkRepo
     {
-        public Task<IEnumerable<PartForJob>> GetBatch(string workId, string partInfoId);
+        public Task<IEnumerable<PartForWork>> GetBatch(string workId, string partInfoId);
     }
 }
