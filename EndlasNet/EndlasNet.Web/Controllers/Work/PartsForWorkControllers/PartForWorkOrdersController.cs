@@ -31,7 +31,7 @@ namespace EndlasNet.Web.Controllers
             // set thumbnail image url's
             foreach (PartForWorkOrder partForJob in minimizedPartList)
             {
-                ImageURL.SetImageURL(partForJob.StaticPartInfo);
+                FileURL.SetImageURL(partForJob.StaticPartInfo);
             }
             return View(minimizedPartList);
         }    

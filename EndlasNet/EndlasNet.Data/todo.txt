@@ -1,2 +1,4 @@
 ﻿Add FinishDrawing to StaticPartInfo. FinishDrawing is a pdf file that should be able to save to the db, and the user
 should be able to download the pdf to the client device. 
+
+Finished implementation of adding a pdf file to static part info (both create and edit). Sucessfully saves. Need a way to download or display the pdf.

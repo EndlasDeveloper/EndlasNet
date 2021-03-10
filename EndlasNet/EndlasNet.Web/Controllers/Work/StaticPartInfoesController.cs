@@ -25,9 +25,9 @@ namespace EndlasNet.Web.Controllers
         {
             var endlasNetDbContext = await _context.StaticPartInfo
                 .Include(s => s.Customer).ToListAsync();
-            foreach(StaticPartInfo partInfo in endlasNetDbContext)
+            foreach (StaticPartInfo partInfo in endlasNetDbContext)
             {
-                ImageURL.SetImageURL(partInfo);
+                FileURL.SetImageURL(partInfo);
             }
             return View(endlasNetDbContext);
         }
@@ -48,7 +48,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ImageURL.SetImageURL(staticPartInfo);
+            FileURL.SetImageURL(staticPartInfo);
             return View(staticPartInfo);
         }
 
@@ -64,15 +64,13 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,DrawingFile,CustomerId")] StaticPartInfo staticPartInfo)
+        public async Task<IActionResult> Create([Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,CustomerId")] StaticPartInfo staticPartInfo)
         {
             if (ModelState.IsValid)
             {
                 staticPartInfo.StaticPartInfoId = Guid.NewGuid();
                 if (staticPartInfo.ImageFile != null)
-                    staticPartInfo.DrawingImage = await ImageURL.GetBytes(staticPartInfo.ImageFile);
-                if (staticPartInfo.DrawingFile != null)
-                    staticPartInfo.DrawingPDF = await ImageURL.GetBytes(staticPartInfo.DrawingFile);
+                    staticPartInfo.DrawingImage = await FileURL.GetImageBytes(staticPartInfo.ImageFile);
                 _context.Add(staticPartInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -103,7 +101,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,DrawingFile,CustomerId,UserId")] StaticPartInfo staticPartInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,CustomerId,UserId")] StaticPartInfo staticPartInfo)
         {
             if (id != staticPartInfo.StaticPartInfoId)
             {
@@ -115,7 +113,7 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     if (staticPartInfo.ImageFile != null)
-                        staticPartInfo.DrawingImage = await ImageURL.GetBytes(staticPartInfo.ImageFile);
+                        staticPartInfo.DrawingImage = await FileURL.GetImageBytes(staticPartInfo.ImageFile);
                     _context.Update(staticPartInfo);
                     await _context.SaveChangesAsync();
                 }
@@ -152,7 +150,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
             if (staticPartInfo.DrawingImage != null)
-                ImageURL.SetImageURL(staticPartInfo);
+                FileURL.SetImageURL(staticPartInfo);
             return View(staticPartInfo);
         }
 
@@ -170,6 +168,6 @@ namespace EndlasNet.Web.Controllers
         private bool StaticPartInfoExists(Guid id)
         {
             return _context.StaticPartInfo.Any(e => e.StaticPartInfoId == id);
-        }    
+        }
     }
 }

@@ -38,6 +38,8 @@ namespace EndlasNet.Data
         [NotMapped]
         [Display(Name ="Upload drawing file")]
         public IFormFile DrawingFile { get; set; }
+        [NotMapped]
+        public string PdfFileUrl { get; set; }
 
         public byte[] DrawingPDF { get; set; }
 
