@@ -51,9 +51,9 @@ namespace EndlasNet.Web.Controllers
             return View(lineItem);
         }
 
-        public IActionResult ManagePowders(Guid lineItemId)
+        public IActionResult ManagePowders(Guid lineItemId, string powderName)
         {
-            return RedirectToAction("Index", "Powders", new { lineItemId = lineItemId});
+            return RedirectToAction("Index", "Powders", new { lineItemId = lineItemId, powderName = powderName});
         }
 
 

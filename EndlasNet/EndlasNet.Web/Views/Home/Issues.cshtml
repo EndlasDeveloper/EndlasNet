@@ -17,10 +17,6 @@
     <div style="color:white;font-size:18px;">Todo</div>
     <div>
         <ul style="font-size:14px;line-height:200%;">
-            <li>
-                In create MachiningToolForWork view, change the dropdown for the machining
-                tool from  &lt;vendor description&gt; to &lt;vendor description - purchase order number&gt;
-            </li>
 
             <li>
                 PowderOrders -> Manage LineItem -> Manage Powders -> Fix the heading
@@ -71,6 +67,10 @@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
         <li>
+            In create MachiningToolForWork view, changed the dropdown for the machining
+            tool from  &lt;vendor description&gt; to &lt;vendor description - purchase order number&gt;
+        </li>
+        <li>
             LineItem -> Removed particle size. Added particle size minimum and particle size maximum (to define a range). Changed UI to
             show the range min-max where applicable.
         </li>
@@ -79,7 +79,7 @@
             starts from where the last PartForJob suffix ended.
         </li>
         <li>
-            On creating a MachiningToolForWork, the referenced MachiningTool.ToolCount decrement still 0. 
+            On creating a MachiningToolForWork, the referenced MachiningTool.ToolCount decrement still 0.
             There is a stop in place to prevent the tool count from reaching negative values. When the creation of a
             MachiningToolForWork results in a tool count < 0, the user is client if forwarded back to the create page
             with an indicator under the foreign key reference dropdown for machining tool (aka negative tool count is always prevented).

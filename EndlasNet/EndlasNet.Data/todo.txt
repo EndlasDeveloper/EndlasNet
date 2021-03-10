@@ -1,2 +1,1 @@
-﻿In create MachiningToolForWork view, change the dropdown for the machining tool
-from <vendor description> to <vendor description - purchase order number>
+﻿PowderOrders -> Manage LineItem -> Manage Powders -> Fix the heading
