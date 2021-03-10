@@ -60,5 +60,7 @@ namespace EndlasNet.Data
         public Guid? VendorId { get; set; }
         public virtual Vendor Vendor { get; set; }
 
+        [NotMapped]
+        public string DropDownDisplayReference { get; set; }
     }
 }

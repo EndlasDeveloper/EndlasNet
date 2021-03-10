@@ -70,11 +70,18 @@ namespace EndlasNet.Web.Controllers
         {
             ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
             var availableTools = await _context.MachiningTools.Where(m => m.ToolCount > 0).ToListAsync();
+
+            
+            foreach(MachiningTool machiningTool in availableTools)
+            {
+                machiningTool.DropDownDisplayReference = machiningTool.VendorDescription + " - " + machiningTool.PurchaseOrderNum;
+            }
+            // No available tools, so flag a warning to display
             if(availableTools.Count == 0)
             {
                 ViewBag.HasAvailableTools = "false";
             }
-            ViewData["MachiningToolId"] = new SelectList(availableTools, "MachiningToolId", "VendorDescription");            
+            ViewData["MachiningToolId"] = new SelectList(availableTools, "MachiningToolId", "DropDownDisplayReference");            
         }
 
         // POST: MachiningToolForWorks/Create

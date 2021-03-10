@@ -1,1 +1,2 @@
-﻿
+﻿In create MachiningToolForWork view, change the dropdown for the machining tool
+from <vendor description> to <vendor description - purchase order number>
