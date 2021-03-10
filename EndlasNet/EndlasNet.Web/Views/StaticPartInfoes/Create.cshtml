@@ -44,6 +44,12 @@
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="DrawingFile" class="control-label"></label>
+                <div></div>
+                <input asp-for="DrawingFile" accept="application/pdf" />
+                <span asp-validation-for="DrawingFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

@@ -64,13 +64,15 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,CustomerId")] StaticPartInfo staticPartInfo)
+        public async Task<IActionResult> Create([Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,DrawingFile,CustomerId")] StaticPartInfo staticPartInfo)
         {
             if (ModelState.IsValid)
             {
                 staticPartInfo.StaticPartInfoId = Guid.NewGuid();
                 if (staticPartInfo.ImageFile != null)
                     staticPartInfo.DrawingImage = await ImageURL.GetBytes(staticPartInfo.ImageFile);
+                if (staticPartInfo.DrawingFile != null)
+                    staticPartInfo.DrawingPDF = await ImageURL.GetBytes(staticPartInfo.DrawingFile);
                 _context.Add(staticPartInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -101,7 +103,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,CustomerId,UserId")] StaticPartInfo staticPartInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,DrawingFile,CustomerId,UserId")] StaticPartInfo staticPartInfo)
         {
             if (id != staticPartInfo.StaticPartInfoId)
             {

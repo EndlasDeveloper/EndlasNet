@@ -28,12 +28,18 @@ namespace EndlasNet.Data
         public string ImageName { get; set; }
 
         [NotMapped]
-        [Display(Name = "Upload file")]
+        [Display(Name = "Upload image file")]
         public IFormFile ImageFile { get; set; }
 
         [NotMapped]
         public string ImageURL { get; set; }
         public byte[] DrawingImage { get; set; }
+
+        [NotMapped]
+        [Display(Name ="Upload drawing file")]
+        public IFormFile DrawingFile { get; set; }
+
+        public byte[] DrawingPDF { get; set; }
 
         [ForeignKey("CustomerId")]
         [Display(Name ="Customer")]
