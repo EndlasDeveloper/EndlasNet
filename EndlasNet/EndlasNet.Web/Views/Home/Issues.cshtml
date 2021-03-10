@@ -18,11 +18,10 @@
     <div>
         <ul style="font-size:14px;line-height:200%;">
             <li>
-                Want an 'All Parts' action link (similar to 'All powders') to show all parts. (worry about filtering later)
-            </li>
-
-            <li>
                 Implement the same mechanics as PartForJob for PartForWorkOrder's views.
+            </li>
+            <li>
+                Want an 'All Parts' action link (similar to 'All powders') to show all parts. (worry about filtering later)
             </li>
             <li>
                 Add FinishDrawing to StaticPartInfo. FinishDrawing is a pdf file that should be able to save to the db, and the user
@@ -94,6 +93,9 @@
     @* ****** OTHER CONSIDERATIONS ****** *@
     <div style="color:white;font-size:18px;">Other considerations</div>
     <ul style="font-size:14px;line-height:200%;">
+        <li>
+            Implement start suffix for part batch initialization?
+        </li>
         <li>
             Put a '?' icon on all data access level views (any view that allows user to interact with the db in any way). When clicked,
             show a description of the view's purpose within the context of data access and work flow.
