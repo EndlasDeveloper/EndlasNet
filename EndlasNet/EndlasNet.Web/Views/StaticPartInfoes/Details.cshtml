@@ -1,4 +1,5 @@
-﻿@model EndlasNet.Data.StaticPartInfo
+﻿@using System.Text;
+@model EndlasNet.Data.StaticPartInfo
 
 @{
     ViewData["Title"] = "Details";
@@ -53,7 +54,20 @@
     <img src="@Html.DisplayFor(model => model.ImageUrl)" alt="Drawing Image" />
 </div>
 <br />
-<a>Download drawing PDF</a>
+@if (ViewBag.HasPdf != null)
+{
+    @Html.ActionLink(
+        linkText: "Download drawing PDF",
+        actionName: "DownloadPdf",
+        controllerName: "StaticPartInfoes",
+        routeValues: new { id = ViewBag.id },
+        htmlAttributes: null)
+}
+else
+{
+    <span>*No PDF has been set for this part information</span>
+}
+
 <br />
 <br />
 <div>

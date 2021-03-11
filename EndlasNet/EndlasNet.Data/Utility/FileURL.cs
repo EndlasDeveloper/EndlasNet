@@ -16,14 +16,20 @@ namespace EndlasNet.Data
         {
             if (staticPartInfo.DrawingImageBytes != null)
             {
-                string imageBase64Data = Convert.ToBase64String(staticPartInfo.DrawingImageBytes);
-                string imageUrl = string.Format("data:image/png;base64,{0}", imageBase64Data);
+                string pdfBase64Data = Convert.ToBase64String(staticPartInfo.DrawingImageBytes);
+                string imageUrl = string.Format("data:image/png;base64,{0}", pdfBase64Data);
                 staticPartInfo.ImageUrl = imageUrl;
             }
         }
 
+        public static string GetPdfUrl(byte[] pdfBytes)
+        {
+            
+            string imageBase64Data = Convert.ToBase64String(pdfBytes);
+            return string.Format("data:image/png;base64,{0}", imageBase64Data);
+        }
 
-        public static async Task<byte[]> GetImageBytes(IFormFile formFile)
+        public static async Task<byte[]> GetFileBytes(IFormFile formFile)
         {
             using (var memoryStream = new MemoryStream())
             {

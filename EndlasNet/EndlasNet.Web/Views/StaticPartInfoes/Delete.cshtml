@@ -45,7 +45,19 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.User.EndlasEmail)
         </dd>
-
+        <dt class="col-sm-2">
+            Has pdf
+        </dt>
+        <dd class="col-sm-10">
+            @if (ViewBag.HasPdf == null)
+            {
+                <span>false</span>
+            }
+            else
+            {
+                <span>true</span>
+            }
+        </dd>
     </dl>
     <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
         Title:
