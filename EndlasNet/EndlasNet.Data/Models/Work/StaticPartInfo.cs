@@ -12,6 +12,7 @@ namespace EndlasNet.Data
         [Key]
         public Guid StaticPartInfoId { get; set; }
 
+
         [Required]
         [Display(Name = "Drawing number")]
         public string DrawingNumber { get; set; }
@@ -27,27 +28,40 @@ namespace EndlasNet.Data
         [Display(Name = "Image title")]
         public string ImageName { get; set; }
 
+        /************************* IMG ***************************/
         [NotMapped]
         [Display(Name = "Upload image file")]
         public IFormFile ImageFile { get; set; }
 
         [NotMapped]
-        public string ImageURL { get; set; }
-        public byte[] DrawingImage { get; set; }
+        public string ImageUrl { get; set; }
+        public byte[] DrawingImageBytes { get; set; }
+        /********************** END IMG ***************************/
 
+
+        /************************ PDF ****************************/
         [NotMapped]
         [Display(Name ="Upload drawing file")]
         public IFormFile DrawingFile { get; set; }
+
         [NotMapped]
         public string PdfFileUrl { get; set; }
 
-        public byte[] DrawingPDF { get; set; }
+        public byte[] DrawingPdfBytes { get; set; }
+        /********************** END PDF ***************************/
+
 
         [ForeignKey("CustomerId")]
         [Display(Name ="Customer")]
         public Guid? CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
 
-        public IEnumerable<PartForWork> Parts { get; set; }
+        [ForeignKey("UserId")]
+        [Display(Name = "User")]
+        public Guid? UserId { get; set; }
+        public virtual User User { get; set; }
+
+        // Static part info has (describes) many PartsForWork
+        public IEnumerable<PartForWork> PartsForWork { get; set; }
     }
 }

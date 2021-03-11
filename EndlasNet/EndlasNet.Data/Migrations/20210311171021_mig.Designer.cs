@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20210310183206_mig")]
+    [Migration("20210311171021_mig")]
     partial class mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace EndlasNet.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("EndlasNet.Data.Customer", b =>
@@ -50,7 +50,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CustomerId = new Guid("5eb6c545-2f7d-4fd6-b88d-13b610cc59a4"),
+                            CustomerId = new Guid("0f80777c-da55-4b77-84ca-c17644354af4"),
                             CustomerAddress = "Dummy Customer Address",
                             CustomerName = "Dummy Customer Name",
                             CustomerPhone = "0987654321",
@@ -357,14 +357,14 @@ namespace EndlasNet.Data.Migrations
                     b.Property<Guid?>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<byte[]>("DrawingImage")
+                    b.Property<byte[]>("DrawingImageBytes")
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("DrawingNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("DrawingPDF")
+                    b.Property<byte[]>("DrawingPdfBytes")
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("ImageName")
@@ -481,7 +481,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            VendorId = new Guid("b43af518-f529-40d1-87b9-abb8b84b6141"),
+                            VendorId = new Guid("1ab41212-74dd-4f42-ab8c-34eb821bef80"),
                             PointOfContact = "Dummy Point of Contact",
                             VendorAddress = "Dummy Vendor Address",
                             VendorName = "Dummy Vendor Name",
@@ -584,7 +584,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("68cfbaff-a046-4fd5-8705-b72461666046"),
+                            UserId = new Guid("d7631cea-df9c-4fff-adbe-5994f64cfcd2"),
                             AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
                             EndlasEmail = "SA@endlas.com",
                             FirstName = "SA",
@@ -592,7 +592,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("37db146b-5205-4041-b702-c06b2cdf1ef9"),
+                            UserId = new Guid("98cf90c6-1e0f-4815-b4e3-24d1addec3db"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "james.tomich@endlas.com",
                             FirstName = "James",
@@ -600,7 +600,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("85577f74-2266-4b21-958c-619b8b4d1819"),
+                            UserId = new Guid("b0b11d85-bb38-4f97-8b5a-d1b8506c124b"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "josh.hammell@endlas.com",
                             FirstName = "Josh",
@@ -608,7 +608,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("aa7ec40b-0987-46da-8e64-98cf258ce5a7"),
+                            UserId = new Guid("f2872fc6-1229-4d76-a0e0-e9801c16838d"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                             EndlasEmail = "blt@endlas.com",
                             FirstName = "Brett",
@@ -683,7 +683,7 @@ namespace EndlasNet.Data.Migrations
             modelBuilder.Entity("EndlasNet.Data.PartForWork", b =>
                 {
                     b.HasOne("EndlasNet.Data.StaticPartInfo", "StaticPartInfo")
-                        .WithMany("Parts")
+                        .WithMany("PartsForWork")
                         .HasForeignKey("StaticPartInfoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -753,11 +753,13 @@ namespace EndlasNet.Data.Migrations
                         .WithMany("StaticPartInfos")
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("EndlasNet.Data.User", null)
+                    b.HasOne("EndlasNet.Data.User", "User")
                         .WithMany("StaticPartInfo")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.Vendor", b =>
@@ -838,7 +840,7 @@ namespace EndlasNet.Data.Migrations
 
             modelBuilder.Entity("EndlasNet.Data.StaticPartInfo", b =>
                 {
-                    b.Navigation("Parts");
+                    b.Navigation("PartsForWork");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.StaticPowderInfo", b =>

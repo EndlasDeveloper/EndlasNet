@@ -23,8 +23,10 @@ namespace EndlasNet.Web.Controllers
         // GET: StaticPartInfoes
         public async Task<IActionResult> Index()
         {
+            // get list of all static part information
             var endlasNetDbContext = await _context.StaticPartInfo
                 .Include(s => s.Customer).ToListAsync();
+            // setup image url for each row
             foreach (StaticPartInfo partInfo in endlasNetDbContext)
             {
                 FileURL.SetImageURL(partInfo);
@@ -42,13 +44,16 @@ namespace EndlasNet.Web.Controllers
 
             var staticPartInfo = await _context.StaticPartInfo
                 .Include(s => s.Customer)
+                .Include(s => s.User)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.StaticPartInfoId == id);
             if (staticPartInfo == null)
             {
                 return NotFound();
             }
+            // set the part info's image url for rendering
             FileURL.SetImageURL(staticPartInfo);
+
             return View(staticPartInfo);
         }
 
@@ -69,8 +74,9 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 staticPartInfo.StaticPartInfoId = Guid.NewGuid();
+                staticPartInfo.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 if (staticPartInfo.ImageFile != null)
-                    staticPartInfo.DrawingImage = await FileURL.GetImageBytes(staticPartInfo.ImageFile);
+                    staticPartInfo.DrawingImageBytes = await FileURL.GetImageBytes(staticPartInfo.ImageFile);
                 _context.Add(staticPartInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -113,7 +119,8 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     if (staticPartInfo.ImageFile != null)
-                        staticPartInfo.DrawingImage = await FileURL.GetImageBytes(staticPartInfo.ImageFile);
+                        staticPartInfo.DrawingImageBytes = await FileURL.GetImageBytes(staticPartInfo.ImageFile);
+                    staticPartInfo.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Update(staticPartInfo);
                     await _context.SaveChangesAsync();
                 }
@@ -144,12 +151,13 @@ namespace EndlasNet.Web.Controllers
 
             var staticPartInfo = await _context.StaticPartInfo
                 .Include(s => s.Customer)
+                .Include(s => s.User)
                 .FirstOrDefaultAsync(m => m.StaticPartInfoId == id);
             if (staticPartInfo == null)
             {
                 return NotFound();
             }
-            if (staticPartInfo.DrawingImage != null)
+            if (staticPartInfo.DrawingImageBytes != null)
                 FileURL.SetImageURL(staticPartInfo);
             return View(staticPartInfo);
         }

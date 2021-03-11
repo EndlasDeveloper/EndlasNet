@@ -14,11 +14,11 @@ namespace EndlasNet.Data
     {
         public static void SetImageURL(StaticPartInfo staticPartInfo)
         {
-            if (staticPartInfo.DrawingImage != null)
+            if (staticPartInfo.DrawingImageBytes != null)
             {
-                string imageBase64Data = Convert.ToBase64String(staticPartInfo.DrawingImage);
+                string imageBase64Data = Convert.ToBase64String(staticPartInfo.DrawingImageBytes);
                 string imageUrl = string.Format("data:image/png;base64,{0}", imageBase64Data);
-                staticPartInfo.ImageURL = imageUrl;
+                staticPartInfo.ImageUrl = imageUrl;
             }
         }
 

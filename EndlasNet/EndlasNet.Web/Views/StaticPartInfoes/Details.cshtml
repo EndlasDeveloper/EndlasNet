@@ -34,7 +34,12 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Customer.CustomerName)
         </dd>
-
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.EndlasEmail)
+        </dd>
     </dl>
 </div>
 <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
@@ -45,7 +50,7 @@
 </h6>
 
 <div class="col-sm-2">
-    <img src="@Html.DisplayFor(model => model.ImageURL)" alt="Drawing Image" />
+    <img src="@Html.DisplayFor(model => model.ImageUrl)" alt="Drawing Image" />
 </div>
 <br />
 <a>Download drawing PDF</a>
