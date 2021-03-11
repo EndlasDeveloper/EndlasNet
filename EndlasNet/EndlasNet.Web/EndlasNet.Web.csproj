@@ -62,8 +62,4 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\EndlasNet.Data\EndlasNet.Data.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="wwwroot\pdf\" />
-	</ItemGroup>
 </Project>
