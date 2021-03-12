@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 
-
 namespace EndlasNet.Data
 {
     /*
@@ -10,10 +9,7 @@ namespace EndlasNet.Data
     */
     public class EndlasNetDbContext : DbContext
     {
-        // connection string for context to db
         private readonly string connectionString = ConnectionStrings.endlas_local;
-
-        /*******************DEFINE TABLES TO EXIST****************************/
 
         // USER
         public DbSet<User> Users { get; set; }
@@ -27,26 +23,22 @@ namespace EndlasNet.Data
         public DbSet<PowderOrder> PowderOrders { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
         public DbSet<Powder> Powders { get; set; }
-
-        // WORK
-        public DbSet<StaticPartInfo> StaticPartInfo{ get; set; }
         public DbSet<MachiningToolForWork> MachiningToolsForWork { get; set; }
         public DbSet<MachiningToolForJob> MachiningToolsForJobs { get; set; }
         public DbSet<MachiningToolForWorkOrder> MachiningToolsForWorkOrders { get; set; }
 
-        public DbSet<PartForWork> PartsForWork { get; set; }
-        public DbSet<PartForJob> PartsForJobs { get; set; }
-        public DbSet<PartForWorkOrder> PartsForWorkOrders { get; set; }
+        // WORK
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<StaticPartInfo> StaticPartInfo{ get; set; }
         public DbSet<Work> Work { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<PartForWork> PartsForWork { get; set; }
+        public DbSet<PartForJob> PartsForJobs { get; set; }
+        public DbSet<PartForWorkOrder> PartsForWorkOrders { get; set; }
 
         // ENVIRONMENT
         public DbSet<EnvironmentalSnapshot> EnvironmentalSnapshots { get; set; }
-
-
-        /*******************END TABLES********************************************/
 
 
         // setup connection string
@@ -60,8 +52,6 @@ namespace EndlasNet.Data
         public EndlasNetDbContext(DbContextOptions<EndlasNetDbContext> options) : base(options) {
             this.options = options;
         }
-
-
 
         // configure ef to use .Data project as target project
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -83,7 +73,7 @@ namespace EndlasNet.Data
             // CREATED/UPDATED DATETIME SHADOW PROPERTIES
             _ = new CreatedUpdatedDateMap(modelBuilder);
 
-            // DEFINE SYSTEM ADMINS ON DATABASE CREATION
+            // SEED SYSTEM ADMINS ON DATABASE CREATION
             var SA = new Admin
             {
                 UserId = Guid.NewGuid(),
@@ -146,10 +136,6 @@ namespace EndlasNet.Data
                 CustomerAddress = "Dummy Customer Address",
                 CustomerPhone = "0987654321"
             });
-
-            // PUT PART DUMMY TO PART TABLE
-            // PUT JOB DUMMY TO JOB TABLE
         }
-
     }
 }

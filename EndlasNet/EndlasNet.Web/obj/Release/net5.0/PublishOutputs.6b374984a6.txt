@@ -204,6 +204,7 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\System.Diagnostics.TraceSource.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\System.Diagnostics.Tracing.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\System.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\System.Drawing.Common.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\System.Drawing.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\System.Drawing.Primitives.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\System.Dynamic.Runtime.dll
@@ -330,6 +331,7 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\EndlasNet.Web.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\EndlasNet.Web.runtimeconfig.json
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\EndlasNet.Web.pdb
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\BitMiracle.Docotic.Pdf.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Humanizer.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Http.Features.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.JsonPatch.dll
