@@ -30,10 +30,10 @@ namespace EndlasNet.Data
 
         /************************* IMG ***************************/
         [NotMapped]
-        [Display(Name = "Upload image file")]
+        [Display(Name = "Upload drawing image file")]
         public IFormFile ImageFile { get; set; }
 
-        [NotMapped]
+        [NotMapped] // for showing thumbnail images for multiple rows in a single view
         public string ImageUrl { get; set; }
         public byte[] DrawingImageBytes { get; set; }
         /********************** END IMG ***************************/
@@ -41,11 +41,8 @@ namespace EndlasNet.Data
 
         /************************ PDF ****************************/
         [NotMapped]
-        [Display(Name ="Upload drawing file")]
+        [Display(Name ="Upload finish drawing pdf")]
         public IFormFile DrawingFile { get; set; }
-
-        [NotMapped]
-        public string PdfFileUrl { get; set; }
 
         public byte[] DrawingPdfBytes { get; set; }
         /********************** END PDF ***************************/

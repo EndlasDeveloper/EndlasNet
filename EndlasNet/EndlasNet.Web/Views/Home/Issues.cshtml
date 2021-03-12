@@ -8,66 +8,37 @@
 <p>
     @* ****** WHAT CHANGED ****** *@
     @*<div style="color:white;font-size:18px;">What changed</div>*@
-    <div>
-        <ul style="font-size:14px;line-height:200%;">
-        </ul>
-    </div>
-
-    @* ****** TODO ****** *@
-    <div style="color:white;font-size:18px;">Todo</div>
-    <div>
-        <ul style="font-size:14px;line-height:200%;">
-           
-            <li>
-                Work on powder for job (might be done because can edit powder weight already).
-            </li>
-            <li>
-                In static part info, make the thumbnail open details of the static part info?
-            </li>
-            <li>
-                Implement repository pattern for all entities and replace the direct context calls in the controllers.
-            </li>
-        </ul>
-    </div>
-
-    @* ****** KNOWN ISSUES ****** *@
-    <div style="color:white;font-size:18px;">Known issues</div>
-    <div>
-        <ul style="font-size:14px;line-height:200%;">
-            <li>
-                When a static part info is created (it has a customer fk reference), and then the customer fk entry is deleted,
-                an exception is thrown. Currently investigating.
-            </li>
-            <li>
-                Some views do not have login protection implemented yet.
-            </li>
-        </ul>
-    </div>
+    @*    <div>
+            <ul style="font-size:14px;line-height:200%;">
+            </ul>
+        </div>*@
 
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
         <li>
             Added FinishDrawing (called it something else though on accident...) to StaticPartInfo.
-            FinishDrawing is a pdf file that can save to the db, and the client can download the 
+            FinishDrawing is a pdf file that can save to the db, and the client can download the
             PDF to client device. Downloading is accessed under details for the part information.
             Under delete, Added extra row of data (Has pdf) to indicate whether the pdf is set for
-            the part information to delete. 
+            the part information to delete. Work -> Part information
         </li>
         <li>
-            Added 'All Parts' action link, controller, and views for showing all parts.
+            Added 'All Parts' action link, controller, and views for showing all parts. Work -> All parts
         </li>
         <li>
-            Added sort asc-desc for suffix, and filter by work order or job only.
+            Added sort asc-desc for suffix, and filter by work order or job only. Work -> All parts
         </li>
         <li>
-            Implemented the same mechanics as PartForJob for PartForWorkOrder's views.
+            Implemented the same mechanics as PartForJob for PartForWorkOrder's views. Work -> Part for work order
         </li>
         <li>
-            Fixed issue where on the dropdown for Job/WO in PartForJob/WO, the dropdown was showing work orders in addition the the jobs (and vice-versa).
+            Fixed issue where on the dropdown for Job/WO in PartForJob/WO, the dropdown was showing work orders
+            in addition the the jobs (and vice-versa). Work -> Job/Work order
         </li>
         <li>
-            PowderOrders -> Manage LineItem -> Manage Powders -> Fixed the heading to display the powder name for quality of life.
+            Under PowderOrders -> Manage LineItem -> Manage Powders, fixed the heading (not all the way) to display
+            the powder name for quality of life.
         </li>
         <li>
             In create MachiningToolForWork view, changed the dropdown for the machining
@@ -97,6 +68,53 @@
         </li>
     </ul>
 
+    @* ****** TODO ****** *@
+    <div style="color:white;font-size:18px;">Todo</div>
+    <div>
+        <ul style="font-size:14px;line-height:200%;">
+
+            <li>
+                Work on powder for job (might be done because can edit powder weight already).
+            </li>
+            <li>
+                In static part info, make the thumbnail open details of the static part info?
+            </li>
+            <li>
+                Implement repository pattern for all entities and replace the direct context calls in the controllers.
+            </li>
+        </ul>
+    </div>
+
+    @* ****** KNOWN ISSUES ****** *@
+    <div style="color:white;font-size:18px;">Bugs and known issues</div>
+    <div>
+        <ul style="font-size:14px;line-height:200%;">
+            <li>
+                Part count is wrong after adding 2 PartsForWork (they both display the 2nd count).
+            </li>
+            <li>
+                Some delete views have a UI flaw with the delete button not fitting on one line with action links.
+            </li>
+            <li>
+                From LineItem, when the user clicks manage powders, the bottle powder name is correctly set. If the user
+                navigates to a child view, and is forwarded back to index, the bottle powder name is no longer set.
+            </li>
+            <li>
+                User isn't set for PowderOrders.
+            </li>
+            <li>
+                Not all delete views have an indication whether other db items will be deleted as a result of the delete.
+            </li>
+            <li>
+                When a static part info is created (it has a customer fk reference), and then the customer fk entry is deleted,
+                an exception is thrown.
+            </li>
+            <li>
+                Some views do not have login protection implemented yet.
+            </li>
+        </ul>
+    </div>
+
     @* ****** OTHER CONSIDERATIONS ****** *@
     <div style="color:white;font-size:18px;">Other considerations</div>
     <ul style="font-size:14px;line-height:200%;">
@@ -121,6 +139,9 @@
         </li>
         <li>
             Help tab development.
+        </li>
+        <li>
+            Style upload buttons and enum referenced dropdowns.
         </li>
     </ul>
 </p>
