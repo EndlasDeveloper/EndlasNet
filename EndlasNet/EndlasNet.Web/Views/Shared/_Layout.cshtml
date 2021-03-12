@@ -85,7 +85,15 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; Endlas Net - <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            <span>
+                &copy; Endlas Net - <a asp-area="" asp-controller="Home" asp-action="Index">Home</a> &nbsp; | &nbsp;
+                <a asp-area="" asp-controller="Home" asp-action="Issues">
+                    Patch notes
+                </a> &nbsp; | &nbsp;
+                <a asp-controller="Home" asp-action="ViewERD">ERD</a>
+            </span>
+        </div>
+        <div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
