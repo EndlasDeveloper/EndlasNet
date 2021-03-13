@@ -7,7 +7,7 @@
 
 </style>
 @{
-    ViewData["Title"] = "Patch notes";
+    ViewData["Title"] = "Update notes";
 }
 <h1 class="display-4">@ViewData["Title"]</h1>
 
@@ -23,11 +23,11 @@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
         <li class="patch-notes-li">
-            Added FinishDrawing (called it something else though on accident...) to StaticPartInfo.
+            Added FinishDrawing to StaticPartInfo.
             FinishDrawing is a pdf file that can save to the db, and the client can download the
             PDF to client device. Downloading is accessed under details for the part information.
             Under delete, Added extra row of data (Has pdf) to indicate whether the pdf is set for
-            the part information to delete. Work -> Part information &
+            the part information to delete. Work -> Part information
         </li>
 
         <li class="patch-notes-li">

@@ -21,7 +21,7 @@ namespace EndlasNet.Web.Controllers
         // GET: StaticPowderInfoes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.StaticPowderInfos.ToListAsync());
+            return View(await _context.StaticPowderInfo.ToListAsync());
         }
 
         // GET: StaticPowderInfoes/Details/5
@@ -32,7 +32,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPowderInfo = await _context.StaticPowderInfos
+            var staticPowderInfo = await _context.StaticPowderInfo
                 .FirstOrDefaultAsync(m => m.StaticPowderInfoId == id);
             if (staticPowderInfo == null)
             {
@@ -73,7 +73,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPowderInfo = await _context.StaticPowderInfos.FindAsync(id);
+            var staticPowderInfo = await _context.StaticPowderInfo.FindAsync(id);
             if (staticPowderInfo == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPowderInfo = await _context.StaticPowderInfos
+            var staticPowderInfo = await _context.StaticPowderInfo
                 .FirstOrDefaultAsync(m => m.StaticPowderInfoId == id);
             if (staticPowderInfo == null)
             {
@@ -139,15 +139,15 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var staticPowderInfo = await _context.StaticPowderInfos.FindAsync(id);
-            _context.StaticPowderInfos.Remove(staticPowderInfo);
+            var staticPowderInfo = await _context.StaticPowderInfo.FindAsync(id);
+            _context.StaticPowderInfo.Remove(staticPowderInfo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StaticPowderInfoExists(Guid id)
         {
-            return _context.StaticPowderInfos.Any(e => e.StaticPowderInfoId == id);
+            return _context.StaticPowderInfo.Any(e => e.StaticPowderInfoId == id);
         }
     }
 }

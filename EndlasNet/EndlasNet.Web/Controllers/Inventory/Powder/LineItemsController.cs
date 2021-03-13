@@ -60,7 +60,7 @@ namespace EndlasNet.Web.Controllers
         public IActionResult Create(Guid powderOrderId)
         {
             ViewBag.PowderOrderId = powderOrderId;
-            ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfos, "StaticPowderInfoId", "PowderName");
+            ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfo, "StaticPowderInfoId", "PowderName");
             return View();
         }
 
@@ -74,7 +74,7 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 lineItem.LineItemId = Guid.NewGuid();
-                lineItem.StaticPowderInfo = await _context.StaticPowderInfos
+                lineItem.StaticPowderInfo = await _context.StaticPowderInfo
                     .FirstOrDefaultAsync(s => s.StaticPowderInfoId == lineItem.StaticPowderInfoId);
                 lineItem.StaticPowderInfoId = lineItem.StaticPowderInfo.StaticPowderInfoId;
                 _context.Add(lineItem);
@@ -120,7 +120,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfos, "StaticPowderInfoId", "PowderName");
+            ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfo, "StaticPowderInfoId", "PowderName");
             return View(lineItem);
         }
 

@@ -30,7 +30,7 @@ namespace EndlasNet.SystemTest
                     PowderName = "TestPowder",
                     Density = 1f,
                 };
-                _db.StaticPowderInfos.Add(powderInfo);
+                _db.StaticPowderInfo.Add(powderInfo);
                 _db.SaveChanges();
 
                 vendor = new Vendor

@@ -11,7 +11,7 @@ namespace EndlasNet.Data
     {
         private readonly string connectionString = ConnectionStrings.endlas_local;
 
-        // USER
+        // USERS
         public DbSet<User> Users { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Admin> Admins { get; set; }
@@ -19,7 +19,7 @@ namespace EndlasNet.Data
         // INVENTORY
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<MachiningTool> MachiningTools { get; set; }
-        public DbSet<StaticPowderInfo> StaticPowderInfos { get; set; }
+        public DbSet<StaticPowderInfo> StaticPowderInfo { get; set; }
         public DbSet<PowderOrder> PowderOrders { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
         public DbSet<Powder> Powders { get; set; }
@@ -29,7 +29,7 @@ namespace EndlasNet.Data
 
         // WORK
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<StaticPartInfo> StaticPartInfo{ get; set; }
+        public DbSet<StaticPartInfo> StaticPartInfo { get; set; }
         public DbSet<Work> Work { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
@@ -40,20 +40,16 @@ namespace EndlasNet.Data
         // ENVIRONMENT
         public DbSet<EnvironmentalSnapshot> EnvironmentalSnapshots { get; set; }
 
-
-        // setup connection string
         public EndlasNetDbContext(string connectionString)
         {
             this.connectionString = connectionString;
         }
 
         public DbContextOptions<EndlasNetDbContext> options;
-
         public EndlasNetDbContext(DbContextOptions<EndlasNetDbContext> options) : base(options) {
             this.options = options;
         }
 
-        // configure ef to use .Data project as target project
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -62,18 +58,14 @@ namespace EndlasNet.Data
             }
         }
 
-        // setup column and multiplicity constraints
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // USER - make email unique
+
             _ = new UserMap(modelBuilder.Entity<User>());
-            // MULTIPLICITY
             _ = new MultiplicityMap(modelBuilder);
-            // CREATED/UPDATED DATETIME SHADOW PROPERTIES
             _ = new CreatedUpdatedDateMap(modelBuilder);
 
-            // SEED SYSTEM ADMINS ON DATABASE CREATION
             var SA = new Admin
             {
                 UserId = Guid.NewGuid(),
@@ -82,6 +74,7 @@ namespace EndlasNet.Data
                 AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
                 EndlasEmail = "SA@endlas.com"
             };
+
             var JamesAdmin = new Admin
             {
                 UserId = Guid.NewGuid(),
@@ -90,6 +83,7 @@ namespace EndlasNet.Data
                 AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                 EndlasEmail = "james.tomich@endlas.com"
             };
+
             var JoshAdmin = new Admin
             {
                 UserId = Guid.NewGuid(),
@@ -98,6 +92,7 @@ namespace EndlasNet.Data
                 AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                 EndlasEmail = "josh.hammell@endlas.com"
             };
+
             var BrettAdmin = new Admin
             {
                 UserId = Guid.NewGuid(),
@@ -108,34 +103,30 @@ namespace EndlasNet.Data
             };
 
             // PUT ADMINS TO USER TABLE
-            // auth str: password
             modelBuilder.Entity<Admin>().HasData(SA);
-            // auth str: JimmyLasers4Life
             modelBuilder.Entity<Admin>().HasData(JamesAdmin);
-            // auth str: JoshLasers4Life
             modelBuilder.Entity<Admin>().HasData(JoshAdmin);
-            // auth str: BrettLasers4Life
             modelBuilder.Entity<Admin>().HasData(BrettAdmin);
 
-            // PUT VENDOR DUMMY TO VENDOR TABLE
-            modelBuilder.Entity<Vendor>().HasData(new Vendor
+            var dummyVendor = new Vendor
             {
                 VendorId = Guid.NewGuid(),
                 VendorName = "Dummy Vendor Name",
                 PointOfContact = "Dummy Point of Contact",
                 VendorAddress = "Dummy Vendor Address",
                 VendorPhone = "1234567890"
-            });
-
-            // PUT CUSTOMER DUMMY TO CUSTOMER TABLE
-            modelBuilder.Entity<Customer>().HasData(new Customer
+            };
+            var dummyCustomer = new Customer
             {
                 CustomerId = Guid.NewGuid(),
                 CustomerName = "Dummy Customer Name",
                 PointOfContact = "Dummy Point of Contact",
                 CustomerAddress = "Dummy Customer Address",
                 CustomerPhone = "0987654321"
-            });
+            };
+
+            modelBuilder.Entity<Vendor>().HasData(dummyVendor);
+            modelBuilder.Entity<Customer>().HasData(dummyCustomer);
         }
     }
 }
