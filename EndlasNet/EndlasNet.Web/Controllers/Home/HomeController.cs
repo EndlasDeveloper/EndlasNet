@@ -49,12 +49,12 @@ namespace EndlasNet.Web.Controllers
             return View();
         }
 
-        public IActionResult Issues()
+        public IActionResult UpdateNotes()
         {
             return View();
         }
 
-        public IActionResult ViewERD()
+        public IActionResult ViewErd()
         {
             return View();
         }

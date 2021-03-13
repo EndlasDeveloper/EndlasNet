@@ -1,0 +1,122 @@
+﻿<link rel="stylesheet" href="~/css/custom-style.css" type="text/css" />
+<style type="text/css" media="screen">
+
+    #update-notes-li{
+        margin-top:5px
+    }
+
+</style>
+@{
+    ViewData["Title"] = "Update notes";
+}
+<h1 class="display-4">@ViewData["Title"]</h1>
+
+<p>
+    @* ****** WHAT CHANGED ****** *@
+    @*<div style="color:white;font-size:18px;">What changed</div>*@
+    @*    <div>
+            <ul style="font-size:14px;line-height:200%;">
+            </ul>
+        </div>*@
+
+    @* ****** FINISHED TASKS ****** *@
+    <div style="color:white;font-size:18px;">Finished tasks</div>
+    <ul style="font-size:14px;line-height:200%;">
+        
+    </ul>
+
+    @* ****** TODO ****** *@
+    <div style="color:white;font-size:18px;">Todo</div>
+    <div>
+        <ul style="font-size:14px;line-height:200%;">
+            <li class="update-notes-li">
+                Write unit tests for the controllers, and for all of the Utility methods.
+            </li>
+            <li class="update-notes-li">
+                Start working on PowderForWork back-end, then front-end.
+            </li>
+            <li class="update-notes-li">
+                On home page login, make Endlas email -> Endlas login (endlas email without the @@&lt;email_domain&gt;)
+            </li>
+            <li class="update-notes-li">
+                StaticPartInfo -> Add another pdf attribute called BlankDrawing (maybe change other to FinishDrawing).
+                Make sure to add an indicator in the display and delete views.
+            </li>
+            <li class="update-notes-li">
+                StaticPartInfo -> Make has pdf (both) display on the index.
+            </li>
+            <li class="update-notes-li">
+                StaticPartInfo -> Make thumbnail click display the details view.
+            </li>
+            <li class="update-notes-li">
+                Work on powder for job (might be done because can edit powder weight already).
+            </li>
+            <li class="update-notes-li">
+                In static part info, make the thumbnail open details of the static part info?
+            </li>
+            <li class="update-notes-li">
+                Implement repository pattern for all entities and replace the direct context calls in the controllers.
+            </li>
+        </ul>
+    </div>
+
+    @* ****** KNOWN ISSUES ****** *@
+    <div style="color:white;font-size:18px;">Bugs and known issues</div>
+    <div>
+        <ul style="font-size:14px;line-height:200%;">
+            <li class="update-notes-li">
+                Part count is wrong after adding 2 PartsForWork (they both display the 2nd count).
+            </li>
+            <li class="update-notes-li">
+                Some delete views have a UI flaw with the delete button not fitting on one line with action links.
+            </li>
+            <li class="update-notes-li">
+                From LineItem, when the user clicks manage powders, the bottle powder name is correctly set. If the user
+                navigates to a child view, and is forwarded back to index, the bottle powder name is no longer set.
+            </li>
+            <li class="update-notes-li">
+                User isn't set for PowderOrders.
+            </li>
+            <li class="update-notes-li">
+                Not all delete views have an indication whether other db items will be deleted as a result of the delete.
+            </li>
+            <li class="update-notes-li">
+                When a static part info is created (it has a customer fk reference), and then the customer fk entry is deleted,
+                an exception is thrown.
+            </li>
+            <li class="update-notes-li">
+                Some views do not have login protection implemented yet.
+            </li>
+        </ul>
+    </div>
+
+    @* ****** OTHER CONSIDERATIONS ****** *@
+    <div style="color:white;font-size:18px;">Other considerations</div>
+    <ul style="font-size:14px;line-height:200%;">
+        <li class="update-notes-li">
+            Implement start suffix for part batch initialization?
+        </li>
+        <li class="update-notes-li">
+            Put a '?' icon on all data access level views (any view that allows user to interact with the db in any way). When clicked,
+            show a description of the view's purpose within the context of data access and work flow.
+        </li>
+        <li class="update-notes-li">
+            Look at activity logging (or just logging) in ASP.NET EF Core.
+        </li>
+        <li class="update-notes-li">
+            Look for a coded UI test library.
+        </li>
+        <li class="update-notes-li">
+            Consider paging and which views to implement paging with.
+        </li>
+        <li class="update-notes-li">
+            Consider search bar on views with many rows to filter.
+        </li>
+        <li class="update-notes-li">
+            Help tab development.
+        </li>
+        <li class="update-notes-li">
+            Style upload buttons and enum referenced dropdowns.
+        </li>
+    </ul>
+</p>
