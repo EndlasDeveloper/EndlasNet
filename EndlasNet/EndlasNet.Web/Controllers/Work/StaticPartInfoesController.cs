@@ -53,7 +53,8 @@ namespace EndlasNet.Web.Controllers
             // set the part info's image url for rendering
             FileURL.SetImageURL(staticPartInfo);
             ViewBag.id = id;
-            ViewBag.HasPdf = staticPartInfo.FinishDrawingPdfBytes;
+            ViewBag.HasBlankPdf = staticPartInfo.BlankDrawingPdfBytes;
+            ViewBag.HasFinishPdf = staticPartInfo.FinishDrawingPdfBytes;
             return View(staticPartInfo);
         }
 

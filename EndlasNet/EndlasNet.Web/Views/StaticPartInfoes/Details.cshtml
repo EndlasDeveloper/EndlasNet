@@ -44,7 +44,22 @@
 
     </dl>
 </div>
-@if (ViewBag.HasPdf != null)
+<span>
+@if (ViewBag.HasBlankPdf != null)
+{
+    @Html.ActionLink(
+        linkText: "Download blank drawing PDF",
+        actionName: "DownloadBlankPdf",
+        controllerName: "StaticPartInfoes",
+        routeValues: new { id = ViewBag.id },
+        htmlAttributes: null)
+}
+else
+{
+    <a>No blank drawing PDF</a>
+}
+&nbsp;|&nbsp;
+@if (ViewBag.HasFinishPdf != null)
 {
     @Html.ActionLink(
         linkText: "Download finish drawing PDF",
@@ -52,12 +67,13 @@
         controllerName: "StaticPartInfoes",
         routeValues: new { id = ViewBag.id },
         htmlAttributes: null)
-    <br />
 }
 else
 {
-    <div>*No PDF has been set for this part information</div>
+    <a>No finish drawing PDF</a>
 }
+</span>
+<br />
 <br />
 <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
     Title:
