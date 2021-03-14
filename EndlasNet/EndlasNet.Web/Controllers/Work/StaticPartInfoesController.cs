@@ -69,16 +69,20 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,FinishDrawingFile,CustomerId")] StaticPartInfo staticPartInfo)
+        public async Task<IActionResult> Create([Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,FinishDrawingFile,BlankDrawingFile,CustomerId")] StaticPartInfo staticPartInfo)
         {
             if (ModelState.IsValid)
             {
                 staticPartInfo.StaticPartInfoId = Guid.NewGuid();
                 staticPartInfo.UserId = new Guid(HttpContext.Session.GetString("userId"));
+
                 if (staticPartInfo.ImageFile != null)
                     staticPartInfo.DrawingImageBytes = await FileURL.GetFileBytes(staticPartInfo.ImageFile);
                 if (staticPartInfo.FinishDrawingFile != null)
                     staticPartInfo.FinishDrawingPdfBytes = await FileURL.GetFileBytes(staticPartInfo.FinishDrawingFile);
+                if (staticPartInfo.BlankDrawingFile != null)
+                    staticPartInfo.BlankDrawingPdfBytes = await FileURL.GetFileBytes(staticPartInfo.BlankDrawingFile);
+
                 _context.Add(staticPartInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -109,7 +113,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,FinishDrawingFile,CustomerId,UserId")] StaticPartInfo staticPartInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,FinishDrawingFile,BlankDrawingFile,CustomerId,UserId")] StaticPartInfo staticPartInfo)
         {
             if (id != staticPartInfo.StaticPartInfoId)
             {
@@ -124,6 +128,9 @@ namespace EndlasNet.Web.Controllers
                         staticPartInfo.DrawingImageBytes = await FileURL.GetFileBytes(staticPartInfo.ImageFile);
                     if (staticPartInfo.FinishDrawingFile != null)
                         staticPartInfo.FinishDrawingPdfBytes = await FileURL.GetFileBytes(staticPartInfo.FinishDrawingFile);
+                    if (staticPartInfo.BlankDrawingFile != null)
+                        staticPartInfo.BlankDrawingPdfBytes = await FileURL.GetFileBytes(staticPartInfo.BlankDrawingFile);
+
                     staticPartInfo.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Update(staticPartInfo);
                     await _context.SaveChangesAsync();
@@ -184,7 +191,7 @@ namespace EndlasNet.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DownloadPdf(Guid? id)
+        public async Task<IActionResult> DownloadFinishPdf(Guid? id)
         {
             if (id == null)
             {
@@ -198,7 +205,7 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction("Details", new { id = id });
             }
 
-            var fileName = staticPartInfo.DrawingNumber + "_drawing.pdf";
+            var fileName = staticPartInfo.DrawingNumber + "_finish.pdf";
             Response.ContentType = "application/pdf";
             Response.Headers.Add("content-disposition", "attachment;filename=" + fileName);
             MemoryStream ms = new MemoryStream(staticPartInfo.FinishDrawingPdfBytes);
@@ -207,6 +214,31 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
             return File(ms, "application/pdf", fileName); 
+        }
+
+        public async Task<IActionResult> DownloadBlankPdf(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var staticPartInfo = await _context.StaticPartInfo.FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
+
+            if (staticPartInfo.FinishDrawingPdfBytes == null)
+            {
+                return RedirectToAction("Details", new { id = id });
+            }
+
+            var fileName = staticPartInfo.DrawingNumber + "_blank.pdf";
+            Response.ContentType = "application/pdf";
+            Response.Headers.Add("content-disposition", "attachment;filename=" + fileName);
+            MemoryStream ms = new MemoryStream(staticPartInfo.BlankDrawingPdfBytes);
+            if (ms == null)
+            {
+                return NotFound();
+            }
+            return File(ms, "application/pdf", fileName);
         }
     }
 }

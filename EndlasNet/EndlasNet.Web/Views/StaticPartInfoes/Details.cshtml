@@ -47,8 +47,8 @@
 @if (ViewBag.HasPdf != null)
 {
     @Html.ActionLink(
-        linkText: "Download drawing PDF",
-        actionName: "DownloadPdf",
+        linkText: "Download finish drawing PDF",
+        actionName: "DownloadFinishPdf",
         controllerName: "StaticPartInfoes",
         routeValues: new { id = ViewBag.id },
         htmlAttributes: null)
