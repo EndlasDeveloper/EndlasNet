@@ -1,2 +1,1 @@
-﻿ StaticPartInfo -> Add another pdf attribute called BlankDrawing (maybe change other to FinishDrawing).
-                Make sure to add an indicator in the display and delete views.
+﻿

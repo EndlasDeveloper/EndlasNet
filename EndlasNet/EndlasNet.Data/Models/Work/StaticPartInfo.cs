@@ -44,13 +44,11 @@ namespace EndlasNet.Data
         public IFormFile BlankDrawingFile { get; set; }
         public byte[] BlankDrawingPdfBytes { get; set; }
 
-
         /*********************** FINISH ***************************/
         [NotMapped]
         [Display(Name ="Upload finish drawing pdf")]
         public IFormFile FinishDrawingFile { get; set; }
         public byte[] FinishDrawingPdfBytes { get; set; }
-
 
         [ForeignKey("CustomerId")]
         [Display(Name ="Customer")]

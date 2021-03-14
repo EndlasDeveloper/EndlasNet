@@ -22,6 +22,12 @@
                 @Html.DisplayNameFor(model => model.PartDescription)
             </th>
             <th>
+                Has blank pdf
+            </th>
+            <th>
+                Has finish pdf
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Customer)
             </th>
             <th></th>
@@ -41,6 +47,26 @@
   
             <td>
                 @Html.DisplayFor(modelItem => item.PartDescription)
+            </td>
+            <td>
+                @if (item.BlankDrawingPdfBytes == null)
+                {
+                    <span style="color:red">False</span>
+                }
+                else
+                {
+                    <span style="color:green">True</span>
+                }
+            </td>
+            <td>
+                @if (item.FinishDrawingPdfBytes == null)
+                {
+                    <span style="color:red">False</span>
+                }
+                else
+                {
+                    <span style="color:green">True</span>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Customer.CustomerName)
