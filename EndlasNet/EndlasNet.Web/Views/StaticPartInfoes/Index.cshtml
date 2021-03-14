@@ -31,7 +31,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                <img src=@Html.DisplayFor(modelItem => item.ImageUrl) alt="Drawing Image" style="max-width:75px;max-height:60px" />
+                <a asp-action="Details" asp-route-id="@item.StaticPartInfoId">
+                    <img src=@Html.DisplayFor(modelItem => item.ImageUrl) alt="Drawing Image" style="max-width:75px;max-height:60px" />
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DrawingNumber)
