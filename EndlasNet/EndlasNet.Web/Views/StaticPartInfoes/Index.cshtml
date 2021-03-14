@@ -22,10 +22,10 @@
                 @Html.DisplayNameFor(model => model.PartDescription)
             </th>
             <th>
-                Has blank pdf
+                Blank pdf
             </th>
             <th>
-                Has finish pdf
+                Finish pdf
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Customer)
@@ -51,21 +51,31 @@
             <td>
                 @if (item.BlankDrawingPdfBytes == null)
                 {
-                    <span style="color:red">False</span>
+                    <a style="color:gray">None</a>
                 }
                 else
                 {
-                    <span style="color:green">True</span>
+                    @Html.ActionLink(
+                        linkText: "Download PDF",
+                        actionName: "DownloadBlankPdf",
+                        controllerName: "StaticPartInfoes",
+                        routeValues: new { id = item.StaticPartInfoId },
+                        htmlAttributes: null)
                 }
             </td>
             <td>
                 @if (item.FinishDrawingPdfBytes == null)
                 {
-                    <span style="color:red">False</span>
+                    <a style="color:gray">None</a>
                 }
                 else
                 {
-                    <span style="color:green">True</span>
+                    @Html.ActionLink(
+                        linkText: "Download PDF",
+                        actionName: "DownloadFinishPdf",
+                        controllerName: "StaticPartInfoes",
+                        routeValues: new { id = item.StaticPartInfoId },
+                        htmlAttributes: null)
                 }
             </td>
             <td>

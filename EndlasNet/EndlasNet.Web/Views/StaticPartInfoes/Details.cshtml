@@ -48,7 +48,7 @@
 @if (ViewBag.HasBlankPdf != null)
 {
     @Html.ActionLink(
-        linkText: "Download blank drawing PDF",
+        linkText: "Download blank PDF",
         actionName: "DownloadBlankPdf",
         controllerName: "StaticPartInfoes",
         routeValues: new { id = ViewBag.id },
@@ -56,13 +56,13 @@
 }
 else
 {
-    <a>No blank drawing PDF</a>
+    <a>No blank PDF</a>
 }
 &nbsp;|&nbsp;
 @if (ViewBag.HasFinishPdf != null)
 {
     @Html.ActionLink(
-        linkText: "Download finish drawing PDF",
+        linkText: "Download finish PDF",
         actionName: "DownloadFinishPdf",
         controllerName: "StaticPartInfoes",
         routeValues: new { id = ViewBag.id },
@@ -70,7 +70,7 @@ else
 }
 else
 {
-    <a>No finish drawing PDF</a>
+    <a>No finish PDF</a>
 }
 </span>
 <br />

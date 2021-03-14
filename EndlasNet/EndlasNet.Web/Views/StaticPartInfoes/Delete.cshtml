@@ -43,31 +43,41 @@
         </dd>
 
         <dt class="col-sm-2">
-            Has blank pdf
+            Blank pdf
         </dt>
         <dd class="col-sm-10">
             @if (ViewBag.HasBlankPdf == null)
             {
-                <span style="color:red">False</span>
+                <a style="color:gray">None</a>
             }
             else
             {
-                <span style="color:green">True</span>
+                @Html.ActionLink(
+                    linkText: "Download blank PDF",
+                    actionName: "DownloadBlankPdf",
+                    controllerName: "StaticPartInfoes",
+                    routeValues: new { id = ViewBag.id },
+                    htmlAttributes: null)
             }
         </dd>
 
         <dt class="col-sm-2">
-            Has finish pdf
+            Finish pdf
         </dt>
         <dd class="col-sm-10">
             @if (ViewBag.HasFinishPdf == null)
             {
-                <span style="color:red">False</span>
+                <a style="color:gray">None</a>
             }
             else
             {
-                <span style="color:green">True</span>
-            }
+                @Html.ActionLink(
+                    linkText: "Download finish PDF",
+                    actionName: "DownloadFinishPdf",
+                    controllerName: "StaticPartInfoes",
+                    routeValues: new { id = ViewBag.id },
+                    htmlAttributes: null)
+            }            
         </dd>
 
     </dl>

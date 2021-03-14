@@ -48,7 +48,7 @@ namespace EndlasNet.Data
         [NotMapped]
         [Display(Name ="Upload finish drawing pdf")]
         public IFormFile FinishDrawingFile { get; set; }
-        public byte[] FinishDrawingPdfBytes { get; set; }
+        public byte[] FinishDrawingPdfBytes { get; set; }   
 
         [ForeignKey("CustomerId")]
         [Display(Name ="Customer")]
