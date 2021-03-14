@@ -37,7 +37,7 @@ namespace EndlasNet.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StaticPowderInfos",
+                name: "StaticPowderInfo",
                 columns: table => new
                 {
                     StaticPowderInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -48,7 +48,7 @@ namespace EndlasNet.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StaticPowderInfos", x => x.StaticPowderInfoId);
+                    table.PrimaryKey("PK_StaticPowderInfo", x => x.StaticPowderInfoId);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,7 +77,8 @@ namespace EndlasNet.Data.Migrations
                     PartDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DrawingImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    DrawingPdfBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    BlankDrawingPdfBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    FinishDrawingPdfBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -317,9 +318,9 @@ namespace EndlasNet.Data.Migrations
                         principalColumn: "PowderOrderId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_LineItems_StaticPowderInfos_StaticPowderInfoId",
+                        name: "FK_LineItems_StaticPowderInfo_StaticPowderInfoId",
                         column: x => x.StaticPowderInfoId,
-                        principalTable: "StaticPowderInfos",
+                        principalTable: "StaticPowderInfo",
                         principalColumn: "StaticPowderInfoId",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -350,9 +351,9 @@ namespace EndlasNet.Data.Migrations
                         principalColumn: "LineItemId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Powders_StaticPowderInfos_StaticPowderInfoId",
+                        name: "FK_Powders_StaticPowderInfo_StaticPowderInfoId",
                         column: x => x.StaticPowderInfoId,
-                        principalTable: "StaticPowderInfos",
+                        principalTable: "StaticPowderInfo",
                         principalColumn: "StaticPowderInfoId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -366,23 +367,23 @@ namespace EndlasNet.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "CustomerId", "CustomerAddress", "CustomerName", "CustomerPhone", "PointOfContact" },
-                values: new object[] { new Guid("0f80777c-da55-4b77-84ca-c17644354af4"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
+                values: new object[] { new Guid("89cf0b06-419f-4692-827a-e1501d2f7d0f"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("d7631cea-df9c-4fff-adbe-5994f64cfcd2"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "SA", "SA" },
-                    { new Guid("98cf90c6-1e0f-4815-b4e3-24d1addec3db"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "James", "Tomich" },
-                    { new Guid("b0b11d85-bb38-4f97-8b5a-d1b8506c124b"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("f2872fc6-1229-4d76-a0e0-e9801c16838d"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
+                    { new Guid("47f2ea7f-4b1d-4e61-a9ea-0642773c6d48"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "SA", "SA" },
+                    { new Guid("af3c85b0-05f0-4f84-ad7e-2456d0e878eb"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "James", "Tomich" },
+                    { new Guid("a7bd5eca-7d37-4546-b3be-4be1e9e950af"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("8cb3664c-030b-4c95-b853-99158966c602"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Vendors",
                 columns: new[] { "VendorId", "PointOfContact", "UserId", "VendorAddress", "VendorName", "VendorPhone" },
-                values: new object[] { new Guid("1ab41212-74dd-4f42-ab8c-34eb821bef80"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
+                values: new object[] { new Guid("5013691b-78cd-407e-b74d-cc6191cbeb8f"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LineItems_PowderOrderId",
@@ -524,7 +525,7 @@ namespace EndlasNet.Data.Migrations
                 name: "PowderOrders");
 
             migrationBuilder.DropTable(
-                name: "StaticPowderInfos");
+                name: "StaticPowderInfo");
 
             migrationBuilder.DropTable(
                 name: "Vendors");

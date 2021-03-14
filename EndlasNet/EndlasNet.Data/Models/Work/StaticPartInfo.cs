@@ -36,16 +36,20 @@ namespace EndlasNet.Data
         [NotMapped] // for showing thumbnail images for multiple rows in a single view
         public string ImageUrl { get; set; }
         public byte[] DrawingImageBytes { get; set; }
-        /********************** END IMG ***************************/
 
 
-        /************************ PDF ****************************/
+        /*********************** BLANK ***************************/
+        [NotMapped]
+        [Display(Name = "Upload blank drawing pdf")]
+        public IFormFile BlankDrawingFile { get; set; }
+        public byte[] BlankDrawingPdfBytes { get; set; }
+
+
+        /*********************** FINISH ***************************/
         [NotMapped]
         [Display(Name ="Upload finish drawing pdf")]
-        public IFormFile DrawingFile { get; set; }
-
-        public byte[] DrawingPdfBytes { get; set; }
-        /********************** END PDF ***************************/
+        public IFormFile FinishDrawingFile { get; set; }
+        public byte[] FinishDrawingPdfBytes { get; set; }
 
 
         [ForeignKey("CustomerId")]
