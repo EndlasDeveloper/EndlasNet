@@ -165,15 +165,20 @@ namespace EndlasNet.Web.Controllers
                 .Include(s => s.Customer)
                 .Include(s => s.User)
                 .FirstOrDefaultAsync(m => m.StaticPartInfoId == id);
+
             if (staticPartInfo == null)
             {
                 return NotFound();
             }
-            if (staticPartInfo.DrawingImageBytes != null)
+            else if (staticPartInfo.DrawingImageBytes != null)
+            {
                 FileURL.SetImageURL(staticPartInfo);
+            }
+            
             ViewBag.id = id;
             ViewBag.HasBlankPdf = staticPartInfo.BlankDrawingPdfBytes;
             ViewBag.HasFinishPdf = staticPartInfo.FinishDrawingPdfBytes;
+
             return View(staticPartInfo);
         }
 
@@ -202,12 +207,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var staticPartInfo = await _context.StaticPartInfo.FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
-
-            if (staticPartInfo.FinishDrawingPdfBytes == null)
-            {
-                return RedirectToAction("Details", new { id = id });
-            }
-
+       
             var fileName = staticPartInfo.DrawingNumber + "_finish.pdf";
             Response.ContentType = "application/pdf";
             Response.Headers.Add("content-disposition", "attachment;filename=" + fileName);
@@ -226,12 +226,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPartInfo = await _context.StaticPartInfo.FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
-
-            if (staticPartInfo.FinishDrawingPdfBytes == null)
-            {
-                return RedirectToAction("Details", new { id = id });
-            }
+            var staticPartInfo = await _context.StaticPartInfo.FirstOrDefaultAsync(s => s.StaticPartInfoId == id);           
 
             var fileName = staticPartInfo.DrawingNumber + "_blank.pdf";
             Response.ContentType = "application/pdf";
