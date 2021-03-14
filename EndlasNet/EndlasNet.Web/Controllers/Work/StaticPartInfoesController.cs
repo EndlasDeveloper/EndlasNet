@@ -171,7 +171,8 @@ namespace EndlasNet.Web.Controllers
             }
             if (staticPartInfo.DrawingImageBytes != null)
                 FileURL.SetImageURL(staticPartInfo);
-            ViewBag.HasPdf = staticPartInfo.FinishDrawingPdfBytes;
+            ViewBag.HasBlankPdf = staticPartInfo.BlankDrawingPdfBytes;
+            ViewBag.HasFinishPdf = staticPartInfo.FinishDrawingPdfBytes;
             return View(staticPartInfo);
         }
 

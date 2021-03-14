@@ -46,16 +46,29 @@
             @Html.DisplayFor(model => model.User.EndlasEmail)
         </dd>
         <dt class="col-sm-2">
-            Has pdf
+            Has blank pdf
         </dt>
         <dd class="col-sm-10">
-            @if (ViewBag.HasPdf == null)
+            @if (ViewBag.HasBlankPdf == null)
             {
-                <span>false</span>
+                <span>False</span>
             }
             else
             {
-                <span>true</span>
+                <span>True</span>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Has finish pdf
+        </dt>
+        <dd class="col-sm-10">
+            @if (ViewBag.HasFinishPdf == null)
+            {
+                <span>False</span>
+            }
+            else
+            {
+                <span>True</span>
             }
         </dd>
     </dl>
