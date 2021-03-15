@@ -48,5 +48,10 @@ namespace EndlasNet.Data
         [ForeignKey("StaticPowderInfoId")]
         public Guid StaticPowderInfoId { get; set; }
         public StaticPowderInfo StaticPowderInfo { get; set; }
+
+        [NotMapped]
+        public string PowderName { get; set; }
+
+        public IEnumerable<PowderForPart> PowderForParts { get; set; }
     }
 }

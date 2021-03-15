@@ -41,7 +41,8 @@ namespace EndlasNet.Data
             modelBuilder.Entity<StaticPowderInfo>().HasMany(s => s.LineItems).WithOne(l => l.StaticPowderInfo);
             modelBuilder.Entity<StaticPowderInfo>().HasMany(s => s.Powders).WithOne(l => l.StaticPowderInfo);
 
-
+            modelBuilder.Entity<Powder>().HasMany(p => p.PowderForParts).WithOne(p => p.Powder);
+            modelBuilder.Entity<PartForWork>().HasMany(p => p.PowdersUsed).WithOne(p => p.PartForWork);
             /*** QUOTE ***/
             // COMMENTED OUT FOR NOW. INTRODUCE LATER WHEN TRYING TO WORK WITH QUOTES
             /*

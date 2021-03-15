@@ -58,5 +58,8 @@ namespace EndlasNet.Data
 
         [NotMapped]
         public string WorkType { get; set; }
+        [NotMapped]
+        public string DrawingNumberSuffix { get; set; }
+        public IEnumerable<PowderForPart> PowdersUsed { get; set; }
     }
 }
