@@ -1,22 +1,29 @@
 ﻿@model IEnumerable<EndlasNet.Data.PowderForPart>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Powders for parts";
 }
 
-<h1>Index</h1>
+<h1>Powders for parts</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create new</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Powder)
+                Part drawing image
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PartForWork)
+                @Html.DisplayNameFor(model => model.PartForWork.Suffix)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Powder)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.PowderWeightUsed)
             </th>
             <th></th>
         </tr>
@@ -25,10 +32,17 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.PowderDisplayStr)
+                <img src=@Html.DisplayFor(modelItem => item.PartForWork.StaticPartInfo.ImageUrl) alt="Drawing Image" style="max-width:75px;max-height:60px" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PartForWorkDisplayStr)
+                @Html.DisplayFor(modelItem => item.PartForWork.Suffix)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Powder.PowderName) &nbsp; - &nbsp;
+                @Html.DisplayFor(modelItem => item.Powder.BottleNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PowderWeightUsed)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PowderForPartId">Edit</a> |

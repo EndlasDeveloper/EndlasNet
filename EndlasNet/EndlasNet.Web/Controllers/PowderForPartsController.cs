@@ -24,13 +24,19 @@ namespace EndlasNet.Web.Controllers
             var powderForParts = await GetPowdersList();
             var partsForWork = await GetPartsForWorkList();
             
-            var endlasNetDbContext = _context.PowderForParts.Include(p => p.PartForWork).Include(p => p.Powder);
+            var endlasNetDbContext = await _context.PowderForParts
+                .Include(p => p.PartForWork)
+                .Include(p => p.Powder).ToListAsync();
+
             foreach(PowderForPart powderForPart in endlasNetDbContext)
             {
-                var pow = await _context.Powders.FirstOrDefaultAsync(p => p.PowderId == powderForPart.PowderId);
-                powderForPart.PowderDisplayStr = pow.PowderName;
+                var staticPartInfo = await _context.StaticPartInfo
+                    .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
+                powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
+                FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
             }
-            return View(await endlasNetDbContext.ToListAsync());
+
+            return View(endlasNetDbContext);
         }
 
         // GET: PowderForParts/Details/5
@@ -50,6 +56,10 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
+            var staticPartInfo = await _context.StaticPartInfo
+                .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
+            powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
+            FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
             return View(powderForPart);
         }
 
@@ -58,9 +68,9 @@ namespace EndlasNet.Web.Controllers
             var partsForWork = await _context.PartsForWork.ToListAsync();
             foreach (PartForWork partForWork in partsForWork)
             {
-                var staticPartInfo = await _context.StaticPartInfo
+                partForWork.StaticPartInfo = await _context.StaticPartInfo
                     .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
-                partForWork.DrawingNumberSuffix = staticPartInfo.DrawingNumber + " - " + partForWork.Suffix;
+                partForWork.DrawingNumberSuffix = partForWork.StaticPartInfo.DrawingNumber + " - " + partForWork.Suffix;
             }
             return partsForWork;
         }
@@ -70,9 +80,9 @@ namespace EndlasNet.Web.Controllers
             var powders = await _context.Powders.ToListAsync();
             foreach (Powder powder in powders)
             {
-                var staticPowderInfo = await _context.StaticPowderInfo
+                powder.StaticPowderInfo = await _context.StaticPowderInfo
                     .FirstOrDefaultAsync(s => s.StaticPowderInfoId == powder.StaticPowderInfoId);
-                powder.PowderName = staticPowderInfo.PowderName + " - " + powder.BottleNumber;
+                powder.PowderName = powder.StaticPowderInfo.PowderName;
             }
             return powders;
         }
@@ -97,7 +107,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PowderForPartId,PowderId,PartForWorkId")] PowderForPart powderForPart)
+        public async Task<IActionResult> Create([Bind("PowderForPartId,PowderId,PartForWorkId,PowderWeightUsed")] PowderForPart powderForPart)
         {
             if (ModelState.IsValid)
             {
@@ -118,7 +128,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var powderForPart = await _context.PowderForParts.FindAsync(id);
+            var powderForPart = await _context.PowderForParts
+                .FindAsync(id);
             if (powderForPart == null)
             {
                 return NotFound();
@@ -132,7 +143,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PowderForPartId,PowderId,PartForWorkId")] PowderForPart powderForPart)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PowderForPartId,PowderId,PartForWorkId,PowderWeightUsed")] PowderForPart powderForPart)
         {
             if (id != powderForPart.PowderForPartId)
             {
@@ -180,6 +191,10 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
+            var staticPartInfo = await _context.StaticPartInfo
+                .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
+            powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
+            FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
             return View(powderForPart);
         }
 

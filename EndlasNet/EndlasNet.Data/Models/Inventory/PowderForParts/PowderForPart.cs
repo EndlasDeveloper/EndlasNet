@@ -17,11 +17,10 @@ namespace EndlasNet.Data
         [ForeignKey("PartForWorkId")]
         [Display(Name = "Part")]
         public Guid PartForWorkId { get; set; }
+        [Display(Name = "Part")]
         public PartForWork PartForWork { get; set; }
-        
-        [NotMapped]
-        public string PowderDisplayStr { get; set; }
-        [NotMapped]
-        public string PartForWorkDisplayStr { get; set; }
+
+        [Display(Name ="Powder weight used (lbs)")]
+        public float? PowderWeightUsed { get; set; }
     }
 }
