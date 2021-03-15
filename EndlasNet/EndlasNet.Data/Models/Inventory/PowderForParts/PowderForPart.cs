@@ -21,6 +21,6 @@ namespace EndlasNet.Data
         public PartForWork PartForWork { get; set; }
 
         [Display(Name ="Powder weight used (lbs)")]
-        public float? PowderWeightUsed { get; set; }
+        public float PowderWeightUsed { get; set; }
     }
 }

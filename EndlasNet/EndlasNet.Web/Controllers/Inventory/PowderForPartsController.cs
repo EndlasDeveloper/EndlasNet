@@ -33,6 +33,9 @@ namespace EndlasNet.Web.Controllers
                 var staticPartInfo = await _context.StaticPartInfo
                     .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
                 powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
+                var staticPowderInfo = await _context.StaticPowderInfo
+                    .FirstOrDefaultAsync(s => s.StaticPowderInfoId == powderForPart.Powder.StaticPowderInfoId);
+                powderForPart.Powder.StaticPowderInfo = staticPowderInfo;
                 FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
             }
 
@@ -77,12 +80,12 @@ namespace EndlasNet.Web.Controllers
 
         public async Task<List<Powder>> GetPowdersList() 
         {
-            var powders = await _context.Powders.ToListAsync();
+            var powders = await _context.Powders.Where(p => p.Weight > 0.01).ToListAsync();
             foreach (Powder powder in powders)
             {
                 powder.StaticPowderInfo = await _context.StaticPowderInfo
                     .FirstOrDefaultAsync(s => s.StaticPowderInfoId == powder.StaticPowderInfoId);
-                powder.PowderName = powder.StaticPowderInfo.PowderName;
+                powder.PowderName = powder.StaticPowderInfo.PowderName + " - " + powder.BottleNumber;
             }
             return powders;
         }
@@ -90,7 +93,17 @@ namespace EndlasNet.Web.Controllers
         public async Task SetViewData()
         {
             var partsForWork = await GetPartsForWorkList();
-            var powders = await GetPowdersList();    
+            var powders = await GetPowdersList();
+            foreach (Powder powder in powders)
+            {
+                if (powder.Weight < 0.01f && powder.Weight > 0.0f)
+                {
+                    powder.Weight = 0.0f;
+                    _context.Update(powder);
+                    await _context.SaveChangesAsync();
+                }
+                powder.PowderName = powder.PowderName + " - " + string.Format("{0:0.000}", powder.Weight) + " lbs";
+            }
             ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
             ViewData["PowderId"] = new SelectList(powders, "PowderId", "PowderName");
         }
@@ -111,6 +124,20 @@ namespace EndlasNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var powder = await _context.Powders
+                    .FirstOrDefaultAsync(p => p.PowderId == powderForPart.PowderId);
+                if(powder.Weight < powderForPart.PowderWeightUsed)
+                {
+                    if(powder.Weight < 0.001)
+                    {
+                        powder.Weight = 0.0f;
+                    }
+                    ViewBag.HasEnoughPowder = "false";
+                    ViewBag.PowderLeft = string.Format("{0:0.000}", powder.Weight);
+                    await SetViewData();
+                    return View(powderForPart);
+                }
+                powder.Weight -= powderForPart.PowderWeightUsed;
                 powderForPart.PowderForPartId = Guid.NewGuid();
                 _context.Add(powderForPart);
                 await _context.SaveChangesAsync();

@@ -24,6 +24,11 @@
                 <label asp-for="PowderWeightUsed" class="control-label"></label>
                 <input asp-for="PowderWeightUsed" class="form-control" />
                 <span asp-validation-for="PowderWeightUsed" class="text-danger"></span>
+                @if (ViewBag.HasEnoughPowder == "false")
+                {
+                    <span class="text-danger">Not enough powder. @ViewBag.PowderLeft lbs left.</span>
+                }
+                
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
