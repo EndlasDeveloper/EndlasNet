@@ -12,20 +12,21 @@ namespace EndlasNet.Web.Controllers
 {
     public class VendorsController : Controller
     {
-        private UserRepo _db;
-
+        private UserRepo _userRepo;
+        private VendorRepo _vendorRepo;
         private readonly EndlasNetDbContext _context;
 
         public VendorsController(EndlasNetDbContext context)
         {
             _context = context;
-            _db = new UserRepo(_context);
+            _userRepo = new UserRepo(_context);
+            _vendorRepo = new VendorRepo(_context);
         }
 
         // GET: Vendors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vendors.ToListAsync());
+            return View(await _vendorRepo.GetAllVendorsAsync());
         }
 
         // GET: Vendors/Details/5
@@ -35,14 +36,12 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            var vendor = await _vendorRepo.GetVendorDetailsAsync(id);
 
-            var vendor = await _context.Vendors.AsNoTracking()
-                .FirstOrDefaultAsync(m => m.VendorId == id);
             if (vendor == null)
             {
                 return NotFound();
             }
-
             return View(vendor);
         }
 
@@ -61,10 +60,9 @@ namespace EndlasNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                vendor.User = await _db.GetUser(HttpContext.Session.GetString("email"));
+                vendor.User = await _userRepo.GetUser(HttpContext.Session.GetString("email"));
                 vendor.VendorId = Guid.NewGuid();
-                _context.Add(vendor);
-                await _context.SaveChangesAsync();
+                await _vendorRepo.AddVendorAsync(vendor);
                 return RedirectToAction(nameof(Index));
             }
             return View(vendor);
@@ -77,8 +75,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            var vendor = await _vendorRepo.GetVendorEditAsync(id);
 
-            var vendor = await _context.Vendors.FindAsync(id);
             if (vendor == null)
             {
                 return NotFound();
@@ -102,12 +100,11 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    _context.Update(vendor);
-                    await _context.SaveChangesAsync();
+                    await _vendorRepo.UpdateVendorAsync(vendor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VendorExists(vendor.VendorId))
+                    if (!(await VendorExists(vendor.VendorId)))
                     {
                         return NotFound();
                     }
@@ -129,8 +126,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var vendor = await _context.Vendors
-                .FirstOrDefaultAsync(m => m.VendorId == id);
+            var vendor = await _vendorRepo.DeleteVendorAsync(id);
             if (vendor == null)
             {
                 return NotFound();
@@ -144,15 +140,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var vendor = await _context.Vendors.FindAsync(id);
-            _context.Vendors.Remove(vendor);
-            await _context.SaveChangesAsync();
+            await _vendorRepo.DeleteVendorConfirmedAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VendorExists(Guid id)
+        private async Task<bool> VendorExists(Guid id)
         {
-            return _context.Vendors.Any(e => e.VendorId == id);
+            return await _vendorRepo.ConfirmVendorExistsAsync(id);
         }
     }
 }

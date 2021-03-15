@@ -37,10 +37,10 @@
                             <li class="nav-item" style="margin-left:6px;margin-right:6px">
                                 <a class="nav-link text-black-50" asp-area="" asp-controller="Home" asp-action="Inventory">Inventory</a>
                             </li>
-                            <li class="nav-item"  style="margin-left:6px;margin-right:6px">
+                            <li class="nav-item" style="margin-left:6px;margin-right:6px">
                                 <a class="nav-link text-black-50" asp-area="" asp-controller="Home" asp-action="Work">Work</a>
                             </li>
-                            <li class="nav-item"  style="margin-left:6px;margin-right:6px">
+                            <li class="nav-item" style="margin-left:6px;margin-right:6px">
                                 <a class="nav-link text-black-50" asp-area="" asp-controller="Home" asp-action="Environments">Environment</a>
                             </li>
 
@@ -63,19 +63,22 @@
                     <a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
                 </div>
             }
-                <a class="nav-link text-black-50" asp-area="" asp-controller="Home" asp-action="Help">Help</a>
+            <a class="nav-link text-black-50" asp-area="" asp-controller="Home" asp-action="Help">Help</a>
 
-                <a class="navbar-brand" href="https://app.smartsheet.com/b/home?_ga=2.153976507.267216971.1611743518-1850135157.1611743518">
+            <a class="navbar-brand" href="https://app.smartsheet.com/b/home?_ga=2.153976507.267216971.1611743518-1850135157.1611743518">
 
-                    <div class="text-center">
-                        <img src="~/img/smartsheetLogo.png" title="Go to Smartsheet login" width="50" height="50" />
-                    </div>
-
-                </a>
-                <div>
-                    @Context.Session.GetString("firstname") @Context.Session.GetString("lastname")
+                <div class="text-center">
+                    <img src="~/img/smartsheetLogo.png" title="Go to Smartsheet login" width="50" height="50" />
                 </div>
-            </nav>
+
+            </a>
+            <div style="padding-right:1em">
+                <img src="~/img/american_flag.jpg" title="Go to home page" alt="" width="105" height="50" />
+            </div>
+            <span>
+                @Context.Session.GetString("firstname") @Context.Session.GetString("lastname")
+            </span>
+        </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
