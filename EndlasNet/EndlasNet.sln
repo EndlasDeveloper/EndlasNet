@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EndlasNet.SystemTest", "End
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EndlasNet.Data", "EndlasNet.Data\EndlasNet.Data.csproj", "{C9B15876-E0A5-4722-B06B-BAD2EE128C0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlasNet.IntegrationTest", "EndlasNet.IntegrationTest\EndlasNet.IntegrationTest.csproj", "{9C5F6456-AC04-4C4B-8F86-0A0F4A6A25C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C9B15876-E0A5-4722-B06B-BAD2EE128C0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9B15876-E0A5-4722-B06B-BAD2EE128C0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9B15876-E0A5-4722-B06B-BAD2EE128C0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C5F6456-AC04-4C4B-8F86-0A0F4A6A25C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C5F6456-AC04-4C4B-8F86-0A0F4A6A25C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C5F6456-AC04-4C4B-8F86-0A0F4A6A25C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C5F6456-AC04-4C4B-8F86-0A0F4A6A25C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

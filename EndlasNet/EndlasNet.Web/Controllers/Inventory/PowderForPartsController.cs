@@ -125,6 +125,8 @@ namespace EndlasNet.Web.Controllers
                     if(powder.Weight <= POWDER_THRESHOLD)
                     {
                         powder.Weight = 0.0f;
+                        _context.Add(powder);
+                        await _context.SaveChangesAsync();
                     }
                     ViewBag.HasEnoughPowder = "false";
                     ViewBag.PowderLeft = string.Format("{0:0.0000}", powder.Weight);

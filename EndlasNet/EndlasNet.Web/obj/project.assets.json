@@ -2,18 +2,6 @@
   "version": 3,
   "targets": {
     "net5.0": {
-      "BitMiracle.Docotic.Pdf/7.5.11645": {
-        "type": "package",
-        "dependencies": {
-          "System.Drawing.Common": "4.7.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/BitMiracle.Docotic.Pdf.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/BitMiracle.Docotic.Pdf.dll": {}
-        }
-      },
       "bootstrap/4.6.0": {
         "type": "package",
         "dependencies": {
@@ -2150,7 +2138,7 @@
           "Microsoft.Win32.SystemEvents": "4.7.0"
         },
         "compile": {
-          "ref/netcoreapp3.0/System.Drawing.Common.dll": {}
+          "ref/netcoreapp3.0/_._": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Drawing.Common.dll": {}
@@ -3374,7 +3362,6 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "BitMiracle.Docotic.Pdf": "7.5.11645",
           "Microsoft.AspNetCore.Http.Features": "5.0.4",
           "Microsoft.AspNetCore.Mvc.RazorPages": "2.2.5",
           "Microsoft.EntityFrameworkCore": "5.0.4",
@@ -3393,26 +3380,6 @@
     }
   },
   "libraries": {
-    "BitMiracle.Docotic.Pdf/7.5.11645": {
-      "sha512": "AWOr57jNBLVm/gMPah2Orlw076e5L7CfXINIaa5mU+u7s/qpfhdFh0FsVfcIR+Qlz1E4Fqe8/w/3kknJPF+VOw==",
-      "type": "package",
-      "path": "bitmiracle.docotic.pdf/7.5.11645",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "bitmiracle.docotic.pdf.7.5.11645.nupkg.sha512",
-        "bitmiracle.docotic.pdf.nuspec",
-        "lib/net40/BitMiracle.Docotic.Pdf.dll",
-        "lib/net40/BitMiracle.Docotic.Pdf.xml",
-        "lib/net46/BitMiracle.Docotic.Pdf.dll",
-        "lib/net46/BitMiracle.Docotic.Pdf.xml",
-        "lib/netstandard2.0/BitMiracle.Docotic.Pdf.dll",
-        "lib/netstandard2.0/BitMiracle.Docotic.Pdf.xml",
-        "license.txt",
-        "logo.png",
-        "readme.txt"
-      ]
-    },
     "bootstrap/4.6.0": {
       "sha512": "nGsIRcbAcBybxBeoL5H6Uax8bb+nrT+tbx3/3n1yXCWq/s+fgEvdo0BAYIq1GmbBizA2KKShyFNiJaSanonIIQ==",
       "type": "package",
