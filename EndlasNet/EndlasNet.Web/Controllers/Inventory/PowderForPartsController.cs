@@ -12,7 +12,7 @@ namespace EndlasNet.Web.Controllers
     public class PowderForPartsController : Controller
     {
         private readonly EndlasNetDbContext _context;
-
+        private readonly float POWDER_THRESHOLD = 0.001f;
         public PowderForPartsController(EndlasNetDbContext context)
         {
             _context = context;
@@ -80,7 +80,7 @@ namespace EndlasNet.Web.Controllers
 
         public async Task<List<Powder>> GetPowdersList() 
         {
-            var powders = await _context.Powders.Where(p => p.Weight > 0.01).ToListAsync();
+            var powders = await _context.Powders.Where(p => p.Weight > POWDER_THRESHOLD).ToListAsync();
             foreach (Powder powder in powders)
             {
                 powder.StaticPowderInfo = await _context.StaticPowderInfo
@@ -95,14 +95,8 @@ namespace EndlasNet.Web.Controllers
             var partsForWork = await GetPartsForWorkList();
             var powders = await GetPowdersList();
             foreach (Powder powder in powders)
-            {
-                if (powder.Weight < 0.01f && powder.Weight > 0.0f)
-                {
-                    powder.Weight = 0.0f;
-                    _context.Update(powder);
-                    await _context.SaveChangesAsync();
-                }
-                powder.PowderName = powder.PowderName + " - " + string.Format("{0:0.000}", powder.Weight) + " lbs";
+            {           
+                powder.PowderName = powder.PowderName + " - " + string.Format("{0:0.0000}", powder.Weight) + " lbs";
             }
             ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
             ViewData["PowderId"] = new SelectList(powders, "PowderId", "PowderName");
@@ -128,12 +122,12 @@ namespace EndlasNet.Web.Controllers
                     .FirstOrDefaultAsync(p => p.PowderId == powderForPart.PowderId);
                 if(powder.Weight < powderForPart.PowderWeightUsed)
                 {
-                    if(powder.Weight < 0.001)
+                    if(powder.Weight <= POWDER_THRESHOLD)
                     {
                         powder.Weight = 0.0f;
                     }
                     ViewBag.HasEnoughPowder = "false";
-                    ViewBag.PowderLeft = string.Format("{0:0.000}", powder.Weight);
+                    ViewBag.PowderLeft = string.Format("{0:0.0000}", powder.Weight);
                     await SetViewData();
                     return View(powderForPart);
                 }
