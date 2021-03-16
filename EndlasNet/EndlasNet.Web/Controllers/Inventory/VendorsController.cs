@@ -14,13 +14,11 @@ namespace EndlasNet.Web.Controllers
     {
         private UserRepo _userRepo;
         private VendorRepo _vendorRepo;
-        private readonly EndlasNetDbContext _context;
 
         public VendorsController(EndlasNetDbContext context)
         {
-            _context = context;
-            _userRepo = new UserRepo(_context);
-            _vendorRepo = new VendorRepo(_context);
+            _userRepo = new UserRepo(context);
+            _vendorRepo = new VendorRepo(context);
         }
 
         // GET: Vendors

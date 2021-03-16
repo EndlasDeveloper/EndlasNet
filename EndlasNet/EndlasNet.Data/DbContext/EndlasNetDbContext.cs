@@ -79,7 +79,7 @@ namespace EndlasNet.Data
             var JamesAdmin = new Admin
             {
                 UserId = Guid.NewGuid(),
-                FirstName = "James",
+                FirstName = "Jimmy",
                 LastName = "Tomich",
                 AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                 EndlasEmail = "james.tomich@endlas.com"

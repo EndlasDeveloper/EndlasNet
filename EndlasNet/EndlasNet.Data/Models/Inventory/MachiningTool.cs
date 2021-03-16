@@ -17,11 +17,11 @@ namespace EndlasNet.Data
         public ToolTypes ToolType { get; set; }
 
         [Required]
-        [Display(Name = "Tool diameter (radius if insert)")]
+        [Display(Name = "Diameter (radius if insert)")]
         public float ToolDiameter { get; set; }
 
         [Required]
-        [Display(Name = "Vendor tool description")]
+        [Display(Name = "Tool description")]
         public string VendorDescription { get; set; }
 
         [Range(1, 10000)]
@@ -31,18 +31,18 @@ namespace EndlasNet.Data
 
         [Required]
         [StringLength(25)]
-        [Display(Name = "Purchase order number")]
+        [Display(Name = "PO number")]
         public string PurchaseOrderNum { get; set; }
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        [Display(Name = "Purchase order date")]
+        [Display(Name = "PO date")]
         public DateTime PurchaseOrderDate { get; set; }
 
         [Required]
         [Range(0f, 10000.0f)]
         [DataType(DataType.Currency)]
-        [Display(Name = "Purchase order price")]
+        [Display(Name = "PO order price")]
         public float PurchaseOrderPrice { get; set; }
 
         [Required]
