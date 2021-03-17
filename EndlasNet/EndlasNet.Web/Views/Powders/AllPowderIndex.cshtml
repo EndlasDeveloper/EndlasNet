@@ -28,6 +28,8 @@
     <tbody>
         @foreach (var item in Model)
         {
+
+            var weightStr = string.Format("{0:0.0000}", item.Weight);
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.StaticPowderInfo.PowderName)
@@ -36,7 +38,7 @@
                     @Html.DisplayFor(modelItem => item.BottleNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Weight)
+                    @weightStr
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LotNumber)

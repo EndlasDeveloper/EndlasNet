@@ -21,6 +21,7 @@ namespace EndlasNet.Data
         public PartForWork PartForWork { get; set; }
 
         [Display(Name ="Powder weight used (lbs)")]
+        [Range(0.0001,200.0)]
         public float PowderWeightUsed { get; set; }
     }
 }

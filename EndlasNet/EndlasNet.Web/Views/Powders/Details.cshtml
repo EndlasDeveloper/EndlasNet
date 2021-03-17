@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Details";
+    var initWeightStr = string.Format("{0:0.0000}", Model.InitWeight);
+    var weightStr = string.Format("{0:0.0000}", Model.Weight);
 }
 
 <h1>Details</h1>
@@ -20,13 +22,13 @@
             @Html.DisplayNameFor(model => model.InitWeight)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InitWeight)
+            @initWeightStr
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Weight)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Weight)
+            @weightStr
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.LotNumber)
