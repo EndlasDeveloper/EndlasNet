@@ -329,20 +329,6 @@
           "EndlasNet.Web.dll": {}
         }
       },
-      "BitMiracle.Docotic.Pdf/7.5.11645": {
-        "dependencies": {
-          "System.Drawing.Common": "4.7.0"
-        },
-        "runtime": {
-          "lib/netstandard2.0/BitMiracle.Docotic.Pdf.dll": {
-            "assemblyVersion": "7.5.11645.0",
-            "fileVersion": "7.5.11645.0"
-          }
-        },
-        "compile": {
-          "lib/netstandard2.0/BitMiracle.Docotic.Pdf.dll": {}
-        }
-      },
       "bootstrap/4.6.0": {
         "dependencies": {
           "jQuery": "3.0.0",
@@ -1946,9 +1932,6 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
           "Microsoft.Win32.SystemEvents": "4.7.0"
-        },
-        "compile": {
-          "ref/netcoreapp3.0/System.Drawing.Common.dll": {}
         }
       },
       "System.Globalization/4.3.0": {
@@ -2646,7 +2629,6 @@
       },
       "EndlasNet.Data/1.0.0": {
         "dependencies": {
-          "BitMiracle.Docotic.Pdf": "7.5.11645",
           "Microsoft.AspNetCore.Http.Features": "5.0.4",
           "Microsoft.AspNetCore.Mvc.RazorPages": "2.2.5",
           "Microsoft.EntityFrameworkCore": "5.0.4",
@@ -4343,13 +4325,6 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
-    },
-    "BitMiracle.Docotic.Pdf/7.5.11645": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-AWOr57jNBLVm/gMPah2Orlw076e5L7CfXINIaa5mU+u7s/qpfhdFh0FsVfcIR+Qlz1E4Fqe8/w/3kknJPF+VOw==",
-      "path": "bitmiracle.docotic.pdf/7.5.11645",
-      "hashPath": "bitmiracle.docotic.pdf.7.5.11645.nupkg.sha512"
     },
     "bootstrap/4.6.0": {
       "type": "package",

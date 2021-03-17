@@ -65,7 +65,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PowderId,BottleNumber,InitWeight,Weight,BottleCost,LotNumber,LineItemId,UserId,StaticPowderInfoId")] Powder powder, Guid id)
+        public async Task<IActionResult> Create([Bind("PowderId,BottleNumber,InitWeight,Weight,LotNumber,LineItemId,UserId,StaticPowderInfoId")] Powder powder, Guid id)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PowderId,BottleNumber,InitWeight,Weight,BottleCost,LotNumber,LineItemId,UserId,StaticPowderInfoId")] Powder powder)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PowderId,BottleNumber,InitWeight,Weight,LotNumber,LineItemId,UserId,StaticPowderInfoId")] Powder powder)
         {
             if (id != powder.PowderId)
             {

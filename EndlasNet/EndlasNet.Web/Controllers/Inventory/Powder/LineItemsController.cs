@@ -69,7 +69,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LineItemId,StaticPowderInfoId,VendorDescription,ParticleSizeMin,ParticleSizeMax,PowderOrderId,NumBottles")] LineItem lineItem)
+        public async Task<IActionResult> Create([Bind("LineItemId,StaticPowderInfoId,VendorDescription,Weight,LineItemCost,ParticleSizeMin,ParticleSizeMax,PowderOrderId,NumBottles")] LineItem lineItem)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,6 @@ namespace EndlasNet.Web.Controllers
                     {
                         PowderId = Guid.NewGuid(),
                         BottleNumber = "",
-                        BottleCost = 0.0f,
                         LotNumber = "",
                         InitWeight = 0,
                         Weight = 0,
@@ -129,7 +128,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("LineItemId,PowderName,VendorDescription,ParticleSizeMin,ParticleSizeMax,NumBottles,PowderOrderId,StaticPowderInfoId")] LineItem lineItem)
+        public async Task<IActionResult> Edit(Guid id, [Bind("LineItemId,PowderName,VendorDescription,Weight,LineItemCost,ParticleSizeMin,ParticleSizeMax,NumBottles,PowderOrderId,StaticPowderInfoId")] LineItem lineItem)
         {
             if (id != lineItem.LineItemId)
             {
