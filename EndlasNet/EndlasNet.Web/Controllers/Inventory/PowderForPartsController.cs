@@ -32,10 +32,14 @@ namespace EndlasNet.Web.Controllers
             {
                 var staticPartInfo = await _context.StaticPartInfo
                     .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
+
                 powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
+
                 var staticPowderInfo = await _context.StaticPowderInfo
                     .FirstOrDefaultAsync(s => s.StaticPowderInfoId == powderForPart.Powder.StaticPowderInfoId);
+
                 powderForPart.Powder.StaticPowderInfo = staticPowderInfo;
+
                 FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
             }
 
@@ -54,6 +58,7 @@ namespace EndlasNet.Web.Controllers
                 .Include(p => p.PartForWork)
                 .Include(p => p.Powder)
                 .FirstOrDefaultAsync(m => m.PowderForPartId == id);
+
             if (powderForPart == null)
             {
                 return NotFound();
@@ -61,19 +66,25 @@ namespace EndlasNet.Web.Controllers
 
             var staticPartInfo = await _context.StaticPartInfo
                 .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
+
             powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
+
             FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
+
             return View(powderForPart);
         }
 
         public async Task<List<PartForWork>> GetPartsForWorkList()
         {
             var partsForWork = await _context.PartsForWork.ToListAsync();
+
             foreach (PartForWork partForWork in partsForWork)
             {
                 partForWork.StaticPartInfo = await _context.StaticPartInfo
                     .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
-                partForWork.DrawingNumberSuffix = partForWork.StaticPartInfo.DrawingNumber + " - " + partForWork.Suffix;
+
+                partForWork.DrawingNumberSuffix = partForWork.StaticPartInfo.DrawingNumber 
+                    + " - " + partForWork.Suffix;
             }
             return partsForWork;
         }
@@ -81,10 +92,12 @@ namespace EndlasNet.Web.Controllers
         public async Task<List<Powder>> GetPowdersList() 
         {
             var powders = await _context.Powders.Where(p => p.Weight > POWDER_THRESHOLD).ToListAsync();
+
             foreach (Powder powder in powders)
             {
                 powder.StaticPowderInfo = await _context.StaticPowderInfo
                     .FirstOrDefaultAsync(s => s.StaticPowderInfoId == powder.StaticPowderInfoId);
+
                 powder.PowderName = powder.StaticPowderInfo.PowderName + " - " + powder.BottleNumber;
             }
             return powders;
@@ -118,25 +131,34 @@ namespace EndlasNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                // find the bottle of powder associated with powderForParts
                 var powder = await _context.Powders
                     .FirstOrDefaultAsync(p => p.PowderId == powderForPart.PowderId);
-                if(powder.Weight < powderForPart.PowderWeightUsed)
+
+
+                // make sure there is enough powder to perform putting powder to part
+                if (powder.Weight < powderForPart.PowderWeightUsed)
                 {
-                    if(powder.Weight <= POWDER_THRESHOLD)
-                    {
-                        powder.Weight = 0.0f;
-                        _context.Add(powder);
-                        await _context.SaveChangesAsync();
-                    }
                     ViewBag.HasEnoughPowder = "false";
                     ViewBag.PowderLeft = string.Format("{0:0.0000}", powder.Weight);
                     await SetViewData();
                     return View(powderForPart);
                 }
+                // subtract off what was used
                 powder.Weight -= powderForPart.PowderWeightUsed;
+
+                // if below threshold after subtracting weight, zero out weight
+                if (powder.Weight <= POWDER_THRESHOLD)
+                {
+                    powder.Weight = 0.0f;
+                    _context.Update(powder);
+                    await _context.SaveChangesAsync();
+                }
+                // all good, so create new powder for part guid and save
                 powderForPart.PowderForPartId = Guid.NewGuid();
                 _context.Add(powderForPart);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             await SetViewData();

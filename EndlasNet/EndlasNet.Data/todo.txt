@@ -1,1 +1,2 @@
 ﻿Powder -> enforce threshold on index UI and details..... and delete.
+Get db to zero out the powder weight if below threshold.
