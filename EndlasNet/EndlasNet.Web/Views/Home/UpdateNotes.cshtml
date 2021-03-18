@@ -28,12 +28,15 @@
             Powder -> Index, Display, and Delete UIs weight values now round to 4 decimal places.
         </li>
         <li class="update-notes-li">
-            PowderOrder Create -> added number of line items, removed add line item. Overall, better work flow implemented. 
+            PowderOrder Create -> added number of line items, removed add line item. Overall, better work flow implemented.
             On powder order create, the number of line items is chosen. When manage line items is clicked, the number of line
             items exists on the view in an uninitialized state. An action button is on the row of the uninitialized line item
             to initialize the line item. In initialization, the number of powder bottles is selected. Upon initialize, the user
-            is forwarded back to the line item list again, except the row that was just initialized shows a manage powders action 
+            is forwarded back to the line item list again, except the row that was just initialized shows a manage powders action
             link.
+        </li>
+        <li class="update-notes-li">
+            Relabled PO order price to Batch PO cost (MachiningTools).
         </li>
     </ul>
 
@@ -41,15 +44,8 @@
     <div style="color:white;font-size:18px;">Todo</div>
     
     <ul style="font-size:14px;line-height:200%;">
-
-        <li class="update-notes-li">
-            Relable PO order price to Batch PO cost.
-        </li>
         <li class="update-notes-li">
             Add action tab to nav-bar. Put physical action representations here (many times has a for in the action link text).
-        </li>
-        <li class="update-notes-li">
-            Fix work flow for powder orders.
         </li>
         <li class="update-notes-li">
             Write unit tests for all of the Utility methods. Write unit tests for the controllers.
