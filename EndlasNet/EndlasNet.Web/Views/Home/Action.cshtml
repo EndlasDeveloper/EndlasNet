@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Inventory";
+}
+@if (Context.Session.GetString("userId") != null)
+{
+    <h1 class="display-4">Action</h1>
+
+    <body>
+        <ul>
+            <li>
+                <span>
+                    <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="MachiningToolForWorks">Tools for work</a>
+                </span>
+            </li>
+            <li>
+                <a class="navbar-toggler" type="button" asp-action="Index" asp-controller="PowderForParts">Powders for parts</a>
+            </li>
+        </ul>
+    </body>
+}
+else
+{
+    <div>
+        Please
+        <a asp-area="" asp-controller="Login" asp-action="Index">
+            Login
+        </a>
+    </div>
+}
