@@ -16,10 +16,12 @@ namespace EndlasNet.Data
         }
         public async Task<IEnumerable<LineItem>> GetLineItems(Guid powderOrderId)
         {
-             return await _db.LineItems
+            var lineItems = await _db.LineItems
+                .Include(l => l.PowderOrder)
                 .Include(l => l.StaticPowderInfo)
-                .Where(l => l.PowderOrderId == powderOrderId)
-                .ToListAsync();
+                .Where(l => l.PowderOrderId == powderOrderId).ToListAsync();
+
+            return lineItems;
         }
 
     }

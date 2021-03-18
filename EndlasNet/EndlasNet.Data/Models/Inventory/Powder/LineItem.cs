@@ -49,7 +49,10 @@ namespace EndlasNet.Data
         [Display(Name ="Number of bottles")]
         public int NumBottles { get; set; }
 
+        public bool IsInitialized { get; set; } = false;
+
         public IEnumerable<Powder> Powders { get; set; }
+
 
 
     }

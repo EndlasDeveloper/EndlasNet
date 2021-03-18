@@ -27,7 +27,8 @@ namespace EndlasNet.Web.Controllers
             var result = await _context.PowderOrders
                 .FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
             ViewBag.PurchaseOrderNum = result.PurchaseOrderNum;
-            return View(await repo.GetLineItems(powderOrderId));  
+            var lineItems = await repo.GetLineItems(powderOrderId);
+            return View(lineItems);  
         }
 
         // GET: LineItems/Details/5
@@ -63,7 +64,57 @@ namespace EndlasNet.Web.Controllers
             ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfo, "StaticPowderInfoId", "PowderName");
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> Initialize(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var lineItem = await _context.LineItems
+                .Include(l => l.PowderOrder)
+                .Include(l => l.StaticPowderInfo)
+                .FirstOrDefaultAsync(m => m.LineItemId == id);
+
+
+            ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfo, "StaticPowderInfoId", "PowderName");
+            return View(lineItem);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Initialize([Bind("LineItemId,StaticPowderInfoId,VendorDescription,Weight,LineItemCost,ParticleSizeMin,ParticleSizeMax,PowderOrderId,NumBottles")] LineItem lineItem)
+        {
+            lineItem.IsInitialized = true;
+            lineItem.StaticPowderInfo = await _context.StaticPowderInfo
+                .FirstOrDefaultAsync(s => s.StaticPowderInfoId == lineItem.StaticPowderInfoId);
+            _context.Update(lineItem);
+            await _context.SaveChangesAsync();
+
+            for (int i = 0; i < lineItem.NumBottles; i++)
+            {
+                var newPowder = new Powder
+                {
+                    PowderId = Guid.NewGuid(),
+                    BottleNumber = "",
+                    LotNumber = "",
+                    InitWeight = 0,
+                    Weight = 0,
+                    UserId = new Guid(HttpContext.Session.GetString("userId")),
+                    LineItem = lineItem,
+                    LineItemId = lineItem.LineItemId,
+                    StaticPowderInfo = lineItem.StaticPowderInfo,
+                    StaticPowderInfoId = lineItem.StaticPowderInfo.StaticPowderInfoId
+                };
+                _context.Add(newPowder);
+            }
+            await _context.SaveChangesAsync();
+            lineItem.PowderOrder = await _context.PowderOrders
+                .FirstOrDefaultAsync(p => p.PowderOrderId == lineItem.PowderOrderId);
+            return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
+        }
+        
         // POST: LineItems/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -128,7 +179,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("LineItemId,PowderName,VendorDescription,Weight,LineItemCost,ParticleSizeMin,ParticleSizeMax,NumBottles,PowderOrderId,StaticPowderInfoId")] LineItem lineItem)
+        public async Task<IActionResult> Edit(Guid id, [Bind("LineItemId,PowderName,VendorDescription,Weight,LineItemCost,ParticleSizeMin,ParticleSizeMax,NumBottles,PowderOrderId,StaticPowderInfoId,NumBottles")] LineItem lineItem)
         {
             if (id != lineItem.LineItemId)
             {

@@ -46,16 +46,10 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PowderOrders/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            var powderOrder = await _context.PowderOrders.FirstOrDefaultAsync();
             ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
             return View();
-        }
-
-       public IActionResult AddLineItem(Guid powderOrderId)
-        {
-            return RedirectToAction("Create", "LineItems", new { powderOrderId = powderOrderId });
         }
 
         public IActionResult ManageLineItems(Guid powderOrderId)
@@ -68,12 +62,29 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PowderOrderId,PurchaseOrderNum,PurchaseOrderDate,ShippingCost,TaxCost,VendorId")] PowderOrder powderOrder)
+        public async Task<IActionResult> Create([Bind("PowderOrderId,PurchaseOrderNum,PurchaseOrderDate,ShippingCost,TaxCost,VendorId,NumberOfLineItems")] PowderOrder powderOrder)
         {
             if (ModelState.IsValid)
             {             
                 powderOrder.PowderOrderId = Guid.NewGuid();
                 _context.Add(powderOrder);
+                await _context.SaveChangesAsync();
+                for(int i = 0; i < powderOrder.NumberOfLineItems; i++)
+                {
+                    var lineItem = new LineItem()
+                    {
+                        LineItemId = Guid.NewGuid(),
+                        PowderOrder = powderOrder,
+                        PowderOrderId = powderOrder.PowderOrderId,
+                        VendorDescription = "",
+                        Weight = 0,
+                        LineItemCost = 0.0f,
+                        ParticleSizeMin = 0.0f,
+                        ParticleSizeMax = 0.0f,
+                        IsInitialized = false
+                    };
+                    _context.Add(lineItem);
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

@@ -32,10 +32,16 @@
                 <input asp-for="TaxCost" class="form-control" />
                 <span asp-validation-for="TaxCost" class="text-danger"></span>
             </div>
-   
+
             <div class="form-group">
                 <label asp-for="VendorId" class="control-label"></label>
                 <select asp-for="VendorId" class="form-control" asp-items="ViewBag.VendorId"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NumberOfLineItems" class="control-label"></label>
+                <input asp-for="NumberOfLineItems" class="form-control" />
+                <span asp-validation-for="NumberOfLineItems" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

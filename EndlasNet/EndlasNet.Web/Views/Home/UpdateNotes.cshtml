@@ -27,6 +27,14 @@
         <li class="update-notes-li">
             Powder -> Index, Display, and Delete UIs weight values now round to 4 decimal places.
         </li>
+        <li class="update-notes-li">
+            PowderOrder Create -> added number of line items, removed add line item. Overall, better work flow implemented. 
+            On powder order create, the number of line items is chosen. When manage line items is clicked, the number of line
+            items exists on the view in an uninitialized state. An action button is on the row of the uninitialized line item
+            to initialize the line item. In initialization, the number of powder bottles is selected. Upon initialize, the user
+            is forwarded back to the line item list again, except the row that was just initialized shows a manage powders action 
+            link.
+        </li>
     </ul>
 
     @* ****** TODO ****** *@
@@ -34,9 +42,6 @@
     
     <ul style="font-size:14px;line-height:200%;">
 
-        <li class="update-notes-li">
-            PowderOrder Create -> add number of line items, remove add line item.
-        </li>
         <li class="update-notes-li">
             Relable PO order price to Batch PO cost.
         </li>

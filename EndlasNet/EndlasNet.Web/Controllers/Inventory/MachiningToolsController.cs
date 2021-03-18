@@ -59,7 +59,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MachiningToolId,ToolType,ToolDiameter,VendorDescription,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,InvoiceNumber,UserId,VendorId")] MachiningTool machiningTool)
+        public async Task<IActionResult> Create([Bind("MachiningToolId,ToolType,ToolDiameter,VendorDescription,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderCost,InvoiceNumber,UserId,VendorId")] MachiningTool machiningTool)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolId,ToolType,ToolDiameter,VendorDescription,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderPrice,InvoiceNumber,UserId,VendorId")] MachiningTool machiningTool)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolId,ToolType,ToolDiameter,VendorDescription,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderCost,InvoiceNumber,UserId,VendorId")] MachiningTool machiningTool)
         {
             if (id != machiningTool.MachiningToolId)
             {

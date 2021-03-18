@@ -39,10 +39,24 @@
             </td>
 
             <td>
-                @Html.ActionLink("Manage powders", "ManagePowders", "LineItems", new {lineItemId = item.LineItemId, powderName = item.StaticPowderInfo.PowderName}) |
+                @if (!item.IsInitialized)
+                {
+                    <a asp-action="Initialize" asp-route-id="@item.LineItemId">Initialize line item</a> <span> |</span>
+                }
+                else
+                {
+                    if(item.StaticPowderInfo != null)
+                    {
+                        @Html.ActionLink("Manage powders", "ManagePowders", "LineItems", new { lineItemId = item.LineItemId, powderName = item.StaticPowderInfo.PowderName }); <span> |</span>
+                    }
+                    else
+                    {
+                        <a>Manage powders</a> <span> |</span>
+                    }
+                }
                 <a asp-action="Edit" asp-route-id="@item.LineItemId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.LineItemId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.LineItemId">Delete</a> 
+                <a asp-action="Delete" asp-route-id="@item.LineItemId">Delete</a>
             </td>
         </tr>
 }

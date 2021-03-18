@@ -42,8 +42,8 @@ namespace EndlasNet.Data
         [Required]
         [Range(0f, 10000.0f)]
         [DataType(DataType.Currency)]
-        [Display(Name = "PO order price")]
-        public float PurchaseOrderPrice { get; set; }
+        [Display(Name = "Batch PO cost")]
+        public float PurchaseOrderCost { get; set; }
 
         [Required]
         [Display(Name = "Invoice number")]
