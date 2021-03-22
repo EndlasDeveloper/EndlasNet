@@ -48,7 +48,23 @@
             @Html.DisplayFor(model => model.FlowRateYIntercept)
         </dd>
     </dl>
-    
+    <span>
+        @if (ViewBag.HasCompositionPdf != null)
+        {
+            @Html.ActionLink(
+                linkText: "Download composition PDF",
+                actionName: "DownloadCompositionPdf",
+                controllerName: "StaticPowderInfoes",
+                routeValues: new { id = ViewBag.id },
+                htmlAttributes: null)
+        }
+        else
+        {
+            <a>No composition PDF</a>
+        }
+    </span>
+    <br />
+    <br />
     <form asp-action="Delete">
         <input type="hidden" asp-for="StaticPowderInfoId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

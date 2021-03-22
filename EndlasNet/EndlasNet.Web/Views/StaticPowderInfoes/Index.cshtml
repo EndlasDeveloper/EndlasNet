@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Composition)
             </th>
+            <th>
+                Composition pdf
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,6 +38,21 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Composition)
+            </td>
+            <td>
+                @if (item.CompositionFilePdfBytes == null)
+                {
+                    <a style="color:gray">None</a>
+                }
+                else
+                {
+                    @Html.ActionLink(
+                        linkText: "Download PDF",
+                        actionName: "DownloadCompositionPdf",
+                        controllerName: "StaticPowderInfoes",
+                        routeValues: new { id = item.StaticPowderInfoId },
+                        htmlAttributes: null)
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.StaticPowderInfoId">Edit</a> |

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
+using System.IO;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -38,7 +39,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.HasCompositionPdf = staticPowderInfo.CompositionFilePdfBytes;
             return View(staticPowderInfo);
         }
 
@@ -53,11 +54,13 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaticPowderInfoId,PowderName,Density,Description,Composition,FlowRateSlope,FlowRateYIntercept")] StaticPowderInfo staticPowderInfo)
+        public async Task<IActionResult> Create([Bind("StaticPowderInfoId,PowderName,Density,Description,Composition,FlowRateSlope,FlowRateYIntercept,CompositionFile")] StaticPowderInfo staticPowderInfo)
         {
             if (ModelState.IsValid)
             {
                 staticPowderInfo.StaticPowderInfoId = Guid.NewGuid();
+                if (staticPowderInfo.CompositionFile != null)
+                    staticPowderInfo.CompositionFilePdfBytes = await FileURL.GetFileBytes(staticPowderInfo.CompositionFile);
                 _context.Add(staticPowderInfo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,7 +89,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPowderInfoId,PowderName,Density,Description,Composition,FlowRateSlope,FlowRateYIntercept")] StaticPowderInfo staticPowderInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPowderInfoId,PowderName,Density,Description,Composition,FlowRateSlope,FlowRateYIntercept,CompositionFile")] StaticPowderInfo staticPowderInfo)
         {
             if (id != staticPowderInfo.StaticPowderInfoId)
             {
@@ -97,6 +100,8 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    if (staticPowderInfo.CompositionFile != null)
+                        staticPowderInfo.CompositionFilePdfBytes = await FileURL.GetFileBytes(staticPowderInfo.CompositionFile);
                     _context.Update(staticPowderInfo);
                     await _context.SaveChangesAsync();
                 }
@@ -130,7 +135,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.HasCompositionPdf = staticPowderInfo.CompositionFilePdfBytes;
             return View(staticPowderInfo);
         }
 
@@ -148,6 +153,28 @@ namespace EndlasNet.Web.Controllers
         private bool StaticPowderInfoExists(Guid id)
         {
             return _context.StaticPowderInfo.Any(e => e.StaticPowderInfoId == id);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadCompositionPdf(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var staticPowderInfo = await _context.StaticPowderInfo.FirstOrDefaultAsync(s => s.StaticPowderInfoId == id);
+
+            var fileName = staticPowderInfo.PowderName + "_composition.pdf";
+            Response.ContentType = "application/pdf";
+            Response.Headers.Add("content-disposition", "attachment;filename=" + fileName);
+            MemoryStream ms = new MemoryStream(staticPowderInfo.CompositionFilePdfBytes);
+
+            if (ms == null)
+            {
+                return NotFound();
+            }
+            return File(ms, "application/pdf", fileName);
         }
     }
 }

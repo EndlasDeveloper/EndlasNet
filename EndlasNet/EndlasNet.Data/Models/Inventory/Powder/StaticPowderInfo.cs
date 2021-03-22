@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace EndlasNet.Data
@@ -31,6 +33,11 @@ namespace EndlasNet.Data
 
         [Display(Name ="Flow rate y-intercept")]
         public float? FlowRateYIntercept { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Upload composition pdf")]
+        public IFormFile CompositionFile { get; set; }
+        public byte[] CompositionFilePdfBytes { get; set; }
 
         public IEnumerable<Powder> Powders { get; set; }
         public IEnumerable<LineItem> LineItems { get; set; }
