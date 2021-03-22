@@ -1,1 +1,1 @@
-﻿StaticPowderInfo -> Add: Description (str), Composition (str)
+﻿
