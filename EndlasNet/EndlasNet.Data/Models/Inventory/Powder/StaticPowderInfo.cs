@@ -14,8 +14,16 @@ namespace EndlasNet.Data
         [Display(Name ="Powder name")]
         public string PowderName { get; set; }
 
+
+        [Display(Name = "Powder description")]
+        public string Description { get; set; }
+
+
+        [Display(Name = "Chemical composition")]
+        public string Composition { get; set; }
+
         [Required]
-        [Display(Name ="Density (g per cubic cm)")]
+        [Display(Name ="Density (g per cc)")]
         public float Density { get; set; }
 
         [Display(Name ="Flow rate slope")]

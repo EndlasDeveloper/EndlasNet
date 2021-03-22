@@ -53,7 +53,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaticPowderInfoId,PowderName,Density,FlowRateSlope,FlowRateYIntercept")] StaticPowderInfo staticPowderInfo)
+        public async Task<IActionResult> Create([Bind("StaticPowderInfoId,PowderName,Density,Description,Composition,FlowRateSlope,FlowRateYIntercept")] StaticPowderInfo staticPowderInfo)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPowderInfoId,PowderName,Density,FlowRateSlope,FlowRateYIntercept")] StaticPowderInfo staticPowderInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPowderInfoId,PowderName,Density,Description,Composition,FlowRateSlope,FlowRateYIntercept")] StaticPowderInfo staticPowderInfo)
         {
             if (id != staticPowderInfo.StaticPowderInfoId)
             {
