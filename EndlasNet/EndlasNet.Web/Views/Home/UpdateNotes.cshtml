@@ -15,37 +15,39 @@
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
-        <li class="update-notes-li">
-            PowderForPart -> Db zeros out the powder weight if below threshold.
-        </li>
-        <li class="update-notes-li">
-            Powder/LineItem -> removed bottle cost (put cost storage in line item).
-        </li>
-        <li class="update-notes-li">
-            LineItem -> added weight total cost and LineItemNumber (str).
-        </li>
-        <li class="update-notes-li">
-            Powder -> Index, Display, and Delete UIs weight values now round to 4 decimal places.
-        </li>
-        <li class="update-notes-li">
-            PowderOrder Create -> added number of line items, removed add line item. Overall, better work flow implemented.
-            On powder order create, the number of line items is chosen. When manage line items is clicked, the number of line
-            items exists on the view in an uninitialized state. An action button is on the row of the uninitialized line item
-            to initialize the line item. In initialization, the number of powder bottles is selected. Upon initialize, the user
-            is forwarded back to the line item list again, except the row that was just initialized shows a manage powders action
-            link.
-        </li>
-        <li class="update-notes-li">
-            Relabled PO order price to Batch PO cost (MachiningTools).
-        </li>
-        <li class="update-notes-li">
-            Added action tab to nav-bar. Put physical action representations here (Powders for parts, Tools for work).
-        </li>
+      
     </ul>
 
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
+        <li class="update-notes-li">
+            StaticPowderInfo -> Add: Description (str), Composition (str), and PDF for specs (all optional).
+        </li>
+        <li class="update-notes-li">
+            On Edit Powder save -> heading set heading
+        </li>
+        <li class="update-notes-li">
+            LineItem -> Add Reinitialize line item in place of delete (remove delete option). On reinitialization, all existing children
+            powder bottles are deleted. Add warining view to describe what else could be deleted when the item in interest is deleted.
+        </li>
+        <li class="update-notes-li">
+            Want predicatble dropdown ordering for all dropdowns.
+        </li>
+        <li class="update-notes-li">
+            All powders -> add sort by suffix functionality.
+        </li>
+        <li class="update-notes-li">
+            Under Actions -> default date-times to today's date.
+        </li>
+        <li class="update-notes-li">
+            MachiningTool -> Add InitToolCount column.
+        </li>
+        <li class="update-notes-li">
+            Powder for Part -> Add job select. Aka Powder for part, Powder for part batch, then add an option for something 
+            in between. Want to be able to distribute powder evenly across user defined set of powder bottles. 
+        </li>
+
         <li class="update-notes-li">
             Redo Tools for work -> Tools for part
         </li>
