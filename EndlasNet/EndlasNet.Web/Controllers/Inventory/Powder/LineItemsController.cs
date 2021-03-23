@@ -15,11 +15,13 @@ namespace EndlasNet.Web.Controllers
         private readonly EndlasNetDbContext _context;
         private readonly LineItemRepo _lineItemRepo;
         private readonly PowderOrderRepo _powderOrderRepo;
+        private readonly PowderRepo _powderRepo;
         public LineItemsController(EndlasNetDbContext context)
         {
             _context = context;
             _lineItemRepo = new LineItemRepo(context);
             _powderOrderRepo = new PowderOrderRepo(context);
+            _powderRepo = new PowderRepo(context);
         }
 
         // GET: LineItems
@@ -210,7 +212,7 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: LineItems/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Uninitialize(Guid? id)
         {
             if (id == null)
             {
@@ -230,12 +232,20 @@ namespace EndlasNet.Web.Controllers
         }
 
         // POST: LineItems/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Uninitialize")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> UninitializeConfirmed(Guid id)
         {
             var lineItem = await _context.LineItems.FindAsync(id);
-            _context.LineItems.Remove(lineItem);
+            var powders = await _powderRepo.GetLineItemPowders(id);
+
+            // delete lineItem's powders
+            foreach(Powder powder in powders)
+            {
+                _context.Powders.Remove(powder);
+            }
+            lineItem.IsInitialized = false;
+            _context.LineItems.Update(lineItem);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
         }
