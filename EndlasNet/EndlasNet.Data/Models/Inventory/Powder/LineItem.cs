@@ -9,6 +9,7 @@ namespace EndlasNet.Data
 {
     public class LineItem
     {
+        
         [Key]
         public Guid LineItemId { get; set; }
 
@@ -31,11 +32,11 @@ namespace EndlasNet.Data
         public float LineItemCost { get; set; }
 
         [Range(0f, float.MaxValue)]
-        [Display(Name = "Minimum particle size (microns)")]
+        [Display(Name = "Minimum particle size")]
         public float ParticleSizeMin { get; set; }
 
         [Range(0f, float.MaxValue)]
-        [Display(Name = "Maximum particle size (microns)")]
+        [Display(Name = "Maximum particle size")]
         public float ParticleSizeMax { get; set; }
 
         [ForeignKey("PowderOrderId")]
