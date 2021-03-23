@@ -13,22 +13,22 @@ namespace EndlasNet.Web.Controllers
     public class LineItemsController : Controller
     {
         private readonly EndlasNetDbContext _context;
-        private LineItemRepo repo;
+        private readonly LineItemRepo _lineItemRepo;
+        private readonly PowderOrderRepo _powderOrderRepo;
         public LineItemsController(EndlasNetDbContext context)
         {
             _context = context;
-            repo = new LineItemRepo(context);
+            _lineItemRepo = new LineItemRepo(context);
+            _powderOrderRepo = new PowderOrderRepo(context);
         }
 
         // GET: LineItems
 
         public async Task<IActionResult> Index(Guid powderOrderId)
         {
-            var result = await _context.PowderOrders
-                .FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
-            ViewBag.PurchaseOrderNum = result.PurchaseOrderNum;
-            var lineItems = await repo.GetLineItems(powderOrderId);
-            return View(lineItems);  
+            var powderOrder = await _powderOrderRepo.GetPowderOrder(powderOrderId);
+            ViewBag.PurchaseOrderNum = powderOrder.PurchaseOrderNum;
+            return View(await _lineItemRepo.GetLineItems(powderOrderId));  
         }
 
         // GET: LineItems/Details/5
