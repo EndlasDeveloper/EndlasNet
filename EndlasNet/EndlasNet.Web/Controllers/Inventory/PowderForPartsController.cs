@@ -121,11 +121,13 @@ namespace EndlasNet.Web.Controllers
         {
             var partsForWork = await GetPartsForWorkList();
             var powders = await GetPowdersList();
+            var work = await _context.Work.ToListAsync();
             foreach (Powder powder in powders)
             {           
                 powder.PowderName = powder.PowderName + " - " + string.Format("{0:0.0000}", powder.Weight) + " lbs";
             }
             ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
+            ViewData["WorkId"] = new SelectList(work,"WorkId","WorkDescription");
             ViewData["PowderId"] = new SelectList(powders, "PowderId", "PowderName");
         }
 
@@ -144,6 +146,11 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Create([Bind("PowderForPartId,PowderId,PartForWorkId,PowderWeightUsed")] PowderForPart powderForPart)
         {
             powderForPart.PowderForPartId = Guid.NewGuid();
+
+            if(powderForPart.PartForWork.WorkId != null)
+            {
+
+            }
 
             if (ModelState.GetValidationState("PartForWorkId") == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid)
             {

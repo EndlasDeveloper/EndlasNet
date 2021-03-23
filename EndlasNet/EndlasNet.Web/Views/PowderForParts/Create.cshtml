@@ -1,7 +1,11 @@
-﻿@model EndlasNet.Data.PowderForPart
+﻿@using EndlasNet.Data;
+@model EndlasNet.Data.PowderForPart
 
 @{
     ViewData["Title"] = "Create";
+
+
+
 }
 
 <h1>Create</h1>
@@ -17,23 +21,32 @@
                 <select asp-for="PowderId" class="form-control" asp-items="ViewBag.PowderId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="PartForWorkId" class="control-label"></label>
-                <select asp-for="PartForWorkId" class="form-control" asp-items="ViewBag.PartForWorkId"></select>
+                <label asp-for="PartForWork.WorkId" class="control-label"></label>
+                <span>
+                    <select asp-for="PartForWork.WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </span>
             </div>
             <div class="form-group">
-                <label asp-for="PowderWeightUsed" class="control-label"></label>
-                <input asp-for="PowderWeightUsed" class="form-control" />
-                <span asp-validation-for="PowderWeightUsed" class="text-danger"></span>
-                @if (ViewBag.HasEnoughPowder == "false")
-                {
-                    <span class="text-danger">Not enough powder. @ViewBag.PowderLeft lbs left.</span>
-                }
-                
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+               
             </div>
         </form>
+
+       @* <div class="form-group">
+            <label asp-for="PartForWorkId" class="control-label"></label>
+            <select asp-for="PartForWorkId" class="form-control" asp-items="ViewBag.PartForWorkId"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="PowderWeightUsed" class="control-label"></label>
+            <input asp-for="PowderWeightUsed" class="form-control" />
+            <span asp-validation-for="PowderWeightUsed" class="text-danger"></span>
+            @if (ViewBag.HasEnoughPowder == "false")
+            {
+                <span class="text-danger">Not enough powder. @ViewBag.PowderLeft lbs left.</span>
+            }
+
+        </div>*@
+            
     </div>
 </div>
 
