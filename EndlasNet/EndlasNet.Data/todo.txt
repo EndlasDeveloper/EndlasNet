@@ -1,2 +1,1 @@
-﻿LineItem -> Add Reinitialize line item in place of delete (remove delete option). On reinitialization, all existing children
-            powder bottles are deleted. Add warining view to describe what else could be deleted when the item in interest is deleted.
+﻿

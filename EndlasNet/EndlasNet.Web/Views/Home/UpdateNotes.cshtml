@@ -19,8 +19,15 @@
             Added description, composition, and pdf to static powder information. Added front-end UI elements for the new attributes in all views.
         </li>
         <li class="update-notes-li">
-            On Edit Powder save -> fixed issue where the heading powder name would be lost after returning to the index view from views other than 
+            On Edit Powder save -> fixed issue where the heading powder name would be lost after returning to the index view from views other than
             line items. Added powder order and line item reference in heading above powder name. Works for all cases of traffic into the page.
+        </li>
+        <li class="update-notes-li">
+            LineItem -> Added Uninitialize line item in place of delete (remove delete option). On uninitialization, all existing children
+            powder bottles are deleted. Added warining view to describe what else could be deleted when the item in interest is deleted.
+        </li>
+        <li class="update-notes-li">
+            All parts for work, powder for parts -> added sort by suffix functionality.
         </li>
     </ul>
 
@@ -28,14 +35,7 @@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
         <li class="update-notes-li">
-            LineItem -> Add Reinitialize line item in place of delete (remove delete option). On reinitialization, all existing children
-            powder bottles are deleted. Add warining view to describe what else could be deleted when the item in interest is deleted.
-        </li>
-        <li class="update-notes-li">
             Want predicatble dropdown ordering for all dropdowns.
-        </li>
-        <li class="update-notes-li">
-            All powders -> add sort by suffix functionality.
         </li>
         <li class="update-notes-li">
             Under Actions -> default date-times to today's date.

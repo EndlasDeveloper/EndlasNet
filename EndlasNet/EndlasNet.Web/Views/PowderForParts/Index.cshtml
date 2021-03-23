@@ -16,7 +16,14 @@
                 Part drawing image
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PartForWork.Suffix)
+                <div>
+                    @Html.DisplayNameFor(model => model.PartForWork.Suffix)
+                </div>
+                <span style="color:darkred">
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    -
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Powder)

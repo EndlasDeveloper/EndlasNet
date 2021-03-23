@@ -19,16 +19,19 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PowderForParts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
+            ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
+            ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
+
             var powderForParts = await GetPowdersList();
             var partsForWork = await GetPartsForWorkList();
             
-            var endlasNetDbContext = await _context.PowderForParts
+            var allPowderForParts = await _context.PowderForParts
                 .Include(p => p.PartForWork)
                 .Include(p => p.Powder).ToListAsync();
 
-            foreach(PowderForPart powderForPart in endlasNetDbContext)
+            foreach(PowderForPart powderForPart in allPowderForParts)
             {
                 var staticPartInfo = await _context.StaticPartInfo
                     .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
@@ -42,8 +45,19 @@ namespace EndlasNet.Web.Controllers
 
                 FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
             }
-
-            return View(endlasNetDbContext);
+            switch (sortOrder)
+            {
+                case "suffix_desc":
+                    allPowderForParts = allPowderForParts.OrderByDescending(a => a.PartForWork.Suffix).ToList();
+                    break;
+                case "suffix_asc":
+                    allPowderForParts = allPowderForParts.OrderByDescending(a => a.PartForWork.Suffix).ToList();
+                    allPowderForParts.Reverse();
+                    break;
+                default:
+                    break;
+            }
+            return View(allPowderForParts);
         }
 
         // GET: PowderForParts/Details/5
