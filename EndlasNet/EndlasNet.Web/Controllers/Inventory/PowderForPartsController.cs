@@ -143,6 +143,22 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PowderForPartId,PowderId,PartForWorkId,PowderWeightUsed")] PowderForPart powderForPart)
         {
+            powderForPart.PowderForPartId = Guid.NewGuid();
+
+            if (ModelState.GetValidationState("PartForWorkId") == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid)
+            {
+                powderForPart.PartForWork = await _context.PartsForWork
+                    .FirstOrDefaultAsync(p => p.WorkId == powderForPart.PartForWork.WorkId);
+                if(powderForPart != null)
+                {
+                    ViewBag.IsWorkSet = "true";
+                }
+                else
+                {
+                    ViewBag.IsWorkSet = "false";
+                }
+                return View(powderForPart);
+            }
             if (ModelState.IsValid)
             {
                 // find the bottle of powder associated with powderForParts
@@ -169,7 +185,6 @@ namespace EndlasNet.Web.Controllers
                     await _context.SaveChangesAsync();
                 }
                 // all good, so create new powder for part guid and save
-                powderForPart.PowderForPartId = Guid.NewGuid();
                 _context.Add(powderForPart);
                 await _context.SaveChangesAsync();
 
@@ -178,6 +193,8 @@ namespace EndlasNet.Web.Controllers
             await SetViewData();
             return View(powderForPart);
         }
+
+
 
         // GET: PowderForParts/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
