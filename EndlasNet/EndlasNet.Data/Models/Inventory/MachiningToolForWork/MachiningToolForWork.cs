@@ -13,7 +13,7 @@ namespace EndlasNet.Data
 
         [Required]
         [Display(Name = "Date used")]
-        public DateTime DateUsed { get; set; }
+        public DateTime DateUsed { get; set; } = DateTime.Now;
 
         [Required]
         [ForeignKey("WorkId")]
