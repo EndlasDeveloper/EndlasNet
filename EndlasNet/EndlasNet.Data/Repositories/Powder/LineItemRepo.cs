@@ -24,5 +24,11 @@ namespace EndlasNet.Data
             return lineItems;
         }
 
+        public async Task<LineItem> GetLineItem(Guid lineItemId)
+        {
+            return await _db.LineItems
+                .FirstOrDefaultAsync(l => l.LineItemId == lineItemId);
+        }
+
     }
 }

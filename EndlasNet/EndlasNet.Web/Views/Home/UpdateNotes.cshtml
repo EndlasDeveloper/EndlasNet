@@ -18,15 +18,15 @@
         <li class="update-notes-li">
             Added description, composition, and pdf to static powder information. Added front-end UI elements for the new attributes in all views.
         </li>
+        <li class="update-notes-li">
+            On Edit Powder save -> fixed issue where the heading powder name would be lost after returning to the index view from views other than 
+            line items.
+        </li>
     </ul>
 
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
-
-        <li class="update-notes-li">
-            On Edit Powder save -> heading set heading
-        </li>
         <li class="update-notes-li">
             LineItem -> Add Reinitialize line item in place of delete (remove delete option). On reinitialization, all existing children
             powder bottles are deleted. Add warining view to describe what else could be deleted when the item in interest is deleted.
@@ -47,7 +47,6 @@
             Powder for Part -> Add job select. Aka Powder for part, Powder for part batch, then add an option for something 
             in between. Want to be able to distribute powder evenly across user defined set of powder bottles. 
         </li>
-
         <li class="update-notes-li">
             Redo Tools for work -> Tools for part
         </li>
@@ -61,7 +60,6 @@
 
     @* ****** KNOWN ISSUES ****** *@
     <div style="color:white;font-size:18px;">Bugs and known issues</div>
-
         <ul style="font-size:14px;line-height:200%;">
             <li class="update-notes-li">
                 Part count is wrong after adding 2 PartsForWork (they both display the 2nd count).

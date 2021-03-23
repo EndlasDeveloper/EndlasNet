@@ -13,19 +13,26 @@ namespace EndlasNet.Web.Controllers
     public class PowdersController : Controller
     {
         private readonly EndlasNetDbContext _context;
-        private PowderRepo repo;
+        private readonly PowderRepo _powderRepo;
+        private readonly LineItemRepo _lineItemRepo;
+
         public PowdersController(EndlasNetDbContext context)
         {
             _context = context;
-            repo = new PowderRepo(context);
+            _powderRepo = new PowderRepo(context);
+            _lineItemRepo = new LineItemRepo(context);
         }
 
         // GET: Powders
-        public async Task<IActionResult> Index(Guid lineItemId, string powderName)
+        public async Task<IActionResult> Index(Guid lineItemId)
         {
-            ViewBag.PowderName = powderName;
-            return View(await repo.GetLineItemPowders(lineItemId));
+            var lineItem = await _lineItemRepo.GetLineItem(lineItemId);
+            ViewBag.PowderName = await GetPowderName(lineItem.StaticPowderInfoId);
+
+            return View(await _powderRepo.GetLineItemPowders(lineItemId));
         }
+
+
 
         public async Task<IActionResult> AllPowderIndex()
         {
@@ -133,8 +140,11 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction("Index", "Powders", new { lineItemId = powder.LineItemId });
             }
+
             return View(powder);
         }
+
+
 
         // GET: Powders/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
@@ -170,6 +180,12 @@ namespace EndlasNet.Web.Controllers
         private bool PowderExists(Guid id)
         {
             return _context.Powders.Any(e => e.PowderId == id);
+        }
+        private async Task<string> GetPowderName(Guid? staticInfoId)
+        {
+            var staticPowInfo = await _context.StaticPowderInfo
+               .FirstOrDefaultAsync(s => s.StaticPowderInfoId == staticInfoId);
+            return staticPowInfo.PowderName;
         }
     }
 }
