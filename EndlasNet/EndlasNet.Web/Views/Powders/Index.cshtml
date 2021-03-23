@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<EndlasNet.Data.Powder>
 
 @{
-    ViewData["Title"] = "Powders";
+    ViewData["Title"] = "Powder bottle batch";
 }
-<h3>
+<h2>Powder bottle batch</h2>
+<h5>
     <span>
-        @ViewBag.PowderOrderNum,&nbsp;@ViewBag.LineItemVendorDescription
+        @ViewBag.PowderOrderNum,&nbsp;@ViewBag.LineItemVendorDescription,&nbsp;@ViewBag.PowderName
     </span>
-</h3>
-<h2>Powder Bottles: @ViewBag.PowderName</h2>
+</h5>
 
 <table class="table">
     <thead>
-        <tr>    
+        <tr>
             <th>
                 @Html.DisplayNameFor(model => model.BottleNumber)
             </th>
@@ -30,30 +30,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
 
-    var initWeightStr = string.Format("{0:0.0000}", item.InitWeight);
-    var weightStr = string.Format("{0:0.0000}", item.Weight);
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BottleNumber)
-            </td>
-            <td>
-                @initWeightStr
-            </td>
-            <td>
-                @weightStr
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LotNumber)
-            </td>
+            var initWeightStr = string.Format("{0:0.0000}", item.InitWeight);
+            var weightStr = string.Format("{0:0.0000}", item.Weight);
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BottleNumber)
+                </td>
+                <td>
+                    @initWeightStr
+                </td>
+                <td>
+                    @weightStr
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LotNumber)
+                </td>
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PowderId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PowderId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PowderId">Delete</a>
-            </td>
-        </tr>
-}
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PowderId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PowderId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PowderId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
