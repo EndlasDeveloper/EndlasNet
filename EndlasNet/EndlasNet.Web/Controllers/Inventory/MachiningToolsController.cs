@@ -59,11 +59,13 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MachiningToolId,ToolType,ToolDiameter,VendorDescription,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderCost,InvoiceNumber,UserId,VendorId")] MachiningTool machiningTool)
+        public async Task<IActionResult> Create([Bind("MachiningToolId,ToolType,ToolDiameter,VendorDescription,InitToolCount,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderCost,InvoiceNumber,UserId,VendorId")] MachiningTool machiningTool)
         {
             if (ModelState.IsValid)
             {
                 machiningTool.MachiningToolId = Guid.NewGuid();
+                // default tool count to the initial tool count
+                machiningTool.ToolCount = machiningTool.InitToolCount;
                 machiningTool.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Entry(machiningTool).Property("CreatedDate").CurrentValue = DateTime.Now;
                 _context.Entry(machiningTool).Property("UpdatedDate").CurrentValue = DateTime.Now;
@@ -97,7 +99,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolId,ToolType,ToolDiameter,VendorDescription,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderCost,InvoiceNumber,UserId,VendorId")] MachiningTool machiningTool)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolId,ToolType,ToolDiameter,VendorDescription,InitToolCount,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderCost,InvoiceNumber,UserId,VendorId")] MachiningTool machiningTool)
         {
             if (id != machiningTool.MachiningToolId)
             {

@@ -25,6 +25,11 @@ namespace EndlasNet.Data
         public string VendorDescription { get; set; }
 
         [Range(1, 10000)]
+        [Display(Name = "Initial tool count")]
+        [Required]
+        public int InitToolCount { get; set; }
+
+        [Range(1, 10000)]
         [Display(Name = "Tool count")]
         [Required]
         public int ToolCount { get; set; }
