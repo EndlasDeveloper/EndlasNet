@@ -3,7 +3,11 @@
 @{
     ViewData["Title"] = "Powders";
 }
-
+<h3>
+    <span>
+        @ViewBag.PowderOrderNum,&nbsp;@ViewBag.LineItemVendorDescription
+    </span>
+</h3>
 <h1>Powder Bottles: @ViewBag.PowderName</h1>
 
 <table class="table">

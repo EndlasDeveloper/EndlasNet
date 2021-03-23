@@ -20,7 +20,11 @@ namespace EndlasNet.Data
             await db.SaveChangesAsync();
         }
 
-       
+        public async Task<PowderOrder> GetPowderOrder(Guid powderOrderId)
+        {
+            return await db.PowderOrders
+                .FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
+        }
     }
 }
 

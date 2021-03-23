@@ -14,20 +14,29 @@ namespace EndlasNet.Web.Controllers
     {
         private readonly EndlasNetDbContext _context;
         private readonly PowderRepo _powderRepo;
+        private readonly PowderOrderRepo _powderOrderRepo;
         private readonly LineItemRepo _lineItemRepo;
+        private readonly StaticPowderInfoRepo _staticPowderInfoRepo;
 
         public PowdersController(EndlasNetDbContext context)
         {
             _context = context;
+            _staticPowderInfoRepo = new StaticPowderInfoRepo(context);
             _powderRepo = new PowderRepo(context);
             _lineItemRepo = new LineItemRepo(context);
+            _powderOrderRepo = new PowderOrderRepo(context);
         }
 
         // GET: Powders
         public async Task<IActionResult> Index(Guid lineItemId)
         {
             var lineItem = await _lineItemRepo.GetLineItem(lineItemId);
-            ViewBag.PowderName = await GetPowderName(lineItem.StaticPowderInfoId);
+            var powOrder = await _powderOrderRepo.GetPowderOrder(lineItem.PowderOrderId);
+            var staticPow = await _staticPowderInfoRepo.GetStaticPowderInfo(lineItem.StaticPowderInfoId);
+
+            ViewBag.LineItemVendorDescription = lineItem.VendorDescription;
+            ViewBag.PowderOrderNum = powOrder.PurchaseOrderNum;
+            ViewBag.PowderName = staticPow.PowderName; 
 
             return View(await _powderRepo.GetLineItemPowders(lineItemId));
         }
@@ -36,7 +45,8 @@ namespace EndlasNet.Web.Controllers
 
         public async Task<IActionResult> AllPowderIndex()
         {
-            return View(await _context.Powders.Include(p => p.StaticPowderInfo).ToListAsync());
+            return View(await _context.Powders
+                .Include(p => p.StaticPowderInfo).ToListAsync());
         }
 
 

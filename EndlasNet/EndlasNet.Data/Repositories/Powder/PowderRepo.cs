@@ -37,5 +37,10 @@ namespace EndlasNet.Data
                 .Where(p => p.LineItemId == lineItemId)
                 .ToListAsync();
         }
+
+        public async Task<List<Powder>> GetAllPowdersAsync()
+        {
+            return await _db.Powders.ToListAsync();
+        }
     }
 }
