@@ -1,0 +1,69 @@
+﻿@using EndlasNet.Data;
+@model EndlasNet.Data.PartForWork
+
+@{
+    ViewData["Title"] = "Create";
+
+
+
+}
+
+<h1>Create</h1>
+
+<h4>Powder for part</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="get">
+
+            @using (Html.BeginForm("CreateWithWorkSet", "PowderForParts", FormMethod.Post))
+            {
+            <div>
+                <input asp-for="WorkId" placeholder="@ViewBag.WorkDescription" class="form-control" readonly />
+            </div>
+            <div>
+                <label asp-for="PartForWorkId" class="control-label"></label>
+                <select asp-for="PartForWorkId" class="form-control" asp-items="ViewBag.PartForWorkId"></select>
+                <input type="submit" value="submit" class="btn btn-primary" />
+            </div>
+            }
+
+        </form>
+
+        @*   <div class="form-group">
+
+            </div>
+            <div class="form-group">
+
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PowderId" class="control-label"></label>
+                <select asp-for="PowderId" class="form-control" asp-items="ViewBag.PowderId"></select>
+                <input type="submit" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PartForWorkId" class="control-label"></label>
+                <select asp-for="PartForWorkId" class="form-control" asp-items="ViewBag.PartForWorkId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PowderWeightUsed" class="control-label"></label>
+                <input asp-for="PowderWeightUsed" class="form-control" />
+                <span asp-validation-for="PowderWeightUsed" class="text-danger"></span>
+                @if (ViewBag.HasEnoughPowder == "false")
+                {
+                    <span class="text-danger">Not enough powder. @ViewBag.PowderLeft lbs left.</span>
+                }
+
+            </div>*@
+
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to list</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,5 +1,5 @@
 ﻿@using EndlasNet.Data;
-@model EndlasNet.Data.PowderForPart
+@model EndlasNet.Data.Work
 
 @{
     ViewData["Title"] = "Create";
@@ -14,25 +14,29 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PowderId" class="control-label"></label>
-                <select asp-for="PowderId" class="form-control" asp-items="ViewBag.PowderId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="PartForWork.WorkId" class="control-label"></label>
-                <span>
-                    <select asp-for="PartForWork.WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </span>
-            </div>
-            <div class="form-group">
-               
-            </div>
-        </form>
 
-       @* <div class="form-group">
+            @using (Html.BeginForm("CreateInitial", "PowderForParts", FormMethod.Post))
+            {
+                <label asp-for="WorkId" class="control-label"></label>
+                <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
+
+                <input type="button" value="submit" class="btn btn-primary"  />
+            }
+
+
+     @*   <div class="form-group">
+
+        </div>
+        <div class="form-group">
+
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="PowderId" class="control-label"></label>
+            <select asp-for="PowderId" class="form-control" asp-items="ViewBag.PowderId"></select>
+            <input type="submit" class="btn btn-primary" />
+        </div>
+        <div class="form-group">
             <label asp-for="PartForWorkId" class="control-label"></label>
             <select asp-for="PartForWorkId" class="form-control" asp-items="ViewBag.PartForWorkId"></select>
         </div>
@@ -46,7 +50,7 @@
             }
 
         </div>*@
-            
+
     </div>
 </div>
 

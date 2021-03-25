@@ -9,6 +9,14 @@ using EndlasNet.Data;
 
 namespace EndlasNet.Web.Controllers
 {
+    public enum CreateCases
+    {
+        PopulateWork,
+        PopulatePartsForWork,
+        PopulatePowder,
+        PopulatePowderBottles
+    }
+
     public class PowderForPartsController : Controller
     {
         private readonly EndlasNetDbContext _context;
@@ -120,21 +128,70 @@ namespace EndlasNet.Web.Controllers
         public async Task SetViewData()
         {
             var partsForWork = await GetPartsForWorkList();
+            foreach(PartForWork partForWork in partsForWork)
+            {
+                partForWork.Work = await _context.Work.FirstOrDefaultAsync(p => p.WorkId == partForWork.WorkId);
+            }
+         
+            ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
+        }
+
+        public async Task SetPowdersForDropdown()
+        {
             var powders = await GetPowdersList();
-            var work = await _context.Work.ToListAsync();
             foreach (Powder powder in powders)
-            {           
+            {
                 powder.PowderName = powder.PowderName + " - " + string.Format("{0:0.0000}", powder.Weight) + " lbs";
             }
-            ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
-            ViewData["WorkId"] = new SelectList(work,"WorkId","WorkDescription");
             ViewData["PowderId"] = new SelectList(powders, "PowderId", "PowderName");
         }
 
-        // GET: PowderForParts/Create
-        public async Task<IActionResult> Create()
+
+
+
+        public async Task SetWorkForCreate(Guid? workId)
         {
-            await SetViewData();
+            var partsForWork = await _context.PartsForWork.Where(p => p.WorkId == workId).ToListAsync();
+            ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
+        }
+
+        private async Task PopulateWorkForCreate()
+        {
+            var work = await _context.Work.ToListAsync();
+            ViewData["WorkId"] = new SelectList(work, "WorkId", "WorkDescription");
+            ViewBag.Init = "true";
+        }
+        // GET: PowderForParts/Create
+        public async Task<IActionResult> CreateInitialGet()
+        {
+
+            await PopulateWorkForCreate();
+            //await SetPowdersForDropdown();
+            //await SetViewData();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public  IActionResult CreateInitialPost([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Work work)
+        {
+            return RedirectToAction("CreateWithWorkSet", new { workId = work.WorkId });
+        }
+
+        //GET
+        [HttpGet]
+        public async Task<IActionResult> CreateWithWorkSet(Guid? workId)
+        {
+            var work = await _context.Work
+                .FirstOrDefaultAsync(w => w.WorkId == workId);
+            var partsForWork = await _context.PartsForWork
+                .Where(p => p.WorkId == workId).ToListAsync();
+            foreach(PartForWork partForWork in partsForWork)
+            {
+                partForWork.Work = await _context.Work.FirstOrDefaultAsync(p => p.WorkId == workId);      
+            }
+            ViewBag.WorkDescription = work.WorkDescription;
+            ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "Suffix");
             return View();
         }
 
@@ -147,10 +204,7 @@ namespace EndlasNet.Web.Controllers
         {
             powderForPart.PowderForPartId = Guid.NewGuid();
 
-            if(powderForPart.PartForWork.WorkId != null)
-            {
-
-            }
+         
 
             if (ModelState.GetValidationState("PartForWorkId") == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid)
             {
