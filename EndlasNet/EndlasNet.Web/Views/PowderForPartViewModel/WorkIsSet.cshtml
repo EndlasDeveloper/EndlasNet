@@ -1,0 +1,27 @@
+﻿@using EndlasNet.Data
+
+@model PowderForPartViewModel
+
+@{
+    ViewData["Title"] = "Select parts";
+}
+
+<h1>Select parts from work</h1>
+<form enctype="multipart/form-data" method="post">
+    <input asp-for="CheckBoxList" hidden />
+    @for(int i = 0; i < Model.CheckBoxList.Count; i++)
+    {
+        @Model.CheckBoxList[i].PartForWork.Suffix
+        <input type="checkbox" asp-for="@Model.CheckBoxList[i].IsChecked"/>
+        <br />
+        <br />
+    }
+    <div class="form-group">
+        <label asp-for="Weight" class="control-label"></label>
+        <input asp-for="Weight" class="form-control" />
+        <br />
+    </div>
+    <div class="form-group">
+        <input type="submit" asp-action="Create" class="btn btn-primary" />
+    </div>
+</form>
