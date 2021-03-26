@@ -26,6 +26,14 @@ namespace EndlasNet.Web.Controllers
             _context = context;
         }
 
+/*        public async Task<IActionResult> IndexForward(IEnumerable<Guid> partsForWorkIds)
+        {
+            foreach(Guid id in partsForWorkIds)
+            {
+
+            }
+        }*/
+
         // GET: PowderForParts
         public async Task<IActionResult> Index(string sortOrder)
         {

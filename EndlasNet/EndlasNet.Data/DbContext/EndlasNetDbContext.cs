@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace EndlasNet.Data
 {
@@ -38,6 +39,8 @@ namespace EndlasNet.Data
         public DbSet<PartForWorkOrder> PartsForWorkOrders { get; set; }
         public DbSet<PowderForPart> PowderForParts{ get; set; }
 
+        public DbSet<PowderForPartViewModel> PowderForPartViewModels { get; set; }
+        public DbSet<CheckBoxInfo> PowderForPartCheckBoxes{ get; set; }
         // ENVIRONMENT
         public DbSet<EnvironmentalSnapshot> EnvironmentalSnapshots { get; set; }
 
