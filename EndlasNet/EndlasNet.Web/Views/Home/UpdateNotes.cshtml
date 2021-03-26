@@ -15,28 +15,7 @@
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
-        <li class="update-notes-li">
-            Added description, composition, and pdf to static powder information. Added front-end UI elements for the new attributes in all views.
-        </li>
-        <li class="update-notes-li">
-            On Edit Powder save -> fixed issue where the heading powder name would be lost after returning to the index view from views other than
-            line items. Added powder order and line item reference in heading above powder name. Works for all cases of traffic into the page.
-        </li>
-        <li class="update-notes-li">
-            LineItem -> Added Uninitialize line item in place of delete (remove delete option). On uninitialization, all existing children
-            powder bottles are deleted. Added warining view to describe what else could be deleted when the item in interest is deleted.
-        </li>
-        <li class="update-notes-li">
-            All parts for work, powder for parts -> added sort by suffix functionality.
-        </li>
-        <li class="update-notes-li">
-            Under Actions -> default date is today's date. Fixed issue (in all edit views) where editing a db element that has a date time
-            attribute would lose the previously entered date.
-        </li>
-        <li class="update-notes-li">
-            MachiningTool -> Added InitToolCount column to back-end. On machining tool create. Only initial tool count is provided to the user.
-            The tool count defaults to the initial tool count. Initial tool count added to display elements of views.
-        </li>
+     
         <li class="update-notes-li">
             Started the workflow for putting powder to batches of parts. Can select work. Then a screen is rendered with checkboxes for
             each part in the selected job. There is also a weight form. On submit, the workflow stops working correctly.
@@ -46,6 +25,25 @@
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
+        <li class="update-notes-li">
+            On Edit with entity containing a file, make the file persist into the Edit view.
+        </li>
+        <li class="update-notes-li">
+            Look into why password isn't being set properly.
+        </li>
+        <li class="update-notes-li">
+            Add comment attribute (str) to MachiningToolForWork
+        </li>
+        <li class="update-notes-li">
+            LineItem Index -> add number of powder bottles to index view.
+        </li>
+        <li class="update-notes-li">
+            PowderOrder Index -> add number of LineItems to index view
+        </li>
+        <li class="update-notes-li">
+            Add back action link to traverse: PowderOrder - LineItem - Powder
+        </li>
+
         <li class="update-notes-li">
             Start looking at making reports from database data.
         </li>
