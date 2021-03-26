@@ -52,29 +52,6 @@ namespace EndlasNet.Web.Controllers
 
         }
 
-        [HttpPost]
-        public async Task<IActionResult> WorkIsSetPost([Bind("AllWork,Work,WorkId,CheckBoxList,Weight")] PowderForPartViewModel powderForPartViewModel)
-        {
-            powderForPartViewModel.Work = await _context.Work
-               .FirstOrDefaultAsync(w => w.WorkId == powderForPartViewModel.Work.WorkId);
-            powderForPartViewModel.WorkId = powderForPartViewModel.Work.WorkId;
-            powderForPartViewModel.Work = await _context.Work
-                .FirstOrDefaultAsync(w => w.WorkId == powderForPartViewModel.WorkId);
-            ViewBag.WorkDescription = powderForPartViewModel.Work.WorkDescription;
-            var partsForWork = await _context.PartsForWork.Where(p => p.WorkId == powderForPartViewModel.WorkId).ToListAsync();
-            powderForPartViewModel.CheckBoxList = new List<CheckBoxInfo>();
-            for (int i = 0; i < partsForWork.Count; i++)
-            {
-                var checkBox = new CheckBoxInfo();
-                checkBox.CheckBoxInfoId = Guid.NewGuid();
-                checkBox.PartForWork = partsForWork[i];
-                checkBox.PartForWorkId = partsForWork[i].PartForWorkId;
-                checkBox.IsChecked = false;
-                powderForPartViewModel.CheckBoxList.Insert(i, checkBox);
-            }
-            return RedirectToAction("WorkIsSet", new { powderForPartViewModel = powderForPartViewModel });
-        }
-
         // POST
         [HttpPost]
         public async Task<IActionResult> SetWork([Bind("AllWork,Work,WorkId,CheckBoxList,Weight")] PowderForPartViewModel powderForPartViewModel)
@@ -99,7 +76,8 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction("WorkIsSet", new { workId = powderForPartViewModel.WorkId });
         }
 
-        public  IActionResult Create([Bind("AllWork,Work,WorkId,CheckBoxList,Weight")] PowderForPartViewModel powderForPartViewModel)
+        [HttpPost]
+        public IActionResult Create([Bind("AllWork,Work,WorkId,CheckBoxList,Weight")] PowderForPartViewModel powderForPartViewModel)
         {
             var p = powderForPartViewModel;
             return View();
