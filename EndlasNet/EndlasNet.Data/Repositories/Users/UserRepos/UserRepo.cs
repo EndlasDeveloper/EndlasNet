@@ -73,15 +73,13 @@ namespace EndlasNet.Data
 
         public async Task AddRow(object obj)
         {
-            if (typeof(object).Equals(typeof(User)))
+            try
             {
+                var user = (User)obj;
                 await _db.Users.AddAsync((User)obj);
                 await _db.SaveChangesAsync();
             }
-            else
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+            catch (InvalidCastException) { }
         }
 
         public async Task AddAdmin(Admin admin)
@@ -99,16 +97,15 @@ namespace EndlasNet.Data
 
         public async Task UpdateRow(object obj)
         {
-            if (typeof(object).Equals(typeof(User)))
+            try
             {
+                var user = (User)obj;
                 var entry = _db.Entry((User)obj);
                 entry.State = EntityState.Modified;
                 await _db.SaveChangesAsync();
             }
-            else
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+            catch (InvalidCastException) { }
+            
         }
 
         public Task RemoveRow(Guid id)
@@ -126,10 +123,7 @@ namespace EndlasNet.Data
                 _db.Entry(user).State = EntityState.Deleted;
                 await _db.SaveChangesAsync();
             }
-            catch (ArgumentNullException)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            } 
+            catch (ArgumentNullException){ } 
         }
     }
 }

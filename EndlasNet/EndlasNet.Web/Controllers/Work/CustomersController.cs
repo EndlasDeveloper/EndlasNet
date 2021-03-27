@@ -20,7 +20,7 @@ namespace EndlasNet.Web.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await repo.GetAllCustomersAsync());
+            return View(await repo.GetAllRows());
         }
 
         // GET: Customers/Details/5
@@ -56,7 +56,7 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 customer.CustomerId = Guid.NewGuid();
-                await repo.AddCustomerAsync(customer);
+                await repo.AddRow(customer);
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
@@ -94,7 +94,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    await repo.UpdateCustomerAsync(customer);
+                    await repo.UpdateRow(customer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -134,7 +134,7 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await repo.DeleteCustomerConfirmedAsync(id);
+            await repo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 

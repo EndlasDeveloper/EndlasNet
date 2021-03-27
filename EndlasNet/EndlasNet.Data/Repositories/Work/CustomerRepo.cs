@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace EndlasNet.Data
 {
-    public class CustomerRepo
+    public class CustomerRepo : IRepository
     {
         private readonly EndlasNetDbContext _db;
 
@@ -15,9 +17,9 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task<List<Customer>> GetAllCustomersAsync()
+        public async Task<IEnumerable<object>> GetAllRows()
         {
-            return await _db.Customers.ToListAsync(); 
+            return await _db.Customers.ToListAsync();
         }
 
         public async Task<Customer> GetCustomerDetailsAsync(Guid? id)
@@ -27,21 +29,9 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(c => c.CustomerId == id);
         }
 
-        public async Task AddCustomerAsync(Customer customer)
-        {
-            await _db.Customers.AddAsync(customer);
-            await _db.SaveChangesAsync();
-        }
-
         public async Task<Customer> GetCustomerEditAsync(Guid? id)
         {
             return await _db.Customers.FindAsync(id);
-        }
-
-        public async Task UpdateCustomerAsync(Customer customer)
-        {
-            _db.Update(customer);
-            await _db.SaveChangesAsync();
         }
 
         public async Task<Customer> DeleteCustomerAsync(Guid? id)
@@ -49,17 +39,57 @@ namespace EndlasNet.Data
             return await _db.Customers
                 .FirstOrDefaultAsync(c => c.CustomerId == id);
         }
-        
-        public async Task DeleteCustomerConfirmedAsync(Guid id)
-        {
-            var customer = await _db.Customers.FindAsync(id);
-            _db.Customers.Remove(customer);
-            await _db.SaveChangesAsync();
-        }
 
         public async Task<bool> ConfirmCustomerExistsAsync(Guid id)
         {
             return await _db.Customers.AnyAsync(e => e.CustomerId == id);
+        }
+
+        public async Task<object> GetRow(Guid customerId)
+        {
+            return await _db.Customers
+                .FirstOrDefaultAsync(c => c.CustomerId == customerId);
+        }
+
+        public async Task AddRow(object obj)
+        {
+            try
+            {
+                var customer = (Customer)obj;
+                await _db.Customers.AddAsync(customer);
+                await _db.SaveChangesAsync();
+            }
+            catch (InvalidCastException) { }
+        }
+
+        public async Task UpdateRow(object obj)
+        {
+            try
+            {
+                var customer = (Customer)obj;
+                var entry = _db.Entry(customer);
+                entry.State = EntityState.Modified;
+                await _db.SaveChangesAsync();
+            }
+            catch (InvalidCastException) { }
+        }
+
+        public Task RemoveRow(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteRow(Guid customerId)
+        {
+            try
+            {
+                var customer = await _db.Customers
+                    .FirstOrDefaultAsync(u => u.CustomerId == customerId);
+                _db.Customers.Remove(customer);
+                _db.Entry(customer).State = EntityState.Deleted;
+                await _db.SaveChangesAsync();
+            }
+            catch (ArgumentNullException){ }
         }
     }
 }
