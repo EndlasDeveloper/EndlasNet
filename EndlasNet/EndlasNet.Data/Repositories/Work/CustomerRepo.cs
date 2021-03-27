@@ -11,6 +11,7 @@ namespace EndlasNet.Data
     {
         private readonly EndlasNetDbContext _db;
 
+
         public CustomerRepo(EndlasNetDbContext db)
         {
             _db = db;
