@@ -24,7 +24,7 @@ namespace EndlasNet.Web.Controllers
         // GET: Vendors
         public async Task<IActionResult> Index()
         {
-            return View(await _vendorRepo.GetAllVendorsAsync());
+            return View(await _vendorRepo.GetAllRows());
         }
 
         // GET: Vendors/Details/5
@@ -60,7 +60,7 @@ namespace EndlasNet.Web.Controllers
             {
                 vendor.User = await _userRepo.GetUser(HttpContext.Session.GetString("email"));
                 vendor.VendorId = Guid.NewGuid();
-                await _vendorRepo.AddVendorAsync(vendor);
+                await _vendorRepo.AddRow(vendor);
                 return RedirectToAction(nameof(Index));
             }
             return View(vendor);
@@ -98,7 +98,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    await _vendorRepo.UpdateVendorAsync(vendor);
+                    await _vendorRepo.UpdateRow(vendor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -138,7 +138,7 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _vendorRepo.DeleteVendorConfirmedAsync(id);
+            await _vendorRepo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 

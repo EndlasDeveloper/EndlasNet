@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class VendorRepo
+    public class VendorRepo : IRepository
     {
         private readonly EndlasNetDbContext _db;
 
@@ -15,7 +15,7 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task<List<Vendor>> GetAllVendorsAsync()
+        public async Task<IEnumerable<object>> GetAllRows()
         {
             return await _db.Vendors.ToListAsync();
         }
@@ -27,10 +27,16 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(c => c.VendorId == id);
         }
 
-        public async Task AddVendorAsync(Vendor vendor)
+        public async Task AddRow(object obj)
         {
-            await _db.Vendors.AddAsync(vendor);
-            await _db.SaveChangesAsync();
+            try
+            {
+                var vendor = (Vendor)obj;
+                await _db.Vendors.AddAsync(vendor);
+                await _db.SaveChangesAsync();
+            }
+            catch (InvalidCastException) { }
+
         }
 
         public async Task<Vendor> GetVendorEditAsync(Guid? id)
@@ -38,10 +44,15 @@ namespace EndlasNet.Data
             return await _db.Vendors.FindAsync(id);
         }
 
-        public async Task UpdateVendorAsync(Vendor vendor)
+        public async Task UpdateRow(object obj)
         {
-            _db.Update(vendor);
-            await _db.SaveChangesAsync();
+            try
+            {
+                var vendor = (Vendor)obj;
+                _db.Update(vendor);
+                await _db.SaveChangesAsync();
+            }
+            catch (InvalidCastException) { }
         }
 
         public async Task<Vendor> DeleteVendorAsync(Guid? id)
@@ -50,7 +61,7 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(c => c.VendorId == id);
         }
 
-        public async Task DeleteVendorConfirmedAsync(Guid? id)
+        public async Task DeleteRow(Guid id)
         {
             var vendor = await _db.Vendors.FindAsync(id);
             _db.Vendors.Remove(vendor);
@@ -61,5 +72,18 @@ namespace EndlasNet.Data
         {
             return await _db.Vendors.AnyAsync(e => e.VendorId == id);
         }
+
+        public async Task<object> GetRow(Guid id)
+        {
+            return await _db.Vendors
+                .FirstOrDefaultAsync(v => v.VendorId == id);
+        }
+
+        public Task RemoveRow(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+ 
     }
 }
