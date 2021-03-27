@@ -12,11 +12,11 @@ namespace EndlasNet.Web.Controllers
     public class AdminsController : Controller
     {
         private readonly EndlasNetDbContext _context;
-        private AdminRepo repo;
+        private UserRepo repo;
         public AdminsController(EndlasNetDbContext context)
         {
             _context = context;
-            repo = new AdminRepo(context);
+            repo = new UserRepo(context);
         }
 
 
@@ -33,7 +33,7 @@ namespace EndlasNet.Web.Controllers
             ViewBag.EmailDescSortParm = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
             ViewBag.EmailAscSortParm = String.IsNullOrEmpty(sortOrder) ? "email_asc" : "";
 
-            var admins = await repo.GetAll();
+            var admins = await repo.GetAllAdmins();
             
             switch (sortOrder)
             {
@@ -102,8 +102,7 @@ namespace EndlasNet.Web.Controllers
                 // **** HASH AUTH STRING ****
                 admin.AuthString = Security.ComputeSha256Hash(admin.AuthString);
                 // update shadow properties
-                _context.Add(admin);
-                await _context.SaveChangesAsync();
+                await repo.AddAdmin(admin);
                 return RedirectToAction(nameof(Index));
             }
             return View(admin);
@@ -141,8 +140,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    _context.Update(admin);
-                    await _context.SaveChangesAsync();
+                    await repo.UpdateRow(admin);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -183,9 +181,7 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var admin = await _context.Admins.FindAsync(id);
-            _context.Admins.Remove(admin);
-            await _context.SaveChangesAsync();
+            await repo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 
