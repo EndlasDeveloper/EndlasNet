@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class PowderRepo : IPowderRepo
+    public class PowderRepo : IRepository, IPowderRepo
     {
         private readonly EndlasNetDbContext _db;
         public PowderRepo(EndlasNetDbContext db)
@@ -41,6 +41,46 @@ namespace EndlasNet.Data
         public async Task<List<Powder>> GetAllPowdersAsync()
         {
             return await _db.Powders.ToListAsync();
+        }
+
+        public Task<object> GetRow(Guid? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<object>> GetAllRows()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddRow(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateRow(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveRow(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteRow(Guid? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RowExists(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<object> GetRowNoTracking(Guid? id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

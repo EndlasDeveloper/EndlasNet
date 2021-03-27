@@ -21,9 +21,10 @@ namespace EndlasNet.Web.Controllers
         public LineItemsController(EndlasNetDbContext context)
         {
             _context = context;
-            _lineItemRepo = new LineItemRepo(context);
-            _powderOrderRepo = new PowderOrderRepo(context);
-            _powderRepo = new PowderRepo(context);
+            var repoFactory = RepositoryFactory.Instance(context);
+            _lineItemRepo = (LineItemRepo)repoFactory.GetRepository(RepositoryTypes.LineItem);
+            _powderOrderRepo = (PowderOrderRepo)repoFactory.GetRepository(RepositoryTypes.PowderOrder);
+            _powderRepo = (PowderRepo)repoFactory.GetRepository(RepositoryTypes.Powder);
             _staticPowderRepo = new StaticPowderInfoRepo(context);
         }
 
@@ -31,7 +32,7 @@ namespace EndlasNet.Web.Controllers
 
         public async Task<IActionResult> Index(Guid powderOrderId)
         {
-            var powderOrder = await _powderOrderRepo.GetPowderOrder(powderOrderId);
+            var powderOrder = (PowderOrder)await _powderOrderRepo.GetRow(powderOrderId);
             ViewBag.PurchaseOrderNum = powderOrder.PurchaseOrderNum;
             return View(await _lineItemRepo.GetLineItems(powderOrderId));  
         }

@@ -31,8 +31,8 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Index(Guid lineItemId)
         {
             var lineItem = (LineItem)await _lineItemRepo.GetRow(lineItemId);
-            var powOrder = await _powderOrderRepo.GetPowderOrder(lineItem.PowderOrderId);
-            var staticPow = await _staticPowderInfoRepo.GetStaticPowderInfo(lineItem.StaticPowderInfoId);
+            var powOrder = (PowderOrder)await _powderOrderRepo.GetRow(lineItem.PowderOrderId);
+            var staticPow = (StaticPowderInfo)await _staticPowderInfoRepo.GetRow(lineItem.StaticPowderInfoId);
 
             ViewBag.LineItemVendorDescription = lineItem.VendorDescription;
             ViewBag.PowderOrderNum = powOrder.PurchaseOrderNum;
@@ -58,11 +58,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var powder = await _context.Powders
-                .Include(p => p.LineItem)
-                .Include(p => p.User)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.PowderId == id);
+            var powder = await _powderRepo.GetRowNoTracking(id);
             if (powder == null)
             {
                 return NotFound();
@@ -91,8 +87,7 @@ namespace EndlasNet.Web.Controllers
                 _context.Entry(powder).Property("UpdatedDate").CurrentValue = DateTime.Now;
                 powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 powder.Weight = powder.InitWeight;
-                _context.Add(powder);
-                await _context.SaveChangesAsync();
+                await _powderRepo.AddRow(powder);
                 return RedirectToAction(nameof(Index));
             }
 

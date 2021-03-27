@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class PowderOrderRepo
+    public class PowderOrderRepo : IRepository
     {
         private readonly EndlasNetDbContext db;
         public PowderOrderRepo(EndlasNetDbContext db)
@@ -14,16 +14,53 @@ namespace EndlasNet.Data
             this.db = db;
         }
 
-        public async Task Add(PowderOrder powderOrder)
+        public async Task AddRow(object obj)
         {
-            await db.PowderOrders.AddAsync(powderOrder);
-            await db.SaveChangesAsync();
+            try
+            {
+                var powderOrder = (PowderOrder)obj;
+                await db.PowderOrders.AddAsync(powderOrder);
+                await db.SaveChangesAsync();
+            }
+            catch (InvalidCastException) { }
+            
         }
 
-        public async Task<PowderOrder> GetPowderOrder(Guid powderOrderId)
+        public Task DeleteRow(Guid? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<object>> GetAllRows()
+        {
+            return await db.PowderOrders.ToListAsync();
+        }
+
+
+        public async Task<object> GetRow(Guid? powderOrderId)
         {
             return await db.PowderOrders
-                .FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
+                           .FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
+        }
+
+        public Task<object> GetRowNoTracking(Guid? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveRow(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RowExists(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateRow(object obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }
