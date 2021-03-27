@@ -32,7 +32,7 @@ namespace EndlasNet.SystemTest
 
             /// ACT
             // call the method to be tested
-            await repo.Add(user);
+            await repo.AddRow(user);
             var result = await(_db.Users.Where(p => p.EndlasEmail == user.EndlasEmail).FirstOrDefaultAsync());
 
             /// ASSERT
@@ -51,7 +51,7 @@ namespace EndlasNet.SystemTest
             await AddForTest(user);
             var preresult = await (_db.Users.Where(p => p.EndlasEmail == user.EndlasEmail).FirstOrDefaultAsync());
 
-            await repo.Delete(user.EndlasEmail);
+            await repo.DeleteRow(user.UserId);
             var result = await(_db.Users.Where(p => p.EndlasEmail == user.EndlasEmail).FirstOrDefaultAsync());
 
             /// ASSERT
@@ -79,14 +79,14 @@ namespace EndlasNet.SystemTest
             var user2 = CreateUser();
             var user3 = CreateUser();
 
-            var list = await repo.GetAll();
+            var list = await repo.GetAllRows();
             Assert.AreEqual(0, list.Count());
             await AddForTest(user1);
-            list = await repo.GetAll();
+            list = await repo.GetAllRows();
             Assert.AreEqual(1, list.Count());
             await AddForTest(user2);
             await AddForTest(user3);
-            list = await repo.GetAll();
+            list = await repo.GetAllRows();
             Assert.AreEqual(3, list.Count());
         }
 
@@ -109,7 +109,7 @@ namespace EndlasNet.SystemTest
             User user = CreateUser();
             await AddForTest(user);
             /// ACT
-            var result = await repo.GetUser(user.UserId);
+            var result = (User)(await repo.GetRow(user.UserId));
             /// ASSERT
             Assert.AreEqual(user.UserId.ToString(), result.UserId.ToString());
         }
@@ -126,7 +126,7 @@ namespace EndlasNet.SystemTest
             user.FirstName = UnitTestUtil.getRandomString(8);
             user.LastName = UnitTestUtil.getRandomString(8);
             user.EndlasEmail = UnitTestUtil.getRandomString(9) + "@endlas.com";
-            await repo.Update(user);
+            await repo.UpdateRow(user);
             var result = await (_db.Users.Where(p => p.EndlasEmail == user.EndlasEmail).FirstOrDefaultAsync());
             var badresult = await (_db.Users.Where(p => p.EndlasEmail == originalEmail).FirstOrDefaultAsync());
             Assert.AreEqual(user.EndlasEmail, result.EndlasEmail);
