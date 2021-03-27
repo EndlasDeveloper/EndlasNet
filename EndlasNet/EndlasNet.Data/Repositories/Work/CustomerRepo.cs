@@ -45,7 +45,7 @@ namespace EndlasNet.Data
             return await _db.Customers.AnyAsync(e => e.CustomerId == id);
         }
 
-        public async Task<object> GetRow(Guid customerId)
+        public async Task<object> GetRow(Guid? customerId)
         {
             return await _db.Customers
                 .FirstOrDefaultAsync(c => c.CustomerId == customerId);
@@ -79,7 +79,7 @@ namespace EndlasNet.Data
             throw new NotImplementedException();
         }
 
-        public async Task DeleteRow(Guid customerId)
+        public async Task DeleteRow(Guid? customerId)
         {
             try
             {
@@ -90,6 +90,19 @@ namespace EndlasNet.Data
                 await _db.SaveChangesAsync();
             }
             catch (ArgumentNullException){ }
+        }
+
+        public async Task<object> GetRowNoTracking(Guid? id)
+        {
+            return await _db.Customers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.CustomerId == id);
+        }
+
+        public async Task<bool> RowExists(Guid id)
+        {
+            return await _db.Customers
+                .AnyAsync(c => c.CustomerId == id);
         }
     }
 }

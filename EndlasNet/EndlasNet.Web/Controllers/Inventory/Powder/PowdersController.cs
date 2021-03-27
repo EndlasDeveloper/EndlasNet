@@ -30,7 +30,7 @@ namespace EndlasNet.Web.Controllers
         // GET: Powders
         public async Task<IActionResult> Index(Guid lineItemId)
         {
-            var lineItem = await _lineItemRepo.GetLineItem(lineItemId);
+            var lineItem = (LineItem)await _lineItemRepo.GetRow(lineItemId);
             var powOrder = await _powderOrderRepo.GetPowderOrder(lineItem.PowderOrderId);
             var staticPow = await _staticPowderInfoRepo.GetStaticPowderInfo(lineItem.StaticPowderInfoId);
 

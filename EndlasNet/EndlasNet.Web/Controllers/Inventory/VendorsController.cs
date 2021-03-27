@@ -144,7 +144,7 @@ namespace EndlasNet.Web.Controllers
 
         private async Task<bool> VendorExists(Guid id)
         {
-            return await _vendorRepo.ConfirmVendorExistsAsync(id);
+            return await _vendorRepo.RowExists(id);
         }
     }
 }

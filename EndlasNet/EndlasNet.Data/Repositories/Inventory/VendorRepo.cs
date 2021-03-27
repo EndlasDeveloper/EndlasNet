@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,19 +62,14 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(c => c.VendorId == id);
         }
 
-        public async Task DeleteRow(Guid id)
+        public async Task DeleteRow(Guid? id)
         {
             var vendor = await _db.Vendors.FindAsync(id);
             _db.Vendors.Remove(vendor);
             await _db.SaveChangesAsync();
         }
 
-        public async Task<bool> ConfirmVendorExistsAsync(Guid id)
-        {
-            return await _db.Vendors.AnyAsync(e => e.VendorId == id);
-        }
-
-        public async Task<object> GetRow(Guid id)
+        public async Task<object> GetRow(Guid? id)
         {
             return await _db.Vendors
                 .FirstOrDefaultAsync(v => v.VendorId == id);
@@ -84,6 +80,17 @@ namespace EndlasNet.Data
             throw new NotImplementedException();
         }
 
- 
+        public async Task<object> GetRowNoTracking(Guid? id)
+        {
+            return await _db.Vendors
+                .AsNoTracking()
+                .FirstOrDefaultAsync(v => v.VendorId == id);
+        }
+
+        public async Task<bool> RowExists(Guid id)
+        {
+            return await _db.Vendors
+                .AnyAsync(e => e.VendorId == id);
+        }
     }
 }

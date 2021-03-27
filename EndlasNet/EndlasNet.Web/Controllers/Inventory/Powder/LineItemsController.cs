@@ -16,12 +16,15 @@ namespace EndlasNet.Web.Controllers
         private readonly LineItemRepo _lineItemRepo;
         private readonly PowderOrderRepo _powderOrderRepo;
         private readonly PowderRepo _powderRepo;
+        private readonly StaticPowderInfoRepo _staticPowderRepo;
+
         public LineItemsController(EndlasNetDbContext context)
         {
             _context = context;
             _lineItemRepo = new LineItemRepo(context);
             _powderOrderRepo = new PowderOrderRepo(context);
             _powderRepo = new PowderRepo(context);
+            _staticPowderRepo = new StaticPowderInfoRepo(context);
         }
 
         // GET: LineItems
@@ -41,11 +44,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _context.LineItems
-                .Include(l => l.PowderOrder)
-                .Include(l => l.StaticPowderInfo)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.LineItemId == id);
+            var lineItem = await _lineItemRepo.GetRowNoTracking(id);
+
             if (lineItem == null)
             {
                 return NotFound();
@@ -74,11 +74,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _context.LineItems
-                .Include(l => l.PowderOrder)
-                .Include(l => l.StaticPowderInfo)
-                .FirstOrDefaultAsync(m => m.LineItemId == id);
-
+            var lineItem = await _lineItemRepo.GetLineItemInclude(id);
 
             ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfo, "StaticPowderInfoId", "PowderName");
             return View(lineItem);
@@ -127,11 +123,10 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 lineItem.LineItemId = Guid.NewGuid();
-                lineItem.StaticPowderInfo = await _context.StaticPowderInfo
-                    .FirstOrDefaultAsync(s => s.StaticPowderInfoId == lineItem.StaticPowderInfoId);
+                lineItem.StaticPowderInfo = await _staticPowderRepo.GetStaticPowderInfo(lineItem.StaticPowderInfoId);
                 lineItem.StaticPowderInfoId = lineItem.StaticPowderInfo.StaticPowderInfoId;
-                _context.Add(lineItem);
-                await _context.SaveChangesAsync();
+
+                await _lineItemRepo.AddRow(lineItem);
 
                 for (int i = 0; i < lineItem.NumBottles; i++)
                 {
@@ -148,9 +143,8 @@ namespace EndlasNet.Web.Controllers
                         StaticPowderInfo = lineItem.StaticPowderInfo,
                         StaticPowderInfoId = lineItem.StaticPowderInfo.StaticPowderInfoId
                     };
-                    _context.Add(newPowder);
+                    await _powderRepo.AddPowder(newPowder);
                 }
-                await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "PowderOrders");
             }
             return View(lineItem);
@@ -164,14 +158,13 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _context.LineItems
-                .Include(l => l.PowderOrder)
-                .Include(l => l.StaticPowderInfo)
-                .FirstOrDefaultAsync(m => m.LineItemId == id);
+            var lineItem = await _lineItemRepo.GetLineItemInclude(id);
+
             if (lineItem == null)
             {
                 return NotFound();
             }
+
             ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfo, "StaticPowderInfoId", "PowderName");
             return View(lineItem);
         }
@@ -192,12 +185,11 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    _context.Update(lineItem);
-                    await _context.SaveChangesAsync();
+                    await _lineItemRepo.UpdateRow(lineItem);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LineItemExists(lineItem.LineItemId))
+                    if (!(await LineItemExists(lineItem.LineItemId)))
                     {
                         return NotFound();
                     }
@@ -219,10 +211,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _context.LineItems
-                .Include(l => l.PowderOrder)
-                .Include(l => l.StaticPowderInfo)
-                .FirstOrDefaultAsync(m => m.LineItemId == id);
+            var lineItem = await _lineItemRepo.GetLineItemInclude(id);
+
             if (lineItem == null)
             {
                 return NotFound();
@@ -236,7 +226,7 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UninitializeConfirmed(Guid id)
         {
-            var lineItem = await _context.LineItems.FindAsync(id);
+            var lineItem = (LineItem)await _lineItemRepo.GetRow(id);
             var powders = await _powderRepo.GetLineItemPowders(id);
 
             // delete lineItem's powders
@@ -245,8 +235,9 @@ namespace EndlasNet.Web.Controllers
                 _context.Powders.Remove(powder);
             }
             lineItem.IsInitialized = false;
-            _context.LineItems.Update(lineItem);
-            await _context.SaveChangesAsync();
+
+            await _lineItemRepo.UpdateRow(lineItem);
+
             return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
         }
 
@@ -254,9 +245,9 @@ namespace EndlasNet.Web.Controllers
         {
             return RedirectToAction("Index", "Powders", new {powderOrderId = powderOrderId, lineItemId = lineItemId});
         }
-        private bool LineItemExists(Guid id)
+        private async Task<bool> LineItemExists(Guid id)
         {
-            return _context.LineItems.Any(e => e.LineItemId == id);
+            return await _lineItemRepo.RowExists(id);
         }
     }
 }
