@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
+using Microsoft.AspNetCore.Http.Internal;
+
 namespace EndlasNet.Data
 {
     public static class FileURL
@@ -16,10 +18,16 @@ namespace EndlasNet.Data
         {
             if (staticPartInfo.DrawingImageBytes != null)
             {
-                string pdfBase64Data = Convert.ToBase64String(staticPartInfo.DrawingImageBytes);
-                string imageUrl = string.Format("data:image/png;base64,{0}", pdfBase64Data);
+                string imageUrl = GetImageURL(staticPartInfo.DrawingImageBytes);
                 staticPartInfo.ImageUrl = imageUrl;
             }
+        }
+
+        public static string GetImageURL(byte[] imgBytes)
+        {
+            string imgBase64Data = Convert.ToBase64String(imgBytes);
+            return string.Format("data:image/png;base64,{0}", imgBase64Data);
+
         }
 
         public static string GetPdfUrl(byte[] pdfBytes)
@@ -37,5 +45,7 @@ namespace EndlasNet.Data
                 return memoryStream.ToArray();
             }
         }
+
+
     }
 }

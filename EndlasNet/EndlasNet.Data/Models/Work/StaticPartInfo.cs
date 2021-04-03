@@ -62,5 +62,15 @@ namespace EndlasNet.Data
 
         // Static part info has (describes) many PartsForWork
         public IEnumerable<PartForWork> PartsForWork { get; set; }
+
+        [NotMapped]
+        [Display(Name ="Clear current image")]
+        public bool ClearImg { get; set; }
+        [NotMapped]
+        [Display(Name = "Clear current blank file")]
+        public bool ClearBlank { get; set; }
+        [NotMapped]
+        [Display(Name = "Clear current finish file")]
+        public bool ClearFinish { get; set; }
     }
 }

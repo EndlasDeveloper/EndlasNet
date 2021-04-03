@@ -92,6 +92,8 @@ namespace EndlasNet.Web.Controllers
             return View(staticPartInfo);
         }
 
+
+
         // GET: StaticPartInfoes/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -105,6 +107,9 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            if(staticPartInfo.DrawingImageBytes != null)
+                FileURL.SetImageURL(staticPartInfo);
+            ViewBag.id = id;
             ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", staticPartInfo.CustomerId);
             return View(staticPartInfo);
         }
@@ -114,7 +119,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,FinishDrawingFile,BlankDrawingFile,CustomerId,UserId")] StaticPartInfo staticPartInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,DrawingImageBytes,ClearImg,FinishDrawingFile,FinishDrawingPdfBytes,ClearFinish,BlankDrawingFile,BlankDrawingPdfBytes,ClearBlank,CustomerId,UserId")] StaticPartInfo staticPartInfo)
         {
             if (id != staticPartInfo.StaticPartInfoId)
             {
@@ -127,10 +132,18 @@ namespace EndlasNet.Web.Controllers
                 {
                     if (staticPartInfo.ImageFile != null)
                         staticPartInfo.DrawingImageBytes = await FileURL.GetFileBytes(staticPartInfo.ImageFile);
+                    if (staticPartInfo.ClearImg)
+                        staticPartInfo.DrawingImageBytes = null;
+
                     if (staticPartInfo.FinishDrawingFile != null)
                         staticPartInfo.FinishDrawingPdfBytes = await FileURL.GetFileBytes(staticPartInfo.FinishDrawingFile);
+                    if (staticPartInfo.ClearFinish)
+                        staticPartInfo.FinishDrawingPdfBytes = null;
+
                     if (staticPartInfo.BlankDrawingFile != null)
                         staticPartInfo.BlankDrawingPdfBytes = await FileURL.GetFileBytes(staticPartInfo.BlankDrawingFile);
+                    if (staticPartInfo.ClearBlank)
+                        staticPartInfo.BlankDrawingPdfBytes = null;
 
                     staticPartInfo.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Update(staticPartInfo);

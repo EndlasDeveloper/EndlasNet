@@ -1,7 +1,11 @@
-﻿@model EndlasNet.Data.StaticPartInfo
+﻿@using EndlasNet.Data;
+@using Microsoft.AspNetCore.Http;
+
+@model EndlasNet.Data.StaticPartInfo
 
 @{
     ViewData["Title"] = "Edit";
+
 }
 
 <h1>Edit</h1>
@@ -13,6 +17,9 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="StaticPartInfoId" />
+            <input type="hidden" asp-for="BlankDrawingPdfBytes" />
+            <input type="hidden" asp-for="FinishDrawingPdfBytes" />
+            <input type="hidden" asp-for="DrawingImageBytes" />
             <div class="form-group">
                 <label asp-for="DrawingNumber" class="control-label"></label>
                 <input asp-for="DrawingNumber" class="form-control" />
@@ -39,21 +46,76 @@
                 <span asp-validation-for="ImageName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
                 <div></div>
+                @if (Model.DrawingImageBytes != null)
+                {
+                    <label asp-for="ImageFile" class="control-label">Current image:&nbsp;</label>
+                    <img src="@Html.DisplayFor(model => model.ImageUrl)" alt="Drawing Image" style="max-height:50px;max-width:120px" />
+                    <br /><br />
+                    <span>
+                        Clear image
+                        <input asp-for="ClearImg" class="form-check-inline"/>
+                    </span>
+                    <br />
+                }
+                else
+                {
+                    <label asp-for="ImageFile" class="control-label"></label>
+
+                }
                 <input asp-for="ImageFile" accept="image/*" />
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
-            <br/>
+            <br />
             <div class="form-group">
-                <label asp-for="BlankDrawingFile" class="control-label"></label>
-                <div></div>
+                @if (Model.BlankDrawingPdfBytes != null)
+                {
+                    <label asp-for="BlankDrawingFile" class="control-label">Blank drawing:&nbsp;</label>
+
+                    @Html.ActionLink(
+                        linkText: "Download blank PDF",
+                        actionName: "DownloadBlankPdf",
+                        controllerName: "StaticPartInfoes",
+                        routeValues: new { id = ViewBag.id },
+                        htmlAttributes: null)
+                    <br />
+                    <span>
+                        Clear blank file
+                        <input asp-for="ClearBlank" class="form-check-inline" />
+                    </span>
+
+                }
+                else
+                {
+                    <label asp-for="BlankDrawingFile" class="control-label"></label>
+
+                }                <div></div>
+
                 <input asp-for="BlankDrawingFile" accept="application/pdf" />
                 <span asp-validation-for="BlankDrawingFile" class="text-danger"></span>
+                <br /><br />
             </div>
             <div class="form-group">
-                <label asp-for="FinishDrawingFile" class="control-label"></label>
-                <div></div>
+                @if (Model.FinishDrawingPdfBytes != null)
+                {
+                    <label asp-for="FinishDrawingFile" class="control-label">Finish drawing:&nbsp;</label>
+                                    @Html.ActionLink(
+                    linkText: "Download finish PDF",
+                    actionName: "DownloadFinishPdf",
+                    controllerName: "StaticPartInfoes",
+                    routeValues: new { id = ViewBag.id },
+                    htmlAttributes: null)
+                    <br />
+                    <span>
+                        Clear finish file
+                        <input asp-for="ClearFinish" class="form-check-inline" />
+                    </span>
+                }
+                else
+                {
+                    <label asp-for="FinishDrawingFile" class="control-label"></label>
+
+                }                <div></div>
                 <input asp-for="FinishDrawingFile" accept="application/pdf" />
                 <span asp-validation-for="FinishDrawingFile" class="text-danger"></span>
             </div>
