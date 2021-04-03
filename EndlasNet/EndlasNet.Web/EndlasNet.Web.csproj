@@ -58,9 +58,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
 	</ItemGroup>
-	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
+
 	<ItemGroup>
 	  <ProjectReference Include="..\EndlasNet.Data\EndlasNet.Data.csproj" />
 	</ItemGroup>

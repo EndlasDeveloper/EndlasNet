@@ -17,15 +17,14 @@ namespace EndlasNet.Data
 
     public sealed class RepositoryFactory
     {
-        private static RepositoryFactory instance = null;
         private readonly EndlasNetDbContext _db;
-        private UserRepo _userRepo;
-        private VendorRepo _vendorRepo;
-        private CustomerRepo _customerRepo;
-        private PowderRepo _powderRepo;
-        private PowderOrderRepo _powderOrderRepo;
-        private LineItemRepo _lineItemRepo;
-        private StaticPowderInfoRepo _staticPowderInfoRepo;
+        private readonly UserRepo _userRepo;
+        private readonly VendorRepo _vendorRepo;
+        private readonly CustomerRepo _customerRepo;
+        private readonly PowderRepo _powderRepo;
+        private readonly PowderOrderRepo _powderOrderRepo;
+        private readonly LineItemRepo _lineItemRepo;
+        private readonly StaticPowderInfoRepo _staticPowderInfoRepo;
 
         static RepositoryFactory() { }
         public RepositoryFactory(EndlasNetDbContext db)
@@ -39,8 +38,6 @@ namespace EndlasNet.Data
             _powderRepo = new PowderRepo(_db);
             _staticPowderInfoRepo = new StaticPowderInfoRepo(_db);
         }
-
-
 
         public IRepository GetRepository(RepositoryTypes repoType)
         {
