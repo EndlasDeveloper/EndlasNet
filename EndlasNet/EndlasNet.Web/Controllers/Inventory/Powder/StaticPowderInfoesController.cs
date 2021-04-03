@@ -89,7 +89,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPowderInfoId,PowderName,Density,Description,Composition,FlowRateSlope,FlowRateYIntercept,CompositionFile")] StaticPowderInfo staticPowderInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPowderInfoId,PowderName,Density,Description,Composition,ClearComposition,FlowRateSlope,FlowRateYIntercept,CompositionFile")] StaticPowderInfo staticPowderInfo)
         {
             if (id != staticPowderInfo.StaticPowderInfoId)
             {
@@ -100,7 +100,9 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    if (staticPowderInfo.CompositionFile != null)
+                    if (staticPowderInfo.ClearComposition)
+                        staticPowderInfo.CompositionFilePdfBytes = null;
+                    else if (staticPowderInfo.CompositionFile != null)
                         staticPowderInfo.CompositionFilePdfBytes = await FileURL.GetFileBytes(staticPowderInfo.CompositionFile);
                     _context.Update(staticPowderInfo);
                     await _context.SaveChangesAsync();

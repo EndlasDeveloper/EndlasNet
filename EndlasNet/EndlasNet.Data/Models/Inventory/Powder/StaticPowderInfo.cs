@@ -41,5 +41,8 @@ namespace EndlasNet.Data
 
         public IEnumerable<PowderBottle> Powders { get; set; }
         public IEnumerable<LineItem> LineItems { get; set; }
+
+        [NotMapped]
+        public bool ClearComposition { get; set; }
     }
 }
