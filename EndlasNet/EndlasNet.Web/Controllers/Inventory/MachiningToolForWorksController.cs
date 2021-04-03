@@ -89,7 +89,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MachiningToolForWorkId,DateUsed,WorkId,UserId,MachiningToolId")] MachiningToolForWork machiningToolForWork)
+        public async Task<IActionResult> Create([Bind("MachiningToolForWorkId,DateUsed,WorkId,UserId,Comment,MachiningToolId")] MachiningToolForWork machiningToolForWork)
         {
             if (ModelState.IsValid)
             {
@@ -133,7 +133,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolForWorkId,DateUsed,WorkId,UserId,MachiningToolId")] MachiningToolForWork machiningToolForWork)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolForWorkId,DateUsed,WorkId,UserId,Comment,MachiningToolId")] MachiningToolForWork machiningToolForWork)
         {
             if (id != machiningToolForWork.MachiningToolForWorkId)
             {

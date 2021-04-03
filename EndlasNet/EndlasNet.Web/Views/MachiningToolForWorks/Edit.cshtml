@@ -15,7 +15,7 @@
             <input type="hidden" asp-for="MachiningToolForWorkId" />
             <div class="form-group">
                 <label asp-for="DateUsed" class="control-label"></label>
-                <input asp-for="DateUsed" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" value="@Model.DateUsed.ToString("s")"/>
+                <input asp-for="DateUsed" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" value="@Model.DateUsed.ToString("s")" />
                 <span asp-validation-for="DateUsed" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -26,6 +26,11 @@
                 <label asp-for="WorkId" class="control-label"></label>
                 <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
                 <span asp-validation-for="WorkId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

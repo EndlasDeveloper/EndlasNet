@@ -26,6 +26,9 @@ namespace EndlasNet.Data
         public Guid MachiningToolId { get; set; }
         public virtual MachiningTool MachiningTool { get; set; }
 
+        [Display(Name ="Tool work comment")]
+        public string Comment { get; set; }
+
         [ForeignKey("UserId")]
         [Display(Name = "User")]
         public Guid? UserId { get; set; }
