@@ -20,7 +20,9 @@
             <th>
                 Particle range (&#956;m)
             </th>
-
+            <th>
+                @Html.DisplayNameFor(model => model.NumBottles)
+            </th>
   
             <th></th>
         </tr>
@@ -39,6 +41,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ParticleSizeMin)&nbsp;-&nbsp;@Html.DisplayFor(modelItem => item.ParticleSizeMax)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumBottles)
+                </td>
             }
             else
             {
@@ -51,20 +56,23 @@
                 <td>
                     *
                 </td>
+                <td>
+                    *
+                </td>
             }
-        <td>
-            @if (!item.IsInitialized)
-            {
-                <a asp-action="Initialize" asp-route-id="@item.LineItemId">Initialize line item</a> 
-            }
-            else
-            {
-                @Html.ActionLink("Manage powders", "ManagePowders", "LineItems", new { lineItemId = item.LineItemId, powderName = item.StaticPowderInfo.PowderName }); <span> |</span>
-                <a asp-action="Edit" asp-route-id="@item.LineItemId">Edit</a> <span> |</span>
-                <a asp-action="Details" asp-route-id="@item.LineItemId">Details</a> <span> |</span>
-                <a asp-action="Uninitialize" asp-route-id="@item.LineItemId">Uninitialize</a>
-            }  
-        </td>
+            <td>
+                @if (!item.IsInitialized)
+                {
+                    <a asp-action="Initialize" asp-route-id="@item.LineItemId">Initialize line item</a>
+                }
+                else
+                {
+                    @Html.ActionLink("Manage powders", "ManagePowders", "LineItems", new { lineItemId = item.LineItemId, powderName = item.StaticPowderInfo.PowderName }); <span> |</span>
+                    <a asp-action="Edit" asp-route-id="@item.LineItemId">Edit</a> <span> |</span>
+                    <a asp-action="Details" asp-route-id="@item.LineItemId">Details</a> <span> |</span>
+                    <a asp-action="Uninitialize" asp-route-id="@item.LineItemId">Uninitialize</a>
+                }
+            </td>
         </tr>
 }
     </tbody>
