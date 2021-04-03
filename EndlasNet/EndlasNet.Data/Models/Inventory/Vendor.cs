@@ -28,8 +28,6 @@ namespace EndlasNet.Data
         [DataType(DataType.PhoneNumber)]
         public string VendorPhone { get; set; }
 
-        [Display(Name = "User")]
-        public virtual User User { get; set; }
         public IEnumerable<MachiningTool> MachiningTools{ get; set; }
 
     }

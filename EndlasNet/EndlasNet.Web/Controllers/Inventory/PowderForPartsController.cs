@@ -119,11 +119,11 @@ namespace EndlasNet.Web.Controllers
             return partsForWork;
         }
 
-        public async Task<List<Powder>> GetPowdersList() 
+        public async Task<List<PowderBottle>> GetPowdersList() 
         {
-            var powders = await _context.Powders.Where(p => p.Weight > POWDER_THRESHOLD).ToListAsync();
+            var powders = await _context.PowderBottles.Where(p => p.Weight > POWDER_THRESHOLD).ToListAsync();
 
-            foreach (Powder powder in powders)
+            foreach (PowderBottle powder in powders)
             {
                 powder.StaticPowderInfo = await _context.StaticPowderInfo
                     .FirstOrDefaultAsync(s => s.StaticPowderInfoId == powder.StaticPowderInfoId);
@@ -147,7 +147,7 @@ namespace EndlasNet.Web.Controllers
         public async Task SetPowdersForDropdown()
         {
             var powders = await GetPowdersList();
-            foreach (Powder powder in powders)
+            foreach (PowderBottle powder in powders)
             {
                 powder.PowderName = powder.PowderName + " - " + string.Format("{0:0.0000}", powder.Weight) + " lbs";
             }
@@ -231,8 +231,8 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 // find the bottle of powder associated with powderForParts
-                var powder = await _context.Powders
-                    .FirstOrDefaultAsync(p => p.PowderId == powderForPart.PowderId);
+                var powder = await _context.PowderBottles
+                    .FirstOrDefaultAsync(p => p.PowderBottleId == powderForPart.PowderId);
 
 
                 // make sure there is enough powder to perform putting powder to part

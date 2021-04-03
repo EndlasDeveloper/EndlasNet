@@ -1,4 +1,4 @@
-﻿@model EndlasNet.Data.Powder
+﻿@model EndlasNet.Data.PowderBottle
 
 @{
     ViewData["Title"] = "Details";
@@ -46,7 +46,7 @@
 </div>
 <div>
 
-    <a asp-action="Edit" asp-route-id="@Model.PowderId">Edit</a> |
-    @Html.ActionLink("Line item powders", "Index", new { lineItemId = Model.LineItemId }) |
-    @Html.ActionLink("All powders", "AllPowderIndex")
+    <a asp-action="Edit" asp-controller="PowderBottles" asp-route-id="@Model.PowderBottleId">Edit</a> |
+    @Html.ActionLink("Line item powders", "Index", "PowderBottles", new { lineItemId = Model.LineItemId }) |
+    @Html.ActionLink("All powders", "AllPowderIndex", "PowderBottles")
 </div>

@@ -39,7 +39,7 @@ namespace EndlasNet.Data
         public IFormFile CompositionFile { get; set; }
         public byte[] CompositionFilePdfBytes { get; set; }
 
-        public IEnumerable<Powder> Powders { get; set; }
+        public IEnumerable<PowderBottle> Powders { get; set; }
         public IEnumerable<LineItem> LineItems { get; set; }
     }
 }

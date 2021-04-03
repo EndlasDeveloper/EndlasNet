@@ -28,7 +28,7 @@ namespace EndlasNet.Data
         private StaticPowderInfoRepo _staticPowderInfoRepo;
 
         static RepositoryFactory() { }
-        private RepositoryFactory(EndlasNetDbContext db)
+        public RepositoryFactory(EndlasNetDbContext db)
         {
             _db = db;
             _userRepo = new UserRepo(_db);
@@ -40,14 +40,7 @@ namespace EndlasNet.Data
             _staticPowderInfoRepo = new StaticPowderInfoRepo(_db);
         }
 
-        public static RepositoryFactory Instance(EndlasNetDbContext db) 
-        {
-            if (instance == null)
-            {
-                instance = new RepositoryFactory(db);
-            }
-            return instance;
-        }
+
 
         public IRepository GetRepository(RepositoryTypes repoType)
         {

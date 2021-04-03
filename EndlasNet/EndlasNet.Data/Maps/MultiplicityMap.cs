@@ -19,7 +19,6 @@ namespace EndlasNet.Data
             // each employee has (could create) 0 to many insert to jobs; each insert to job has 1 employee that created it
             modelBuilder.Entity<User>().HasMany(u => u.MachiningTools).WithOne(i => i.User);
             // each user has (could create) 0 to many vendors; each vendor has a user that created it 
-            modelBuilder.Entity<User>().HasMany(u => u.Vendors).WithOne(v => v.User);
             // each user has (could create) 0 to many powders; each powder has a user that created it 
             modelBuilder.Entity<User>().HasMany(u => u.Powders).WithOne(p => p.User);
             // each user has (could create) 0 to many jobs; each job has a user that created it 
@@ -41,7 +40,7 @@ namespace EndlasNet.Data
             modelBuilder.Entity<StaticPowderInfo>().HasMany(s => s.LineItems).WithOne(l => l.StaticPowderInfo);
             modelBuilder.Entity<StaticPowderInfo>().HasMany(s => s.Powders).WithOne(l => l.StaticPowderInfo);
 
-            modelBuilder.Entity<Powder>().HasMany(p => p.PowderForParts).WithOne(p => p.Powder);
+            modelBuilder.Entity<PowderBottle>().HasMany(p => p.PowderForParts).WithOne(p => p.Powder);
             modelBuilder.Entity<PartForWork>().HasMany(p => p.PowdersUsed).WithOne(p => p.PartForWork);
             /*** QUOTE ***/
             // COMMENTED OUT FOR NOW. INTRODUCE LATER WHEN TRYING TO WORK WITH QUOTES

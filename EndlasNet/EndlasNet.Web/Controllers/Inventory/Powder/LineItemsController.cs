@@ -21,7 +21,7 @@ namespace EndlasNet.Web.Controllers
         public LineItemsController(EndlasNetDbContext context)
         {
             _context = context;
-            var repoFactory = RepositoryFactory.Instance(context);
+            var repoFactory = new RepositoryFactory(context);
             _lineItemRepo = (LineItemRepo)repoFactory.GetRepository(RepositoryTypes.LineItem);
             _powderOrderRepo = (PowderOrderRepo)repoFactory.GetRepository(RepositoryTypes.PowderOrder);
             _powderRepo = (PowderRepo)repoFactory.GetRepository(RepositoryTypes.Powder);
@@ -57,7 +57,7 @@ namespace EndlasNet.Web.Controllers
 
         public IActionResult ManagePowders(Guid lineItemId, string powderName)
         {
-            return RedirectToAction("Index", "Powders", new { lineItemId = lineItemId, powderName = powderName});
+            return RedirectToAction("Index", "PowderBottles", new { lineItemId = lineItemId, powderName = powderName});
         }
 
 
@@ -93,9 +93,9 @@ namespace EndlasNet.Web.Controllers
 
             for (int i = 0; i < lineItem.NumBottles; i++)
             {
-                var newPowder = new Powder
+                var newPowder = new PowderBottle
                 {
-                    PowderId = Guid.NewGuid(),
+                    PowderBottleId = Guid.NewGuid(),
                     BottleNumber = "",
                     LotNumber = "",
                     InitWeight = 0,
@@ -131,9 +131,9 @@ namespace EndlasNet.Web.Controllers
 
                 for (int i = 0; i < lineItem.NumBottles; i++)
                 {
-                    var newPowder = new Powder
+                    var newPowder = new PowderBottle
                     {
-                        PowderId = Guid.NewGuid(),
+                        PowderBottleId = Guid.NewGuid(),
                         BottleNumber = "",
                         LotNumber = "",
                         InitWeight = 0,
@@ -231,9 +231,9 @@ namespace EndlasNet.Web.Controllers
             var powders = await _powderRepo.GetLineItemPowders(id);
 
             // delete lineItem's powders
-            foreach(Powder powder in powders)
+            foreach(PowderBottle powder in powders)
             {
-                _context.Powders.Remove(powder);
+                _context.PowderBottles.Remove(powder);
             }
             lineItem.IsInitialized = false;
 
@@ -244,7 +244,7 @@ namespace EndlasNet.Web.Controllers
 
         public ActionResult ViewList(Guid lineItemId, Guid powderOrderId)
         {
-            return RedirectToAction("Index", "Powders", new {powderOrderId = powderOrderId, lineItemId = lineItemId});
+            return RedirectToAction("Index", "PowderBottles", new {powderOrderId = powderOrderId, lineItemId = lineItemId});
         }
         private async Task<bool> LineItemExists(Guid id)
         {

@@ -16,7 +16,7 @@ namespace EndlasNet.Web.Controllers
         private VendorRepo _vendorRepo;
         public VendorsController(EndlasNetDbContext context)
         {
-            var repoFactory = RepositoryFactory.Instance(context);
+            var repoFactory = new RepositoryFactory(context);
             _userRepo = (UserRepo)repoFactory.GetRepository(RepositoryTypes.User);
             _vendorRepo = (VendorRepo)repoFactory.GetRepository(RepositoryTypes.Vendor);
         }
@@ -58,7 +58,6 @@ namespace EndlasNet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                vendor.User = await _userRepo.GetUser(HttpContext.Session.GetString("email"));
                 vendor.VendorId = Guid.NewGuid();
                 await _vendorRepo.AddRow(vendor);
                 return RedirectToAction(nameof(Index));

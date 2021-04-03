@@ -15,32 +15,32 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task<Powder> GetPowder(Guid id)
+        public async Task<PowderBottle> GetPowder(Guid id)
         {
-            return await _db.Powders.FirstOrDefaultAsync(p => p.PowderId == id);
+            return await _db.PowderBottles.FirstOrDefaultAsync(p => p.PowderBottleId == id);
         }
 
-        public async Task<List<Powder>> GetPowder(string powderName)
+        public async Task<List<PowderBottle>> GetPowder(string powderName)
         {
-            return await _db.Powders.Where(p => p.StaticPowderInfo.PowderName == powderName).ToListAsync();
+            return await _db.PowderBottles.Where(p => p.StaticPowderInfo.PowderName == powderName).ToListAsync();
         }
 
-        public async Task AddPowder(Powder powder)
+        public async Task AddPowder(PowderBottle powder)
         {
-            await _db.Powders.AddAsync(powder);
+            await _db.PowderBottles.AddAsync(powder);
             await _db.SaveChangesAsync();
         }
 
-        public async Task<List<Powder>> GetLineItemPowders(Guid lineItemId)
+        public async Task<List<PowderBottle>> GetLineItemPowders(Guid lineItemId)
         {
-            return await _db.Powders
+            return await _db.PowderBottles
                 .Where(p => p.LineItemId == lineItemId)
                 .ToListAsync();
         }
 
-        public async Task<List<Powder>> GetAllPowdersAsync()
+        public async Task<List<PowderBottle>> GetAllPowdersAsync()
         {
-            return await _db.Powders.ToListAsync();
+            return await _db.PowderBottles.ToListAsync();
         }
 
         public Task<object> GetRow(Guid? id)

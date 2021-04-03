@@ -13,9 +13,9 @@ namespace EndlasNet.Data
             // MACHINING TOOL
             modelBuilder.Entity<MachiningTool>().Property<DateTime>("CreatedDate");
             modelBuilder.Entity<MachiningTool>().Property<DateTime>("UpdatedDate");
-            // POWDER
-            modelBuilder.Entity<Powder>().Property<DateTime>("CreatedDate");
-            modelBuilder.Entity<Powder>().Property<DateTime>("UpdatedDate");
+            // PowderBottle
+            modelBuilder.Entity<PowderBottle>().Property<DateTime>("CreatedDate");
+            modelBuilder.Entity<PowderBottle>().Property<DateTime>("UpdatedDate");
 
             // WORK
             modelBuilder.Entity<Work>().Property<DateTime>("CreatedDate");

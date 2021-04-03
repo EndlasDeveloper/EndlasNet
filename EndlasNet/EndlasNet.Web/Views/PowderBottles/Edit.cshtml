@@ -1,4 +1,4 @@
-﻿@model EndlasNet.Data.Powder
+﻿@model EndlasNet.Data.PowderBottle
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,10 +10,10 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
+        <form asp-action="Edit" asp-controller="PowderBottles" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <input asp-for="PowderId" asp-items="ViewBag.PowderId" hidden readonly />
+            <input asp-for="PowderBottleId" asp-items="ViewBag.PowderId" hidden readonly />
             <div class="form-group">
                 <label asp-for="BottleNumber" class="control-label"></label>
                 <input asp-for="BottleNumber" class="form-control" />
@@ -38,15 +38,15 @@
             <input asp-for="LineItemId" class="form-control" asp-items="ViewBag.LineItemId" hidden readonly />
             <input asp-for="StaticPowderInfoId" asp-items="ViewBag.StaticPowderInfoId" hidden readonly />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" asp-controller="PowderBottles" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    @Html.ActionLink("Line item powders", "Index", new { lineItemId = Model.LineItemId }) |
-    @Html.ActionLink("All powders", "AllPowderIndex")
+    @Html.ActionLink("Line item powders", "Index", "PowderBottles", new { lineItemId = Model.LineItemId }) |
+    @Html.ActionLink("All powders", "AllPowderIndex", "PowderBottles")
 </div>
 
 @section Scripts {

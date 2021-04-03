@@ -13,7 +13,7 @@ namespace EndlasNet.Data
         [ForeignKey("PowderId")]
         [Display(Name ="Powder")]
         public Guid PowderId { get; set; }
-        public Powder Powder { get; set; }
+        public PowderBottle Powder { get; set; }
         [ForeignKey("PartForWorkId")]
         [Display(Name = "Part")]
         public Guid PartForWorkId { get; set; }

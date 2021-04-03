@@ -33,10 +33,11 @@ namespace EndlasNet.Data
             try
             {
                 var vendor = (Vendor)obj;
-                await _db.Vendors.AddAsync(vendor);
+               // await _db.Vendors.AddAsync(vendor);
+                _db.Add(vendor);
                 await _db.SaveChangesAsync();
             }
-            catch (InvalidCastException) { }
+            catch (InvalidCastException) { Console.WriteLine("invalid cast"); }
 
         }
 

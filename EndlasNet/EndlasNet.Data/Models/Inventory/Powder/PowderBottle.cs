@@ -6,10 +6,10 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class Powder
+    public class PowderBottle
     {
         [Key]
-        public Guid PowderId { get; set; }
+        public Guid PowderBottleId { get; set; }
 
         
         [Required]

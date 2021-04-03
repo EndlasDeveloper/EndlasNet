@@ -52,7 +52,7 @@ namespace EndlasNet.Data
 
         public bool IsInitialized { get; set; } = false;
 
-        public IEnumerable<Powder> Powders { get; set; }
+        public IEnumerable<PowderBottle> PowderBottles { get; set; }
 
 
 

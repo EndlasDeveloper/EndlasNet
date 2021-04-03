@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class UserRepo : IRepository, IUserRepo
+    public class UserRepo : IUserRepo
     {
         private readonly EndlasNetDbContext _db;
         public UserRepo(EndlasNetDbContext db)

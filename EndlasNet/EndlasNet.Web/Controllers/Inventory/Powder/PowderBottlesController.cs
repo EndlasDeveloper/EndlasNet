@@ -10,24 +10,24 @@ using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
-    public class PowdersController : Controller
+    public class PowderBottlesController : Controller
     {
         private readonly EndlasNetDbContext _context;
-        private readonly PowderRepo _powderRepo;
+        private readonly PowderBottleRepo _powderRepo;
         private readonly PowderOrderRepo _powderOrderRepo;
         private readonly LineItemRepo _lineItemRepo;
         private readonly StaticPowderInfoRepo _staticPowderInfoRepo;
 
-        public PowdersController(EndlasNetDbContext context)
+        public PowderBottlesController(EndlasNetDbContext context)
         {
             _context = context;
             _staticPowderInfoRepo = new StaticPowderInfoRepo(context);
-            _powderRepo = new PowderRepo(context);
+            _powderRepo = new PowderBottleRepo(context);
             _lineItemRepo = new LineItemRepo(context);
             _powderOrderRepo = new PowderOrderRepo(context);
         }
 
-        // GET: Powders
+        // GET: PowderBottles
         public async Task<IActionResult> Index(Guid lineItemId)
         {
             var lineItem = (LineItem)await _lineItemRepo.GetRow(lineItemId);
@@ -45,12 +45,12 @@ namespace EndlasNet.Web.Controllers
 
         public async Task<IActionResult> AllPowderIndex()
         {
-            return View(await _context.Powders
+            return View(await _context.PowderBottles
                 .Include(p => p.StaticPowderInfo).ToListAsync());
         }
 
 
-        // GET: Powders/Details/5
+        // GET: PowderBottles/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -67,34 +67,34 @@ namespace EndlasNet.Web.Controllers
             return View(powder);
         }
 
-        // GET: Powders/Create
+        // GET: PowderBottles/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Powders/Create
+        // POST: PowderBottles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PowderId,BottleNumber,InitWeight,Weight,LotNumber,LineItemId,UserId,StaticPowderInfoId")] Powder powder, Guid id)
+        public async Task<IActionResult> Create([Bind("PowderBottleId,BottleNumber,InitWeight,Weight,LotNumber,LineItemId,UserId,StaticPowderInfoId")] PowderBottle powder, Guid id)
         {
             if (ModelState.IsValid)
             {
-                powder.PowderId = Guid.NewGuid();
+                powder.PowderBottleId = Guid.NewGuid();
                 _context.Entry(powder).Property("CreatedDate").CurrentValue = DateTime.Now;
                 _context.Entry(powder).Property("UpdatedDate").CurrentValue = DateTime.Now;
                 powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 powder.Weight = powder.InitWeight;
-                await _powderRepo.AddRow(powder);
+                await _powderRepo.AddRow((object)powder);
                 return RedirectToAction(nameof(Index));
             }
 
             return View(powder);
         }
 
-        // GET: Powders/Edit/5
+        // GET: PowderBottles/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -102,7 +102,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var powder = await _context.Powders.FindAsync(id);
+            var powder = await _context.PowderBottles.FindAsync(id);
             if (powder == null)
             {
                 return NotFound();
@@ -111,14 +111,14 @@ namespace EndlasNet.Web.Controllers
             return View(powder);
         }
 
-        // POST: Powders/Edit/5
+        // POST: PowderBottles/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PowderId,BottleNumber,InitWeight,Weight,LotNumber,LineItemId,UserId,StaticPowderInfoId")] Powder powder)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PowderBottleId,BottleNumber,InitWeight,Weight,LotNumber,LineItemId,UserId,StaticPowderInfoId")] PowderBottle powder)
         {
-            if (id != powder.PowderId)
+            if (id != powder.PowderBottleId)
             {
                 return NotFound();
             }
@@ -134,7 +134,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PowderExists(powder.PowderId))
+                    if (!PowderExists(powder.PowderBottleId))
                     {
                         return NotFound();
                     }
@@ -143,7 +143,7 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "Powders", new { lineItemId = powder.LineItemId });
+                return RedirectToAction("Index", "PowderBottles", new { lineItemId = powder.LineItemId });
             }
 
             return View(powder);
@@ -151,7 +151,7 @@ namespace EndlasNet.Web.Controllers
 
 
 
-        // GET: Powders/Delete/5
+        // GET: PowderBottles/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -159,10 +159,10 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var powder = await _context.Powders
+            var powder = await _context.PowderBottles
                 .Include(p => p.LineItem)
                 .Include(p => p.User)
-                .FirstOrDefaultAsync(m => m.PowderId == id);
+                .FirstOrDefaultAsync(m => m.PowderBottleId == id);
             if (powder == null)
             {
                 return NotFound();
@@ -171,20 +171,20 @@ namespace EndlasNet.Web.Controllers
             return View(powder);
         }
 
-        // POST: Powders/Delete/5
+        // POST: PowderBottles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var powder = await _context.Powders.FindAsync(id);
-            _context.Powders.Remove(powder);
+            var powder = await _context.PowderBottles.FindAsync(id);
+            _context.PowderBottles.Remove(powder);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", new { lineItemId = powder.LineItemId });
         }
 
         private bool PowderExists(Guid id)
         {
-            return _context.Powders.Any(e => e.PowderId == id);
+            return _context.PowderBottles.Any(e => e.PowderBottleId == id);
         }
         private async Task<string> GetPowderName(Guid? staticInfoId)
         {

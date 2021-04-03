@@ -1,7 +1,7 @@
-﻿@model IEnumerable<EndlasNet.Data.Powder>
+﻿@model IEnumerable<EndlasNet.Data.PowderBottle>
 
 @{
-    ViewData["Title"] = "All powders";
+    ViewData["Title"] = "All powder bottles";
 }
 
 <h1>All powders</h1>
@@ -45,9 +45,9 @@
                 </td>
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.PowderId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.PowderId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.PowderId">Delete</a>
+                    <a asp-action="Edit" asp-controller="PowderBottles" asp-route-id="@item.PowderBottleId">Edit</a> |
+                    <a asp-action="Details" asp-controller="PowderBottles" asp-route-id="@item.PowderBottleId">Details</a> |
+                    <a asp-action="Delete" asp-controller="PowderBottles" asp-route-id="@item.PowderBottleId">Delete</a>
                 </td>
             </tr>
         }

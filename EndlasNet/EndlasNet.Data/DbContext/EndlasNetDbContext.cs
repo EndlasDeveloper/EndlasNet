@@ -23,7 +23,7 @@ namespace EndlasNet.Data
         public DbSet<StaticPowderInfo> StaticPowderInfo { get; set; }
         public DbSet<PowderOrder> PowderOrders { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
-        public DbSet<Powder> Powders { get; set; }
+        public DbSet<PowderBottle> PowderBottles { get; set; }
         public DbSet<MachiningToolForWork> MachiningToolsForWork { get; set; }
         public DbSet<MachiningToolForJob> MachiningToolsForJobs { get; set; }
         public DbSet<MachiningToolForWorkOrder> MachiningToolsForWorkOrders { get; set; }

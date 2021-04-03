@@ -1,4 +1,4 @@
-﻿@model EndlasNet.Data.Powder
+﻿@model EndlasNet.Data.PowderBottle
 
 @{
     ViewData["Title"] = "Delete";
@@ -47,10 +47,10 @@
         </dd>
     </dl>
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="PowderId" />
+    <form asp-action="Delete" asp-controller="PowderBottles">
+        <input type="hidden" asp-for="PowderBottleId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
     </form>
-    @Html.ActionLink("Line item powders", "Index", new { lineItemId = Model.LineItemId }) |
-    @Html.ActionLink("All powders", "AllPowderIndex")
+    @Html.ActionLink("Line item powders", "Index", "PowderBottles", new { lineItemId = Model.LineItemId }) |
+    @Html.ActionLink("All powders", "AllPowderIndex", "PowderBottles")
 </div>

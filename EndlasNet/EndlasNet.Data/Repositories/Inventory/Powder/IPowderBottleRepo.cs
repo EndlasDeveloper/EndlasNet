@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public interface IPowderRepo
+    public interface IPowderBottleRepo : IRepository
     {
         public Task<List<PowderBottle>> GetLineItemPowders(Guid lineItemId);
 
