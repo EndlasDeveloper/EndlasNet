@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class CustomerRepo : IRepository
+    public class CustomerRepo : ICustomerRepo
     {
         private readonly EndlasNetDbContext _db;
 
@@ -34,16 +34,9 @@ namespace EndlasNet.Data
             return await _db.Customers.FindAsync(id);
         }
 
-        public async Task<Customer> DeleteCustomerAsync(Guid? id)
-        {
-            return await _db.Customers
-                .FirstOrDefaultAsync(c => c.CustomerId == id);
-        }
 
-        public async Task<bool> ConfirmCustomerExistsAsync(Guid id)
-        {
-            return await _db.Customers.AnyAsync(e => e.CustomerId == id);
-        }
+
+
 
         public async Task<object> GetRow(Guid? customerId)
         {
