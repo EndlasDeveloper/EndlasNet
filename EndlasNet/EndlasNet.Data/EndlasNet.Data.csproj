@@ -5,12 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\Action\**" />
-    <EmbeddedResource Remove="Models\Action\**" />
-    <None Remove="Models\Action\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="C:\Users\EndlasLaptop2\.nuget\packages\bootstrap\4.6.0\contentFiles\any\any\wwwroot\css\bootstrap-grid.css" />
     <Content Remove="C:\Users\EndlasLaptop2\.nuget\packages\bootstrap\4.6.0\contentFiles\any\any\wwwroot\css\bootstrap-grid.css.map" />
     <Content Remove="C:\Users\EndlasLaptop2\.nuget\packages\bootstrap\4.6.0\contentFiles\any\any\wwwroot\css\bootstrap-grid.min.css" />
