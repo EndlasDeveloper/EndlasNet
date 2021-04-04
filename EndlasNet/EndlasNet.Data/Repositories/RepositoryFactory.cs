@@ -12,6 +12,7 @@ namespace EndlasNet.Data
         PowderOrder,
         LineItem,
         Powder,
+        PowderForPart,
         StaticPowderInfo,
         MachiningTool
     }
@@ -19,26 +20,9 @@ namespace EndlasNet.Data
     public sealed class RepositoryFactory
     {
         private readonly EndlasNetDbContext _db;
-        private readonly UserRepo _userRepo;
-        private readonly VendorRepo _vendorRepo;
-        private readonly CustomerRepo _customerRepo;
-        private readonly PowderBottleRepo _powderRepo;
-        private readonly PowderOrderRepo _powderOrderRepo;
-        private readonly LineItemRepo _lineItemRepo;
-        private readonly StaticPowderInfoRepo _staticPowderInfoRepo;
-        private readonly MachiningToolRepo _machiningToolRepo;
-        static RepositoryFactory() { }
         public RepositoryFactory(EndlasNetDbContext db)
         {
             _db = db;
-            _userRepo = new UserRepo(_db);
-            _vendorRepo = new VendorRepo(_db);
-            _customerRepo = new CustomerRepo(_db);
-            _powderOrderRepo = new PowderOrderRepo(_db);
-            _lineItemRepo = new LineItemRepo(_db);
-            _powderRepo = new PowderBottleRepo(_db);
-            _staticPowderInfoRepo = new StaticPowderInfoRepo(_db);
-            _machiningToolRepo = new MachiningToolRepo(_db);
         }
 
         public IRepository GetRepository(RepositoryTypes repoType)
@@ -46,21 +30,23 @@ namespace EndlasNet.Data
             switch (repoType)
             {
                 case RepositoryTypes.User:                  
-                    return _userRepo;   
+                    return new UserRepo(_db);
                 case RepositoryTypes.Vendor:
-                    return _vendorRepo;
+                    return new VendorRepo(_db);
                 case RepositoryTypes.Customer:
-                    return _customerRepo;
+                    return new CustomerRepo(_db); 
                 case RepositoryTypes.PowderOrder:
-                    return _powderOrderRepo;
+                    return new PowderOrderRepo(_db); 
                 case RepositoryTypes.LineItem:
-                    return _lineItemRepo;
+                    return new LineItemRepo(_db);
                 case RepositoryTypes.Powder:
-                    return _powderRepo;
+                    return new PowderBottleRepo(_db); 
+                case RepositoryTypes.PowderForPart:
+                    return new PowderForPartRepo(_db); 
                 case RepositoryTypes.StaticPowderInfo:
-                    return _staticPowderInfoRepo;
+                    return new StaticPowderInfoRepo(_db);
                 case RepositoryTypes.MachiningTool:
-                    return _machiningToolRepo;
+                    return new MachiningToolRepo(_db);
                 default:
                     break;
             }

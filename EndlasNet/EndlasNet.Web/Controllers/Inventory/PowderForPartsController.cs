@@ -20,10 +20,14 @@ namespace EndlasNet.Web.Controllers
     public class PowderForPartsController : Controller
     {
         private readonly EndlasNetDbContext _context;
+        private readonly PowderForPartRepo _powderForPartRepo;
+        private readonly StaticPowderInfoRepo _staticPowderInfoRepo;
         private readonly float POWDER_THRESHOLD = 0.001f;
         public PowderForPartsController(EndlasNetDbContext context)
         {
             _context = context;
+            _powderForPartRepo = new PowderForPartRepo(context);
+            _staticPowderInfoRepo = new StaticPowderInfoRepo(context);
         }
 
 /*        public async Task<IActionResult> IndexForward(IEnumerable<Guid> partsForWorkIds)
@@ -42,20 +46,21 @@ namespace EndlasNet.Web.Controllers
 
             var powderForParts = await GetPowdersList();
             var partsForWork = await GetPartsForWorkList();
-            
-            var allPowderForParts = await _context.PowderForParts
-                .Include(p => p.PartForWork)
-                .Include(p => p.Powder).ToListAsync();
 
-            foreach(PowderForPart powderForPart in allPowderForParts)
+            var allPowderForParts = await _powderForPartRepo.GetAllRows();
+            List<PowderForPart> powderForPartsList = new List<PowderForPart>();
+            foreach(object obj in allPowderForParts)
+            {
+                powderForPartsList.Add((PowderForPart)obj);
+            }
+            foreach(PowderForPart powderForPart in powderForPartsList)
             {
                 var staticPartInfo = await _context.StaticPartInfo
                     .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
 
                 powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
 
-                var staticPowderInfo = await _context.StaticPowderInfo
-                    .FirstOrDefaultAsync(s => s.StaticPowderInfoId == powderForPart.Powder.StaticPowderInfoId);
+                var staticPowderInfo = (StaticPowderInfo)await _staticPowderInfoRepo.GetRow(powderForPart.Powder.StaticPowderInfoId);
 
                 powderForPart.Powder.StaticPowderInfo = staticPowderInfo;
 
@@ -64,16 +69,16 @@ namespace EndlasNet.Web.Controllers
             switch (sortOrder)
             {
                 case "suffix_desc":
-                    allPowderForParts = allPowderForParts.OrderByDescending(a => a.PartForWork.Suffix).ToList();
+                    powderForPartsList = powderForPartsList.OrderByDescending(a => a.PartForWork.Suffix).ToList();
                     break;
                 case "suffix_asc":
-                    allPowderForParts = allPowderForParts.OrderByDescending(a => a.PartForWork.Suffix).ToList();
-                    allPowderForParts.Reverse();
+                    powderForPartsList = powderForPartsList.OrderByDescending(a => a.PartForWork.Suffix).ToList();
+                    powderForPartsList.Reverse();
                     break;
                 default:
                     break;
             }
-            return View(allPowderForParts);
+            return View(powderForPartsList);
         }
 
         // GET: PowderForParts/Details/5
@@ -84,10 +89,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var powderForPart = await _context.PowderForParts
-                .Include(p => p.PartForWork)
-                .Include(p => p.Powder)
-                .FirstOrDefaultAsync(m => m.PowderForPartId == id);
+            var powderForPart = (PowderForPart)await _powderForPartRepo.GetRow(id);
 
             if (powderForPart == null)
             {
