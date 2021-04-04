@@ -32,9 +32,6 @@ namespace EndlasNet.Data
         [Required]
         public string LotNumber { get; set; }
 
-        [Required]
-        public bool IsInitialized { get; set; } = false;
-
         [ForeignKey("LineItemId")]
         public Guid LineItemId { get; set; }
         public virtual LineItem LineItem { get; set; }

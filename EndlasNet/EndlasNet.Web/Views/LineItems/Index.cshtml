@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "Line items";
 }
-
+<a asp-action="Index" asp-controller="PowderOrders">
+    <span>
+        <img src="~/img/backArrow.jpg" width="30" height="30" />
+        Powder orders
+    </span>
+</a>
 <h1>Line items: @ViewBag.PurchaseOrderNum</h1>
 
 <p>

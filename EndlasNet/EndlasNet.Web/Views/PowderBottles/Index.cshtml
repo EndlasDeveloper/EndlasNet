@@ -2,7 +2,15 @@
 
 @{
     ViewData["Title"] = "Powder bottle batch";
+    string id = ViewBag.LineItemId;
 }
+<a href='@Url.Action("BackToLineItems", "PowderBottles", new { lineItemId = ViewBag.LineItemId })'>
+    <span>
+        <img src="~/img/backArrow.jpg" width="30" height="30" />
+        Line items
+    </span>
+</a>
+
 <h2>Powder bottle batch</h2>
 <h5>
     <span>

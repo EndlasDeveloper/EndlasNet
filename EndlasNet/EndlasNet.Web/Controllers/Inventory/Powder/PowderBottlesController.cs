@@ -36,13 +36,17 @@ namespace EndlasNet.Web.Controllers
 
             ViewBag.LineItemVendorDescription = lineItem.VendorDescription;
             ViewBag.PowderOrderNum = powOrder.PurchaseOrderNum;
-            ViewBag.PowderName = staticPow.PowderName; 
-
+            ViewBag.PowderName = staticPow.PowderName;
+            ViewBag.LineItemId = lineItemId.ToString();
             return View(await _powderRepo.GetLineItemPowders(lineItemId));
         }
 
 
-
+        public async Task<IActionResult> BackToLineItems(Guid lineItemId)
+        {
+            var lineItem = (LineItem)await _lineItemRepo.GetRow(lineItemId);
+            return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
+        }
         public async Task<IActionResult> AllPowderIndex()
         {
             return View(await _context.PowderBottles

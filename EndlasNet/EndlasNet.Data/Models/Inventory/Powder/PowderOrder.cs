@@ -37,7 +37,6 @@ namespace EndlasNet.Data
         public virtual User User { get; set; }
         public IEnumerable<LineItem> LineItems { get; set; }
 
-        [NotMapped]
         [Display(Name ="Number of line items")]
         public int NumberOfLineItems { get; set; }
     }
