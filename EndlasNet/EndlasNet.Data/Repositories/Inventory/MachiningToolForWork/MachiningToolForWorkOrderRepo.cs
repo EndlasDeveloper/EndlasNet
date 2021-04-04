@@ -7,19 +7,20 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class MachiningToolRepo : IMachiningToolRepo
+    public class MachiningToolForWorkOrderRepo : IMachiningToolForWorkRepo
     {
         private readonly EndlasNetDbContext _db;
-        public MachiningToolRepo(EndlasNetDbContext db)
+
+        public MachiningToolForWorkOrderRepo(EndlasNetDbContext db)
         {
             _db = db;
         }
+
         public async Task AddRow(object obj)
         {
             try
             {
-                var machiningTool = (MachiningTool)obj;
-                var entry = _db.MachiningTools.AddAsync(machiningTool);
+                await _db.MachiningToolsForWorkOrders.AddAsync((MachiningToolForWorkOrder)obj);
                 await _db.SaveChangesAsync();
             }
             catch (InvalidCastException) { }
@@ -27,35 +28,38 @@ namespace EndlasNet.Data
 
         public async Task DeleteRow(Guid? id)
         {
-            var machiningTool = await _db.MachiningTools.FindAsync(id);
-            _db.MachiningTools.Remove(machiningTool);
+            var machiningToolForJob = await _db.MachiningToolsForWorkOrders.FindAsync(id);
+            _db.MachiningToolsForWorkOrders.Remove(machiningToolForJob);
             await _db.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<object>> GetAllRows()
         {
-            return await _db.MachiningTools
-                .Include(m => m.Vendor)
+            return await _db.MachiningToolsForWorkOrders
+                .Include(m => m.MachiningTool)
+                .Include(m => m.Work)
                 .Include(m => m.User)
-                .OrderBy(m => m.ToolType)
+                .OrderByDescending(m => m.DateUsed)
                 .ToListAsync();
         }
 
         public async Task<object> GetRow(Guid? id)
         {
-            return await _db.MachiningTools
+            return await _db.MachiningToolsForWorkOrders
+                .Include(m => m.MachiningTool)
+                .Include(m => m.Work)
                 .Include(m => m.User)
-                .Include(m => m.Vendor)
-                .FirstOrDefaultAsync(m => m.MachiningToolId == id);
+                .FirstOrDefaultAsync(m => m.MachiningToolForWorkId == id);
         }
 
         public async Task<object> GetRowNoTracking(Guid? id)
         {
-            return await _db.MachiningTools
+            return await _db.MachiningToolsForWorkOrders
                 .AsNoTracking()
+                .Include(m => m.MachiningTool)
+                .Include(m => m.Work)
                 .Include(m => m.User)
-                .Include(m => m.Vendor)
-                .FirstOrDefaultAsync(m => m.MachiningToolId == id);
+                .FirstOrDefaultAsync(m => m.MachiningToolForWorkId == id);
         }
 
         public Task RemoveRow(Guid id)
@@ -65,30 +69,19 @@ namespace EndlasNet.Data
 
         public async Task<bool> RowExists(Guid id)
         {
-            return await _db.MachiningTools
-                .AnyAsync(m => m.MachiningToolId == id);
+            return await _db.MachiningToolsForWorkOrders
+                          .AnyAsync(m => m.MachiningToolForWorkId == id);
         }
 
         public async Task UpdateRow(object obj)
         {
             try
             {
-                var machiningTool = (MachiningTool)obj;
-                var entry = _db.Entry(machiningTool);
+                var entry = _db.Entry((MachiningToolForJob)obj);
                 entry.State = EntityState.Modified;
                 await _db.SaveChangesAsync();
             }
             catch (InvalidCastException) { }
-        }
-
-        public async Task<MachiningTool> FindRow(Guid? id)
-        {
-            return await _db.MachiningTools.FindAsync(id);
-        }
-
-        public async Task<List<MachiningTool>> GetAvailableTools()
-        {
-            return await _db.MachiningTools.Where(m => m.ToolCount > 0).ToListAsync();
         }
     }
 }
