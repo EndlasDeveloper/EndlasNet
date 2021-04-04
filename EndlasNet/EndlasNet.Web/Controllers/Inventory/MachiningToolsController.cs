@@ -13,17 +13,22 @@ namespace EndlasNet.Web.Controllers
     public class MachiningToolsController : Controller
     {
         private readonly EndlasNetDbContext _context;
+        private readonly MachiningToolRepo _machiningToolRepo;
+        private readonly VendorRepo _vendorRepo;
+        
 
         public MachiningToolsController(EndlasNetDbContext context)
         {
             _context = context;
+            var repoFactory = new RepositoryFactory(context);
+            _vendorRepo = (VendorRepo)repoFactory.GetRepository(RepositoryTypes.Vendor);
+            _machiningToolRepo = (MachiningToolRepo)repoFactory.GetRepository(RepositoryTypes.MachiningTool);
         }
 
         // GET: MachiningTools
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.MachiningTools.Include(m => m.User).Include(m => m.Vendor);
-            return View(await endlasNetDbContext.ToListAsync());
+            return View(await _machiningToolRepo.GetAllRows());
         }
 
         // GET: MachiningTools/Details/5
@@ -33,24 +38,20 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
-            var machiningTool = await _context.MachiningTools
-                .Include(m => m.User)
-                .Include(m => m.Vendor).AsNoTracking()
-                .FirstOrDefaultAsync(m => m.MachiningToolId == id);
+            var machiningTool = (MachiningTool)await _machiningToolRepo.GetRowNoTracking(id);
             if (machiningTool == null)
             {
                 return NotFound();
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
+            ViewData["VendorId"] = new SelectList(await _vendorRepo.GetAllRows(), "VendorId", "VendorName", machiningTool.VendorId);
 
             return View(machiningTool);
         }
 
         // GET: MachiningTools/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
+            ViewData["VendorId"] = new SelectList(await _vendorRepo.GetAllRows(), "VendorId", "VendorName");
             return View();
         }
 
@@ -69,11 +70,10 @@ namespace EndlasNet.Web.Controllers
                 machiningTool.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Entry(machiningTool).Property("CreatedDate").CurrentValue = DateTime.Now;
                 _context.Entry(machiningTool).Property("UpdatedDate").CurrentValue = DateTime.Now;
-                _context.Add(machiningTool);
-                await _context.SaveChangesAsync();
+                await _machiningToolRepo.AddRow(machiningTool);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
+            ViewData["VendorId"] = new SelectList(await _vendorRepo.GetAllRows(), "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
 
@@ -111,13 +111,11 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     machiningTool.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    _context.Entry(machiningTool).Property("UpdatedDate").CurrentValue = DateTime.Now;
-                    _context.Update(machiningTool);
-                    await _context.SaveChangesAsync();
+                    await _machiningToolRepo.UpdateRow(machiningTool);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MachiningToolExists(machiningTool.MachiningToolId))
+                    if (!(await MachiningToolExists(machiningTool.MachiningToolId)))
                     {
                         return NotFound();
                     }
@@ -128,7 +126,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
+            ViewData["VendorId"] = new SelectList(await _vendorRepo.GetAllRows(), "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
 
@@ -140,10 +138,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var machiningTool = await _context.MachiningTools
-                .Include(m => m.User)
-                .Include(m => m.Vendor)
-                .FirstOrDefaultAsync(m => m.MachiningToolId == id);
+            var machiningTool = (MachiningTool)await _machiningToolRepo.GetRow(id);
             if (machiningTool == null)
             {
                 return NotFound();
@@ -163,9 +158,9 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MachiningToolExists(Guid id)
+        private async Task<bool> MachiningToolExists(Guid id)
         {
-            return _context.MachiningTools.Any(e => e.MachiningToolId == id);
+            return await _machiningToolRepo.RowExists(id);
         }
     }
 }

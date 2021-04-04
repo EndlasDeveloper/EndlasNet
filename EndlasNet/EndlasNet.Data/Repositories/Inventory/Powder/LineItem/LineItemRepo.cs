@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class LineItemRepo : IRepository, ILineItemRepo
+    public class LineItemRepo : ILineItemRepo
     {
         private readonly EndlasNetDbContext _db;
         public LineItemRepo(EndlasNetDbContext db)

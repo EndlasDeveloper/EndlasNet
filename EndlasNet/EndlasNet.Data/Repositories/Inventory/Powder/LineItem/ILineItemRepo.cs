@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public interface ILineItemRepo
+    public interface ILineItemRepo : IRepository
     {
         public Task<IEnumerable<LineItem>> GetLineItems(Guid powderOrderId);
     }

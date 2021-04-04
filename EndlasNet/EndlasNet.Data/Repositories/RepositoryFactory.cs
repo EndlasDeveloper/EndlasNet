@@ -13,6 +13,7 @@ namespace EndlasNet.Data
         LineItem,
         Powder,
         StaticPowderInfo,
+        MachiningTool
     }
 
     public sealed class RepositoryFactory
@@ -25,7 +26,7 @@ namespace EndlasNet.Data
         private readonly PowderOrderRepo _powderOrderRepo;
         private readonly LineItemRepo _lineItemRepo;
         private readonly StaticPowderInfoRepo _staticPowderInfoRepo;
-
+        private readonly MachiningToolRepo _machiningToolRepo;
         static RepositoryFactory() { }
         public RepositoryFactory(EndlasNetDbContext db)
         {
@@ -37,6 +38,7 @@ namespace EndlasNet.Data
             _lineItemRepo = new LineItemRepo(_db);
             _powderRepo = new PowderBottleRepo(_db);
             _staticPowderInfoRepo = new StaticPowderInfoRepo(_db);
+            _machiningToolRepo = new MachiningToolRepo(_db);
         }
 
         public IRepository GetRepository(RepositoryTypes repoType)
@@ -56,7 +58,9 @@ namespace EndlasNet.Data
                 case RepositoryTypes.Powder:
                     return _powderRepo;
                 case RepositoryTypes.StaticPowderInfo:
-                    return _staticPowderInfoRepo;                 
+                    return _staticPowderInfoRepo;
+                case RepositoryTypes.MachiningTool:
+                    return _machiningToolRepo;
                 default:
                     break;
             }
