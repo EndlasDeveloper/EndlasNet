@@ -12,18 +12,20 @@ namespace EndlasNet.Web.Controllers
 {
     public class WorkOrdersController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-
+        private readonly WorkOrderRepo _workOrderRepo;
+        private readonly CustomerRepo _customerRepo;
+        private readonly UserRepo _userRepo;
         public WorkOrdersController(EndlasNetDbContext context)
         {
-            _context = context;
+            _userRepo = new UserRepo(context);
+            _workOrderRepo = new WorkOrderRepo(context);
+            _customerRepo = new CustomerRepo(context);
         }
 
         // GET: WorkOrders
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.WorkOrders.Include(w => w.Customer).Include(w => w.User);
-            return View(await endlasNetDbContext.ToListAsync());
+            return View(await _workOrderRepo.GetAllRows());
         }
 
         // GET: WorkOrders/Details/5
@@ -34,10 +36,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var workOrder = await _context.WorkOrders
-                .Include(w => w.Customer)
-                .Include(w => w.User)
-                .FirstOrDefaultAsync(m => m.WorkId == id);
+            var workOrder = (WorkOrder)await _workOrderRepo.GetRow(id);
             if (workOrder == null)
             {
                 return NotFound();
@@ -47,9 +46,9 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: WorkOrders/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName");
+            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
             return View();
         }
 
@@ -64,12 +63,11 @@ namespace EndlasNet.Web.Controllers
             {
                 workOrder.WorkId = Guid.NewGuid();
                 workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                _context.Add(workOrder);
-                await _context.SaveChangesAsync();
+                await _workOrderRepo.AddRow(workOrder);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerAddress", workOrder.CustomerId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "AuthString", workOrder.UserId);
+            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerAddress", workOrder.CustomerId);
+            ViewData["UserId"] = new SelectList(await _userRepo.GetAllRows(), "UserId", "AuthString", workOrder.UserId);
             return View(workOrder);
         }
 
@@ -81,12 +79,12 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var workOrder = await _context.WorkOrders.FindAsync(id);
+            var workOrder = await _workOrderRepo.FindRow(id);
             if (workOrder == null)
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", workOrder.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", workOrder.CustomerId);
             return View(workOrder);
         }
 
@@ -108,12 +106,11 @@ namespace EndlasNet.Web.Controllers
                 {
                     workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
 
-                    _context.Update(workOrder);
-                    await _context.SaveChangesAsync();
+                    await _workOrderRepo.UpdateRow(workOrder);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!WorkOrderExists(workOrder.WorkId))
+                    if (!(await WorkOrderExists(workOrder.WorkId)))
                     {
                         return NotFound();
                     }
@@ -124,7 +121,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", workOrder.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", workOrder.CustomerId);
             return View(workOrder);
         }
 
@@ -136,10 +133,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var workOrder = await _context.WorkOrders
-                .Include(w => w.Customer)
-                .Include(w => w.User)
-                .FirstOrDefaultAsync(m => m.WorkId == id);
+            var workOrder = (WorkOrder)await _workOrderRepo.GetRow(id);
             if (workOrder == null)
             {
                 return NotFound();
@@ -153,15 +147,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var workOrder = await _context.WorkOrders.FindAsync(id);
-            _context.WorkOrders.Remove(workOrder);
-            await _context.SaveChangesAsync();
+            await _workOrderRepo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool WorkOrderExists(Guid id)
+        private async Task<bool> WorkOrderExists(Guid id)
         {
-            return _context.WorkOrders.Any(e => e.WorkId == id);
+            return await _workOrderRepo.RowExists(id);
         }
     }
 }

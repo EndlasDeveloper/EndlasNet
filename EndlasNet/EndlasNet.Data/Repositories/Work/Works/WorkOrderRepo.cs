@@ -70,11 +70,15 @@ namespace EndlasNet.Data
         {
             try
             {
-                var entry = _db.Entry((User)obj);
+                var entry = _db.Entry((WorkOrder)obj);
                 entry.State = EntityState.Modified;
                 await _db.SaveChangesAsync();
             }
             catch (InvalidCastException) { }
+        }
+        public async Task<WorkOrder> FindRow(Guid? id)
+        {
+            return await _db.WorkOrders.FindAsync(id);
         }
     }
 }
