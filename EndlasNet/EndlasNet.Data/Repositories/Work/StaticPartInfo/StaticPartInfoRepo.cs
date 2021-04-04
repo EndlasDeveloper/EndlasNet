@@ -66,8 +66,13 @@ namespace EndlasNet.Data
         {
             try
             {
-                _db.Update((StaticPartInfo)obj);
-                await _db.SaveChangesAsync();
+                try
+                {
+                    var entry = _db.Entry((StaticPartInfo)obj);
+                    entry.State = EntityState.Modified;
+                    await _db.SaveChangesAsync();
+                }
+                catch (InvalidCastException) { }
             }
             catch (InvalidCastException) { }
         }

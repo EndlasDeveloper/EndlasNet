@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,29 +8,51 @@ namespace EndlasNet.Data
 {
     public class WorkOrderRepo : IWorkRepo
     {
-        public Task AddRow(object obj)
+        private readonly EndlasNetDbContext _db;
+
+        public WorkOrderRepo(EndlasNetDbContext db)
         {
-            throw new NotImplementedException();
+            _db = db;
         }
 
-        public Task DeleteRow(Guid? id)
+        public async Task AddRow(object obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _db.WorkOrders.AddAsync((WorkOrder)obj);
+                await _db.SaveChangesAsync();
+            }
+            catch (InvalidCastException) { }
         }
 
-        public Task<IEnumerable<object>> GetAllRows()
+        public async Task DeleteRow(Guid? id)
         {
-            throw new NotImplementedException();
+            var workOrder = await _db.WorkOrders
+                .FirstOrDefaultAsync(j => j.WorkId == id);
+            _db.Remove(workOrder);
+            await _db.SaveChangesAsync();
         }
 
-        public Task<object> GetRow(Guid? id)
+        public async Task<IEnumerable<object>> GetAllRows()
         {
-            throw new NotImplementedException();
+            return await _db.WorkOrders.ToListAsync();
         }
 
-        public Task<object> GetRowNoTracking(Guid? id)
+        public async Task<object> GetRow(Guid? id)
         {
-            throw new NotImplementedException();
+            return await _db.WorkOrders
+                .Include(j => j.Customer)
+                .Include(j => j.User)
+                .FirstOrDefaultAsync(j => j.WorkId == id);
+        }
+
+        public async Task<object> GetRowNoTracking(Guid? id)
+        {
+            return await _db.WorkOrders
+                .AsNoTracking()
+                .Include(j => j.Customer)
+                .Include(j => j.User)
+                .FirstOrDefaultAsync(j => j.WorkId == id);
         }
 
         public Task RemoveRow(Guid id)
@@ -37,14 +60,21 @@ namespace EndlasNet.Data
             throw new NotImplementedException();
         }
 
-        public Task<bool> RowExists(Guid id)
+        public async Task<bool> RowExists(Guid id)
         {
-            throw new NotImplementedException();
+            return await _db.WorkOrders
+                        .AnyAsync(j => j.WorkId == id);
         }
 
-        public Task UpdateRow(object obj)
+        public async Task UpdateRow(object obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entry = _db.Entry((User)obj);
+                entry.State = EntityState.Modified;
+                await _db.SaveChangesAsync();
+            }
+            catch (InvalidCastException) { }
         }
     }
 }
