@@ -85,12 +85,12 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var machiningTool = await _context.MachiningTools.FindAsync(id);
+            var machiningTool = await _machiningToolRepo.FindRow(id);
             if (machiningTool == null)
             {
                 return NotFound();
             }
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName", machiningTool.VendorId);
+            ViewData["VendorId"] = new SelectList(await _vendorRepo.GetAllRows(), "VendorId", "VendorName", machiningTool.VendorId);
             return View(machiningTool);
         }
 

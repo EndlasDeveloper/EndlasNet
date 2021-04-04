@@ -78,5 +78,10 @@ namespace EndlasNet.Data
             }
             catch (InvalidCastException) { }
         }
+
+        public async Task<MachiningTool> FindRow(Guid? id)
+        {
+            return await _db.MachiningTools.FindAsync(id);
+        }
     }
 }
