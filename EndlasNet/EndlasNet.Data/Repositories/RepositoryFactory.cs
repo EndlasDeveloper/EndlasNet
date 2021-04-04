@@ -21,7 +21,7 @@ namespace EndlasNet.Data
         private readonly UserRepo _userRepo;
         private readonly VendorRepo _vendorRepo;
         private readonly CustomerRepo _customerRepo;
-        private readonly PowderRepo _powderRepo;
+        private readonly PowderBottleRepo _powderRepo;
         private readonly PowderOrderRepo _powderOrderRepo;
         private readonly LineItemRepo _lineItemRepo;
         private readonly StaticPowderInfoRepo _staticPowderInfoRepo;
@@ -35,7 +35,7 @@ namespace EndlasNet.Data
             _customerRepo = new CustomerRepo(_db);
             _powderOrderRepo = new PowderOrderRepo(_db);
             _lineItemRepo = new LineItemRepo(_db);
-            _powderRepo = new PowderRepo(_db);
+            _powderRepo = new PowderBottleRepo(_db);
             _staticPowderInfoRepo = new StaticPowderInfoRepo(_db);
         }
 

@@ -15,7 +15,7 @@ namespace EndlasNet.Web.Controllers
         private readonly EndlasNetDbContext _context;
         private readonly LineItemRepo _lineItemRepo;
         private readonly PowderOrderRepo _powderOrderRepo;
-        private readonly PowderRepo _powderRepo;
+        private readonly PowderBottleRepo _powderRepo;
         private readonly StaticPowderInfoRepo _staticPowderRepo;
 
         public LineItemsController(EndlasNetDbContext context)
@@ -24,7 +24,7 @@ namespace EndlasNet.Web.Controllers
             var repoFactory = new RepositoryFactory(context);
             _lineItemRepo = (LineItemRepo)repoFactory.GetRepository(RepositoryTypes.LineItem);
             _powderOrderRepo = (PowderOrderRepo)repoFactory.GetRepository(RepositoryTypes.PowderOrder);
-            _powderRepo = (PowderRepo)repoFactory.GetRepository(RepositoryTypes.Powder);
+            _powderRepo = (PowderBottleRepo)repoFactory.GetRepository(RepositoryTypes.Powder);
             _staticPowderRepo = new StaticPowderInfoRepo(context);
         }
 
@@ -45,13 +45,13 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _lineItemRepo.GetRowNoTracking(id);
-
+            var lineItem = (LineItem)await _lineItemRepo.GetRow(id);
+            lineItem.PowderOrder = (PowderOrder) await _powderOrderRepo.GetRow(lineItem.PowderOrderId);
             if (lineItem == null)
             {
                 return NotFound();
             }
-           
+            
             return View(lineItem);
         }
 
@@ -144,7 +144,7 @@ namespace EndlasNet.Web.Controllers
                         StaticPowderInfo = lineItem.StaticPowderInfo,
                         StaticPowderInfoId = lineItem.StaticPowderInfo.StaticPowderInfoId
                     };
-                    await _powderRepo.AddPowder(newPowder);
+                    await _powderRepo.AddRow(newPowder);
                 }
                 return RedirectToAction("Index", "PowderOrders");
             }

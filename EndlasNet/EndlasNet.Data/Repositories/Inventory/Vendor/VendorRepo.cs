@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class VendorRepo : IRepository
+    public class VendorRepo : IVendorRepo
     {
         private readonly EndlasNetDbContext _db;
 
