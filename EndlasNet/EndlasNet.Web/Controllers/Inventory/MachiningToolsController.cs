@@ -20,9 +20,8 @@ namespace EndlasNet.Web.Controllers
         public MachiningToolsController(EndlasNetDbContext context)
         {
             _context = context;
-            var repoFactory = new RepositoryFactory(context);
-            _vendorRepo = (VendorRepo)repoFactory.GetRepository(RepositoryTypes.Vendor);
-            _machiningToolRepo = (MachiningToolRepo)repoFactory.GetRepository(RepositoryTypes.MachiningTool);
+            _vendorRepo = new VendorRepo(context);
+            _machiningToolRepo = new MachiningToolRepo(context);
         }
 
         // GET: MachiningTools

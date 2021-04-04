@@ -16,9 +16,8 @@ namespace EndlasNet.Web.Controllers
         private VendorRepo _vendorRepo;
         public VendorsController(EndlasNetDbContext context)
         {
-            var repoFactory = new RepositoryFactory(context);
-            _userRepo = (UserRepo)repoFactory.GetRepository(RepositoryTypes.User);
-            _vendorRepo = (VendorRepo)repoFactory.GetRepository(RepositoryTypes.Vendor);
+            _userRepo = new UserRepo(context);
+            _vendorRepo = new VendorRepo(context);
         }
 
         // GET: Vendors

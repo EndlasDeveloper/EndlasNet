@@ -21,10 +21,9 @@ namespace EndlasNet.Web.Controllers
         public LineItemsController(EndlasNetDbContext context)
         {
             _context = context;
-            var repoFactory = new RepositoryFactory(context);
-            _lineItemRepo = (LineItemRepo)repoFactory.GetRepository(RepositoryTypes.LineItem);
-            _powderOrderRepo = (PowderOrderRepo)repoFactory.GetRepository(RepositoryTypes.PowderOrder);
-            _powderRepo = (PowderBottleRepo)repoFactory.GetRepository(RepositoryTypes.Powder);
+            _lineItemRepo = new LineItemRepo(context);
+            _powderOrderRepo = new PowderOrderRepo(context);
+            _powderRepo = new PowderBottleRepo(context);
             _staticPowderRepo = new StaticPowderInfoRepo(context);
         }
 
