@@ -152,9 +152,7 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var machiningTool = await _context.MachiningTools.FindAsync(id);
-            _context.MachiningTools.Remove(machiningTool);
-            await _context.SaveChangesAsync();
+            await _machiningToolRepo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 

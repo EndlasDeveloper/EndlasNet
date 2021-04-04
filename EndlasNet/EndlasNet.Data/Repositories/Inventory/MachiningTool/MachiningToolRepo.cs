@@ -25,9 +25,11 @@ namespace EndlasNet.Data
             catch (InvalidCastException) { }
         }
 
-        public Task DeleteRow(Guid? id)
+        public async Task DeleteRow(Guid? id)
         {
-            throw new NotImplementedException();
+            var machiningTool = await _db.MachiningTools.FindAsync(id);
+            _db.MachiningTools.Remove(machiningTool);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<object>> GetAllRows()
