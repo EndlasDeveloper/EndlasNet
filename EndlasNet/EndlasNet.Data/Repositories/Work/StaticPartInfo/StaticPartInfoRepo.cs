@@ -35,12 +35,12 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<object>> GetAllRows()
         {
-            return await _db.StaticPartInfo.ToListAsync();
+            return await _db.StaticPartInfo.Include(s => s.Customer).Include(s => s.User).ToListAsync();
         }
 
         public async Task<object> GetRow(Guid? id)
         {
-            return await _db.StaticPartInfo
+            return await _db.StaticPartInfo.Include(s => s.Customer).Include(s => s.User)
                 .FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
         }
 
