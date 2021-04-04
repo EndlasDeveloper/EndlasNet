@@ -13,17 +13,19 @@ namespace EndlasNet.Web.Controllers
     public class JobsController : Controller
     {
         private readonly EndlasNetDbContext _context;
-
+        private readonly JobRepo _jobRepo;
+        private readonly CustomerRepo _customerRepo;
         public JobsController(EndlasNetDbContext context)
         {
             _context = context;
+            _jobRepo = new JobRepo(context);
+            _customerRepo = new CustomerRepo(context);
         }
 
         // GET: Jobs
         public async Task<IActionResult> Index()
         {
-            var endlasNetDbContext = _context.Jobs.Include(j => j.Customer).Include(j => j.User);
-            return View(await endlasNetDbContext.ToListAsync());
+            return View(await _jobRepo.GetAllRows());
         }
 
         // GET: Jobs/Details/5
@@ -34,10 +36,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs
-                .Include(j => j.Customer)
-                .Include(j => j.User)
-                .FirstOrDefaultAsync(m => m.WorkId == id);
+            var job = (Job)await _jobRepo.GetRow(id);
             if (job == null)
             {
                 return NotFound();
@@ -47,9 +46,9 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Jobs/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName");
+            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
             return View();
         }
 
@@ -64,11 +63,10 @@ namespace EndlasNet.Web.Controllers
             {
                 job.WorkId = Guid.NewGuid();
                 job.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                _context.Add(job);
-                await _context.SaveChangesAsync();
+                await _jobRepo.AddRow(job);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerAddress", job.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerAddress", job.CustomerId);
             return View(job);
         }
 
@@ -80,12 +78,12 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs.FindAsync(id);
+            var job = await _jobRepo.FindRow(id);
             if (job == null)
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", job.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", job.CustomerId);
             return View(job);
         }
 
@@ -112,7 +110,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JobExists(job.WorkId))
+                    if (!(await JobExists(job.WorkId)))
                     {
                         return NotFound();
                     }
@@ -123,7 +121,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName", job.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", job.CustomerId);
             return View(job);
         }
 
@@ -135,10 +133,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs
-                .Include(j => j.Customer)
-                .Include(j => j.User)
-                .FirstOrDefaultAsync(m => m.WorkId == id);
+            var job = (Job)await _jobRepo.GetRow(id);
             if (job == null)
             {
                 return NotFound();
@@ -152,15 +147,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var job = await _context.Jobs.FindAsync(id);
-            _context.Jobs.Remove(job);
-            await _context.SaveChangesAsync();
+            await _jobRepo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool JobExists(Guid id)
+        private async Task<bool> JobExists(Guid id)
         {
-            return _context.Jobs.Any(e => e.WorkId == id);
+            return await _jobRepo.RowExists(id);
         }
     }
 }
