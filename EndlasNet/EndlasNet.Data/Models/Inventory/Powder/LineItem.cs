@@ -14,7 +14,7 @@ namespace EndlasNet.Data
         public Guid LineItemId { get; set; }
 
         [ForeignKey("StaticPowderInfoId")]
-        [Display(Name ="Powder name")]
+        [Display(Name ="PowderBottle name")]
         public Guid? StaticPowderInfoId { get; set; }
         public virtual StaticPowderInfo StaticPowderInfo { get; set; }
         [Display(Name ="Vendor description")]
@@ -43,7 +43,7 @@ namespace EndlasNet.Data
         public Guid PowderOrderId { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        [Display(Name ="Powder order number")]
+        [Display(Name ="PowderBottle order number")]
         public virtual PowderOrder PowderOrder { get; set; }
 
         [Range(0, 1000)]

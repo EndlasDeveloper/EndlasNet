@@ -3,6 +3,8 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\css\site.css
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\favicon.ico
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\american_flag.jpg
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\backArrow.jpg
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\backArrow.png
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\endlasLogo.png
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\endlas_db_erd.jpg
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\laserBeam.png

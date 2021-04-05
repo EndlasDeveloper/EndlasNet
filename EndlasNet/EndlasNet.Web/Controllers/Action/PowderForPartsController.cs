@@ -60,9 +60,9 @@ namespace EndlasNet.Web.Controllers
 
                 powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
 
-                var staticPowderInfo = (StaticPowderInfo)await _staticPowderInfoRepo.GetRow(powderForPart.Powder.StaticPowderInfoId);
+                var staticPowderInfo = (StaticPowderInfo)await _staticPowderInfoRepo.GetRow(powderForPart.PowderBottle.StaticPowderInfoId);
 
-                powderForPart.Powder.StaticPowderInfo = staticPowderInfo;
+                powderForPart.PowderBottle.StaticPowderInfo = staticPowderInfo;
 
                 FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
             }
@@ -234,7 +234,7 @@ namespace EndlasNet.Web.Controllers
             {
                 // find the bottle of powder associated with powderForParts
                 var powder = await _context.PowderBottles
-                    .FirstOrDefaultAsync(p => p.PowderBottleId == powderForPart.PowderId);
+                    .FirstOrDefaultAsync(p => p.PowderBottleId == powderForPart.PowderBottleId);
 
 
                 // make sure there is enough powder to perform putting powder to part
@@ -331,7 +331,7 @@ namespace EndlasNet.Web.Controllers
 
             var powderForPart = await _context.PowderForParts
                 .Include(p => p.PartForWork)
-                .Include(p => p.Powder)
+                .Include(p => p.PowderBottle)
                 .FirstOrDefaultAsync(m => m.PowderForPartId == id);
             if (powderForPart == null)
             {

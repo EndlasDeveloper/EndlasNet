@@ -266,25 +266,6 @@ namespace EndlasNet.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PowderForPartViewModels",
-                columns: table => new
-                {
-                    PowderForPartViewModelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Weight = table.Column<float>(type: "real", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PowderForPartViewModels", x => x.PowderForPartViewModelId);
-                    table.ForeignKey(
-                        name: "FK_PowderForPartViewModels_Work_WorkId",
-                        column: x => x.WorkId,
-                        principalTable: "Work",
-                        principalColumn: "WorkId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MachiningToolsForWork",
                 columns: table => new
                 {
@@ -354,32 +335,6 @@ namespace EndlasNet.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PowderForPartCheckBoxes",
-                columns: table => new
-                {
-                    CheckBoxInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PowderForPartViewModelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsChecked = table.Column<bool>(type: "bit", nullable: false),
-                    PartForWorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PowderForPartCheckBoxes", x => x.CheckBoxInfoId);
-                    table.ForeignKey(
-                        name: "FK_PowderForPartCheckBoxes_PartsForWork_PartForWorkId",
-                        column: x => x.PartForWorkId,
-                        principalTable: "PartsForWork",
-                        principalColumn: "PartForWorkId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PowderForPartCheckBoxes_PowderForPartViewModels_PowderForPartViewModelId",
-                        column: x => x.PowderForPartViewModelId,
-                        principalTable: "PowderForPartViewModels",
-                        principalColumn: "PowderForPartViewModelId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PowderBottles",
                 columns: table => new
                 {
@@ -422,7 +377,7 @@ namespace EndlasNet.Data.Migrations
                 columns: table => new
                 {
                     PowderForPartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PowderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PowderBottleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PartForWorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PowderWeightUsed = table.Column<float>(type: "real", nullable: false)
                 },
@@ -436,8 +391,8 @@ namespace EndlasNet.Data.Migrations
                         principalColumn: "PartForWorkId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PowderForParts_PowderBottles_PowderId",
-                        column: x => x.PowderId,
+                        name: "FK_PowderForParts_PowderBottles_PowderBottleId",
+                        column: x => x.PowderBottleId,
                         principalTable: "PowderBottles",
                         principalColumn: "PowderBottleId",
                         onDelete: ReferentialAction.Cascade);
@@ -446,23 +401,23 @@ namespace EndlasNet.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "CustomerId", "CustomerAddress", "CustomerName", "CustomerPhone", "PointOfContact" },
-                values: new object[] { new Guid("6f3e8fde-0e5a-4844-abd7-7c45c6404030"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
+                values: new object[] { new Guid("b6dc8f18-9d71-4322-b3b7-566f0c637b1c"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("bc982bba-090c-40c3-b2fd-ed2a03f95f96"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "SA", "SA" },
-                    { new Guid("5d8f597a-9f30-4139-a15a-0ac487379213"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
-                    { new Guid("c552f5df-6128-4f78-a544-32dc628be2ce"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("cdc600fd-cf8c-4416-8c8d-ef8de6a98f99"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
+                    { new Guid("38845800-46be-4cc1-9ee1-3663c67182e7"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "SA@endlas.com", "SA", "SA" },
+                    { new Guid("84e66d24-2628-4579-9482-98aec6dc5904"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
+                    { new Guid("8c1c8b32-81d1-4c4a-a1bd-5b7fad52bb15"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("47979e55-4d7e-485b-af03-e6cffb55f2dc"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Vendors",
                 columns: new[] { "VendorId", "PointOfContact", "UserId", "VendorAddress", "VendorName", "VendorPhone" },
-                values: new object[] { new Guid("afefab8c-b6c7-49b6-8d52-44aa77256219"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
+                values: new object[] { new Guid("604cc3fe-b5b4-4a84-988f-7d0b1e4d2f25"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LineItems_PowderOrderId",
@@ -530,29 +485,14 @@ namespace EndlasNet.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PowderForPartCheckBoxes_PartForWorkId",
-                table: "PowderForPartCheckBoxes",
-                column: "PartForWorkId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PowderForPartCheckBoxes_PowderForPartViewModelId",
-                table: "PowderForPartCheckBoxes",
-                column: "PowderForPartViewModelId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PowderForParts_PartForWorkId",
                 table: "PowderForParts",
                 column: "PartForWorkId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PowderForParts_PowderId",
+                name: "IX_PowderForParts_PowderBottleId",
                 table: "PowderForParts",
-                column: "PowderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PowderForPartViewModels_WorkId",
-                table: "PowderForPartViewModels",
-                column: "WorkId");
+                column: "PowderBottleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PowderOrders_UserId",
@@ -605,16 +545,10 @@ namespace EndlasNet.Data.Migrations
                 name: "MachiningToolsForWork");
 
             migrationBuilder.DropTable(
-                name: "PowderForPartCheckBoxes");
-
-            migrationBuilder.DropTable(
                 name: "PowderForParts");
 
             migrationBuilder.DropTable(
                 name: "MachiningTools");
-
-            migrationBuilder.DropTable(
-                name: "PowderForPartViewModels");
 
             migrationBuilder.DropTable(
                 name: "PartsForWork");
