@@ -12,8 +12,8 @@ namespace EndlasNet.Data
         public Guid PowderForPartId { get; set; }
         [ForeignKey("PowderBottleId")]
         [Display(Name ="PowderBottle")]
-        public Guid PowderBottleId { get; set; }
-        public PowderBottle PowderBottle { get; set; }
+        public Guid? PowderBottleId { get; set; }
+        public virtual PowderBottle PowderBottle { get; set; }
         [ForeignKey("PartForWorkId")]
         [Display(Name = "Part")]
         public Guid PartForWorkId { get; set; }

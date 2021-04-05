@@ -14,21 +14,17 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" method="get">
-
-            @using (Html.BeginForm("CreateWithWorkSet", "PowderForParts", FormMethod.Post))
-            {
+        @using (Html.BeginForm("InitEdit", "PowderForParts", FormMethod.Post))
+        { 
             <div>
-                <input asp-for="@workDesc" class="form-control" readonly />
+                <input asp-for= "@workDesc" class="form-control" readonly />
             </div>
             <div>
                 <label asp-for="PartForWorkId" class="control-label"></label>
                 <select asp-for="PartForWorkId" class="form-control" asp-items="ViewBag.PartForWorkId"></select>
                 <input type="submit" value="submit" class="btn btn-primary" />
             </div>
-            }
-
-        </form>
+         }
 
         @*   <div class="form-group">
 

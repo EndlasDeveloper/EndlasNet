@@ -265,18 +265,39 @@ namespace EndlasNet.Web.Controllers
             return View(powderForPart);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> InitEdit(Guid? partForWorkId)
+        {
+            var partForWork = await _context.PartsForWork.FirstOrDefaultAsync(p => p.PartForWorkId == partForWorkId);
+            if (partForWorkId == null)
+            {
+                return NotFound();
+            }
 
+            var powderForPart = new PowderForPart
+            {
+                PowderForPartId = Guid.NewGuid(),
+                PartForWorkId = partForWork.PartForWorkId
+            };
+            await _context.PowderForParts.AddAsync(powderForPart);
+            await _context.SaveChangesAsync();
+            if (powderForPart == null)
+            {
+                return NotFound();
+            }
+            await SetViewData();
+            return RedirectToAction("Edit", new { id = powderForPart.PowderForPartId });
+        }
 
         // GET: PowderForParts/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
+            var powderForPart = await _context.PowderForParts.FirstOrDefaultAsync(p => p.PowderForPartId == id);
             if (id == null)
             {
                 return NotFound();
             }
 
-            var powderForPart = await _context.PowderForParts
-                .FindAsync(id);
             if (powderForPart == null)
             {
                 return NotFound();
