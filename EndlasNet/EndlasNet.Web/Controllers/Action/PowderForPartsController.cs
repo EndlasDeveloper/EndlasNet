@@ -9,13 +9,6 @@ using EndlasNet.Data;
 
 namespace EndlasNet.Web.Controllers
 {
-    public enum CreateCases
-    {
-        PopulateWork,
-        PopulatePartsForWork,
-        PopulatePowder,
-        PopulatePowderBottles
-    }
 
     public class PowderForPartsController : Controller
     {
@@ -48,10 +41,11 @@ namespace EndlasNet.Web.Controllers
             var partsForWork = await GetPartsForWorkList();
 
             var allPowderForParts = await _powderForPartRepo.GetAllRows();
+           
             List<PowderForPart> powderForPartsList = new List<PowderForPart>();
             foreach(object obj in allPowderForParts)
             {
-                powderForPartsList.Add((PowderForPart)obj);
+                powderForPartsList.Insert(0,(PowderForPart)obj);
             }
             foreach(PowderForPart powderForPart in powderForPartsList)
             {
@@ -60,7 +54,8 @@ namespace EndlasNet.Web.Controllers
 
                 powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
 
-                var staticPowderInfo = (StaticPowderInfo)await _staticPowderInfoRepo.GetRow(powderForPart.PowderBottle.StaticPowderInfoId);
+                var staticPowderInfo = await _context.StaticPowderInfo
+                    .FirstOrDefaultAsync(s =>s.StaticPowderInfoId == powderForPart.PowderBottle.StaticPowderInfoId);
 
                 powderForPart.PowderBottle.StaticPowderInfo = staticPowderInfo;
 
@@ -246,7 +241,7 @@ namespace EndlasNet.Web.Controllers
                     return View(powderForPart);
                 }
                 // subtract off what was used
-                powder.Weight -= powderForPart.PowderWeightUsed;
+                powder.Weight -= (float)powderForPart.PowderWeightUsed;
 
                 // if below threshold after subtracting weight, zero out weight
                 if (powder.Weight <= POWDER_THRESHOLD)
@@ -279,8 +274,8 @@ namespace EndlasNet.Web.Controllers
                 PowderForPartId = Guid.NewGuid(),
                 PartForWorkId = partForWork.PartForWorkId
             };
-            await _context.PowderForParts.AddAsync(powderForPart);
-            await _context.SaveChangesAsync();
+            /*await _context.PowderForParts.AddAsync(powderForPart);
+            await _context.SaveChangesAsync();*/
             if (powderForPart == null)
             {
                 return NotFound();
@@ -380,6 +375,15 @@ namespace EndlasNet.Web.Controllers
         private bool PowderForPartExists(Guid id)
         {
             return _context.PowderForParts.Any(e => e.PowderForPartId == id);
+        }
+
+        public async Task<IActionResult> CreatePowderName()
+        {
+            var list = await _context.StaticPowderInfo.ToListAsync();
+            var distinct = list.GroupBy(s => s.PowderName);
+
+            ViewData["StaticPowderId"] = new SelectList(distinct, "StaticPowderId", "PowderName");
+            return View(distinct);
         }
     }
 }

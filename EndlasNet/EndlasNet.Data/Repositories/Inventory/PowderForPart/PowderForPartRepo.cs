@@ -35,11 +35,11 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<object>> GetAllRows()
         {
-            var rows = await _db.PowderForParts
+            var rows = _db.PowderForParts
                 .Include(p => p.PowderBottle)
-                .Include(p => p.PartForWork)
-                .ToListAsync();
-            return rows.OrderBy(p => p.PowderBottle.BottleNumber);
+                .Include(p => p.PowderBottle.StaticPowderInfo)
+                .Include(p => p.PartForWork);
+            return await rows.OrderBy(p => p.PowderBottle.StaticPowderInfo.PowderName).ToListAsync();
         }
 
         public async Task<object> GetRow(Guid? id)
