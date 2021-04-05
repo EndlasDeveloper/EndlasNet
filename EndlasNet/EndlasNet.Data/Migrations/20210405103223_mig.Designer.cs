@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20210403202545_mig")]
+    [Migration("20210405103223_mig")]
     partial class mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,30 +20,6 @@ namespace EndlasNet.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("EndlasNet.Data.CheckBoxInfo", b =>
-                {
-                    b.Property<Guid>("CheckBoxInfoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsChecked")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("PartForWorkId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PowderForPartViewModelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CheckBoxInfoId");
-
-                    b.HasIndex("PartForWorkId");
-
-                    b.HasIndex("PowderForPartViewModelId");
-
-                    b.ToTable("PowderForPartCheckBoxes");
-                });
 
             modelBuilder.Entity("EndlasNet.Data.Customer", b =>
                 {
@@ -74,7 +50,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CustomerId = new Guid("6f3e8fde-0e5a-4844-abd7-7c45c6404030"),
+                            CustomerId = new Guid("dd48905a-006d-4636-88cb-6717479de0a6"),
                             CustomerAddress = "Dummy Customer Address",
                             CustomerName = "Dummy Customer Name",
                             CustomerPhone = "0987654321",
@@ -353,41 +329,22 @@ namespace EndlasNet.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PartForWorkId")
+                    b.Property<Guid?>("PartForWorkId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PowderId")
+                    b.Property<Guid?>("PowderBottleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<float>("PowderWeightUsed")
+                    b.Property<float?>("PowderWeightUsed")
                         .HasColumnType("real");
 
                     b.HasKey("PowderForPartId");
 
                     b.HasIndex("PartForWorkId");
 
-                    b.HasIndex("PowderId");
+                    b.HasIndex("PowderBottleId");
 
                     b.ToTable("PowderForParts");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.PowderForPartViewModel", b =>
-                {
-                    b.Property<Guid>("PowderForPartViewModelId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float?>("Weight")
-                        .HasColumnType("real");
-
-                    b.Property<Guid?>("WorkId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("PowderForPartViewModelId");
-
-                    b.HasIndex("WorkId");
-
-                    b.ToTable("PowderForPartViewModels");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.PowderOrder", b =>
@@ -575,7 +532,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            VendorId = new Guid("afefab8c-b6c7-49b6-8d52-44aa77256219"),
+                            VendorId = new Guid("425a4b27-56b2-443a-b53b-08479f36d94f"),
                             PointOfContact = "Dummy Point of Contact",
                             VendorAddress = "Dummy Vendor Address",
                             VendorName = "Dummy Vendor Name",
@@ -678,7 +635,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("bc982bba-090c-40c3-b2fd-ed2a03f95f96"),
+                            UserId = new Guid("c34cae1a-881b-485b-a0cd-de3dd9084dde"),
                             AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
                             EndlasEmail = "SA@endlas.com",
                             FirstName = "SA",
@@ -686,7 +643,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("5d8f597a-9f30-4139-a15a-0ac487379213"),
+                            UserId = new Guid("9f561a94-978c-4f68-97e4-1a9ac1b40428"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "james.tomich@endlas.com",
                             FirstName = "Jimmy",
@@ -694,7 +651,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("c552f5df-6128-4f78-a544-32dc628be2ce"),
+                            UserId = new Guid("ff809c8c-4f67-4b05-a49e-fdc6493e5040"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "josh.hammell@endlas.com",
                             FirstName = "Josh",
@@ -702,7 +659,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("cdc600fd-cf8c-4416-8c8d-ef8de6a98f99"),
+                            UserId = new Guid("2c7a7653-91f3-48de-bbd5-1c450194e806"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                             EndlasEmail = "blt@endlas.com",
                             FirstName = "Brett",
@@ -729,23 +686,6 @@ namespace EndlasNet.Data.Migrations
                     b.HasBaseType("EndlasNet.Data.Work");
 
                     b.HasDiscriminator().HasValue("WorkOrder");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.CheckBoxInfo", b =>
-                {
-                    b.HasOne("EndlasNet.Data.PartForWork", "PartForWork")
-                        .WithMany()
-                        .HasForeignKey("PartForWorkId");
-
-                    b.HasOne("EndlasNet.Data.PowderForPartViewModel", "PowderForPartViewModel")
-                        .WithMany("CheckBoxList")
-                        .HasForeignKey("PowderForPartViewModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PartForWork");
-
-                    b.Navigation("PowderForPartViewModel");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.LineItem", b =>
@@ -831,7 +771,7 @@ namespace EndlasNet.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("EndlasNet.Data.User", "User")
-                        .WithMany("Powders")
+                        .WithMany("PowderBottles")
                         .HasForeignKey("UserId");
 
                     b.Navigation("LineItem");
@@ -845,28 +785,15 @@ namespace EndlasNet.Data.Migrations
                 {
                     b.HasOne("EndlasNet.Data.PartForWork", "PartForWork")
                         .WithMany("PowdersUsed")
-                        .HasForeignKey("PartForWorkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PartForWorkId");
 
-                    b.HasOne("EndlasNet.Data.PowderBottle", "Powder")
+                    b.HasOne("EndlasNet.Data.PowderBottle", "PowderBottle")
                         .WithMany("PowderForParts")
-                        .HasForeignKey("PowderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PowderBottleId");
 
                     b.Navigation("PartForWork");
 
-                    b.Navigation("Powder");
-                });
-
-            modelBuilder.Entity("EndlasNet.Data.PowderForPartViewModel", b =>
-                {
-                    b.HasOne("EndlasNet.Data.Work", "Work")
-                        .WithMany()
-                        .HasForeignKey("WorkId");
-
-                    b.Navigation("Work");
+                    b.Navigation("PowderBottle");
                 });
 
             modelBuilder.Entity("EndlasNet.Data.PowderOrder", b =>
@@ -980,11 +907,6 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("PowderForParts");
                 });
 
-            modelBuilder.Entity("EndlasNet.Data.PowderForPartViewModel", b =>
-                {
-                    b.Navigation("CheckBoxList");
-                });
-
             modelBuilder.Entity("EndlasNet.Data.PowderOrder", b =>
                 {
                     b.Navigation("LineItems");
@@ -1010,7 +932,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.Navigation("MachiningTools");
 
-                    b.Navigation("Powders");
+                    b.Navigation("PowderBottles");
 
                     b.Navigation("StaticPartInfo");
 

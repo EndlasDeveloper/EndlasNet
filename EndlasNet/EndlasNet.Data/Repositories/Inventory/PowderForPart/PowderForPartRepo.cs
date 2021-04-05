@@ -35,17 +35,17 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<object>> GetAllRows()
         {
-            return await _db.PowderForParts
-                .Include(p => p.Powder)
-                .Include(p => p.PartForWork)
-                .OrderBy(m => m.Powder.PowderName)
-                .ToListAsync();
+            var rows = _db.PowderForParts
+                .Include(p => p.PowderBottle)
+                .Include(p => p.PowderBottle.StaticPowderInfo)
+                .Include(p => p.PartForWork);
+            return await rows.OrderBy(p => p.PowderBottle.StaticPowderInfo.PowderName).ToListAsync();
         }
 
         public async Task<object> GetRow(Guid? id)
         {
             return await _db.PowderForParts
-                            .Include(p => p.Powder)
+                            .Include(p => p.PowderBottle)
                             .Include(p => p.PartForWork)
                             .FirstOrDefaultAsync(p => p.PowderForPartId == id);
         }
@@ -54,7 +54,7 @@ namespace EndlasNet.Data
         {
             return await _db.PowderForParts
                           .AsNoTracking()
-                          .Include(p => p.Powder)
+                          .Include(p => p.PowderBottle)
                           .Include(p => p.PartForWork)
                           .FirstOrDefaultAsync(p => p.PowderForPartId == id);
         }

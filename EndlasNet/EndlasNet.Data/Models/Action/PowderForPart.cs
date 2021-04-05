@@ -10,18 +10,18 @@ namespace EndlasNet.Data
     {
         [Key]
         public Guid PowderForPartId { get; set; }
-        [ForeignKey("PowderId")]
-        [Display(Name ="Powder")]
-        public Guid PowderId { get; set; }
-        public PowderBottle Powder { get; set; }
+        [ForeignKey("PowderBottleId")]
+        [Display(Name ="PowderBottle")]
+        public Guid? PowderBottleId { get; set; }
+        public virtual PowderBottle PowderBottle { get; set; }
         [ForeignKey("PartForWorkId")]
         [Display(Name = "Part")]
-        public Guid PartForWorkId { get; set; }
+        public Guid? PartForWorkId { get; set; }
         [Display(Name = "Part")]
-        public PartForWork PartForWork { get; set; }
+        public virtual PartForWork PartForWork { get; set; }
 
-        [Display(Name ="Powder weight used (lbs)")]
+        [Display(Name ="PowderBottle weight used (lbs)")]
         [Range(0.0001,200.0)]
-        public float PowderWeightUsed { get; set; }
+        public float? PowderWeightUsed { get; set; }
     }
 }
