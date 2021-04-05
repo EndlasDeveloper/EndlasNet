@@ -15,73 +15,27 @@
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
-
-        <li class="update-notes-li">
-            Started the workflow for putting powder to batches of parts. Can select work. Then a screen is rendered with checkboxes for
-            each part in the selected job. There is also a weight form. On submit, the workflow stops working correctly.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue where visual studio dlls were changed through a renaming mistake. Repaired VS and app is back to it working state.
-        </li>
-        <li class="update-notes-li">
-            On Edit StaticPartInfo, made pdf and img files persist when editing. Can change the file if desired. Also, added a
-            checkbox to clear the contents of the attribute (aka set it to null).
-        </li>
-        <li class="update-notes-li">
-            Now composition pdf persists when editing a static powder info row. The pdf can be changed, or a checkbock can be selected
-            to set the file to null in the db.
-        </li>
-        <li class="update-notes-li">
-            Added comment attribute (str) to MachiningToolForWork on backend/db. Added comment form for UI create and edit. Added comment
-            display for details and delete. Shows each row comment on index. Works as intended.
-        </li>
-        <li class="update-notes-li">
-            LineItem Index -> added number of powder bottles to index view. Removed delete option in powder bottle view. Should only
-            be able to reset powder bottles from the line item view.
-        </li>
-        <li class="update-notes-li">
-            PowderOrder Index -> added number of LineItems to index view.
-        </li>
-        <li class="update-notes-li">
-            Added back action link to traverse: PowderOrder - LineItem - Powder. Added back image to the action link to make easier to tap.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue where password wasn't being set properly on user edit. Now password can be successfully changed.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue where powder order number wasn't displaying in details of line item. Added number of bottles to detials and
-            the uninitialize view.
-        </li>
-        <li class="update-notes-li">
-            Added interface and repository class for machining tools. Refactored machining tools controller to use the repo rather 
-            than the context.
-        </li>
-        <li class="update-notes-li">
-            Added interface and class for PowderForPart repository. Implemented all interface enforced methods.
-            Partially refactored the PowderForPart controller to user the repository. 
-        </li>
-        <li class="update-notes-li">
-            Added interfaces and classes for MachiningToolForWork/Job/WorkOrder. Implemented all IRepository interface methods in new repos.
-            Refactored MachiningToolForWorkController to use the repository rather than the context.
-        </li>
-        <li class="update-notes-li">
-            Fixed up customer repository. Added interface ICustomerRepo. 
-            Customer controller uses all repository units of work to access the db.
-        </li>
-        <li class="update-notes-li">
-            Added repository class and interface for StaticPartInfo. Refactored static part info controller to use the repository class 
-            rather than the context.
-        </li>
-        <li class="update-notes-li">
-            Implemented all repository units of work for JobRepo and WorkOrderRepo.
-            Refactored jobs controller to use the job repository and the customer repository rather than context.
-            Refactored work order controller to user work order repository, customer repo, and user repo instead of context.
-        </li>
     </ul>
 
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
+        <li class="update-notes-li">
+            Put deploy date in update notes for reference to when the last update was.
+        </li>
+        <li class="update-notes-li">
+            Check for initial weight >= weight for powder bottles.
+        </li>
+        <li class="update-notes-li">
+            In MachiningToolForWork: add dropdown / checkbox to select blanking or finishing
+            (Discriminator to differentiate whether a tool was used for blanking or finishing).
+        </li>
+        <li class="update-notes-li">
+            All Powder -> Asc - Desc PowderBottle PowderName
+        </li>
+        <li class="update-notes-li">
+            Remove Edit from MachiningToolForWork; On delete: increment the tool count for the machining tool it was used from.
+        </li>
         <li class="update-notes-li">
             Powder for Part -> Add job select. Aka Powder for part, Powder for part batch, then add an option for something
             in between. Want to be able to distribute powder evenly across user defined set of powder bottles.
