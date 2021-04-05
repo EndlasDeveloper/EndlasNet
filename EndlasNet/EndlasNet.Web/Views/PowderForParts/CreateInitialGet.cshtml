@@ -15,12 +15,12 @@
 <div class="row">
     <div class="col-md-4">
          
-            @using (Html.BeginForm("CreateInitial", "PowderForParts", FormMethod.Post))
+            @using (Html.BeginForm("CreateInitialPost", "PowderForParts", FormMethod.Post))
             {
                 <label asp-for="WorkId" class="control-label"></label>
                 <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
 
-                <input type="button" value="submit" class="btn btn-primary"  />
+                <input type="submit" value="submit" class="btn btn-primary"  />
             }
 
 

@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Create";
-
+    var workDesc = ViewBag.WorkDescription;
 
 
 }
@@ -19,7 +19,7 @@
             @using (Html.BeginForm("CreateWithWorkSet", "PowderForParts", FormMethod.Post))
             {
             <div>
-                <input asp-for="WorkId" placeholder="@ViewBag.WorkDescription" class="form-control" readonly />
+                <input asp-for="@workDesc" class="form-control" readonly />
             </div>
             <div>
                 <label asp-for="PartForWorkId" class="control-label"></label>
