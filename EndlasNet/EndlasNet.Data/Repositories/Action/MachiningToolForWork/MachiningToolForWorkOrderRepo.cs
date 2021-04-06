@@ -16,18 +16,59 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(MachiningToolForWork machiningToolForWork)
         {
             try
             {
-                var machiningToolForWorkOrder = (MachiningToolForWorkOrder)obj;
-                switch (machiningToolForWorkOrder.MachiningType)
+                switch (machiningToolForWork.MachiningType)
                 {
                     case MachiningTypes.Blanking:
-                        await _db.MachiningToolsForWorkOrdersBlanking.AddAsync(machiningToolForWorkOrder as MachiningToolForWorkOrderBlanking);
+                        MachiningToolForWorkOrderBlanking forBlanking = new MachiningToolForWorkOrderBlanking
+                        {
+                            MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
+                            MachiningTool = machiningToolForWork.MachiningTool,
+                            MachiningToolId = machiningToolForWork.MachiningToolId,
+                            MachiningType = machiningToolForWork.MachiningType,
+                            Comment = machiningToolForWork.Comment,
+                            WorkId = machiningToolForWork.WorkId,
+                            Work = machiningToolForWork.Work,
+                            DateUsed = machiningToolForWork.DateUsed,
+                            UserId = machiningToolForWork.UserId,
+                            User = machiningToolForWork.User
+                        };
+                        await _db.MachiningToolsForWorkOrdersBlanking.AddAsync(forBlanking);
                         break;
                     case MachiningTypes.Finishing:
-                        await _db.MachiningToolsForWorkOrdersFinishing.AddAsync(machiningToolForWorkOrder as MachiningToolForWorkOrderFinishing);
+                        MachiningToolForWorkOrderFinishing forFinishing = new MachiningToolForWorkOrderFinishing
+                        {
+                            MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
+                            MachiningTool = machiningToolForWork.MachiningTool,
+                            MachiningToolId = machiningToolForWork.MachiningToolId,
+                            MachiningType = machiningToolForWork.MachiningType,
+                            Comment = machiningToolForWork.Comment,
+                            WorkId = machiningToolForWork.WorkId,
+                            Work = machiningToolForWork.Work,
+                            DateUsed = machiningToolForWork.DateUsed,
+                            UserId = machiningToolForWork.UserId,
+                            User = machiningToolForWork.User
+                        };
+                        await _db.MachiningToolsForWorkOrdersFinishing.AddAsync(forFinishing);
+                        break;
+                    case MachiningTypes.None:
+                        MachiningToolForWorkOrder justWorkOrder = new MachiningToolForWorkOrder
+                        {
+                            MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
+                            MachiningTool = machiningToolForWork.MachiningTool,
+                            MachiningToolId = machiningToolForWork.MachiningToolId,
+                            MachiningType = machiningToolForWork.MachiningType,
+                            Comment = machiningToolForWork.Comment,
+                            WorkId = machiningToolForWork.WorkId,
+                            Work = machiningToolForWork.Work,
+                            DateUsed = machiningToolForWork.DateUsed,
+                            UserId = machiningToolForWork.UserId,
+                            User = machiningToolForWork.User
+                        };
+                        await _db.MachiningToolsForWorkOrders.AddAsync(justWorkOrder);
                         break;
                     default:
                         break;
