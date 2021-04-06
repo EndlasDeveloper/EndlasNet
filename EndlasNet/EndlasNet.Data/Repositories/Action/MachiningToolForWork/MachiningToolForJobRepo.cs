@@ -18,10 +18,8 @@ namespace EndlasNet.Data
 
         public async Task AddRow(MachiningToolForWork machiningToolForWork)
         {
-            
             switch (machiningToolForWork.MachiningType)
             {
-
                 case MachiningTypes.Blanking:
                     MachiningToolForJobBlanking forBlanking = new MachiningToolForJobBlanking
                     {
@@ -83,7 +81,7 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<MachiningToolForJob>> GetAllRows()
         {
             return await _db.MachiningToolsForJobs
                 .Include(m => m.MachiningTool)
@@ -93,7 +91,7 @@ namespace EndlasNet.Data
                 .ToListAsync();
         }
 
-        public async Task<object> GetRow(Guid? id)
+        public async Task<MachiningToolForJob> GetRow(Guid? id)
         {
             return await _db.MachiningToolsForJobs
                 .Include(m => m.MachiningTool)
@@ -102,7 +100,7 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(m => m.MachiningToolForWorkId == id);
         }
 
-        public async Task<object> GetRowNoTracking(Guid? id)
+        public async Task<MachiningToolForJob> GetRowNoTracking(Guid? id)
         {
             return await _db.MachiningToolsForJobs
                 .AsNoTracking()
@@ -123,11 +121,11 @@ namespace EndlasNet.Data
                           .AnyAsync(m => m.MachiningToolForWorkId == id);
         }
 
-        public async Task UpdateRow(object obj)
+        public async Task UpdateRow(MachiningToolForJob machiningToolForJob)
         {
             try
             {            
-                var entry = _db.Entry((MachiningToolForJob)obj);
+                var entry = _db.Entry(machiningToolForJob);
                 entry.State = EntityState.Modified;
                 await _db.SaveChangesAsync();
             }
