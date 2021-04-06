@@ -24,10 +24,10 @@ namespace EndlasNet.Data
                 switch (machiningToolForWorkOrder.MachiningType)
                 {
                     case MachiningTypes.Blanking:
-                        await _db.MachiningToolsForWorkOrdersBlanking.AddAsync(machiningToolForWorkOrder);
+                        await _db.MachiningToolsForWorkOrdersBlanking.AddAsync(machiningToolForWorkOrder as MachiningToolForWorkOrderBlanking);
                         break;
                     case MachiningTypes.Finishing:
-                        await _db.MachiningToolsForWorkOrdersFinishing.AddAsync(machiningToolForWorkOrder);
+                        await _db.MachiningToolsForWorkOrdersFinishing.AddAsync(machiningToolForWorkOrder as MachiningToolForWorkOrderFinishing);
                         break;
                     default:
                         break;

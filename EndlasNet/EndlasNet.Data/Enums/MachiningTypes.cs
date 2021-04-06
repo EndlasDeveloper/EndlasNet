@@ -6,6 +6,7 @@ namespace EndlasNet.Data
 {
     public enum MachiningTypes
     {
+        None,
         Blanking,
         Finishing
     }

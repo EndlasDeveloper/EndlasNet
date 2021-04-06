@@ -16,42 +16,64 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task AddRow(IMachiningToolForWork machiningToolForWork)
+        public async Task AddRow(MachiningToolForWork machiningToolForWork)
         {
-            //var machiningToolForJob = (MachiningToolForJob)machiningToolForWork;
+            
             switch (machiningToolForWork.MachiningType)
             {
+
                 case MachiningTypes.Blanking:
-                    await _db.MachiningToolsForJobsBlanking.AddAsync((MachiningToolForJob)machiningToolForWork);
+                    MachiningToolForJobBlanking forBlanking = new MachiningToolForJobBlanking
+                    {
+                        MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
+                        MachiningTool = machiningToolForWork.MachiningTool,
+                        MachiningToolId = machiningToolForWork.MachiningToolId,
+                        MachiningType = machiningToolForWork.MachiningType,
+                        Comment = machiningToolForWork.Comment,
+                        WorkId = machiningToolForWork.WorkId,
+                        Work = machiningToolForWork.Work,
+                        DateUsed = machiningToolForWork.DateUsed,
+                        UserId = machiningToolForWork.UserId,
+                        User = machiningToolForWork.User
+                    };
+                    await _db.MachiningToolsForJobsBlanking.AddAsync(forBlanking);
                     break;
                 case MachiningTypes.Finishing:
-                    await _db.MachiningToolsForJobsFinishing.AddAsync((MachiningToolForJob)machiningToolForWork);
+                    MachiningToolForJobFinishing forFinishing = new MachiningToolForJobFinishing
+                    {
+                        MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
+                        MachiningTool = machiningToolForWork.MachiningTool,
+                        MachiningToolId = machiningToolForWork.MachiningToolId,
+                        MachiningType = machiningToolForWork.MachiningType,
+                        Comment = machiningToolForWork.Comment,
+                        WorkId = machiningToolForWork.WorkId,
+                        Work = machiningToolForWork.Work,
+                        DateUsed = machiningToolForWork.DateUsed,
+                        UserId = machiningToolForWork.UserId,
+                        User = machiningToolForWork.User
+                    };
+                    await _db.MachiningToolsForJobsFinishing.AddAsync(forFinishing);
+                    break;
+                case MachiningTypes.None:
+                    MachiningToolForJob justJob = new MachiningToolForJob
+                    {
+                        MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
+                        MachiningTool = machiningToolForWork.MachiningTool,
+                        MachiningToolId = machiningToolForWork.MachiningToolId,
+                        MachiningType = machiningToolForWork.MachiningType,
+                        Comment = machiningToolForWork.Comment,
+                        WorkId = machiningToolForWork.WorkId,
+                        Work = machiningToolForWork.Work,
+                        DateUsed = machiningToolForWork.DateUsed,
+                        UserId = machiningToolForWork.UserId,
+                        User = machiningToolForWork.User
+                    };
+                    await _db.MachiningToolsForJobs.AddAsync(justJob);
                     break;
                 default:
                     break;
             }
             await _db.SaveChangesAsync();
-        }
-
-        public async Task AddRow(object obj)
-        {
-            try
-            {
-                var machiningToolForJob = (MachiningToolForJob)obj;
-                switch (machiningToolForJob.MachiningType)
-                {
-                    case MachiningTypes.Blanking:
-                        await _db.MachiningToolsForJobsBlanking.AddAsync(machiningToolForJob);
-                        break;
-                    case MachiningTypes.Finishing:
-                        await _db.MachiningToolsForJobsFinishing.AddAsync(machiningToolForJob);
-                        break;
-                    default:
-                        break;
-                }
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
         }
 
         public async Task DeleteRow(Guid? id)

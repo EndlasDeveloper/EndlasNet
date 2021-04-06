@@ -20,11 +20,11 @@ namespace EndlasNet.Data
             _machiningToolForWorkOrderRepo = new MachiningToolForWorkOrderRepo(db);
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(MachiningToolForWork machiningToolForWork)
         {
             try
             {
-                var machiningToolForWork = (IMachiningToolForWork)obj;
+                // look at workId to determine type of work
                 var work = await _db.Work
                     .FirstOrDefaultAsync(w => w.WorkId == machiningToolForWork.WorkId);
                 var workType = _db.Entry(work).Property("Discriminator").CurrentValue;
