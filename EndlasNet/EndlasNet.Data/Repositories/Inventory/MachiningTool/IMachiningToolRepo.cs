@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public interface IMachiningToolRepo : IRepository
+    public interface IMachiningToolRepo
     {
     }
 }

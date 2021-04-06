@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public interface IStaticPowderInfoRepo : IRepository
+    public interface IStaticPowderInfoRepo
     {
     }
 }

@@ -20,7 +20,18 @@ namespace EndlasNet.Data
         {
             try
             {
-                await _db.MachiningToolsForWorkOrders.AddAsync((MachiningToolForWorkOrder)obj);
+                var machiningToolForWorkOrder = (MachiningToolForWorkOrder)obj;
+                switch (machiningToolForWorkOrder.MachiningType)
+                {
+                    case MachiningTypes.Blanking:
+                        await _db.MachiningToolsForWorkOrdersBlanking.AddAsync(machiningToolForWorkOrder);
+                        break;
+                    case MachiningTypes.Finishing:
+                        await _db.MachiningToolsForWorkOrdersFinishing.AddAsync(machiningToolForWorkOrder);
+                        break;
+                    default:
+                        break;
+                }
                 await _db.SaveChangesAsync();
             }
             catch (InvalidCastException) { }

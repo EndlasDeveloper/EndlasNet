@@ -10,18 +10,32 @@ namespace EndlasNet.Data
     public class MachiningToolForWorkRepo : IMachiningToolForWorkRepo
     {
         private readonly EndlasNetDbContext _db;
+        private readonly MachiningToolForJobRepo _machiningToolForJobRepo;
+        private readonly MachiningToolForWorkOrderRepo _machiningToolForWorkOrderRepo;
 
         public MachiningToolForWorkRepo(EndlasNetDbContext db)
         {
             _db = db;
+            _machiningToolForJobRepo = new MachiningToolForJobRepo(db);
+            _machiningToolForWorkOrderRepo = new MachiningToolForWorkOrderRepo(db);
         }
 
         public async Task AddRow(object obj)
         {
             try
             {
-                await _db.MachiningToolsForWork.AddAsync((MachiningToolForWork)obj);
-                await _db.SaveChangesAsync();
+                var machiningToolForWork = (IMachiningToolForWork)obj;
+                var work = await _db.Work
+                    .FirstOrDefaultAsync(w => w.WorkId == machiningToolForWork.WorkId);
+                var workType = _db.Entry(work).Property("Discriminator").CurrentValue;
+                if((string)workType == nameof(Job))
+                {
+                    await _machiningToolForJobRepo.AddRow(machiningToolForWork);
+                }
+                else if((string)(workType) == nameof(WorkOrder))
+                {
+                    await _machiningToolForWorkOrderRepo.AddRow(machiningToolForWork);
+                }
             }
             catch (InvalidCastException) { }
         }

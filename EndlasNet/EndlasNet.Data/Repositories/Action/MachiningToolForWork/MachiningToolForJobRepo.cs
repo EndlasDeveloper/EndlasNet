@@ -16,11 +16,39 @@ namespace EndlasNet.Data
             _db = db;
         }
 
+        public async Task AddRow(IMachiningToolForWork machiningToolForWork)
+        {
+            //var machiningToolForJob = (MachiningToolForJob)machiningToolForWork;
+            switch (machiningToolForWork.MachiningType)
+            {
+                case MachiningTypes.Blanking:
+                    await _db.MachiningToolsForJobsBlanking.AddAsync((MachiningToolForJob)machiningToolForWork);
+                    break;
+                case MachiningTypes.Finishing:
+                    await _db.MachiningToolsForJobsFinishing.AddAsync((MachiningToolForJob)machiningToolForWork);
+                    break;
+                default:
+                    break;
+            }
+            await _db.SaveChangesAsync();
+        }
+
         public async Task AddRow(object obj)
         {
             try
             {
-                await _db.MachiningToolsForJobs.AddAsync((MachiningToolForJob)obj);
+                var machiningToolForJob = (MachiningToolForJob)obj;
+                switch (machiningToolForJob.MachiningType)
+                {
+                    case MachiningTypes.Blanking:
+                        await _db.MachiningToolsForJobsBlanking.AddAsync(machiningToolForJob);
+                        break;
+                    case MachiningTypes.Finishing:
+                        await _db.MachiningToolsForJobsFinishing.AddAsync(machiningToolForJob);
+                        break;
+                    default:
+                        break;
+                }
                 await _db.SaveChangesAsync();
             }
             catch (InvalidCastException) { }

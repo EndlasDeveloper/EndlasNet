@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class MachiningToolForWork
+    public class MachiningToolForWork : IMachiningToolForWork
     {
         [Key]
         public Guid MachiningToolForWorkId { get; set; }
@@ -33,5 +33,9 @@ namespace EndlasNet.Data
         [Display(Name = "User")]
         public Guid? UserId { get; set; }
         public virtual User User { get; set; }
+
+        [NotMapped]
+        [Display(Name ="Machining type")]
+        public MachiningTypes MachiningType { get; set; }
     }
 }

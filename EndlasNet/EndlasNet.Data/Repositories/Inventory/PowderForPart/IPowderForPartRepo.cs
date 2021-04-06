@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public interface IPowderForPartRepo : IRepository
+    public interface IPowderForPartRepo
     {
     }
 }

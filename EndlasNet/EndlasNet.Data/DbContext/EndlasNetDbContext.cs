@@ -26,7 +26,11 @@ namespace EndlasNet.Data
         public DbSet<PowderBottle> PowderBottles { get; set; }
         public DbSet<MachiningToolForWork> MachiningToolsForWork { get; set; }
         public DbSet<MachiningToolForJob> MachiningToolsForJobs { get; set; }
+        public DbSet<MachiningToolForJob> MachiningToolsForJobsBlanking { get; set; }
+        public DbSet<MachiningToolForJob> MachiningToolsForJobsFinishing { get; set; }
         public DbSet<MachiningToolForWorkOrder> MachiningToolsForWorkOrders { get; set; }
+        public DbSet<MachiningToolForWorkOrder> MachiningToolsForWorkOrdersBlanking { get; set; }
+        public DbSet<MachiningToolForWorkOrder> MachiningToolsForWorkOrdersFinishing { get; set; }
 
         // WORK
         public DbSet<Customer> Customers { get; set; }

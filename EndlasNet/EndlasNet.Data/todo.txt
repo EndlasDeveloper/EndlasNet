@@ -1,1 +1,2 @@
-﻿
+﻿ In MachiningToolForWork: add dropdown / checkbox to select blanking or finishing
+            (Discriminator to differentiate whether a tool was used for blanking or finishing).

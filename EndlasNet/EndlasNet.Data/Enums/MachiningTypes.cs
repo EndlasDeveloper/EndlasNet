@@ -4,7 +4,9 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public interface IStaticPartInfoRepo 
+    public enum MachiningTypes
     {
+        Blanking,
+        Finishing
     }
 }

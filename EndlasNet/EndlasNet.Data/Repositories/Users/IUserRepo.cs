@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public interface IUserRepo : IRepository
+    public interface IUserRepo
     {
         Task<User> GetUser(string email);
         Task<Admin> GetAdmin(Guid adminId);

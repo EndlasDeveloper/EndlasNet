@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public interface IVendorRepo : IRepository
+    public interface IVendorRepo
     {
     }
 }

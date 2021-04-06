@@ -35,6 +35,10 @@ namespace EndlasNet.Web
             services.AddMvcCore();
 
             services.AddScoped<UserRepo>();
+            services.AddScoped<IMachiningToolForWork, MachiningToolForWork>();
+            services.AddScoped<IMachiningToolForWork, MachiningToolForJob>();
+            services.AddScoped<IMachiningToolForWork, MachiningToolForWorkOrder>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

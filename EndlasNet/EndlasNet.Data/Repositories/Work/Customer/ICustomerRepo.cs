@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public interface ICustomerRepo : IRepository
+    public interface ICustomerRepo 
     {
     }
 }
