@@ -23,7 +23,7 @@ namespace EndlasNet.Data
                 switch (machiningToolForWork.MachiningType)
                 {
                     case MachiningTypes.Blanking:
-                        MachiningToolForWorkOrderBlanking forBlanking = new MachiningToolForWorkOrderBlanking
+                        var forBlanking = new MachiningToolForWorkOrderBlanking
                         {
                             MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
                             MachiningTool = machiningToolForWork.MachiningTool,
@@ -39,7 +39,7 @@ namespace EndlasNet.Data
                         await _db.MachiningToolsForWorkOrdersBlanking.AddAsync(forBlanking);
                         break;
                     case MachiningTypes.Finishing:
-                        MachiningToolForWorkOrderFinishing forFinishing = new MachiningToolForWorkOrderFinishing
+                        var forFinishing = new MachiningToolForWorkOrderFinishing
                         {
                             MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
                             MachiningTool = machiningToolForWork.MachiningTool,
@@ -55,7 +55,7 @@ namespace EndlasNet.Data
                         await _db.MachiningToolsForWorkOrdersFinishing.AddAsync(forFinishing);
                         break;
                     case MachiningTypes.None:
-                        MachiningToolForWorkOrder justWorkOrder = new MachiningToolForWorkOrder
+                        var justWorkOrder = new MachiningToolForWorkOrder
                         {
                             MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
                             MachiningTool = machiningToolForWork.MachiningTool,

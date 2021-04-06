@@ -34,8 +34,8 @@ namespace EndlasNet.Data
         public Guid? UserId { get; set; }
         public virtual User User { get; set; }
 
-        [NotMapped]
         [Display(Name ="Machining type")]
         public MachiningTypes MachiningType { get; set; }
+
     }
 }

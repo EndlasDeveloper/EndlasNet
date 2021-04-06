@@ -58,10 +58,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            machiningToolForWork.Work = await _context.Work
-                .FirstOrDefaultAsync(m => m.WorkId == machiningToolForWork.WorkId);
-            machiningToolForWork.MachiningTool = (MachiningTool)await _machiningToolRepo.GetRow(id);
-            machiningToolForWork.User = (User)await _userRepo.GetRow(machiningToolForWork.UserId);
+           
             return View(machiningToolForWork);
         }
 
