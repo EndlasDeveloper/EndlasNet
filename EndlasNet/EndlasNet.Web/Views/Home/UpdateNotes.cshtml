@@ -22,6 +22,13 @@
         <li class="update-notes-li">
             Removed IRepository interface because of problems it was causing with the need for multiple type casts.
         </li>
+        <li class="update-notes-li">
+            All Powder -> Added Asc - Desc: PowderName
+        </li>
+        <li class="update-notes-li">
+            Now checks for initial weight >= weight for powder bottles on edit submit. If weight condition isn't met, 
+            the user is forwarded back to the create page with a warning message under the Weight form.
+        </li>
     </ul>
 
     @* ****** TODO ****** *@
@@ -30,12 +37,8 @@
         <li class="update-notes-li">
             Put deploy date in update notes for reference to when the last update was.
         </li>
-        <li class="update-notes-li">
-            Check for initial weight >= weight for powder bottles.
-        </li>
-        <li class="update-notes-li">
-            All Powder -> Asc - Desc PowderBottle PowderName
-        </li>
+
+
         <li class="update-notes-li">
             Remove Edit from MachiningToolForWork; On delete: increment the tool count for the machining tool it was used from.
         </li>

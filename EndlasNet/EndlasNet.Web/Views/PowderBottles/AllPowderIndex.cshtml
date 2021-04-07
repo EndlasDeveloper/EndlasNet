@@ -10,7 +10,14 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StaticPowderInfo.PowderName)
+                <div>
+                    @Html.DisplayNameFor(model => model.StaticPowderInfo.PowderName)
+                </div>
+                <span style="color:darkred">
+                    @Html.ActionLink("Asc ", "AllPowderIndex", new { sortOrder = ViewBag.PowderNameAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    -
+                    @Html.ActionLink(" Desc", "AllPowderIndex", new { sortOrder = ViewBag.PowderNameDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.BottleNumber)

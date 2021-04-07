@@ -24,9 +24,11 @@ namespace EndlasNet.Data
             return lineItems;
         }
 
-        public async Task<object> GetRow(Guid? lineItemId)
+        public async Task<LineItem> GetRow(Guid? lineItemId)
         {
             return await _db.LineItems
+                .Include(l => l.StaticPowderInfo)
+                .Include(l => l.PowderOrder)
                 .FirstOrDefaultAsync(l => l.LineItemId == lineItemId);
         }
 

@@ -11,12 +11,9 @@ namespace EndlasNet.Data
         [Key]
         public Guid PowderBottleId { get; set; }
 
-        
         [Required]
         [Display(Name = "Bottle number")]
         public string BottleNumber { get; set; }
-
-       
 
         [Required]
         [Range(1.0f, 1000.0f)]
@@ -47,5 +44,11 @@ namespace EndlasNet.Data
         public string PowderName { get; set; }
 
         public IEnumerable<PowderForPart> PowderForParts { get; set; }
+
+        [NotMapped]
+        public bool IsWeightValid
+        {
+            get => InitWeight >= Weight;
+        }
     }
 }

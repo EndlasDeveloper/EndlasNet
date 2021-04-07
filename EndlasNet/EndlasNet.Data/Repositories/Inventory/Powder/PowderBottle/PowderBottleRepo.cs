@@ -31,13 +31,17 @@ namespace EndlasNet.Data
         public async Task<List<PowderBottle>> GetLineItemPowders(Guid lineItemId)
         {
             return await _db.PowderBottles
+                .Include(l => l.StaticPowderInfo)
+                .Include(l => l.LineItem)
                 .Where(p => p.LineItemId == lineItemId)
                 .ToListAsync();
         }
 
         public async Task<List<PowderBottle>> GetAllPowdersAsync()
         {
-            return await _db.PowderBottles.ToListAsync();
+            return await _db.PowderBottles
+                .Include(p => p.StaticPowderInfo)
+                .ToListAsync();
         }
 
         public async Task<object> GetRow(Guid? id)

@@ -1,1 +1,1 @@
-﻿
+﻿Remove Edit from MachiningToolForWork; On delete: increment the tool count for the machining tool it was used from.

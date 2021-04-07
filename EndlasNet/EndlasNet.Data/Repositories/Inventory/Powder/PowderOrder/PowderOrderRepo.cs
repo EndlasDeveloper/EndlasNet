@@ -37,7 +37,7 @@ namespace EndlasNet.Data
         }
 
 
-        public async Task<object> GetRow(Guid? powderOrderId)
+        public async Task<PowderOrder> GetRow(Guid? powderOrderId)
         {
             return await db.PowderOrders
                            .FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);

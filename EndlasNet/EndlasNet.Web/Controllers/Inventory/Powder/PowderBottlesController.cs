@@ -30,27 +30,46 @@ namespace EndlasNet.Web.Controllers
         // GET: PowderBottles
         public async Task<IActionResult> Index(Guid lineItemId)
         {
-            var lineItem = (LineItem)await _lineItemRepo.GetRow(lineItemId);
-            var powOrder = (PowderOrder)await _powderOrderRepo.GetRow(lineItem.PowderOrderId);
-            var staticPow = (StaticPowderInfo)await _staticPowderInfoRepo.GetRow(lineItem.StaticPowderInfoId);
+            var lineItem = await _lineItemRepo.GetRow(lineItemId);
+            var powOrder = await _powderOrderRepo.GetRow(lineItem.PowderOrderId);
+            var staticPow = await _staticPowderInfoRepo.GetRow(lineItem.StaticPowderInfoId);
 
             ViewBag.LineItemVendorDescription = lineItem.VendorDescription;
             ViewBag.PowderOrderNum = powOrder.PurchaseOrderNum;
             ViewBag.PowderName = staticPow.PowderName;
             ViewBag.LineItemId = lineItemId.ToString();
-            return View(await _powderRepo.GetLineItemPowders(lineItemId));
+
+            var powders = await _powderRepo.GetLineItemPowders(lineItemId);
+           
+            return View(powders);
         }
 
 
         public async Task<IActionResult> BackToLineItems(Guid lineItemId)
         {
-            var lineItem = (LineItem)await _lineItemRepo.GetRow(lineItemId);
+            var lineItem = await _lineItemRepo.GetRow(lineItemId);
             return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
         }
-        public async Task<IActionResult> AllPowderIndex()
+        public async Task<IActionResult> AllPowderIndex(string sortOrder)
         {
-            return View(await _context.PowderBottles
-                .Include(p => p.StaticPowderInfo).ToListAsync());
+            ViewBag.PowderNameDescSortParm = String.IsNullOrEmpty(sortOrder) ? "powder_name_desc" : "";
+            ViewBag.PowderNameAscSortParm = String.IsNullOrEmpty(sortOrder) ? "powder_name_asc" : "";
+
+            var powders = await _powderRepo.GetAllPowdersAsync();
+            switch (sortOrder)
+            {
+                case "powder_name_desc":
+                    powders = powders.OrderByDescending(p => p.PowderName).ToList();
+                    break;
+                case "powder_name_asc":
+                    powders = powders.OrderByDescending(p => p.PowderName).ToList();
+                    powders.Reverse();
+                    break;
+                default:
+                    break;
+            }
+
+            return View(powders);
         }
 
 
@@ -91,7 +110,7 @@ namespace EndlasNet.Web.Controllers
                 _context.Entry(powder).Property("UpdatedDate").CurrentValue = DateTime.Now;
                 powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 powder.Weight = powder.InitWeight;
-                await _powderRepo.AddRow((object)powder);
+                await _powderRepo.AddRow(powder);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -126,7 +145,11 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
+            if (!powder.IsWeightValid)
+            {
+                ViewBag.IsWeightValid = "false";
+                return View(powder);
+            }
             if (ModelState.IsValid)
             {
                 try

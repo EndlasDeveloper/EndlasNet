@@ -43,7 +43,7 @@ namespace EndlasNet.Data
             return await _db.StaticPowderInfo.ToListAsync();
         }
 
-        public async Task<object> GetRow(Guid? id)
+        public async Task<StaticPowderInfo> GetRow(Guid? id)
         {
             return await _db.StaticPowderInfo
                 .FirstOrDefaultAsync(s => s.StaticPowderInfoId == id);
