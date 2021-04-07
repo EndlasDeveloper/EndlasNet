@@ -61,7 +61,7 @@ namespace EndlasNet.Data
             return rows;
         }
 
-        public async Task<object> GetRow(Guid? id)
+        public async Task<MachiningToolForWork> GetRow(Guid? id)
         {
             var row = await _db.MachiningToolsForWork
                 .Include(m => m.MachiningTool)

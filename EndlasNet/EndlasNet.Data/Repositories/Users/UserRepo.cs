@@ -34,7 +34,7 @@ namespace EndlasNet.Data
             return null;
         }
 
-        public async Task<object> GetRow(Guid? id)
+        public async Task<User> GetRow(Guid? id)
         {
             return await _db.Users
                 .FirstOrDefaultAsync(u => u.UserId.ToString() == id.ToString());

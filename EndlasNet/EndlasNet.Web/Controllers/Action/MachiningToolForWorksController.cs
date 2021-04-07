@@ -53,7 +53,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var machiningToolForWork = (MachiningToolForWork)await _machiningToolForWorkRepo.GetRow(id);
+            var machiningToolForWork = await _machiningToolForWorkRepo.GetRow(id);
             if (machiningToolForWork == null)
             {
                 return NotFound();
@@ -113,7 +113,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var machiningToolForWork = (MachiningToolForWork)await _machiningToolForWorkRepo.GetRow(id);
+            var machiningToolForWork = await _machiningToolForWorkRepo.GetRow(id);
             if (machiningToolForWork == null)
             {
                 return NotFound();
@@ -170,14 +170,15 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var machiningToolForWork = (MachiningToolForWork)await _machiningToolForWorkRepo.GetRow(id);
+            var machiningToolForWork = await _machiningToolForWorkRepo.GetRow(id);
             if (machiningToolForWork == null)
             {
                 return NotFound();
             }
+
             machiningToolForWork.Work = await _context.Work.FirstOrDefaultAsync(m => m.WorkId == machiningToolForWork.WorkId);
-            machiningToolForWork.MachiningTool = (MachiningTool)await _machiningToolRepo.GetRow(machiningToolForWork.MachiningToolId);
-            machiningToolForWork.User = (User)await _userRepo.GetRow(machiningToolForWork.UserId);
+            machiningToolForWork.MachiningTool = await _machiningToolRepo.GetRow(machiningToolForWork.MachiningToolId);
+            machiningToolForWork.User = await _userRepo.GetRow(machiningToolForWork.UserId);
             return View(machiningToolForWork);
         }
 
@@ -186,7 +187,7 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var machiningToolForWork = (MachiningToolForWork)await _machiningToolForWorkRepo.GetRow(id);
+            var machiningToolForWork = await _machiningToolForWorkRepo.GetRow(id);
             return RedirectToAction(nameof(Index));
         }
 
