@@ -188,6 +188,9 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var machiningToolForWork = await _machiningToolForWorkRepo.GetRow(id);
+            machiningToolForWork.MachiningTool = await _machiningToolRepo.GetRow(machiningToolForWork.MachiningToolId);
+            machiningToolForWork.MachiningTool.ToolCount++;
+            await _machiningToolRepo.UpdateRow(machiningToolForWork.MachiningTool);
             return RedirectToAction(nameof(Index));
         }
 

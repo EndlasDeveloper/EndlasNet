@@ -26,8 +26,12 @@
             All Powder -> Added Asc - Desc: PowderName
         </li>
         <li class="update-notes-li">
-            Now checks for initial weight >= weight for powder bottles on edit submit. If weight condition isn't met, 
+            Now checks for initial weight >= weight for powder bottles on edit submit. If weight condition isn't met,
             the user is forwarded back to the create page with a warning message under the Weight form.
+        </li>
+        <li class="update-notes-li">
+            Removed Edit from MachiningToolForWork; On delete: now increments the tool count back for
+            the machining tool it was used from (because it is decremented upon row creation).
         </li>
     </ul>
 
@@ -38,10 +42,6 @@
             Put deploy date in update notes for reference to when the last update was.
         </li>
 
-
-        <li class="update-notes-li">
-            Remove Edit from MachiningToolForWork; On delete: increment the tool count for the machining tool it was used from.
-        </li>
         <li class="update-notes-li">
             Powder for Part -> Add job select. Aka Powder for part, Powder for part batch, then add an option for something
             in between. Want to be able to distribute powder evenly across user defined set of powder bottles.
@@ -53,10 +53,6 @@
                 4. Set weight. On submit, the weight will be distributed evenly between all selected PartsForWork. <br />
                 <br />
             </div>
-        </li>
-
-        <li class="update-notes-li">
-            Create a choice between Blanking and Finishing when creating a MachiningToolForWork.
         </li>
         <li class="update-notes-li">
             Start looking at making reports from database data.
