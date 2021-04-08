@@ -22,6 +22,6 @@ namespace EndlasNet.Data
 
         [Display(Name ="PowderBottle weight used (lbs)")]
         [Range(0.0001,200.0)]
-        public float? PowderWeightUsed { get; set; }
+        public float PowderWeightUsed { get; set; }
     }
 }
