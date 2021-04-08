@@ -97,7 +97,8 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 admin.UserId = Guid.NewGuid();
-
+                // save emails as lower case
+                admin.EndlasEmail = admin.EndlasEmail.ToLower();
                 // **** HASH AUTH STRING ****
                 admin.AuthString = Security.ComputeSha256Hash(admin.AuthString);
                 // update shadow properties
@@ -141,6 +142,8 @@ namespace EndlasNet.Web.Controllers
                 {
                     // **** HASH AUTH STRING ****
                     admin.AuthString = Security.ComputeSha256Hash(admin.AuthString);
+                    // update email as lower case
+                    admin.EndlasEmail = admin.EndlasEmail.ToLower();
                     await _userRepo.UpdateRow(admin);
                 }
                 catch (DbUpdateConcurrencyException)
