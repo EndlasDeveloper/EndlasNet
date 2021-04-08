@@ -33,6 +33,7 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<Job>> GetAllRows()
         {
             return await _db.Jobs
+                .Include(j => j.Customer)
                 .OrderByDescending(j => j.EndlasNumber)
                 .ToListAsync();
         }

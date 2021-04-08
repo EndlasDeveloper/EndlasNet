@@ -25,7 +25,7 @@ namespace EndlasNet.Data
         public async Task DeleteRow(Guid? id)
         {
             var workOrder = await _db.WorkOrders
-                .FirstOrDefaultAsync(j => j.WorkId == id);
+                .FirstOrDefaultAsync(w => w.WorkId == id);
             _db.Remove(workOrder);
             await _db.SaveChangesAsync();
         }
@@ -33,25 +33,26 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<WorkOrder>> GetAllRows()
         {
             return await _db.WorkOrders
-                .OrderByDescending(j => j.EndlasNumber)
+                .Include(w => w.Customer)
+                .OrderByDescending(w => w.EndlasNumber)
                 .ToListAsync();
         }
 
         public async Task<WorkOrder> GetRow(Guid? id)
         {
             return await _db.WorkOrders
-                .Include(j => j.Customer)
-                .Include(j => j.User)
-                .FirstOrDefaultAsync(j => j.WorkId == id);
+                .Include(w => w.Customer)
+                .Include(w => w.User)
+                .FirstOrDefaultAsync(w => w.WorkId == id);
         }
 
         public async Task<object> GetRowNoTracking(Guid? id)
         {
             return await _db.WorkOrders
                 .AsNoTracking()
-                .Include(j => j.Customer)
-                .Include(j => j.User)
-                .FirstOrDefaultAsync(j => j.WorkId == id);
+                .Include(w => w.Customer)
+                .Include(w => w.User)
+                .FirstOrDefaultAsync(w => w.WorkId == id);
         }
 
         public Task RemoveRow(Guid id)
@@ -62,7 +63,7 @@ namespace EndlasNet.Data
         public async Task<bool> RowExists(Guid id)
         {
             return await _db.WorkOrders
-                        .AnyAsync(j => j.WorkId == id);
+                .AnyAsync(j => j.WorkId == id);
         }
 
         public async Task UpdateRow(WorkOrder workOrder)

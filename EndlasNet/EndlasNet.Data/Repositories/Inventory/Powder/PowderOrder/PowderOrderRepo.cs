@@ -12,30 +12,23 @@ namespace EndlasNet.Data
         private readonly EndlasNetDbContext _db;
         public PowderOrderRepo(EndlasNetDbContext db)
         {
-            this._db = db;
+            _db = db;
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(PowderOrder powderOrder)
         {
-            try
-            {
-                var powderOrder = (PowderOrder)obj;
-                await _db.PowderOrders.AddAsync(powderOrder);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
-            
+            await _db.PowderOrders.AddAsync(powderOrder);
+            await _db.SaveChangesAsync();          
         }
 
         public async Task DeleteRow(Guid? id)
         {
-            var powderOrder = await _db.PowderOrders
-              .FirstOrDefaultAsync(p => p.PowderOrderId == id);
+            var powderOrder = await _db.PowderOrders.FindAsync(id);
             _db.PowderOrders.Remove(powderOrder);
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<PowderOrder>> GetAllRows()
         {
             return await _db.PowderOrders
                 .OrderByDescending(p => p.PurchaseOrderNum)
@@ -59,14 +52,16 @@ namespace EndlasNet.Data
             throw new NotImplementedException();
         }
 
-        public Task<bool> RowExists(Guid id)
+        public bool RowExists(Guid id)
         {
-            throw new NotImplementedException();
+            return _db.PowderOrders.Any(e => e.PowderOrderId == id);
         }
 
-        public Task UpdateRow(object obj)
+        public async Task UpdateRow(PowderOrder powderOrder)
         {
-            throw new NotImplementedException();
+            var entry = _db.Entry(powderOrder);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
     }
 }

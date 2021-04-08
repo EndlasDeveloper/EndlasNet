@@ -23,15 +23,9 @@ namespace EndlasNet.Data
 
         public async Task DeleteRow(Guid? id)
         {
-            try
-            {
-                var staticPowder = await _db.StaticPowderInfo
-                    .FirstOrDefaultAsync(s => s.StaticPowderInfoId == id);
-                _db.StaticPowderInfo.Remove(staticPowder);
-                _db.Entry(staticPowder).State = EntityState.Deleted;
-                await _db.SaveChangesAsync();
-            }
-            catch (ArgumentNullException) { }
+            var staticPowderInfo = await _db.StaticPowderInfo.FindAsync(id);
+            _db.StaticPowderInfo.Remove(staticPowderInfo);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<StaticPowderInfo>> GetAllRows()

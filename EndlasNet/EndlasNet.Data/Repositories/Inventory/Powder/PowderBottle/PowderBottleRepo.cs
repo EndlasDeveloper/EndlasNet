@@ -97,5 +97,10 @@ namespace EndlasNet.Data
         {
             return await _db.PowderBottles.FindAsync(id);
         }
+
+        public object OrderByDescending()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

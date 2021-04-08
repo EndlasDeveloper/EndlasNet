@@ -63,7 +63,6 @@ namespace EndlasNet.Web.Controllers
             HttpContext.Session.SetString("email", user.EndlasEmail);
             HttpContext.Session.SetString("authstr", user.AuthString);
 
-
             return View("../Home/Index");
         }
         [HttpGet]
