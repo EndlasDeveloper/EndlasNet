@@ -47,7 +47,7 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<MachiningToolForWork>> GetAllRows()
         {
             var rows = await _db.MachiningToolsForWork
                 .Include(m => m.MachiningTool)

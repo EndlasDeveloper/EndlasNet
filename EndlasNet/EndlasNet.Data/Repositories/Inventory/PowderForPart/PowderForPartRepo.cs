@@ -15,15 +15,10 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(PowderForPart powderForPart)
         {
-            try
-            {
-                var powderForPart = (PowderForPart)obj;
-                await _db.PowderForParts.AddAsync(powderForPart);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            await _db.PowderForParts.AddAsync(powderForPart);
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteRow(Guid? id)
@@ -33,16 +28,17 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<PowderForPart>> GetAllRows()
         {
-            var rows = _db.PowderForParts
+            return await _db.PowderForParts
                 .Include(p => p.PowderBottle)
                 .Include(p => p.PowderBottle.StaticPowderInfo)
-                .Include(p => p.PartForWork);
-            return await rows.OrderBy(p => p.PowderBottle.StaticPowderInfo.PowderName).ToListAsync();
+                .Include(p => p.PartForWork)
+                .OrderByDescending(p => p.PowderBottle.StaticPowderInfo.PowderName)
+                .ToListAsync();
         }
 
-        public async Task<object> GetRow(Guid? id)
+        public async Task<PowderForPart> GetRow(Guid? id)
         {
             return await _db.PowderForParts
                             .Include(p => p.PowderBottle)
@@ -50,7 +46,7 @@ namespace EndlasNet.Data
                             .FirstOrDefaultAsync(p => p.PowderForPartId == id);
         }
 
-        public async Task<object> GetRowNoTracking(Guid? id)
+        public async Task<PowderForPart> GetRowNoTracking(Guid? id)
         {
             return await _db.PowderForParts
                           .AsNoTracking()
@@ -70,16 +66,11 @@ namespace EndlasNet.Data
                            .AnyAsync(m => m.PowderForPartId == id);
         }
 
-        public async Task UpdateRow(object obj)
-        {
-            try
-            {
-                var powderForPart = (PowderForPart)obj;
-                var entry = _db.Entry(powderForPart);
-                entry.State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+        public async Task UpdateRow(PowderForPart powderForPart)
+        {    
+            var entry = _db.Entry(powderForPart);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();  
         }
     }
 }

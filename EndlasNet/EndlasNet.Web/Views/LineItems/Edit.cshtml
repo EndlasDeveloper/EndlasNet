@@ -13,7 +13,6 @@
         <form asp-action="Edit" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <div class="form-group">
                 <label asp-for="StaticPowderInfoId" class="control-label"></label>
                 <select asp-for="StaticPowderInfoId" class="form-control" asp-items="ViewBag.StaticPowderInfoId"></select>
@@ -46,6 +45,7 @@
             </div>
             <input asp-for="PowderOrderId" class="form-control" hidden readonly />
             <input asp-for="LineItemId" class="form-control" hidden readonly />
+            <input asp-for="IsInitialized" hidden readonly />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

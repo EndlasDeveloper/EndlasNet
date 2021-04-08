@@ -31,7 +31,7 @@ namespace EndlasNet.Web.Controllers
 
         public async Task<IActionResult> Index(Guid powderOrderId)
         {
-            var powderOrder = (PowderOrder)await _powderOrderRepo.GetRow(powderOrderId);
+            var powderOrder = await _powderOrderRepo.GetRow(powderOrderId);
             ViewBag.PurchaseOrderNum = powderOrder.PurchaseOrderNum;
             return View(await _lineItemRepo.GetLineItems(powderOrderId));  
         }
@@ -44,8 +44,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var lineItem = (LineItem)await _lineItemRepo.GetRow(id);
-            lineItem.PowderOrder = (PowderOrder) await _powderOrderRepo.GetRow(lineItem.PowderOrderId);
+            var lineItem = await _lineItemRepo.GetRow(id);
+            lineItem.PowderOrder = await _powderOrderRepo.GetRow(lineItem.PowderOrderId);
             if (lineItem == null)
             {
                 return NotFound();
@@ -165,7 +165,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfo, "StaticPowderInfoId", "PowderName");
+            ViewData["StaticPowderInfoId"] = new SelectList(await _staticPowderRepo.GetAllRows(), "StaticPowderInfoId", "PowderName");
             return View(lineItem);
         }
 
@@ -185,6 +185,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    lineItem.IsInitialized = true;
                     await _lineItemRepo.UpdateRow(lineItem);
                 }
                 catch (DbUpdateConcurrencyException)

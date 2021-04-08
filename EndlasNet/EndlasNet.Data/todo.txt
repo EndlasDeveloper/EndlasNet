@@ -1,1 +1,2 @@
-﻿
+﻿Put predictable dropdown enforcement inside repositories (sort IEnumerables before returning them).
+Fix LineItem -> Edit, on submit, the row is uninitialized.

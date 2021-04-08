@@ -19,7 +19,9 @@ namespace EndlasNet.Data
             var lineItems = await _db.LineItems
                 .Include(l => l.PowderOrder)
                 .Include(l => l.StaticPowderInfo)
-                .Where(l => l.PowderOrderId == powderOrderId).ToListAsync();
+                .Where(l => l.PowderOrderId == powderOrderId)
+                .OrderByDescending(l => l.StaticPowderInfoId)
+                .ToListAsync();
 
             return lineItems;
         }
@@ -37,27 +39,18 @@ namespace EndlasNet.Data
             return await _db.LineItems.ToListAsync();
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(LineItem lineItem)
         {
-            try
-            {
-                var lineItem = (LineItem)obj;
-                await _db.LineItems.AddAsync(lineItem);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            await _db.LineItems.AddAsync(lineItem);
+            await _db.SaveChangesAsync(); 
         }
 
-        public async Task UpdateRow(object obj)
+        public async Task UpdateRow(LineItem lineItem)
         {
-            try
-            {
-                var lineItem = (LineItem)obj;
-                var entry = _db.Entry(lineItem);
-                entry.State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            var entry = _db.Entry(lineItem);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
+            
         }
 
         public Task RemoveRow(Guid id)

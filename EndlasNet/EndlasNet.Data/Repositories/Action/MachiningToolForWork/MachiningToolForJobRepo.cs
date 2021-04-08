@@ -123,13 +123,9 @@ namespace EndlasNet.Data
 
         public async Task UpdateRow(MachiningToolForJob machiningToolForJob)
         {
-            try
-            {            
-                var entry = _db.Entry(machiningToolForJob);
-                entry.State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            var entry = _db.Entry(machiningToolForJob);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();   
         }
     }
 }

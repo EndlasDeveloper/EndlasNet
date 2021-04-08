@@ -33,6 +33,13 @@
             Removed Edit from MachiningToolForWork; On delete: now increments the tool count back for
             the machining tool it was used from (because it is decremented upon row creation).
         </li>
+        <li class="update-notes-li">
+            Put predictable dropdown enforcement inside all repositories (sort IEnumerables before returning them). Fixed
+            leftover unnecessary typecasts and parameter over abstraction.
+        </li>
+        <li class="update-notes-li">
+            Fixed issue in line items where on edit submit, the row would uninitialize rather than update.
+        </li>
     </ul>
 
     @* ****** TODO ****** *@
@@ -57,11 +64,6 @@
         <li class="update-notes-li">
             Start looking at making reports from database data.
         </li>
-        <li class="update-notes-li">
-            Want predicatble dropdown ordering for all dropdowns. **Idea: This can be taken care of in the repository unit of
-            work for getting IEnumerables of entities.
-        </li>
-
         <li class="update-notes-li">
             Redo Tools for work -> Tools for part???
         </li>

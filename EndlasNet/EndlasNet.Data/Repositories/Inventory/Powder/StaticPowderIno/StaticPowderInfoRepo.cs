@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,15 +15,10 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(StaticPowderInfo staticPowder)
         {
-            try
-            {
-                var staticPowder = (StaticPowderInfo)obj;
-                await _db.StaticPowderInfo.AddAsync(staticPowder);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            await _db.StaticPowderInfo.AddAsync(staticPowder);
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteRow(Guid? id)
@@ -38,9 +34,11 @@ namespace EndlasNet.Data
             catch (ArgumentNullException) { }
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<StaticPowderInfo>> GetAllRows()
         {
-            return await _db.StaticPowderInfo.ToListAsync();
+            return await _db.StaticPowderInfo
+                .OrderByDescending(s => s.PowderName)
+                .ToListAsync();
         }
 
         public async Task<StaticPowderInfo> GetRow(Guid? id)
@@ -73,16 +71,11 @@ namespace EndlasNet.Data
                 .AnyAsync(s => s.StaticPowderInfoId == id);
         }
 
-        public async Task UpdateRow(object obj)
+        public async Task UpdateRow(StaticPowderInfo staticPowder)
         {
-            try
-            {
-                var staticPowder = (StaticPowderInfo)obj;
-                var entry = _db.Entry(staticPowder);
-                entry.State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            var entry = _db.Entry(staticPowder);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync(); 
         }
     }
 }

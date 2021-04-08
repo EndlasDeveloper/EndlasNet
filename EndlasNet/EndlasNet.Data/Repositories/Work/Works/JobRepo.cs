@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,14 +16,10 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(Job job)
         {
-            try
-            {
-                await _db.Jobs.AddAsync((Job)obj);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            await _db.Jobs.AddAsync(job);
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteRow(Guid? id)
@@ -33,12 +30,14 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<Job>> GetAllRows()
         {
-            return await _db.Jobs.ToListAsync();
+            return await _db.Jobs
+                .OrderByDescending(j => j.EndlasNumber)
+                .ToListAsync();
         }
 
-        public async Task<object> GetRow(Guid? id)
+        public async Task<Job> GetRow(Guid? id)
         {
             return await _db.Jobs
                 .Include(j => j.Customer)
@@ -46,7 +45,7 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(j => j.WorkId == id);
         }
 
-        public async Task<object> GetRowNoTracking(Guid? id)
+        public async Task<Job> GetRowNoTracking(Guid? id)
         {
             return await _db.Jobs
                 .AsNoTracking()
@@ -66,15 +65,11 @@ namespace EndlasNet.Data
                         .AnyAsync(j => j.WorkId == id);
         }
 
-        public async Task UpdateRow(object obj)
+        public async Task UpdateRow(Job job)
         {
-            try
-            {
-                var entry = _db.Entry((User)obj);
-                entry.State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            var entry = _db.Entry(job);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
 
         public async Task<Job> FindRow(Guid? id)

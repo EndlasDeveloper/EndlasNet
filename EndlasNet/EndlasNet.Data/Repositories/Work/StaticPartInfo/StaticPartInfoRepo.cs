@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,14 +16,10 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(StaticPartInfo staticPartInfo)
         {
-            try
-            {
-                await _db.StaticPartInfo.AddAsync((StaticPartInfo)obj);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            await _db.StaticPartInfo.AddAsync(staticPartInfo);
+            await _db.SaveChangesAsync(); 
         }
 
         public async Task DeleteRow(Guid? id)
@@ -33,18 +30,24 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<StaticPartInfo>> GetAllRows()
         {
-            return await _db.StaticPartInfo.Include(s => s.Customer).Include(s => s.User).ToListAsync();
+            return await _db.StaticPartInfo
+                .Include(s => s.Customer)
+                .Include(s => s.User)
+                .OrderByDescending(s => s.DrawingNumber)
+                .ToListAsync();
         }
 
-        public async Task<object> GetRow(Guid? id)
+        public async Task<StaticPartInfo> GetRow(Guid? id)
         {
-            return await _db.StaticPartInfo.Include(s => s.Customer).Include(s => s.User)
+            return await _db.StaticPartInfo
+                .Include(s => s.Customer)
+                .Include(s => s.User)
                 .FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
         }
 
-        public async Task<object> GetRowNoTracking(Guid? id)
+        public async Task<StaticPartInfo> GetRowNoTracking(Guid? id)
         {
             return await _db.StaticPartInfo
                 .AsNoTracking()
@@ -62,19 +65,11 @@ namespace EndlasNet.Data
                 .AnyAsync(s => s.StaticPartInfoId == id);
         }
 
-        public async Task UpdateRow(object obj)
+        public async Task UpdateRow(StaticPartInfo staticPartInfo)
         {
-            try
-            {
-                try
-                {
-                    var entry = _db.Entry((StaticPartInfo)obj);
-                    entry.State = EntityState.Modified;
-                    await _db.SaveChangesAsync();
-                }
-                catch (InvalidCastException) { }
-            }
-            catch (InvalidCastException) { }
+            var entry = _db.Entry(staticPartInfo);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
     }
 }

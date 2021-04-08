@@ -15,7 +15,7 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task<object> GetPowder(Guid id)
+        public async Task<PowderBottle> GetPowder(Guid id)
         {
             return await _db.PowderBottles
                 .FirstOrDefaultAsync(p => p.PowderBottleId == id);
@@ -25,6 +25,7 @@ namespace EndlasNet.Data
         {
             return await _db.PowderBottles
                 .Where(p => p.StaticPowderInfo.PowderName == powderName)
+                .OrderByDescending(p => p.Weight)
                 .ToListAsync();
         }
 
@@ -34,6 +35,7 @@ namespace EndlasNet.Data
                 .Include(l => l.StaticPowderInfo)
                 .Include(l => l.LineItem)
                 .Where(p => p.LineItemId == lineItemId)
+                .OrderByDescending(p => p.StaticPowderInfo.PowderName)
                 .ToListAsync();
         }
 
@@ -41,34 +43,27 @@ namespace EndlasNet.Data
         {
             return await _db.PowderBottles
                 .Include(p => p.StaticPowderInfo)
+                .OrderByDescending(p => p.StaticPowderInfo.PowderName)
                 .ToListAsync();
         }
 
-        public async Task<object> GetRow(Guid? id)
+        public async Task<PowderBottle> GetRow(Guid? id)
         {
             return await _db.PowderBottles
                 .FirstOrDefaultAsync(p => p.PowderBottleId == id);
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<PowderBottle>> GetAllRows()
         {
-            return await _db.PowderBottles.ToListAsync();
+            return await _db.PowderBottles
+                .OrderByDescending(p => p.StaticPowderInfo.PowderName)
+                .ToListAsync();
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(PowderBottle powderBottle)
         {
-            try
-            {
-                var powderBottle = (PowderBottle)obj;
-                await _db.PowderBottles.AddAsync(powderBottle);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
-        }
-
-        public Task UpdateRow(object obj)
-        {
-            throw new NotImplementedException();
+            await _db.PowderBottles.AddAsync(powderBottle);
+            await _db.SaveChangesAsync();
         }
 
         public async Task RemoveRow(Guid id)
@@ -98,7 +93,7 @@ namespace EndlasNet.Data
                 FirstOrDefaultAsync(p => p.PowderBottleId == id);
         }
 
-        public async Task<object> FindRow(Guid? id)
+        public async Task<PowderBottle> FindRow(Guid? id)
         {
             return await _db.PowderBottles.FindAsync(id);
         }

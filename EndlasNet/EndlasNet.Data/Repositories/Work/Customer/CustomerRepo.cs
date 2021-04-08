@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +18,11 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<Customer>> GetAllRows()
         {
-            return await _db.Customers.ToListAsync();
+            return await _db.Customers
+                .OrderByDescending(c => c.CustomerName)
+                .ToListAsync();
         }
 
         public async Task<Customer> GetCustomerDetailsAsync(Guid? id)
@@ -34,37 +37,23 @@ namespace EndlasNet.Data
             return await _db.Customers.FindAsync(id);
         }
 
-
-
-
-
         public async Task<object> GetRow(Guid? customerId)
         {
             return await _db.Customers
                 .FirstOrDefaultAsync(c => c.CustomerId == customerId);
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(Customer customer)
         {
-            try
-            {
-                var customer = (Customer)obj;
-                await _db.Customers.AddAsync(customer);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            await _db.Customers.AddAsync(customer);
+            await _db.SaveChangesAsync();  
         }
 
-        public async Task UpdateRow(object obj)
+        public async Task UpdateRow(Customer customer)
         {
-            try
-            {
-                var customer = (Customer)obj;
-                var entry = _db.Entry(customer);
-                entry.State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            var entry = _db.Entry(customer);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
 
         public Task RemoveRow(Guid id)
@@ -85,7 +74,7 @@ namespace EndlasNet.Data
             catch (ArgumentNullException){ }
         }
 
-        public async Task<object> GetRowNoTracking(Guid? id)
+        public async Task<Customer> GetRowNoTracking(Guid? id)
         {
             return await _db.Customers
                 .AsNoTracking()

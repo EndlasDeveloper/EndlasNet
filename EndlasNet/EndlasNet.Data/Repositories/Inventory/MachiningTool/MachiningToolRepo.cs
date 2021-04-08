@@ -32,7 +32,7 @@ namespace EndlasNet.Data
             return await _db.MachiningTools
                 .Include(m => m.Vendor)
                 .Include(m => m.User)
-                .OrderBy(m => m.ToolType)
+                .OrderByDescending(m => m.ToolType)
                 .ToListAsync();
         }
 
@@ -80,6 +80,7 @@ namespace EndlasNet.Data
         {
             return await _db.MachiningTools
                 .Where(m => m.ToolCount > 0)
+                .OrderByDescending(m => m.ToolType)
                 .ToListAsync();
         }
     }

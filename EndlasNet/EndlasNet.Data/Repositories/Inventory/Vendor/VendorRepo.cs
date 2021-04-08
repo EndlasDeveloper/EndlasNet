@@ -16,9 +16,11 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<Vendor>> GetAllRows()
         {
-            return await _db.Vendors.ToListAsync();
+            return await _db.Vendors
+                .OrderByDescending(v => v.VendorName)
+                .ToListAsync();
         }
 
         public async Task<Vendor> GetVendorDetailsAsync(Guid? id)
@@ -28,17 +30,10 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(c => c.VendorId == id);
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(Vendor vendor)
         {
-            try
-            {
-                var vendor = (Vendor)obj;
-               // await _db.Vendors.AddAsync(vendor);
-                _db.Add(vendor);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { Console.WriteLine("invalid cast"); }
-
+            _db.Add(vendor);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<Vendor> GetVendorEditAsync(Guid? id)
@@ -46,15 +41,11 @@ namespace EndlasNet.Data
             return await _db.Vendors.FindAsync(id);
         }
 
-        public async Task UpdateRow(object obj)
+        public async Task UpdateRow(Vendor vendor)
         {
-            try
-            {
-                var vendor = (Vendor)obj;
-                _db.Update(vendor);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            var entry = _db.Entry(vendor);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
 
         public async Task<Vendor> DeleteVendorAsync(Guid? id)
@@ -70,7 +61,7 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<object> GetRow(Guid? id)
+        public async Task<Vendor> GetRow(Guid? id)
         {
             return await _db.Vendors
                 .FirstOrDefaultAsync(v => v.VendorId == id);
@@ -81,7 +72,7 @@ namespace EndlasNet.Data
             throw new NotImplementedException();
         }
 
-        public async Task<object> GetRowNoTracking(Guid? id)
+        public async Task<Vendor> GetRowNoTracking(Guid? id)
         {
             return await _db.Vendors
                 .AsNoTracking()

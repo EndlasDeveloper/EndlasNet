@@ -52,33 +52,34 @@ namespace EndlasNet.Data
                .FirstOrDefaultAsync(a => a.UserId == employeeId);
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<User>> GetAllRows()
         {
-            var users = await _db.Users.ToListAsync();
+            var users = await _db.Users
+                .OrderByDescending(u => u.EndlasEmail)
+                .ToListAsync();
             return users.AsEnumerable();
         }
 
         public async Task<IEnumerable<Admin>> GetAllAdmins()
         {
-            var admins = await _db.Admins.ToListAsync();
+            var admins = await _db.Admins
+                .OrderByDescending(u => u.EndlasEmail)
+                .ToListAsync();
             return admins.AsEnumerable();
         }
 
         public async Task<IEnumerable<Employee>> GetAllEmployees()
         {
-            var employees = await _db.Employees.ToListAsync();
+            var employees = await _db.Employees
+                .OrderByDescending(u => u.EndlasEmail)
+                .ToListAsync();
             return employees.AsEnumerable();
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(User user)
         {
-            try
-            {
-                var user = (User)obj;
-                await _db.Users.AddAsync((User)obj);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            await _db.Users.AddAsync(user);
+            await _db.SaveChangesAsync();
         }
 
         public async Task AddAdmin(Admin admin)
@@ -94,17 +95,11 @@ namespace EndlasNet.Data
         }
 
 
-        public async Task UpdateRow(object obj)
+        public async Task UpdateRow(User user)
         {
-            try
-            {
-                var user = (User)obj;
-                var entry = _db.Entry((User)obj);
-                entry.State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
-            
+            var entry = _db.Entry(user);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
 
         public Task RemoveRow(Guid id)
@@ -125,7 +120,7 @@ namespace EndlasNet.Data
             catch (ArgumentNullException){ } 
         }
 
-        public async Task<object> GetRowNoTracking(Guid? id)
+        public async Task<User> GetRowNoTracking(Guid? id)
         {
             return await _db.Users
                 .AsNoTracking()

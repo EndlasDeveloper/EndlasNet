@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,10 +9,10 @@ namespace EndlasNet.Data
 {
     public class PowderOrderRepo
     {
-        private readonly EndlasNetDbContext db;
+        private readonly EndlasNetDbContext _db;
         public PowderOrderRepo(EndlasNetDbContext db)
         {
-            this.db = db;
+            this._db = db;
         }
 
         public async Task AddRow(object obj)
@@ -19,27 +20,32 @@ namespace EndlasNet.Data
             try
             {
                 var powderOrder = (PowderOrder)obj;
-                await db.PowderOrders.AddAsync(powderOrder);
-                await db.SaveChangesAsync();
+                await _db.PowderOrders.AddAsync(powderOrder);
+                await _db.SaveChangesAsync();
             }
             catch (InvalidCastException) { }
             
         }
 
-        public Task DeleteRow(Guid? id)
+        public async Task DeleteRow(Guid? id)
         {
-            throw new NotImplementedException();
+            var powderOrder = await _db.PowderOrders
+              .FirstOrDefaultAsync(p => p.PowderOrderId == id);
+            _db.PowderOrders.Remove(powderOrder);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<object>> GetAllRows()
         {
-            return await db.PowderOrders.ToListAsync();
+            return await _db.PowderOrders
+                .OrderByDescending(p => p.PurchaseOrderNum)
+                .ToListAsync();
         }
 
 
         public async Task<PowderOrder> GetRow(Guid? powderOrderId)
         {
-            return await db.PowderOrders
+            return await _db.PowderOrders
                            .FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
         }
 

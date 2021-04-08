@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,14 +16,10 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task AddRow(object obj)
+        public async Task AddRow(WorkOrder workOrder)
         {
-            try
-            {
-                await _db.WorkOrders.AddAsync((WorkOrder)obj);
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            await _db.WorkOrders.AddAsync(workOrder);
+            await _db.SaveChangesAsync();   
         }
 
         public async Task DeleteRow(Guid? id)
@@ -33,12 +30,14 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<WorkOrder>> GetAllRows()
         {
-            return await _db.WorkOrders.ToListAsync();
+            return await _db.WorkOrders
+                .OrderByDescending(j => j.EndlasNumber)
+                .ToListAsync();
         }
 
-        public async Task<object> GetRow(Guid? id)
+        public async Task<WorkOrder> GetRow(Guid? id)
         {
             return await _db.WorkOrders
                 .Include(j => j.Customer)
@@ -66,15 +65,11 @@ namespace EndlasNet.Data
                         .AnyAsync(j => j.WorkId == id);
         }
 
-        public async Task UpdateRow(object obj)
+        public async Task UpdateRow(WorkOrder workOrder)
         {
-            try
-            {
-                var entry = _db.Entry((WorkOrder)obj);
-                entry.State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            var entry = _db.Entry(workOrder);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();  
         }
         public async Task<WorkOrder> FindRow(Guid? id)
         {

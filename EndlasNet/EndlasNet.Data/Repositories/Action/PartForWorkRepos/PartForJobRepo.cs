@@ -22,6 +22,7 @@ namespace EndlasNet.Data
                .Include(p => p.StaticPartInfo)
                .Include(p => p.User)
                .Include(p => p.Work)
+               .OrderByDescending(p => p.DrawingNumberSuffix)
                .ToListAsync();
         }
         public async Task<PartForJob> GetPartForJobDetailsAsync(Guid? id)
@@ -39,6 +40,7 @@ namespace EndlasNet.Data
             return await _db.PartsForJobs
                    .Where(p => p.WorkId == partForJob.WorkId)
                    .Where(p => p.StaticPartInfoId == partForJob.StaticPartInfoId)
+                   .OrderByDescending(p => p.DrawingNumberSuffix)
                    .ToListAsync();
         }
 
@@ -77,11 +79,17 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<PartForJob>> GetBatch(string workId, string partInfoId)
         {
-            var batch = await _db.PartsForJobs.Include(p => p.StaticPartInfo)
+            var batch = await _db.PartsForJobs
+                .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
-                .Include(p => p.Work).ToListAsync();
+                .Include(p => p.Work)
+                .ToListAsync();
+
             batch = (List<PartForJob>)batch.AsEnumerable();
-            return batch.Where(p => p.WorkId.ToString() == workId).Where(p => p.StaticPartInfoId.ToString() == partInfoId);
+
+            return batch.Where(p => p.WorkId.ToString() == workId)
+                .Where(p => p.StaticPartInfoId.ToString() == partInfoId)
+                .OrderByDescending(p => p.DrawingNumberSuffix);
         }
     }
 }
