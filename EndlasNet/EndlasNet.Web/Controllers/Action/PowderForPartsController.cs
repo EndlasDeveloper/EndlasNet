@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
+using EndlasNet.Web.Models;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -256,5 +257,23 @@ namespace EndlasNet.Web.Controllers
         {
             return _context.PowderForParts.Any(e => e.PowderForPartId == id);
         }
+
+        private async Task PopulateWorkForCreate()
+        {
+            var work = await _context.Work.ToListAsync();
+            ViewData["WorkId"] = new SelectList(work, "WorkId", "WorkDescription");
+            ViewBag.Init = "true";
+        }
+
+        public async Task<IActionResult> CreateGetWork()
+        {
+            await PopulateWorkForCreate();
+            return View();
+        }
+        public IActionResult CreatePostWork([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Work work)
+        {
+            return RedirectToAction("CreateWithWorkSet", new { workId = work.WorkId });
+        }
+
     }
 }

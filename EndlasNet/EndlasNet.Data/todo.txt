@@ -1,1 +1,2 @@
-﻿
+﻿   Powder for Part -> Add job select. Aka Powder for part, Powder for part batch, then add an option for something
+            in between. Want to be able to distribute powder evenly across user defined set of powder bottles.
