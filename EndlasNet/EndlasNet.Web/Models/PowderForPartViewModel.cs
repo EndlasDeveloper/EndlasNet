@@ -9,12 +9,14 @@ namespace EndlasNet.Web.Models
     {
         public bool IsChecked { get; set; } = false;
         public Guid PartForWorkId { get; set; }
+        public string Label { get; set; }
     }
 
     public class PowderForPartViewModel : PowderForPart
     {
         public Work Work { get; set; }
-        public IEnumerable<CheckBoxInfo> CheckBoxes { get; set; }
+        public Guid WorkId { get; set; }
+        public List<CheckBoxInfo> CheckBoxes { get; set; }
     }
     
 }

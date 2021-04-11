@@ -1,11 +1,11 @@
-﻿@using EndlasNet.Data;
-@model EndlasNet.Data.PartForWork
+﻿@using EndlasNet.Web.Models; 
+@using EndlasNet.Data;
+@model EndlasNet.Web.Models.PowderForPartViewModel
 
 @{
     ViewData["Title"] = "Create";
     var workDesc = ViewBag.WorkDescription;
-
-
+    var vm = ViewBag.vm;
 }
 
 <h1>Create</h1>
@@ -17,8 +17,24 @@
         @using (Html.BeginForm("InitEdit", "PowderForParts", FormMethod.Post))
         { 
             <div>
+                <label class="control-label">Work</label>
                 <input asp-for= "@workDesc" class="form-control" readonly />
             </div>
+            <br />
+            <table>
+                <thead>
+                    @foreach (var box in Model.CheckBoxes)
+                    {
+                        <tr>
+                            <td>
+                                <span>
+                                    @box.Label<input asp-for="@box.IsChecked" class="form-control" style="min-height:30px;min-width:30px"/>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </thead>
+            </table>
             <div>
                 <label asp-for="PartForWorkId" class="control-label"></label>
                 <select asp-for="PartForWorkId" class="form-control" asp-items="ViewBag.PartForWorkId"></select>

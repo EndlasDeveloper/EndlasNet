@@ -270,10 +270,45 @@ namespace EndlasNet.Web.Controllers
             await PopulateWorkForCreate();
             return View();
         }
-        public IActionResult CreatePostWork([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Work work)
+        public IActionResult CreatePostWork([Bind("PowderForPartId,PowderBottleId,PartForWorkId,PowderWeightUsed,Work,CheckBoxes")] PowderForPartViewModel vm)
         {
-            return RedirectToAction("CreateWithWorkSet", new { workId = work.WorkId });
+            return RedirectToAction("CreateWithWorkSet", new { workId = vm.Work.WorkId });
         }
 
+        
+        [HttpGet]
+        public async Task<IActionResult> CreateWithWorkSet(Guid? workId)
+        {
+            var work = await _context.Work
+                .FirstOrDefaultAsync(w => w.WorkId == workId);
+
+            var partsForWork = await _context.PartsForWork
+                .Where(p => p.WorkId == workId).ToListAsync();
+
+            var vm = new PowderForPartViewModel
+            {
+                Work = work,
+                WorkId = work.WorkId,
+                CheckBoxes = new List<CheckBoxInfo>()
+            };
+
+            foreach (PartForWork partForWork in partsForWork)
+            {
+               
+                partForWork.Work = await _context.Work.FirstOrDefaultAsync(p => p.WorkId == workId);
+
+                var checkBox = new CheckBoxInfo()
+                {
+                    Label = partForWork.Suffix,
+                    PartForWorkId = partForWork.PartForWorkId,
+                };
+                vm.CheckBoxes.Add(checkBox);
+
+            }
+            ViewBag.WorkDescription = work.WorkDescription;
+            ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "Suffix");
+
+            return View(vm);
+        }
     }
 }

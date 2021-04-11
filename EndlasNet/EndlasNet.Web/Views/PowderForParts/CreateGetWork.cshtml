@@ -1,5 +1,6 @@
 ﻿@using EndlasNet.Data;
-@model EndlasNet.Data.Work
+@using EndlasNet.Web.Models; 
+@model EndlasNet.Web.Models.PowderForPartViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -17,8 +18,8 @@
          
         @using (Html.BeginForm("CreatePostWork", "PowderForParts", FormMethod.Post))
         {
-            <label asp-for="WorkId" class="control-label"></label>
-            <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
+            <label asp-for="Work.WorkId" class="control-label"></label>
+            <select asp-for="Work.WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
             <br />
             <input type="submit" value="submit" class="btn btn-primary"  />
         }
