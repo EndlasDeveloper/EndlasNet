@@ -21,8 +21,7 @@
         <br />
         <span>Parts</span>
 
-        @using (Html.BeginForm("CreateWithWorkSet", "PowderForParts", FormMethod.Post))
-        {
+        <form asp-action="CreateWithWorkSet" enctype="multipart/form-data">
             <table>
                 <thead>
                     @foreach (var box in Model)
@@ -39,7 +38,7 @@
                 </thead>
             </table>
             <input type="submit" value="submit" class="btn btn-primary" />
-        }
+        </form>
     </div>
 </div>
 
