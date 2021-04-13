@@ -12,9 +12,10 @@ namespace EndlasNet.Web.Controllers
 {
     public class PowderForPartsController : Controller
     {
+        private readonly float POWDER_THRESHOLD = 0.001f;
+
         private readonly EndlasNetDbContext _context;
         private readonly PowderForPartRepo _powderForPartRepo;
-        private readonly float POWDER_THRESHOLD = 0.001f;
         public PowderForPartsController(EndlasNetDbContext context)
         {
             _context = context;
@@ -24,12 +25,12 @@ namespace EndlasNet.Web.Controllers
         // GET: PowderForParts
         public async Task<IActionResult> Index()
         {
-            var powderForParts = await GetPowdersList();
+            var powderBottles = await GetPowderBottleList();
             var partsForWork = await GetPartsForWorkList();
 
-            var endlasNetDbContext = await _powderForPartRepo.GetAllRows();
+            var powderForParts = await _powderForPartRepo.GetAllRows();
 
-            foreach (PowderForPart powderForPart in endlasNetDbContext)
+            foreach (PowderForPart powderForPart in powderForParts)
             {
                 var staticPartInfo = await _context.StaticPartInfo
                     .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
@@ -44,7 +45,7 @@ namespace EndlasNet.Web.Controllers
                 FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
             }
             ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "Suffix");
-            return View(endlasNetDbContext);
+            return View(powderForParts);
         }
 
         // GET: PowderForParts/Details/5
@@ -75,46 +76,7 @@ namespace EndlasNet.Web.Controllers
             return View(powderForPart);
         }
 
-        public async Task<List<PartForWork>> GetPartsForWorkList()
-        {
-            var partsForWork = await _context.PartsForWork.ToListAsync();
 
-            foreach (PartForWork partForWork in partsForWork)
-            {
-                partForWork.StaticPartInfo = await _context.StaticPartInfo
-                    .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
-
-                partForWork.DrawingNumberSuffix = partForWork.StaticPartInfo.DrawingNumber
-                    + " - " + partForWork.Suffix;
-            }
-            return partsForWork;
-        }
-
-        public async Task<List<PowderBottle>> GetPowdersList()
-        {
-            var powders = await _context.PowderBottles.Where(p => p.Weight > POWDER_THRESHOLD).ToListAsync();
-
-            foreach (PowderBottle powder in powders)
-            {
-                powder.StaticPowderInfo = await _context.StaticPowderInfo
-                    .FirstOrDefaultAsync(s => s.StaticPowderInfoId == powder.StaticPowderInfoId);
-
-                powder.PowderName = powder.StaticPowderInfo.PowderName + " - " + powder.BottleNumber;
-            }
-            return powders;
-        }
-
-        public async Task SetViewData()
-        {
-            var partsForWork = await GetPartsForWorkList();
-            var powders = await GetPowdersList();
-            foreach (PowderBottle powder in powders)
-            {
-                powder.PowderName = powder.PowderName + " - " + string.Format("{0:0.0000}", powder.Weight) + " lbs";
-            }
-            ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
-            ViewData["PowderBottleId"] = new SelectList(powders, "PowderBottleId", "PowderName");
-        }
 
         // GET: PowderForParts/Create
         public async Task<IActionResult> Create()
@@ -265,17 +227,21 @@ namespace EndlasNet.Web.Controllers
             ViewBag.Init = "true";
         }
 
+        [HttpGet]
         public async Task<IActionResult> CreateGetWork()
         {
             await PopulateWorkForCreate();
             return View();
         }
-        public IActionResult CreatePostWork([Bind("PowderForPartId,PowderBottleId,PartForWorkId,PowderWeightUsed,Work,CheckBoxes")] PowderForPartViewModel vm)
+
+        [HttpPost]
+        public IActionResult CreateGetWork([Bind("PowderForPartId,PowderBottleId,PartForWorkId,PowderWeightUsed,Work,CheckBoxes")] PowderForPartViewModel vm)
         {
+
             return RedirectToAction("CreateWithWorkSet", new { workId = vm.Work.WorkId });
         }
 
-        
+
         [HttpGet]
         public async Task<IActionResult> CreateWithWorkSet(Guid? workId)
         {
@@ -294,7 +260,7 @@ namespace EndlasNet.Web.Controllers
 
             foreach (PartForWork partForWork in partsForWork)
             {
-               
+
                 partForWork.Work = await _context.Work.FirstOrDefaultAsync(p => p.WorkId == workId);
 
                 var checkBox = new CheckBoxInfo()
@@ -306,9 +272,67 @@ namespace EndlasNet.Web.Controllers
 
             }
             ViewBag.WorkDescription = work.WorkDescription;
-            ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "Suffix");
 
-            return View(vm);
+            return View(vm.CheckBoxes);
+        }
+
+  
+        [HttpPost]
+        public IActionResult CreateWithWorkSet(IEnumerable<CheckBoxInfo> checkBoxes)
+        {
+            if (ModelState.IsValid)
+            {
+                var powderForPartVm = new PowderForPartViewModel
+                {
+                    CheckBoxes = checkBoxes.ToList()
+                };
+                return RedirectToAction("", "", powderForPartVm);
+            }
+            return View(checkBoxes);
+        }
+
+
+
+
+        public async Task<List<PartForWork>> GetPartsForWorkList()
+        {
+            var partsForWork = await _context.PartsForWork.ToListAsync();
+
+            foreach (PartForWork partForWork in partsForWork)
+            {
+                partForWork.StaticPartInfo = await _context.StaticPartInfo
+                    .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
+
+                partForWork.DrawingNumberSuffix = partForWork.StaticPartInfo.DrawingNumber
+                    + " - " + partForWork.Suffix;
+            }
+            return partsForWork;
+        }
+
+        public async Task<List<PowderBottle>> GetPowderBottleList()
+        {
+            var powders = await _context.PowderBottles.Where(p => p.Weight > POWDER_THRESHOLD).ToListAsync();
+
+            foreach (PowderBottle powder in powders)
+            {
+                powder.StaticPowderInfo = await _context.StaticPowderInfo
+                    .FirstOrDefaultAsync(s => s.StaticPowderInfoId == powder.StaticPowderInfoId);
+
+                powder.PowderName = powder.StaticPowderInfo.PowderName + " - " + powder.BottleNumber;
+            }
+            return powders;
+        }
+
+        public async Task SetViewData()
+        {
+            var partsForWork = await GetPartsForWorkList();
+            var powders = await GetPowderBottleList();
+            foreach (PowderBottle powder in powders)
+            {
+                powder.PowderName = powder.PowderName + " - " + string.Format("{0:0.0000}", powder.Weight) + " lbs";
+            }
+            ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
+            ViewData["PowderBottleId"] = new SelectList(powders, "PowderBottleId", "PowderName");
         }
     }
 }

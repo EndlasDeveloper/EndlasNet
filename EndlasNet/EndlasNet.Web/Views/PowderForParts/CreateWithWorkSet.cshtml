@@ -1,6 +1,6 @@
 ﻿@using EndlasNet.Web.Models; 
 @using EndlasNet.Data;
-@model EndlasNet.Web.Models.PowderForPartViewModel
+@model IEnumerable<EndlasNet.Web.Models.CheckBoxInfo>
 
 @{
     ViewData["Title"] = "Create";
@@ -14,67 +14,52 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        @using (Html.BeginForm("InitEdit", "PowderForParts", FormMethod.Post))
-        { 
-            <div>
-                <label class="control-label">Work</label>
-                <input asp-for= "@workDesc" class="form-control" readonly />
-            </div>
-            <br />
+        <div>
+            <label class="control-label">Work</label>
+            <input asp-for="@workDesc" class="form-control" readonly />
+        </div>
+        <br />
+        <span>Parts</span>
+
+        @using (Html.BeginForm("CreateWithWorkSet", "PowderForParts", FormMethod.Post))
+        {
             <table>
                 <thead>
-                    @foreach (var box in Model.CheckBoxes)
+                    @foreach (var box in Model)
                     {
                         <tr>
                             <td>
-                                <span>
-                                    @box.Label<input asp-for="@box.IsChecked" class="form-control" style="min-height:30px;min-width:30px"/>
-                                </span>
+                                @box.Label
+                            </td>
+                            <td>
+                                <input asp-for="@box.IsChecked" class="form-control" style="min-height:30px;min-width:30px" />
                             </td>
                         </tr>
                     }
                 </thead>
             </table>
-            <div>
-                <label asp-for="PartForWorkId" class="control-label"></label>
-                <select asp-for="PartForWorkId" class="form-control" asp-items="ViewBag.PartForWorkId"></select>
-                <input type="submit" value="submit" class="btn btn-primary"  disabled/>
-            </div>
-         }
-
-        @*   <div class="form-group">
-
-            </div>
-            <div class="form-group">
-
-            </div>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PowderId" class="control-label"></label>
-                <select asp-for="PowderId" class="form-control" asp-items="ViewBag.PowderId"></select>
-                <input type="submit" class="btn btn-primary" />
-            </div>
-            <div class="form-group">
-                <label asp-for="PartForWorkId" class="control-label"></label>
-                <select asp-for="PartForWorkId" class="form-control" asp-items="ViewBag.PartForWorkId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="PowderWeightUsed" class="control-label"></label>
-                <input asp-for="PowderWeightUsed" class="form-control" />
-                <span asp-validation-for="PowderWeightUsed" class="text-danger"></span>
-                @if (ViewBag.HasEnoughPowder == "false")
-                {
-                    <span class="text-danger">Not enough powder. @ViewBag.PowderLeft lbs left.</span>
-                }
-
-            </div>*@
-
+            <input type="submit" value="submit" class="btn btn-primary" />
+        }
     </div>
 </div>
 
 <div>
     <a asp-action="Index">Back to list</a>
 </div>
+
+<script type="text/javascript">
+   
+    //Send the JSON array to Controller using AJAX.
+    $.ajax({
+        type: "POST",
+        url: "/PowderForParts/CreateWithWorkSet",
+        data: JSON.stringify(customers),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
+   
+
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
