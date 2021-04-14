@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class JobRepo : IWorkRepo
+    public class JobRepo : WorkRepo, IWorkRepo
     {
-        private readonly EndlasNetDbContext _db;
-
-        public JobRepo(EndlasNetDbContext db)
+        public JobRepo(EndlasNetDbContext db) : base(db)
         {
-            _db = db;
         }
 
         public async Task AddRow(Job job)

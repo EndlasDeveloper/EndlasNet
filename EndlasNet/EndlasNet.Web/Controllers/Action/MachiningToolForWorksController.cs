@@ -12,22 +12,24 @@ namespace EndlasNet.Web.Controllers
 {
     public class MachiningToolForWorksController : Controller
     {
-        private readonly EndlasNetDbContext _context;
         private readonly MachiningToolForWorkRepo _machiningToolForWorkRepo;
         private readonly MachiningToolRepo _machiningToolRepo;
         private readonly UserRepo _userRepo;
+        private readonly JobRepo _jobRepo;
+        private readonly WorkOrderRepo _workOrderRepo;
         public MachiningToolForWorksController(EndlasNetDbContext context)
         {
-            _context = context;
             _userRepo = new UserRepo(context);
             _machiningToolRepo = new MachiningToolRepo(context);
             _machiningToolForWorkRepo = new MachiningToolForWorkRepo(context);
+            _jobRepo = new JobRepo(context);
+            _workOrderRepo = new WorkOrderRepo(context);
         }
 
         // GET: MachiningToolForWorks
         public async Task<IActionResult> Index()
         {
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
+            ViewData["WorkId"] = new SelectList(await _jobRepo.GetAllWork(), "WorkId", "EndlasNumber");
             ViewData["MachiningToolId"] = new SelectList(await _machiningToolRepo.GetAllRows(), "MachiningToolId", "VendorDescription");
 
             var toolsForWork = await _machiningToolForWorkRepo.GetAllRows();
@@ -36,11 +38,10 @@ namespace EndlasNet.Web.Controllers
             {
                 machiningToolForWorkList.Add((MachiningToolForWork)obj);
             }
+
             foreach(MachiningToolForWork toolForWork in machiningToolForWorkList)
             {
-                toolForWork.Work = await _context.Work
-                    .FirstOrDefaultAsync(m => m.WorkId == toolForWork.WorkId);
-                toolForWork.MachiningTool = await _machiningToolRepo.GetRow(toolForWork.MachiningToolId);
+                toolForWork.Work = await _jobRepo.GetWork(toolForWork.Work.WorkId);
             }
             return View(toolsForWork);
         }
@@ -71,7 +72,7 @@ namespace EndlasNet.Web.Controllers
 
         private async Task SetCreateViewData()
         {
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
+            ViewData["WorkId"] = new SelectList(await _jobRepo.GetAllWork(), "WorkId", "EndlasNumber");
             var availableTools = await _machiningToolRepo.GetAvailableTools();
             
             foreach(MachiningTool machiningTool in availableTools)
@@ -112,16 +113,16 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
             var machiningToolForWork = await _machiningToolForWorkRepo.GetRow(id);
             if (machiningToolForWork == null)
             {
                 return NotFound();
             }
-            machiningToolForWork.Work = await _context.Work.FirstOrDefaultAsync(m => m.WorkId == machiningToolForWork.WorkId);
+
+            machiningToolForWork.Work = await _jobRepo.GetWork(machiningToolForWork.Work.WorkId);
             machiningToolForWork.MachiningTool = await _machiningToolRepo.GetRow(machiningToolForWork.MachiningToolId);
 
-            ViewData["WorkId"] = new SelectList(_context.Work, "WorkId", "EndlasNumber");
+            ViewData["WorkId"] = new SelectList(await _jobRepo.GetAllWork(), "WorkId", "EndlasNumber");
             ViewData["MachiningToolId"] = new SelectList(await _machiningToolRepo.GetAllRows(), "MachiningToolId", "VendorDescription");
 
             return View(machiningToolForWork);
@@ -175,8 +176,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
-            machiningToolForWork.Work = await _context.Work.FirstOrDefaultAsync(m => m.WorkId == machiningToolForWork.WorkId);
+            machiningToolForWork.Work = await _jobRepo.GetWork(machiningToolForWork.Work.WorkId);
             machiningToolForWork.MachiningTool = await _machiningToolRepo.GetRow(machiningToolForWork.MachiningToolId);
             machiningToolForWork.User = await _userRepo.GetRow(machiningToolForWork.UserId);
             return View(machiningToolForWork);

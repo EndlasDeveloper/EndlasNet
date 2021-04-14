@@ -12,7 +12,7 @@ namespace EndlasNet.Web.Controllers
 {
     public class PowderForPartsController : Controller
     {
-        private readonly float POWDER_THRESHOLD = 0.001f;
+        private readonly float WEIGHT_THRESHOLD = 0.001f;
 
         private readonly EndlasNetDbContext _context;
         private readonly PowderForPartRepo _powderForPartRepo;
@@ -109,7 +109,7 @@ namespace EndlasNet.Web.Controllers
                 // subtract off what was used
                 powder.Weight -= powderForPart.PowderWeightUsed;
                 // if below threshold after subtracting weight, zero out weight
-                if (powder.Weight <= POWDER_THRESHOLD)
+                if (powder.Weight <= WEIGHT_THRESHOLD)
                 {
                     powder.Weight = 0.0f;
                     _context.Update(powder);
@@ -311,7 +311,7 @@ namespace EndlasNet.Web.Controllers
 
         public async Task<List<PowderBottle>> GetPowderBottleList()
         {
-            var powders = await _context.PowderBottles.Where(p => p.Weight > POWDER_THRESHOLD).ToListAsync();
+            var powders = await _context.PowderBottles.Where(p => p.Weight > WEIGHT_THRESHOLD).ToListAsync();
 
             foreach (PowderBottle powder in powders)
             {
