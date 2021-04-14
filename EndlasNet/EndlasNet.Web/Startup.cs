@@ -38,7 +38,12 @@ namespace EndlasNet.Web
             services.AddScoped<IMachiningToolForWork, MachiningToolForWork>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForJob>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForWorkOrder>();
-
+            // session time to 2 hours
+            services.ConfigureApplicationCookie(o =>
+            {
+                o.ExpireTimeSpan = TimeSpan.FromHours(2);
+                o.SlidingExpiration = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +61,6 @@ namespace EndlasNet.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
             app.UseSession();
             app.UseAuthorization();

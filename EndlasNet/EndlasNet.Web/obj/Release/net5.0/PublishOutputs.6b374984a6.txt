@@ -166,7 +166,6 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Options.DataAnnotations.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Options.dll
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Primitives.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.WebEncoders.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.JSInterop.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Net.Http.Headers.dll
@@ -354,6 +353,7 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.Extensions.DependencyModel.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.Extensions.Primitives.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.Identity.Client.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.IdentityModel.Logging.dll

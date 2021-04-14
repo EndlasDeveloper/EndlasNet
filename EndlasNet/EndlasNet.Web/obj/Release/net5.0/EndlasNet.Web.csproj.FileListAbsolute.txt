@@ -125,7 +125,6 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net5.0\refs\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net5.0\refs\Microsoft.Extensions.Options.DataAnnotations.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net5.0\refs\Microsoft.Extensions.Options.dll
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net5.0\refs\Microsoft.Extensions.Primitives.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net5.0\refs\Microsoft.Extensions.WebEncoders.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net5.0\refs\Microsoft.JSInterop.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net5.0\refs\Microsoft.Net.Http.Headers.dll
@@ -559,3 +558,5 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PowderForParts\CreateWithWorkSet.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PowderForParts\Create.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PowderForParts\CreateGetWork.cshtml.g.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PowderForParts\CreateWithCheckBoxesSet.cshtml.g.cs
