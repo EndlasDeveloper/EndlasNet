@@ -10,6 +10,7 @@ namespace EndlasNet.Data
     public class Work
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid WorkId { get; set; }
         
         [Required]

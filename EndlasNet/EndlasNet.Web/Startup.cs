@@ -11,6 +11,7 @@ using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace EndlasNet.Web
 {
@@ -33,7 +34,12 @@ namespace EndlasNet.Web
             services.AddRazorPages();
             services.AddSession();
             services.AddMvcCore();
-
+            services.AddCors();
+            services.AddControllers().AddJsonOptions(options => {
+                // Use the default property (Pascal) casing.
+                options.JsonSerializerOptions.PropertyNamingPolicy =
+                JsonNamingPolicy.CamelCase;
+            });
             services.AddScoped<UserRepo>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForWork>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForJob>();
@@ -64,6 +70,9 @@ namespace EndlasNet.Web
             app.UseRouting();
             app.UseSession();
             app.UseAuthorization();
+            app.UseCors(options =>
+                options.WithOrigins("http://localhost:3000")
+                .AllowAnyMethod().AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using EndlasNet.Web.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -333,6 +334,25 @@ namespace EndlasNet.Web.Controllers
             }
             ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
             ViewData["PowderBottleId"] = new SelectList(powders, "PowderBottleId", "PowderName");
+        }
+
+        [HttpGet("PowderForParts/CreateGetWork/{id}")]
+        public  IActionResult getParts()
+        {
+            HttpContext.Request.RouteValues.TryGetValue("id", out object obj);
+            Guid workId = new Guid(obj.ToString());
+            IActionResult ret = null;
+            var parts = _context.PartsForWork.Where(p => p.WorkId == workId);
+            if(parts.Count() != 0)
+            {
+                ViewBag.GotParts = true;
+                ret = StatusCode(StatusCodes.Status200OK, parts);
+            }
+            else
+            {
+                ret = StatusCode(StatusCodes.Status400BadRequest, "Invalid entity");
+            }
+            return ret;
         }
     }
 }
