@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using EndlasNet.Web.Models;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -286,7 +287,7 @@ namespace EndlasNet.Web.Controllers
             {
                 if(vm != null)
                 {
-                    ret = StatusCode(StatusCodes.Status200OK, vm);
+                    ret = StatusCode(StatusCodes.Status200OK, Json(vm));
                 }
                 else
                 {
@@ -339,6 +340,14 @@ namespace EndlasNet.Web.Controllers
             }
             ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
             ViewData["PowderBottleId"] = new SelectList(powders, "PowderBottleId", "PowderName");
+        }
+        [HttpGet("PowderForParts/CreateWithWorkSet/{id}")]
+        public IActionResult setParts()
+        {
+            HttpContext.Request.RouteValues.TryGetValue("id", out object obj);
+
+            PowderForPartViewModel vm = (PowderForPartViewModel)JsonConvert.DeserializeObject(obj.ToString());
+            return Json(vm);
         }
 
         [HttpGet("PowderForParts/CreateGetWork/{id}")]

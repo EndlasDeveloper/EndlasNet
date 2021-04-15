@@ -23,14 +23,15 @@
 
         <table>
             <thead>
-                @foreach (var box in Model.CheckBoxes)
+                @for (int i = 0; i < Model.CheckBoxes.Count; i++)
                 {
                     <tr>
                         <td>
-                            @box.Label
+                            @Model.CheckBoxes[i].Label
                         </td>
                         <td>
-                            <input asp-for="@box.IsChecked" class="form-control" id="@box.Label" style="min-height:30px;min-width:30px" />
+                            <input asp-for="@Model.CheckBoxes[i].IsChecked" class="form-control" id="id @i" style="min-height:30px;min-width:30px" />
+                            <input asp-for="@Model.CheckBoxes[i].PartForWorkId" id="value @i" hidden  />
                         </td>
                     </tr>
                 }
@@ -40,7 +41,7 @@
     </div>
 
 </div>
-
+0
 <div>
     <a asp-action="Index">Back to list</a>
 </div>
@@ -55,16 +56,22 @@
     const URL = "https://localhost:5001/PowderForParts/CreateWithWorkSet";
 
     function selectParts() {
+        
+        let checkboxes = [];
+          for (i = 0; i < @Model.CheckBoxes.Count; i++) {
+                    checkboxes.push(getCheckBoxFromInput(i));
+        }
+        console.log(checkboxes);
         let req = new XMLHttpRequest();
         req.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+
                 console.log(this.response);
             }
         };
 
-        req.open("POST", URL);
-        req.setRequestHeader("Content-Type", "application/json");
-        req.send(JSON.stringify(@Model));
+        req.open("GET", URL + "/" + JSON.stringify(checkboxes));
+        req.send();
 
     }
 
