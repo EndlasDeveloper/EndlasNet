@@ -274,22 +274,27 @@ namespace EndlasNet.Web.Controllers
             }
             ViewBag.WorkDescription = work.WorkDescription;
 
-            return View(vm.CheckBoxes);
+            return View(vm);
         }
 
   
-        [HttpPost]
-        public IActionResult CreateWithWorkSet(IEnumerable<CheckBoxInfo> checkBoxes)
+        [HttpPost()]
+        public IActionResult CreateWithWorkSet(PowderForPartViewModel vm)
         {
-            if (ModelState.IsValid)
+            IActionResult ret = null;
+            try
             {
-                var powderForPartVm = new PowderForPartViewModel
+                if(vm != null)
                 {
-                    CheckBoxes = checkBoxes.ToList()
-                };
-                return RedirectToAction("", "", powderForPartVm);
+                    ret = StatusCode(StatusCodes.Status200OK, vm);
+                }
+                else
+                {
+                    ret = StatusCode(StatusCodes.Status400BadRequest, "bad request in createWithWorkSet");
+                }
             }
-            return View(checkBoxes);
+            catch (Exception) { }
+            return ret;
         }
 
 

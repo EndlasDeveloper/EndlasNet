@@ -23,7 +23,7 @@
             <button type="button" onclick="getParts()" class="btn-primary">Get parts</button>
             <input type="submit" value="submit" class="btn btn-primary" />
         </form>
-    <div id="test"></div>
+    <div id="parts"></div>
     </div>
 </div>
 
@@ -42,7 +42,6 @@
         req.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log(this.response);
-                setValue("test", "<p>hi</p>");
             }
         };
 

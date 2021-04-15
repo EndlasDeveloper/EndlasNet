@@ -1,6 +1,6 @@
-﻿@using EndlasNet.Web.Models; 
+﻿@using EndlasNet.Web.Models;
 @using EndlasNet.Data;
-@model IEnumerable<EndlasNet.Web.Models.CheckBoxInfo>
+@model EndlasNet.Web.Models.PowderForPartViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -21,35 +21,54 @@
         <br />
         <span>Parts</span>
 
-        <form asp-action="CreateWithWorkSet" enctype="multipart/form-data">
-            <table>
-                <thead>
-                    @foreach (var box in Model)
-                    {
-                        <tr>
-                            <td>
-                                @box.Label
-                            </td>
-                            <td>
-                                <input asp-for="@box.IsChecked" class="form-control" style="min-height:30px;min-width:30px" />
-                            </td>
-                        </tr>
-                    }
-                </thead>
-            </table>
-            <button type="button" onclick="selectWork()">Select</button>
-            <input type="submit" value="submit" class="btn btn-primary" />
-        </form>
+        <table>
+            <thead>
+                @foreach (var box in Model.CheckBoxes)
+                {
+                    <tr>
+                        <td>
+                            @box.Label
+                        </td>
+                        <td>
+                            <input asp-for="@box.IsChecked" class="form-control" id="@box.Label" style="min-height:30px;min-width:30px" />
+                        </td>
+                    </tr>
+                }
+            </thead>
+        </table>
+        <button type="button" onclick="selectParts()">Select</button>
     </div>
+
 </div>
 
 <div>
     <a asp-action="Index">Back to list</a>
 </div>
 
-<script type="text/javascript">
-   
-   
+
+<script src="/js/util.js"></script>
+<script src="/js/ajax-common.js"></script>
+
+@*put hidden inputs to reference when posting selected parts*@
+
+<script>
+
+    const URL = "https://localhost:5001/PowderForParts/CreateWithWorkSet";
+
+    function selectParts() {
+        let req = new XMLHttpRequest();
+        req.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                console.log(this.response);
+            }
+        };
+
+        req.open("POST", URL);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.send(JSON.stringify(@Model));
+
+    }
+
 
 </script>
 
