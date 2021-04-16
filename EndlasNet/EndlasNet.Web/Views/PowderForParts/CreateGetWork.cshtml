@@ -4,14 +4,11 @@
 
 @{
     ViewData["Title"] = "Create";
-
-
-
 }
 
 <h1>Create</h1>
 
-<h4>Powder for part</h4>
+<h4>Powder for parts</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,8 +18,7 @@
             <label asp-for="WorkId" class="control-label">Work</label>
             <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId" id="workID"></select>
             <br />
-            <button type="button" onclick="getParts()" class="btn-primary">Get parts</button>
-            <input type="submit" value="submit" class="btn btn-primary" />
+            <input type="submit" value="Next" class="btn btn-primary" />
         </form>
     <div id="parts"></div>
     </div>

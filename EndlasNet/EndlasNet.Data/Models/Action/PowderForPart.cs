@@ -11,7 +11,7 @@ namespace EndlasNet.Data
         [Key]
         public Guid PowderForPartId { get; set; }
         [ForeignKey("PowderBottleId")]
-        [Display(Name ="PowderBottle")]
+        [Display(Name ="Powder bottle")]
         public Guid? PowderBottleId { get; set; }
         public virtual PowderBottle PowderBottle { get; set; }
         [ForeignKey("PartForWorkId")]
@@ -20,7 +20,7 @@ namespace EndlasNet.Data
         [Display(Name = "Part")]
         public virtual PartForWork PartForWork { get; set; }
 
-        [Display(Name ="PowderBottle weight used (lbs)")]
+        [Display(Name ="Powder bottle weight used (lbs)")]
         [Range(0.0001,200.0)]
         public float PowderWeightUsed { get; set; }
     }
