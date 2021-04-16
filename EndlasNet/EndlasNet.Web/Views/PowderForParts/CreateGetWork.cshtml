@@ -17,8 +17,9 @@
     <div class="col-md-4">
 
         <form asp-action="CreateGetWork">
-            <label asp-for="Work.WorkId" class="control-label"></label>
-            <select asp-for="Work.WorkId" class="form-control" asp-items="ViewBag.WorkId" id="workID"></select>
+            <input asp-for="Work" hidden />
+            <label asp-for="WorkId" class="control-label">Work</label>
+            <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId" id="workID"></select>
             <br />
             <button type="button" onclick="getParts()" class="btn-primary">Get parts</button>
             <input type="submit" value="submit" class="btn btn-primary" />
@@ -30,28 +31,6 @@
 <div>
     <a asp-action="Index">Back to list</a>
 </div>
-<script src="/js/ajax-common.js"></script>
-
-<script>
-
-    const URL = "https://localhost:5001/PowderForParts/CreateGetWork";
-
-    function getParts() {
-        let req = new XMLHttpRequest();
-        req.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                console.log(this.response);
-            }
-        };
-
-        req.open("GET", URL + "/" + getValue("workID"));
-       @* req.setRequestHeader("Content-Type", "application/json");*@
-        req.send();
-    }
-
-
-</script>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

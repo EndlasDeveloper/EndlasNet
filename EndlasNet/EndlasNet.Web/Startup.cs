@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace EndlasNet.Web
 {
@@ -33,7 +34,7 @@ namespace EndlasNet.Web
             .UseSqlServer(Configuration.GetConnectionString("endlas_local"))); // db ref in appsettings.json
             services.AddRazorPages();
             services.AddSession();
-            services.AddMvcCore();
+            services.AddMvcCore(); 
             services.AddCors();
             services.AddControllers().AddJsonOptions(options => {
                 // Use the default property (Pascal) casing.

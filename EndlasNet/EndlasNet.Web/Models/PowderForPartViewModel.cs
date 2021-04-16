@@ -12,20 +12,16 @@ namespace EndlasNet.Web.Models
         public bool IsChecked { get; set; } = false;
         public Guid PartForWorkId { get; set; }
         public string Label { get; set; }
-
         public string RuntimeId { get; set; }
     }
 
-    public class PowderForPartViewModel : PowderForPart
+    public class PowderForPartViewModel
     {
         public Work Work { get; set; }
         public Guid WorkId { get; set; }
+        public Guid PowderBottleId { get; set; }
+        public float PowderWeightUsed { get; set; }
         public List<CheckBoxInfo> CheckBoxes { get; set; }
-
-        public List<CheckBoxInfo> DeSerializeCheckBoxes(string str)
-        {
-            return (List<CheckBoxInfo>)JsonConvert.DeserializeObject(str);
-        }
     }
     
 }

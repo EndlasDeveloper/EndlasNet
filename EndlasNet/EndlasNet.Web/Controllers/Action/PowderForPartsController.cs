@@ -237,16 +237,20 @@ namespace EndlasNet.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateGetWork([Bind("PowderForPartId,PowderBottleId,PartForWorkId,PowderWeightUsed,Work,CheckBoxes")] PowderForPartViewModel vm)
+        public IActionResult CreateGetWork([Bind("WorkId,Work,PowderBottleId,PowderWeightUsed,CheckBoxes")] PowderForPartViewModel vm)
         {
-
-            return RedirectToAction("CreateWithWorkSet", new { workId = vm.Work.WorkId });
+            return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0});
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> CreateWithWorkSet(Guid? workId)
+        public async Task<IActionResult> CreateWithWorkSet(Guid workId, bool hasEnoughPowder, float powderLeft)
         {
+            if (!hasEnoughPowder)
+            {
+                ViewBag.HasEnoughPowder = "false";
+                ViewBag.PowderLeft = powderLeft;
+            }
             var work = await _context.Work
                 .FirstOrDefaultAsync(w => w.WorkId == workId);
 
@@ -274,28 +278,51 @@ namespace EndlasNet.Web.Controllers
 
             }
             ViewBag.WorkDescription = work.WorkDescription;
-
+            await SetViewData();
             return View(vm);
         }
 
   
-        [HttpPost()]
-        public IActionResult CreateWithWorkSet(PowderForPartViewModel vm)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateWithWorkSet(PowderForPartViewModel vm)
         {
-            IActionResult ret = null;
-            try
+            // find the bottle of powder associated with powderForParts
+            var powder = await _context.PowderBottles
+                .FirstOrDefaultAsync(p => p.PowderBottleId == vm.PowderBottleId);
+
+            // make sure there is enough powder to perform putting powder to part
+            if (powder.Weight < vm.PowderWeightUsed)
             {
-                if(vm != null)
+                ViewBag.HasEnoughPowder = "false";
+                ViewBag.PowderLeft = string.Format("{0:0.0000}", powder.Weight);
+                await SetViewData();
+                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = false, powderLeft = powder.Weight });
+            }
+            powder.Weight -= vm.PowderWeightUsed;
+            // if below threshold after subtracting weight, zero out weight
+            if (powder.Weight <= WEIGHT_THRESHOLD)
+            {
+                powder.Weight = 0.0f;
+                _context.Update(powder);
+                await _context.SaveChangesAsync();
+            }
+            var weightPerPart = vm.PowderWeightUsed / vm.CheckBoxes.Where(c => c.IsChecked).Count();
+            foreach(CheckBoxInfo box in vm.CheckBoxes)
+            {
+                if (box.IsChecked)
                 {
-                    ret = StatusCode(StatusCodes.Status200OK, Json(vm));
-                }
-                else
-                {
-                    ret = StatusCode(StatusCodes.Status400BadRequest, "bad request in createWithWorkSet");
+                    var powderForPart = new PowderForPart {
+                        PartForWorkId = box.PartForWorkId,
+                        PowderBottleId = vm.PowderBottleId,
+                        PowderForPartId = Guid.NewGuid(),
+                        PowderWeightUsed = weightPerPart
+                    };
+                    await _powderForPartRepo.AddRow(powderForPart);
                 }
             }
-            catch (Exception) { }
-            return ret;
+            return RedirectToAction(nameof(Index));
+           
         }
 
 
@@ -341,14 +368,14 @@ namespace EndlasNet.Web.Controllers
             ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
             ViewData["PowderBottleId"] = new SelectList(powders, "PowderBottleId", "PowderName");
         }
-        [HttpGet("PowderForParts/CreateWithWorkSet/{id}")]
+/*        [HttpGet("PowderForParts/CreateWithWorkSet/{id}")]
         public IActionResult setParts()
         {
             HttpContext.Request.RouteValues.TryGetValue("id", out object obj);
 
             PowderForPartViewModel vm = (PowderForPartViewModel)JsonConvert.DeserializeObject(obj.ToString());
             return Json(vm);
-        }
+        }*/
 
         [HttpGet("PowderForParts/CreateGetWork/{id}")]
         public  IActionResult getParts()
