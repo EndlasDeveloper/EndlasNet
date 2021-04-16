@@ -11,7 +11,7 @@
     
 }
 <h1 class="display-4">@ViewData["Title"]</h1>
-<h3 class="display-3">4/13/2021</h3>
+<h3 class="display-4">4/16/2021</h3>
 <p>
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
@@ -21,6 +21,12 @@
         </li>
         <li class="update-notes-li">
             Increased database session duration to 2 hours.
+        </li>
+        <li class="update-notes-li">
+           Added functionality to create multiple PowderForPart objects with a single user submit. User can
+            now select a checkbox next to the parts the user wants to apply the entered weight to. The weight
+            is correctly applied. Not sure if there is a check for zero on the view. If the user tries to enter
+            too much weight, the user is redirected back to the create page with a warning.
         </li>
     </ul>
 
@@ -43,18 +49,7 @@
         <li class="update-notes-li">
             LineItem -> get micrometer abbv onto label.
         </li>
-        <li class="update-notes-li">
-            Powder for Part -> Add job select. Aka Powder for part, Powder for part batch, then add an option for something
-            in between. Want to be able to distribute powder evenly across user defined set of powder bottles.
-            <div>
-                <br />
-                1. Choose Job/WO <br />
-                2. On job submit, populate a check box list with all PartsForWork that belong to that job. <br />
-                3. Set powder <br />
-                4. Set weight. On submit, the weight will be distributed evenly between all selected PartsForWork. <br />
-                <br />
-            </div>
-        </li>
+
         <li class="update-notes-li">
             Start looking at making reports from database data.
         </li>
