@@ -6,13 +6,13 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-    public class UserMap
+    public class UniqueMap
     {
-
-        public UserMap(EntityTypeBuilder<User> entityBuilder)
+        public UniqueMap(ModelBuilder modelBuilder)
         {
             // unique
-            entityBuilder.HasIndex(u => u.EndlasEmail).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.EndlasEmail).IsUnique();
+            modelBuilder.Entity<Work>().HasIndex(w => w.EndlasNumber).IsUnique();
         }
     }
 }

@@ -28,6 +28,14 @@
             is correctly applied. Not sure if there is a check for zero on the view. If the user tries to enter
             too much weight, the user is redirected back to the create page with a warning.
         </li>
+        <li class="update-notes-li">
+            Make PowderBottle -> Bottle number unique: This cannot be done with the way the app is currently working.
+            Powder bottles need to be initialized by the user, but first must exist to do so. This creates the problem
+            where multiple powder bottles have the same bottle number because they always start off as null.
+
+            I did, however, force the Endlas number for work to be unique at the database level.
+
+        </li>
     </ul>
 
     @* ****** TODO ****** *@
@@ -40,7 +48,6 @@
             Summary of powders by lot number.
         </li>
         <li class="update-notes-li">
-            Make PowderBottle -> Bottle number unique
         </li>
 
         <li class="update-notes-li">

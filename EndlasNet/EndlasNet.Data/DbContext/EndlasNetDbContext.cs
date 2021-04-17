@@ -70,9 +70,9 @@ namespace EndlasNet.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            _ = new UserMap(modelBuilder.Entity<User>());
             _ = new MultiplicityMap(modelBuilder);
             _ = new CreatedUpdatedDateMap(modelBuilder);
+            _ = new UniqueMap(modelBuilder);
 
             var SA = new Admin
             {
