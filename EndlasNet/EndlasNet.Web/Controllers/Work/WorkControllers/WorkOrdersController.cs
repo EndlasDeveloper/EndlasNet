@@ -15,8 +15,10 @@ namespace EndlasNet.Web.Controllers
         private readonly WorkOrderRepo _workOrderRepo;
         private readonly CustomerRepo _customerRepo;
         private readonly UserRepo _userRepo;
+        private readonly EndlasNetDbContext _context;
         public WorkOrdersController(EndlasNetDbContext context)
         {
+            _context = context;
             _userRepo = new UserRepo(context);
             _workOrderRepo = new WorkOrderRepo(context);
             _customerRepo = new CustomerRepo(context);
@@ -59,6 +61,12 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] WorkOrder workOrder)
         {
+            var work = await _context.Work.Where(w => w.EndlasNumber == workOrder.EndlasNumber).FirstOrDefaultAsync();
+            if (work != null)
+            {
+                ViewBag.EndlasNumberConflict = "true";
+                return View(workOrder);
+            }
             if (ModelState.IsValid)
             {
                 workOrder.WorkId = Guid.NewGuid();

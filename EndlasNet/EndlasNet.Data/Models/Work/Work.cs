@@ -6,7 +6,6 @@ using System.Text;
 
 namespace EndlasNet.Data
 {
-
     public class Work
     {
         [Key]

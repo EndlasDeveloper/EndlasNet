@@ -32,9 +32,10 @@
             Make PowderBottle -> Bottle number unique: This cannot be done with the way the app is currently working.
             Powder bottles need to be initialized by the user, but first must exist to do so. This creates the problem
             where multiple powder bottles have the same bottle number because they always start off as null.
-
-            I did, however, force the Endlas number for work to be unique at the database level.
-
+            <br />
+            I did, however, force the Endlas number for work to be unique at the database level. Then, a check was put 
+            in at the controller to ensure that the Endlas number is unique. If it isn't unique, the user is forwarded back
+            the the create page with a warning message under the Endlas number form.
         </li>
     </ul>
 

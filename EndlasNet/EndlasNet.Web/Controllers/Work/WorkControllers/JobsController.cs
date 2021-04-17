@@ -59,6 +59,12 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Job job)
         {
+            var work = await _context.Work.Where(w => w.EndlasNumber == job.EndlasNumber).FirstOrDefaultAsync();
+            if(work != null)
+            {
+                ViewBag.EndlasNumberConflict = "true";
+                return View(job);
+            }
             if (ModelState.IsValid)
             {
                 job.WorkId = Guid.NewGuid();
