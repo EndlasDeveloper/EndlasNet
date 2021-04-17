@@ -8,8 +8,7 @@ using System.Text;
 namespace EndlasNet.Data
 {
     public class LineItem
-    {
-        
+    {        
         [Key]
         public Guid LineItemId { get; set; }
 
@@ -33,6 +32,7 @@ namespace EndlasNet.Data
 
         [Range(0f, float.MaxValue)]
         [Display(Name = "Minimum particle size")]
+
         public float ParticleSizeMin { get; set; }
 
         [Range(0f, float.MaxValue)]

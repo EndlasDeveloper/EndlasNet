@@ -23,7 +23,7 @@
             Increased database session duration to 2 hours.
         </li>
         <li class="update-notes-li">
-           Added functionality to create multiple PowderForPart objects with a single user submit. User can
+            Added functionality to create multiple PowderForPart objects with a single user submit. User can
             now select a checkbox next to the parts the user wants to apply the entered weight to. The weight
             is correctly applied. Not sure if there is a check for zero on the view. If the user tries to enter
             too much weight, the user is redirected back to the create page with a warning.
@@ -33,9 +33,12 @@
             Powder bottles need to be initialized by the user, but first must exist to do so. This creates the problem
             where multiple powder bottles have the same bottle number because they always start off as null.
             <br />
-            I did, however, force the Endlas number for work to be unique at the database level. Then, a check was put 
+            I did, however, force the Endlas number for work to be unique at the database level. Then, a check was put
             in at the controller to ensure that the Endlas number is unique. If it isn't unique, the user is forwarded back
             the the create page with a warning message under the Endlas number form.
+        </li>
+        <li class="update-notes-li">
+            LineItem -> added &#956;m to the particle size labels where it was missing.
         </li>
     </ul>
 
@@ -49,15 +52,8 @@
             Summary of powders by lot number.
         </li>
         <li class="update-notes-li">
-        </li>
-
-        <li class="update-notes-li">
             Make form minimum width a little wider for form pages.
         </li>
-        <li class="update-notes-li">
-            LineItem -> get micrometer abbv onto label.
-        </li>
-
         <li class="update-notes-li">
             Start looking at making reports from database data.
         </li>
