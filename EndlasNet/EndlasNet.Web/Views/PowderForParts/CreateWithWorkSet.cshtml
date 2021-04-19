@@ -16,8 +16,8 @@
             <input asp-for="@workDesc" class="form-control" readonly />
         </div>
         <form asp-action="CreateWithWorkSet" enctype="multipart/form-data">
-            <input asp-for="Work" hidden/>
-            <input asp-for="WorkId" hidden/>
+            <input asp-for="Work" hidden />
+            <input asp-for="WorkId" hidden />
             <div class="form-group">
                 <label asp-for="PowderBottleId" class="control-label"></label>
                 <select asp-for="PowderBottleId" class="form-control" asp-items="ViewBag.PowderBottleId"></select>
@@ -31,7 +31,7 @@
                     <span class="text-danger">Not enough powder. @ViewBag.PowderLeft lbs left.</span>
                 }
             </div>
-            
+
             <span>Parts</span>
             <table>
                 <thead>
@@ -47,11 +47,15 @@
                             </td>
                         </tr>
                     }
+
                 </thead>
             </table>
             <br />
             <input type="submit" onsubmit="onClick()" value="Submit" class="btn btn-primary" />
         </form>
+        <br />
+       @* <button type="button" onclick="selectAll()" class="btn btn-primary" >Select all</button>*@
+
     </div>
 </div>
 
@@ -62,12 +66,24 @@
 <script src="/js/ajax-common.js"></script>
 
 <script>
-    function onClick() {
+   @* function selectAll() {
+        for (i = 0; i < @Model.CheckBoxes.Count(); i++) {
+            if (!document.getElementById("id " + i).value) {
+                document.getElementById("id " + i).value = true;
+            }
+        }
+    }
+
+    function getCheckboxes() {
         let checkboxes = [];
-        for (i = 0; i < @Model.CheckBoxes.Count; i++) {
+        for (i = 0; i < @Model.CheckBoxes.Count(); i++) {
             checkboxes.push(getCheckBoxFromInput(i));
         }
-        @Model.CheckBoxes = checkboxes;
+        return checkboxes;
+    }
+*@
+    function onClick() {
+        @Model.CheckBoxes = getCheckboxes();
         $.ajax({
             type: "POST",
             url: "PowderForParts/CreateWithWorkSet",
@@ -84,7 +100,7 @@
                 alert(response.responseText);
             }
         });
-    } 
+    }
 </script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
