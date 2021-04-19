@@ -141,6 +141,15 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("PowderBottleId,BottleNumber,InitWeight,Weight,LotNumber,LineItemId,UserId,StaticPowderInfoId")] PowderBottle powder)
         {
+            var powders = await _powderRepo.GetAllRows();
+            var p = powders
+                .Where(p => p.BottleNumber != null)
+                .Where(p => p.BottleNumber == powder.BottleNumber);
+            if(p != null)
+            {
+                ViewBag.BottleNumberConflict = "true";
+                return View(powder);
+            }
             if (id != powder.PowderBottleId)
             {
                 return NotFound();

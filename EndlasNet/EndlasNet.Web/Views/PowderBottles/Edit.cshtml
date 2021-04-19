@@ -18,6 +18,10 @@
                 <label asp-for="BottleNumber" class="control-label"></label>
                 <input asp-for="BottleNumber" class="form-control" />
                 <span asp-validation-for="BottleNumber" class="text-danger"></span>
+                @if(ViewBag.BottleNumberConflict == "true")
+                {
+                    <span class="text-danger">Bottle number @Model.BottleNumber already exists.</span>
+                }
             </div>
 
             <div class="form-group">
