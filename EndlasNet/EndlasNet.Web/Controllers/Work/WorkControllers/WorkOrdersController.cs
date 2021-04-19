@@ -65,6 +65,7 @@ namespace EndlasNet.Web.Controllers
             if (work != null)
             {
                 ViewBag.EndlasNumberConflict = "true";
+                ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
                 return View(workOrder);
             }
             if (ModelState.IsValid)
