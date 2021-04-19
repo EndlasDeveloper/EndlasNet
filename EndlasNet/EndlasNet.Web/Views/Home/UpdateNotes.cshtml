@@ -15,39 +15,45 @@
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
-        <li class="update-notes-li">
-            Fixed issue in parts for work order where the database calls weren't working in some cases.
-        </li>
-        <li class="update-notes-li">
-            Increased database session duration to 2 hours.
-        </li>
-        <li class="update-notes-li">
-            Added functionality to create multiple PowderForPart objects with a single user submit. User can
-            now select a checkbox next to the parts the user wants to apply the entered weight to. The weight
-            is correctly applied. Not sure if there is a check for zero on the view. If the user tries to enter
-            too much weight, the user is redirected back to the create page with a warning.
-        </li>
-        <li class="update-notes-li">
-            Make PowderBottle -> Bottle number unique: This cannot be done with the way the app is currently working.
-            Powder bottles need to be initialized by the user, but first must exist to do so. This creates the problem
-            where multiple powder bottles have the same bottle number because they always start off as null.
-            <br />
-            I did, however, force the Endlas number for work to be unique at the database level. Then, a check was put
-            in at the controller to ensure that the Endlas number is unique. If it isn't unique, the user is forwarded back
-            the the create page with a warning message under the Endlas number form.
-        </li>
-        <li class="update-notes-li">
-            LineItem -> added &#956;m to the particle size labels where it was missing.
-        </li>
-        <li class="update-notes-li">
-            Looked into Vue in ASP.NET. Found that Vue bootstraps easily into an MVC application. 
-        </li>
+
     </ul>
 
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
-
+        <li class="update-notes-li">
+            Create, Machining Tool, Add vendor id (str) column. Add column to index.
+        </li>
+        <li class="update-notes-li">
+            All powders, put sorts on lot number and bottle number. 
+        </li>
+        <li class="update-notes-li">
+            Machining Tools, add column on index cost per machining tool.
+        </li>
+        <li class="update-notes-li">
+            Powder for parts, put sort in for part drawing image and powder bottle.
+        </li>
+        <li class="update-notes-li">
+            Create, Powder for parts put check in to make sure at least one part is selected.
+        </li>
+        <li class="update-notes-li">
+            Job, after endlas number duplicate customers not in dropdown.
+        </li>
+        <li class="update-notes-li">
+            Consider adding back tto tab from index(s).
+        </li>
+        <li class="update-notes-li">
+            Suffix, PowderForParts, Asc - Desc not working.
+        </li>
+        <li class="update-notes-li">
+            Fix Jobs->Create->CustomerId
+        </li>
+        <li class="update-notes-li">
+            Static powder info -> add estimated cost per pound column.
+        </li>
+        <li class="update-notes-li">
+            Make bottle number enforce unique.
+        </li>
         <li class="update-notes-li">
             Summary of powders by lot number.
         </li>

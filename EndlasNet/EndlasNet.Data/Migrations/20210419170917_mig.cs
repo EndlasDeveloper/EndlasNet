@@ -340,7 +340,7 @@ namespace EndlasNet.Data.Migrations
                 columns: table => new
                 {
                     PowderBottleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BottleNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BottleNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     InitWeight = table.Column<float>(type: "real", nullable: false),
                     Weight = table.Column<float>(type: "real", nullable: false),
                     LotNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -402,23 +402,23 @@ namespace EndlasNet.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "CustomerId", "CustomerAddress", "CustomerName", "CustomerPhone", "PointOfContact" },
-                values: new object[] { new Guid("9578272c-869d-4389-90c5-bb38bde6c423"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
+                values: new object[] { new Guid("a9ccf57c-ae18-46ef-a857-5127c01a815f"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("06759576-e7bb-4445-b6c6-9bf597d80d08"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "sa@endlas.com", "SA", "SA" },
-                    { new Guid("c7c24c0c-ed74-4b78-830f-4c0fa3c8a156"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
-                    { new Guid("fae89d1c-96d8-4e43-b441-4b34ef006d4c"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("b35c5030-81a0-45a3-93e1-28f9ab830c29"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
+                    { new Guid("02c41043-1b57-4a23-8f83-e8b4b3cb0f99"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "sa@endlas.com", "SA", "SA" },
+                    { new Guid("4873afa7-94fb-477f-80ab-a8cc4bf0cd9b"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
+                    { new Guid("d6e85341-a7e2-48f9-98a3-ca34ff5f7247"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("f13ef1e9-439d-4085-8c73-ab40ce300b05"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Vendors",
                 columns: new[] { "VendorId", "PointOfContact", "UserId", "VendorAddress", "VendorName", "VendorPhone" },
-                values: new object[] { new Guid("bd060bd8-7012-4835-a400-b927fdffbc6a"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
+                values: new object[] { new Guid("c00a3c41-0285-4812-b6a5-cbae0a6414af"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LineItems_PowderOrderId",
@@ -469,12 +469,6 @@ namespace EndlasNet.Data.Migrations
                 name: "IX_PartsForWork_WorkId",
                 table: "PartsForWork",
                 column: "WorkId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PowderBottles_BottleNumber",
-                table: "PowderBottles",
-                column: "BottleNumber",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PowderBottles_LineItemId",
