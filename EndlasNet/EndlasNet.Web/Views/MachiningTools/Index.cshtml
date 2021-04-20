@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Machining tools";
+    
 }
 
 <h1>Machining tools</h1>
@@ -26,13 +27,17 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PurchaseOrderCost)
-
+            </th>
+            <th>
+                Cost per tool
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
+    var costPerTool = item.PurchaseOrderCost / item.InitToolCount;
+    var costPerToolStr = costPerTool.ToString("C");
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ToolType)
@@ -48,6 +53,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PurchaseOrderCost)
+            </td>
+            <td>
+                @costPerToolStr
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.MachiningToolId">Edit</a> |
