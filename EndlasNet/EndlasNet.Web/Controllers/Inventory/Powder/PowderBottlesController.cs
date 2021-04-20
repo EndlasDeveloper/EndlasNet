@@ -157,7 +157,9 @@ namespace EndlasNet.Web.Controllers
                 {
                     _context.Entry(powder).Property("CreatedDate").CurrentValue = DateTime.Now;
                     _context.Entry(powder).Property("UpdatedDate").CurrentValue = DateTime.Now;
+
                     powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+
                     var entry = _context.Entry(powder);
                     entry.State = EntityState.Modified;
 
@@ -165,13 +167,13 @@ namespace EndlasNet.Web.Controllers
                         .Where(p => p.BottleNumber == powder.BottleNumber)
                         .Where(p => p.BottleNumber != null)
                         .ToListAsync();
+
                     if(powders.Count >= 1)
                     {
                         ViewBag.BottleNumberConflict = "true";
                         return View(powder);
                     }
                     await _context.SaveChangesAsync();
-                    /*await _powderRepo.UpdateRow(powder);*/
                 }
                 catch (DbUpdateConcurrencyException)
                 {

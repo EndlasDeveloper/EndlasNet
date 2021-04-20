@@ -22,6 +22,10 @@ namespace EndlasNet.Data
 
         [Required]
         [Display(Name = "Tool description")]
+        public string ToolDescription { get; set; }
+
+        [Required]
+        [Display(Name ="Vendor ID")]
         public string VendorDescription { get; set; }
 
         [Range(1, 10000)]
