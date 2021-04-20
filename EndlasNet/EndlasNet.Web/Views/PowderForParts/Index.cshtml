@@ -26,7 +26,14 @@
                 </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PowderBottle)
+                <div>
+                    @Html.DisplayNameFor(model => model.PowderBottle)
+                </div>
+                <span style="color:darkred">
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.PowderBottleAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    -
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.PowderBottleDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
 
             <th>

@@ -30,6 +30,8 @@ namespace EndlasNet.Web.Controllers
 
             ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
+            ViewBag.PowderBottleDescSortParm = String.IsNullOrEmpty(sortOrder) ? "powder_bottle_desc" : "";
+            ViewBag.PowderBottleAscSortParm = String.IsNullOrEmpty(sortOrder) ? "powder_bottle_asc" : "";
 
             var powderBottles = await GetPowderBottleList();
             var partsForWork = await GetPartsForWorkList();
@@ -58,6 +60,13 @@ namespace EndlasNet.Web.Controllers
                     break;
                 case "suffix_asc":
                     powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.Suffix);
+                    powderForParts = powderForParts.Reverse();
+                    break;
+                case "powder_bottle_desc":
+                    powderForParts = powderForParts.OrderByDescending(p => p.PowderBottle.PowderName);
+                    break;
+                case "powder_bottle_asc":
+                    powderForParts = powderForParts.OrderByDescending(p => p.PowderBottle.PowderName);
                     powderForParts = powderForParts.Reverse();
                     break;
                 default:
