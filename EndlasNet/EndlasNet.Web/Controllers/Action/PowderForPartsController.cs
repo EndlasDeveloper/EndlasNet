@@ -25,8 +25,12 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PowderForParts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
+
+            ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
+            ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
+
             var powderBottles = await GetPowderBottleList();
             var partsForWork = await GetPartsForWorkList();
 
@@ -46,7 +50,20 @@ namespace EndlasNet.Web.Controllers
 
                 FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
             }
-            ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "Suffix");
+
+            switch (sortOrder)
+            {
+                case "suffix_desc":
+                    powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.Suffix);
+                    break;
+                case "suffix_asc":
+                    powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.Suffix);
+                    powderForParts = powderForParts.Reverse();
+                    break;
+                default:
+                    break;
+            }
+
             return View(powderForParts);
         }
 
@@ -224,8 +241,9 @@ namespace EndlasNet.Web.Controllers
 
         private async Task PopulateWorkForCreate()
         {
-            var work = await _context.Work.ToListAsync();
-            ViewData["WorkId"] = new SelectList(work, "WorkId", "WorkDescription");
+            var work = _context.Work.Include(w => w.PartsForWork);
+            var workList = await work.Where(w => w.PartsForWork.Count() > 0).ToListAsync();
+            ViewData["WorkId"] = new SelectList(workList, "WorkId", "WorkDescription");
             ViewBag.Init = "true";
         }
 
@@ -239,13 +257,17 @@ namespace EndlasNet.Web.Controllers
         [HttpPost]
         public IActionResult CreateGetWork([Bind("WorkId,Work,PowderBottleId,PowderWeightUsed,CheckBoxes")] PowderForPartViewModel vm)
         {
-            return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0});
+            return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0, selectedCheckboxes = true, powderWeightUsed = 0});
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> CreateWithWorkSet(Guid workId, bool hasEnoughPowder, float powderLeft)
+        public async Task<IActionResult> CreateWithWorkSet(Guid workId, bool hasEnoughPowder, float powderLeft, bool selectedCheckboxes, float powderWeightUsed)
         {
+            if (!selectedCheckboxes)
+            {
+                ViewBag.NoCheckboxSelect = "true";
+            }
             if (!hasEnoughPowder)
             {
                 ViewBag.HasEnoughPowder = "false";
@@ -277,8 +299,15 @@ namespace EndlasNet.Web.Controllers
                 vm.CheckBoxes.Add(checkBox);
 
             }
+            // sort by suffix (aka label)
+            vm.CheckBoxes = vm.CheckBoxes
+                .OrderBy(c => c.Label)
+                .AsEnumerable()
+                .ToList();
+
             ViewBag.WorkDescription = work.WorkDescription;
             await SetViewData();
+            vm.PowderWeightUsed = powderWeightUsed;
             return View(vm);
         }
 
@@ -287,6 +316,11 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateWithWorkSet(PowderForPartViewModel vm)
         {
+            var checkedBoxes = vm.CheckBoxes.Where(c => c.IsChecked).ToList();
+            if(checkedBoxes.Count == 0)
+            {
+                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0, selectedCheckboxes = false, powderWeightUsed = vm.PowderWeightUsed });
+            }
             // find the bottle of powder associated with powderForParts
             var powder = await _context.PowderBottles
                 .FirstOrDefaultAsync(p => p.PowderBottleId == vm.PowderBottleId);
@@ -297,7 +331,7 @@ namespace EndlasNet.Web.Controllers
                 ViewBag.HasEnoughPowder = "false";
                 ViewBag.PowderLeft = string.Format("{0:0.0000}", powder.Weight);
                 await SetViewData();
-                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = false, powderLeft = powder.Weight });
+                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = false, powderLeft = powder.Weight, selectedCheckboxes = true, powderWeightUsed = vm.PowderWeightUsed });
             }
             powder.Weight -= vm.PowderWeightUsed;
             // if below threshold after subtracting weight, zero out weight

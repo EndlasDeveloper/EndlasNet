@@ -32,6 +32,14 @@
             Fixed UI issue under jobs and work orders. Customer select dropdown wasn't labeled properly in all UI elements involving customer.
             Looks as it should.
         </li>
+        <li class="update-notes-li">
+            Under powder for parts, when creating a new object, only work items with parts will be displayed in the dropdown. Added ascending
+            sort to the retrieved parts so they are ordered. Put check in to ensure the user chooses at least 1 part before submitting. If user
+            doesn't choose at least 1, the user is forwarded back to the create page with a warning message under parts.
+        </li>
+        <li class="update-notes-li">
+            Fixed issue in PowderForParts, Suffix Asc - Desc wasn't working. Now working as intended.
+        </li>
     </ul>
 
     @* ****** TODO ****** *@
@@ -48,15 +56,8 @@
             Powder for parts, put sort in for part drawing image and powder bottle.
         </li>
         <li class="update-notes-li">
-            Create, Powder for parts put check in to make sure at least one part is selected.
-        </li>
-        <li class="update-notes-li">
             Consider adding back tto tab from index(s).
         </li>
-        <li class="update-notes-li">
-            Suffix, PowderForParts, Asc - Desc not working.
-        </li>
-
         <li class="update-notes-li">
             Static powder info -> add estimated cost per pound column.
         </li>

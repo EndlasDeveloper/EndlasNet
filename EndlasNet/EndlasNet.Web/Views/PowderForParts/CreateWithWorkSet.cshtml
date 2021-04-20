@@ -50,11 +50,14 @@
 
                 </thead>
             </table>
+            @if(ViewBag.NoCheckboxSelect == "true")
+            {
+                <span class="text-danger">Please select at least 1 part.</span>
+            }
             <br />
             <input type="submit" onsubmit="onClick()" value="Submit" class="btn btn-primary" />
         </form>
         <br />
-       @* <button type="button" onclick="selectAll()" class="btn btn-primary" >Select all</button>*@
 
     </div>
 </div>
@@ -66,22 +69,7 @@
 <script src="/js/ajax-common.js"></script>
 
 <script>
-   @* function selectAll() {
-        for (i = 0; i < @Model.CheckBoxes.Count(); i++) {
-            if (!document.getElementById("id " + i).value) {
-                document.getElementById("id " + i).value = true;
-            }
-        }
-    }
 
-    function getCheckboxes() {
-        let checkboxes = [];
-        for (i = 0; i < @Model.CheckBoxes.Count(); i++) {
-            checkboxes.push(getCheckBoxFromInput(i));
-        }
-        return checkboxes;
-    }
-*@
     function onClick() {
         @Model.CheckBoxes = getCheckboxes();
         $.ajax({
