@@ -16,10 +16,13 @@
                 <div>
                     Part drawing image
                 </div>
-                <span style="color:darkred">
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.PartDrawingAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                    -
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.PartDrawingDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                <span>
+                    <a href="@Url.Action("Index", "PowderForParts", new { sortOrder = ViewBag.PartDrawingAscSortParm })" title="Ascending">
+                        <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+                    <a href="@Url.Action("Index", "PowderForParts",  new { sortOrder = ViewBag.PartDrawingDescSortParm })" title="Descending">
+                        <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
                 </span>
             </th>
             <th>
@@ -27,9 +30,12 @@
                     @Html.DisplayNameFor(model => model.PartForWork.Suffix)
                 </div>
                 <span style="color:darkred">
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                    -
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    <a href="@Url.Action("Index", "PowderForParts", new { sortOrder = ViewBag.SuffixAscSortParm })" title="Ascending">
+                        <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+                    <a href="@Url.Action("Index", "PowderForParts",  new { sortOrder = ViewBag.SuffixDescSortParm })" title="Descending">
+                        <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
                 </span>
             </th>
             <th>
@@ -37,9 +43,12 @@
                     @Html.DisplayNameFor(model => model.PowderBottle)
                 </div>
                 <span style="color:darkred">
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.PowderBottleAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                    -
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.PowderBottleDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    <a href="@Url.Action("Index", "PowderForParts", new { sortOrder = ViewBag.PowderBottleAscSortParm })" title="Ascending">
+                        <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+                    <a href="@Url.Action("Index", "PowderForParts",  new { sortOrder = ViewBag.PowderBottleDescSortParm })" title="Descending">
+                        <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
                 </span>
             </th>
 

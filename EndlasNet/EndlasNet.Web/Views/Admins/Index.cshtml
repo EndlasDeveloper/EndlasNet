@@ -17,8 +17,13 @@
                     First name
                 </div>
                 <span>
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.FirstNameAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.FirstNameDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    <a href="@Url.Action("Index", "Admins", new { sortOrder = ViewBag.FirstNameAscSortParm })" title="Ascending" >
+                        <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+                    <a href="@Url.Action("Index", "Admins", new { sortOrder = ViewBag.FirstNameDescSortParm })" title="Descending">
+                        <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+
                 </span>
             </th>
             <th>
@@ -26,8 +31,12 @@
                     Last name
                 </div>
                 <span>
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.LastNameAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.LastNameDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    <a href="@Url.Action("Index", "Admins", new { sortOrder = ViewBag.LastNameAscSortParm })" title="Ascending">
+                        <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+                    <a href="@Url.Action("Index", "Admins", new { sortOrder = ViewBag.LastNameDescSortParm })" title="Descending">
+                        <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
                 </span>
             </th>
             <th>
@@ -35,8 +44,12 @@
                     Endlas email
                 </div>
                 <span>
-                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.EmailAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
-                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.EmailDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    <a href="@Url.Action("Index", "Admins", new { sortOrder = ViewBag.EmailAscSortParm })" title="Ascending">
+                        <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+                    <a href="@Url.Action("Index", "Admins", new { sortOrder = ViewBag.EmailDescSortParm })" title="Descending">
+                        <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
                 </span>
 
             </th>

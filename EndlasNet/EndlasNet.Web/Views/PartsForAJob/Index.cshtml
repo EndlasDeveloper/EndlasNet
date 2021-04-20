@@ -20,8 +20,12 @@
                     Suffix
                 </div>
                 <span style="color:firebrick">
-                    @Html.ActionLink("Asc ", "Index", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.SuffixAscSortParm }, new { @style = "font-size:small;color:firebrick;" })-
-                    @Html.ActionLink(" Desc", "Index", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.SuffixDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    <a href="@Url.Action("Index", "PartsForAJob", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.SuffixAscSortParm })" title="Ascending">
+                        <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+                    <a href="@Url.Action("Index", "PartsForAJob", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.SuffixDescSortParm })" title="Descending">
+                        <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
                 </span>
             </th>
             <th>
