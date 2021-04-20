@@ -21,6 +21,13 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(p => p.PowderBottleId == id);
         }
 
+        public async Task UpdateRow(PowderBottle powderBottle)
+        {
+            var entry = _db.Entry(powderBottle);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
+        }
+
         public async Task<List<PowderBottle>> GetNamedPowders(string powderName)
         {
             return await _db.PowderBottles

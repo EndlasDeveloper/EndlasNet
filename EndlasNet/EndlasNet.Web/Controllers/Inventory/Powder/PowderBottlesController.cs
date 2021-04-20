@@ -141,19 +141,11 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("PowderBottleId,BottleNumber,InitWeight,Weight,LotNumber,LineItemId,UserId,StaticPowderInfoId")] PowderBottle powder)
         {
-            var powders = await _powderRepo.GetAllRows();
-            var p = powders
-                .Where(p => p.BottleNumber != null)
-                .Where(p => p.BottleNumber == powder.BottleNumber);
-            if(p != null)
-            {
-                ViewBag.BottleNumberConflict = "true";
-                return View(powder);
-            }
             if (id != powder.PowderBottleId)
             {
                 return NotFound();
             }
+
             if (!powder.IsWeightValid)
             {
                 ViewBag.IsWeightValid = "false";
@@ -165,8 +157,21 @@ namespace EndlasNet.Web.Controllers
                 {
                     _context.Entry(powder).Property("CreatedDate").CurrentValue = DateTime.Now;
                     _context.Entry(powder).Property("UpdatedDate").CurrentValue = DateTime.Now;
-                    powder.UserId = new Guid(HttpContext.Session.GetString("userId")); _context.Update(powder);
+                    powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    var entry = _context.Entry(powder);
+                    entry.State = EntityState.Modified;
+
+                    var powders = await _context.PowderBottles
+                        .Where(p => p.BottleNumber == powder.BottleNumber)
+                        .Where(p => p.BottleNumber != null)
+                        .ToListAsync();
+                    if(powders.Count >= 1)
+                    {
+                        ViewBag.BottleNumberConflict = "true";
+                        return View(powder);
+                    }
                     await _context.SaveChangesAsync();
+                    /*await _powderRepo.UpdateRow(powder);*/
                 }
                 catch (DbUpdateConcurrencyException)
                 {
