@@ -50,10 +50,17 @@ namespace EndlasNet.Web.Controllers
             var lineItem = await _lineItemRepo.GetRow(lineItemId);
             return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
         }
+
         public async Task<IActionResult> AllPowderIndex(string sortOrder)
         {
             ViewBag.PowderNameDescSortParm = String.IsNullOrEmpty(sortOrder) ? "powder_name_desc" : "";
             ViewBag.PowderNameAscSortParm = String.IsNullOrEmpty(sortOrder) ? "powder_name_asc" : "";
+            ViewBag.BottleNumberDescSortParm = String.IsNullOrEmpty(sortOrder) ? "bottle_number_desc" : "";
+            ViewBag.BottleNumberAscSortParm = String.IsNullOrEmpty(sortOrder) ? "bottle_number_asc" : "";
+            ViewBag.LotNumberDescSortParm = String.IsNullOrEmpty(sortOrder) ? "lot_number_desc" : "";
+            ViewBag.LotNumberAscSortParm = String.IsNullOrEmpty(sortOrder) ? "lot_number_asc" : "";
+            ViewBag.WeightDescSortParm = String.IsNullOrEmpty(sortOrder) ? "weight_desc" : "";
+            ViewBag.WeightAscSortParm = String.IsNullOrEmpty(sortOrder) ? "weight_asc" : "";
 
             var powders = await _powderRepo.GetAllPowdersAsync();
             switch (sortOrder)
@@ -63,6 +70,27 @@ namespace EndlasNet.Web.Controllers
                     break;
                 case "powder_name_asc":
                     powders = powders.OrderByDescending(p => p.PowderName).ToList();
+                    powders.Reverse();
+                    break;
+                case "bottle_number_desc":
+                    powders = powders.OrderByDescending(p => p.BottleNumber).ToList();
+                    break;
+                case "bottle_number_asc":
+                    powders = powders.OrderByDescending(p => p.BottleNumber).ToList();
+                    powders.Reverse();
+                    break;
+                case "lot_number_desc":
+                    powders = powders.OrderByDescending(p => p.LotNumber).ToList();
+                    break;
+                case "lot_number_asc":
+                    powders = powders.OrderByDescending(p => p.LotNumber).ToList();
+                    powders.Reverse();
+                    break;
+                case "weight_desc":
+                    powders = powders.OrderByDescending(p => p.LotNumber).ToList();
+                    break;
+                case "weight_asc":
+                    powders = powders.OrderByDescending(p => p.LotNumber).ToList();
                     powders.Reverse();
                     break;
                 default:

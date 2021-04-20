@@ -20,13 +20,34 @@
                 </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BottleNumber)
+                <div>
+                    @Html.DisplayNameFor(model => model.BottleNumber)
+                </div>
+                <span style="color:darkred">
+                    @Html.ActionLink("Asc ", "AllPowderIndex", new { sortOrder = ViewBag.BottleNumberAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    -
+                    @Html.ActionLink(" Desc", "AllPowderIndex", new { sortOrder = ViewBag.BottleNumberDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Weight)
+                <div>
+                    @Html.DisplayNameFor(model => model.Weight)
+                </div>
+                <span style="color:darkred">
+                    @Html.ActionLink("Asc ", "AllPowderIndex", new { sortOrder = ViewBag.WeightAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    -
+                    @Html.ActionLink(" Desc", "AllPowderIndex", new { sortOrder = ViewBag.WeightDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LotNumber)
+                <div>
+                    @Html.DisplayNameFor(model => model.LotNumber)
+                </div>
+                <span style="color:darkred">
+                    @Html.ActionLink("Asc ", "AllPowderIndex", new { sortOrder = ViewBag.LotNumberAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    -
+                    @Html.ActionLink(" Desc", "AllPowderIndex", new { sortOrder = ViewBag.LotNumberDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
 
             <th></th>
