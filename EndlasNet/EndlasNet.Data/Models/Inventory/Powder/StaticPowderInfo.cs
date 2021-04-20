@@ -20,6 +20,9 @@ namespace EndlasNet.Data
         [Display(Name = "Powder description")]
         public string Description { get; set; }
 
+        [Required]
+        [Display(Name ="Estimated cost per lb")]
+        public float EstCostPerLb { get; set; }
 
         [Display(Name = "Chemical composition")]
         public string Composition { get; set; }
