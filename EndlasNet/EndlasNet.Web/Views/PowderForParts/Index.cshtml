@@ -13,7 +13,14 @@
     <thead>
         <tr>
             <th>
-                Part drawing image
+                <div>
+                    Part drawing image
+                </div>
+                <span style="color:darkred">
+                    @Html.ActionLink("Asc ", "Index", new { sortOrder = ViewBag.PartDrawingAscSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                    -
+                    @Html.ActionLink(" Desc", "Index", new { sortOrder = ViewBag.PartDrawingDescSortParm }, new { @style = "font-size:small;color:firebrick;" })
+                </span>
             </th>
             <th>
                 <div>
