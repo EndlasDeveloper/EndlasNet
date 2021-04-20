@@ -11,6 +11,7 @@ namespace EndlasNet.Data
     public class Customer
     {
         [Key]
+        [Display(Name ="Customer")]
         public Guid CustomerId { get; set; }
 
         [Required]

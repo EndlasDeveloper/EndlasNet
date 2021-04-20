@@ -35,7 +35,9 @@ namespace EndlasNet.Data
         public virtual User User { get; set; }
 
         [ForeignKey("CustomerId")]
+        [Display(Name ="Customer")]
         public Guid? CustomerId { get; set; }
+        [Display(Name ="Customer")]
         public virtual Customer Customer { get; set; }
 
         public IEnumerable<PartForWork> PartsForWork { get; set; }
