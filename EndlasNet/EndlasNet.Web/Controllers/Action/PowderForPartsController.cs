@@ -72,10 +72,10 @@ namespace EndlasNet.Web.Controllers
                     powderForParts = powderForParts.Reverse();
                     break;
                 case "part_drawing_desc":
-                    powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.StaticPartInfo.DrawingImageBytes);
+                    powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.StaticPartInfo.ImageName);
                     break;
                 case "part_drawing_asc":
-                    powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.StaticPartInfo.DrawingImageBytes);
+                    powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.StaticPartInfo.ImageName);
                     powderForParts = powderForParts.Reverse();
                     break;
                 default:

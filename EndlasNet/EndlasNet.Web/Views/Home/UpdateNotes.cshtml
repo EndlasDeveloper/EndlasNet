@@ -10,62 +10,35 @@
     ViewData["Title"] = "Update notes";
     
 }
-<h1 class="display-4">@ViewData["Title"] - 4/19/2021</h1>
+<h1 class="display-4">@ViewData["Title"] - 4/23/2021</h1>
 <p>
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
-        <li class="update-notes-li">
-            Fixed issue in Job where after endlas number duplicate submit, customers not in dropdown.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue in WorkOrder where after endlas number duplicate submit, customers not in dropdown.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue in PowderBottle edit where powder bottle number unique wasn't being enforced.
-        </li>
-        <li class="update-notes-li">
-            Machining Tool, Add vendor id (str) column. Added form for extra attribute in create and edit. Added display for
-            new attribute under details and delete. Didn't add that to the index view.
-        </li>
-        <li class="update-notes-li">
-            Fixed UI issue under jobs and work orders. Customer select dropdown wasn't labeled properly in all UI elements involving customer.
-            Looks as it should.
-        </li>
-        <li class="update-notes-li">
-            Under powder for parts, when creating a new object, only work items with parts will be displayed in the dropdown. Added ascending
-            sort to the retrieved parts so they are ordered. Put check in to ensure the user chooses at least 1 part before submitting. If user
-            doesn't choose at least 1, the user is forwarded back to the create page with a warning message under parts.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue in PowderForParts, Suffix Asc - Desc wasn't working. Now working as intended.
-        </li>
-        <li class="update-notes-li">
-            Static powder info -> added estimated cost per pound column on back-end. Added UI forms and display elements for estimated cost
-            per pound.
-        </li>
-        <li class="update-notes-li">
-            Machining Tools -> added column on index for cost per machining tool. Added cost per machining tool on details and delete views
-            as well. Amount is formatted to display as a dollar amount.
-        </li>
-        <li class="update-notes-li">
-            PowderForParts -> added Asc - Desc sort for powder bottle. Works as intended.
-        </li>
-        <li class="update-notes-li">
-            All powders -> put sorts on lot number and bottle number (Asc-Desc). Both work as intended.
-        </li>
-        <li class="update-notes-li">
-            Powder for parts -> put sort in for part drawing image. Groups like drawing image rows together. Works
-            as intended.
-        </li>
-        <li class="update-notes-li">
-            Replaced the 'Asc - Desc' sort action links with images of red up and down arrows. Looks much cleaner.
-        </li>
+       
     </ul>
 
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
+        <li class="update-notes-li">
+            PowderForParts -> Round to 4 decimal places on index. Round to 5 under details.
+        </li>
+        <li class="update-notes-li">
+            All powder -> add cost per lb. 
+        </li>
+        <li class="update-notes-li">
+            MachiningTools -> Remove Batch PO cost from index. Replace with tool description (keep vendor id). Type | Description | ...
+        </li>
+        <li class="update-notes-li">
+            PowderBottles -> Make bottle number + lot number unique. (change from only bottle num unique)
+        </li>
+        <li class="update-notes-li">
+            PowderOrder -> Fix UI issue vendor on Index, vendor on create/edit.
+        </li>
+        <li class="update-notes-li">
+            Add quotes tab, quotes action link to CRUD operations for quote.
+        </li>
         <li class="update-notes-li">
             Consider adding back tto tab from index(s).
         </li>
