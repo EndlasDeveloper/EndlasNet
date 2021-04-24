@@ -16,6 +16,11 @@ namespace EndlasNet.Data
         [Display(Name ="Endlas number")]
         public string EndlasNumber { get; set; }
 
+        [ForeignKey("QuoteId")]
+        [Display(Name ="Quote")]
+        public Guid? QuoteId { get; set; }
+        public virtual Quote Quote { get; set; }
+
         [Required]
         [Display(Name = "Work description")]
         public string WorkDescription { get; set; }

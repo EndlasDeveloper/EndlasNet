@@ -11,6 +11,7 @@ namespace EndlasNet.Data
         public UniqueMap(ModelBuilder modelBuilder)
         {
             // unique
+            modelBuilder.Entity<Quote>().HasIndex(q => q.EndlasNumber).IsUnique();
             modelBuilder.Entity<User>().HasIndex(u => u.EndlasEmail).IsUnique();
             modelBuilder.Entity<Work>().HasIndex(w => w.EndlasNumber).IsUnique();
         }

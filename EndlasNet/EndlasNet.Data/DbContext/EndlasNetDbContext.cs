@@ -17,6 +17,9 @@ namespace EndlasNet.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Admin> Admins { get; set; }
 
+        // QUOTES
+        public DbSet<Quote> Quotes { get; set; }
+
         // INVENTORY
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<MachiningTool> MachiningTools { get; set; }

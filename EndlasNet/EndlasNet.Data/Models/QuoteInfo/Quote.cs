@@ -1,4 +1,7 @@
-﻿namespace EndlasNet.Data
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace EndlasNet.Data
 {
     /*
     * Class: Quote
@@ -6,21 +9,11 @@
     */
     public class Quote
     {
-        // PK
-        public int QuoteId { get; set; }
-        // columns
-        public double PowderDirectTotal { get; set; }
-        public double GasTotal { get; set; }
-        public double EnergyTotal { get; set; }
-        public double ShippingTotal { get; set; }
-        public double CogsTotal { get; set; }
-        public double LaborDirectTotal { get; set; }
-        public double FringeTotal { get; set; }
-        public double ProfitTotal { get; set; }
-        public double OverheadTotal { get; set; }
+        [Key]
+        public Guid QuoteId { get; set; }
 
-        // FK reference
-        public int QuoteSessionId { get; set; }
-        public QuoteSession QuoteSession { get; set; }
+        [Required]
+        [Display(Name ="Endlas number")]
+        public string EndlasNumber { get; set; }
     }
 }
