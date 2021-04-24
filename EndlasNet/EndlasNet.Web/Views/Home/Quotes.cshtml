@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Quotes";
+}
+@if (Context.Session.GetString("userId") != null)
+{
+    <h1 class="display-4">Quotes</h1>
+
+    <body>
+        <div>
+            <ul>
+                <li>
+                    <a style="font-size:21px;" class="navbar-toggler" type="button" >Job quotes</a>
+                    @*<a style="font-size:21px;" class="navbar-toggler" type="button" asp-action="Index" asp-controller="JobQuotes">Job quotes</a>*@
+                </li>
+            </ul>
+        </div>
+        <div class="container">
+
+        </div>
+
+    </body>
+}
+else
+{
+    <div>
+        Please
+        <a asp-area="" asp-controller="Login" asp-action="Index">
+            Login
+        </a>
+    </div>
+}
+
+

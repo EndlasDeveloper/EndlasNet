@@ -26,6 +26,11 @@ namespace EndlasNet.Web.Controllers
             return View();
         }
 
+        public IActionResult Quotes()
+        {
+            return View();
+        }
+
         public IActionResult Work()
         {
             return View();
