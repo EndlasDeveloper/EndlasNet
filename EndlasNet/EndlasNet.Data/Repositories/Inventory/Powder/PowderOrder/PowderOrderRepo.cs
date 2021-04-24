@@ -31,6 +31,7 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<PowderOrder>> GetAllRows()
         {
             return await _db.PowderOrders
+                .Include(p => p.Vendor)
                 .OrderByDescending(p => p.PurchaseOrderNum)
                 .ToListAsync();
         }
