@@ -22,6 +22,9 @@
                 @Html.DisplayNameFor(model => model.ToolType)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.ToolDescription)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.ToolDiameter)
             </th>
             <th>
@@ -30,9 +33,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.ToolCount)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PurchaseOrderCost)
-            </th>
+
             <th>
                 Cost per tool
             </th>
@@ -48,6 +49,9 @@
                 @Html.DisplayFor(modelItem => item.ToolType)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.ToolDescription)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.ToolDiameter)
             </td>
             <td>
@@ -56,9 +60,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ToolCount)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseOrderCost)
-            </td>
+
             <td>
                 @costPerToolStr
             </td>

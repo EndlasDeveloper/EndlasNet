@@ -17,7 +17,7 @@ namespace EndlasNet.Data
         public ToolTypes ToolType { get; set; }
 
         [Required]
-        [Display(Name = "Diameter (radius if insert)")]
+        [Display(Name = "Radial metric")]
         public float ToolDiameter { get; set; }
 
         [Required]
