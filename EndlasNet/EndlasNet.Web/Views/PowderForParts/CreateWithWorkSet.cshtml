@@ -5,6 +5,7 @@
     ViewData["Title"] = "Create";
     var workDesc = ViewBag.WorkDescription;
 }
+
 <h1>Create</h1>
 
 <h4>Powder for parts</h4>
@@ -13,7 +14,11 @@
     <div class="col-md-4">
         <div class="form-group">
             <label class="control-label">Work</label>
-            <input asp-for="@workDesc" class="form-control" readonly />
+             
+            <span>
+                <input asp-for="@workDesc" class="form-control" readonly style="max-width:150px" />&nbsp;<a style="color:seagreen;font-size:medium" href='@Url.Action("CreateGetWork", "PowderForParts")'>*Reset</a>
+            </span>
+           
         </div>
         <form asp-action="CreateWithWorkSet" enctype="multipart/form-data">
             <input asp-for="Work" hidden />
