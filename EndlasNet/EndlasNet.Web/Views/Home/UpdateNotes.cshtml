@@ -40,23 +40,20 @@
             a reset button to allow for choosing of another work item.
         </li>
         <li class="update-notes-li">
-            All powder -> added cost per lb. Sums the shipping and tax cost, then divides that by the number of bottles in the order. That
-            number is then systematically added to each total cost per bottle (found )
+            All powder -> added cost per lb. Exists as a non-mapped attribute in powder bottles. Created static
+            methods to calculate bottle fee (based on tax and shipping), and to calculate the cost per pound of
+            a particular bottle. Wrote unit tests to verify their efficacy. All tests pass. Appears to be working correctly.
         </li>
     </ul>
 
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
-
         <li class="update-notes-li">
-           Add quotes action link to CRUD operations for quote.
+            Add quotes action link to CRUD operations for quote.
         </li>
         <li class="update-notes-li">
             Summary of powders by lot number.
-        </li>
-        <li class="update-notes-li">
-            Make form minimum width a little wider for form pages.
         </li>
         <li class="update-notes-li">
             Start looking at making reports from database data.
@@ -72,6 +69,9 @@
     @* ****** KNOWN ISSUES ****** *@
     <!--<div style="color:white;font-size:18px;">Bugs and known issues</div>
         <ul style="font-size:14px;line-height:200%;">
+                <li class="update-notes-li">
+            Make form minimum width a little wider for form pages.
+        </li>
             <li class="update-notes-li">
                 Part count is wrong after adding 2 PartsForWork (they both display the 2nd count).
             </li>
@@ -96,8 +96,6 @@
                 Some views do not have login protection implemented yet.
             </li>
         </ul>-->
-
-
     @* ****** OTHER CONSIDERATIONS ****** *@
     <!--<div style="color:white;font-size:18px;">Other considerations</div>
     <ul style="font-size:14px;line-height:200%;">

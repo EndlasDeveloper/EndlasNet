@@ -11,7 +11,7 @@
     {
         if(bottle.InitWeight > 0)
         {
-            float itemCost = (bottle.LineItem.LineItemCost/bottle.LineItem.PowderBottles.Count()) + sharred
+            float? itemCost = (bottle.LineItem.LineItemCost / bottle.LineItem.PowderBottles.Count()) + sharredCost;
             costs.Add((float)((bottle.LineItem.LineItemCost)/bottle.LineItem.PowderBottles.Count() + sharredCost) / (bottle.InitWeight));
 
         }
@@ -86,42 +86,53 @@
                 </span>
             </th>
             <th>
-                Cost per lb
+                <div>
+                    @Html.DisplayNameFor(model => model.CostPerPound)
+                </div>
+                <span style="color:darkred">
+                    <a href="@Url.Action("AllPowderIndex", "PowderBottles", new { sortOrder = ViewBag.CostPerPoundAscSortParm })" title="Ascending">
+                        <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+                    <a href="@Url.Action("AllPowderIndex", "PowderBottles", new { sortOrder = ViewBag.CostPerPoundDescSortParm })" title="Descending">
+                        <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+                </span>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 
-        -@{var index = -1;}
+         @{var index = -1;}
 
             @foreach (var item in Model)
             {
                 index += 1;
 
                 var weightStr = string.Format("{0:0.0000}", item.Weight);
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StaticPowderInfo.PowderName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BottleNumber)
-                </td>
-                <td>
-                    @weightStr
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LotNumber)
-                </td>
-                <td>
-                    @costs[index].ToString("C")
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-controller="PowderBottles" asp-route-id="@item.PowderBottleId">Edit</a> |
-                    <a asp-action="Details" asp-controller="PowderBottles" asp-route-id="@item.PowderBottleId">Details</a> |
-                    <a asp-action="Delete" asp-controller="PowderBottles" asp-route-id="@item.PowderBottleId">Delete</a>
-                </td>
-            </tr>
+                var costPerPound = item.CostPerPound.ToString("C");
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaticPowderInfo.PowderName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BottleNumber)
+            </td>
+            <td>
+                @weightStr
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LotNumber)
+            </td>
+            <td>
+                @costPerPound
+            </td>
+            <td>
+                <a asp-action="Edit" asp-controller="PowderBottles" asp-route-id="@item.PowderBottleId">Edit</a> |
+                <a asp-action="Details" asp-controller="PowderBottles" asp-route-id="@item.PowderBottleId">Details</a> |
+                <a asp-action="Delete" asp-controller="PowderBottles" asp-route-id="@item.PowderBottleId">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

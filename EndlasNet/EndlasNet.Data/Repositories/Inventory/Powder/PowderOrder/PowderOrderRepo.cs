@@ -32,6 +32,7 @@ namespace EndlasNet.Data
         {
             return await _db.PowderOrders
                 .Include(p => p.Vendor)
+                .Include(p => p.LineItems)
                 .OrderByDescending(p => p.PurchaseOrderNum)
                 .ToListAsync();
         }

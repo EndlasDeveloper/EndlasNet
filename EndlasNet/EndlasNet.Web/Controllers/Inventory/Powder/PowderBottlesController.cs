@@ -61,8 +61,35 @@ namespace EndlasNet.Web.Controllers
             ViewBag.LotNumberAscSortParm = String.IsNullOrEmpty(sortOrder) ? "lot_number_asc" : "";
             ViewBag.WeightDescSortParm = String.IsNullOrEmpty(sortOrder) ? "weight_desc" : "";
             ViewBag.WeightAscSortParm = String.IsNullOrEmpty(sortOrder) ? "weight_asc" : "";
+            ViewBag.CostPerPoundDescSortParm = String.IsNullOrEmpty(sortOrder) ? "cost_per_lb_desc" : "";
+            ViewBag.CostPerPoundAscSortParm = String.IsNullOrEmpty(sortOrder) ? "cost_per_lb_asc" : "";
 
-            var powders = await _powderRepo.GetAllPowdersAsync();
+            var powderOrders = await _powderOrderRepo.GetAllRows();
+
+
+            List<List<PowderBottle>> lineItemBottles = new List<List<PowderBottle>>();
+            foreach(PowderOrder order in powderOrders)
+            {
+                foreach(LineItem item in order.LineItems)
+                {
+                    lineItemBottles.Insert(0, await _context.PowderBottles.Include(p => p.StaticPowderInfo).Where(p => p.LineItemId == item.LineItemId).ToListAsync());
+                    var bottleFee = PowderBottleUtil.GetFeePerBottle((float)order.ShippingCost, (float)order.TaxCost, lineItemBottles[0].Count());
+                    foreach(PowderBottle b in lineItemBottles[0])
+                    {
+                        b.CostPerPound = PowderBottleUtil.GetCostPerPound(item.LineItemCost/lineItemBottles[0].Count(), (float)bottleFee, b.InitWeight);
+                    }
+                }
+            }
+
+            List<PowderBottle> powders = new List<PowderBottle>();
+            foreach(List<PowderBottle> list in lineItemBottles)
+            {
+                foreach(PowderBottle b in list)
+                {
+                    powders.Add(b);
+                }
+            }
+            
             switch (sortOrder)
             {
                 case "powder_name_desc":
@@ -91,6 +118,13 @@ namespace EndlasNet.Web.Controllers
                     break;
                 case "weight_asc":
                     powders = powders.OrderByDescending(p => p.LotNumber).ToList();
+                    powders.Reverse();
+                    break;
+                case "cost_per_lb_desc":
+                    powders = powders.OrderByDescending(p => p.CostPerPound).ToList();
+                    break;
+                case "cost_per_lb_asc":
+                    powders = powders.OrderByDescending(p => p.CostPerPound).ToList();
                     powders.Reverse();
                     break;
                 default:

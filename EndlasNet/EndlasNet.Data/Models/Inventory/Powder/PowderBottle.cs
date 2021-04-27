@@ -50,5 +50,10 @@ namespace EndlasNet.Data
         {
             get => InitWeight >= Weight;
         }
+
+        [NotMapped]
+        [Display(Name ="Cost per lb")]
+        public float CostPerPound { get; set; }
+
     }
 }
