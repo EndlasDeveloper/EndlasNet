@@ -20,7 +20,7 @@
                 <span asp-validation-for="BottleNumber" class="text-danger"></span>
                 @if(ViewBag.BottleNumberConflict == "true")
                 {
-                    <span class="text-danger">Bottle number @Model.BottleNumber already exists.</span>
+                    <span class="text-danger">@Model.BottleNumber already exists in lot @Model.LotNumber.</span>
                 }
             </div>
 

@@ -193,6 +193,7 @@ namespace EndlasNet.Web.Controllers
 
                     var powders = await _context.PowderBottles
                         .Where(p => p.BottleNumber == powder.BottleNumber)
+                        .Where(p => p.LotNumber == powder.LotNumber)
                         .Where(p => p.BottleNumber != null)
                         .ToListAsync();
 
