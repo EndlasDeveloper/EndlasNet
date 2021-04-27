@@ -17,7 +17,7 @@ namespace EndlasNet.Web.Controllers
         private readonly PowderOrderRepo _powderOrderRepo;
         private readonly LineItemRepo _lineItemRepo;
         private readonly StaticPowderInfoRepo _staticPowderInfoRepo;
-
+        
         public PowderBottlesController(EndlasNetDbContext context)
         {
             _context = context;
@@ -96,6 +96,9 @@ namespace EndlasNet.Web.Controllers
                 default:
                     break;
             }
+
+
+
 
             return View(powders);
         }

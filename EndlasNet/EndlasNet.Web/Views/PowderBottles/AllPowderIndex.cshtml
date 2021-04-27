@@ -1,7 +1,26 @@
-﻿@model IEnumerable<EndlasNet.Data.PowderBottle>
+﻿@using EndlasNet.Data;
+@model IEnumerable<EndlasNet.Data.PowderBottle>
 
 @{
     ViewData["Title"] = "All powder bottles";
+    var shippingCost = Model.FirstOrDefault().LineItem.PowderOrder.ShippingCost;
+    var taxCost = Model.FirstOrDefault().LineItem.PowderOrder.TaxCost;
+    var sharredCost = (shippingCost + taxCost) / Model.Count();
+    List<float> costs = new List<float>();
+    foreach (PowderBottle bottle in Model)
+    {
+        if(bottle.InitWeight > 0)
+        {
+            float itemCost = (bottle.LineItem.LineItemCost/bottle.LineItem.PowderBottles.Count()) + sharred
+            costs.Add((float)((bottle.LineItem.LineItemCost)/bottle.LineItem.PowderBottles.Count() + sharredCost) / (bottle.InitWeight));
+
+        }
+        else
+        {
+            costs.Add(0.0f);
+        }
+    }
+    costs.Reverse();
 }
 <a asp-action="Inventory" asp-controller="Home">
     <span>
@@ -22,7 +41,7 @@
                     <a href="@Url.Action("AllPowderIndex", "PowderBottles", new { sortOrder = ViewBag.PowderNameAscSortParm })" title="Ascending">
                         <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
                     </a>
-                    <a href="@Url.Action("AllPowderIndex", "PowderBottles",  new { sortOrder = ViewBag.PowderNameDescSortParm })" title="Descending">
+                    <a href="@Url.Action("AllPowderIndex", "PowderBottles", new { sortOrder = ViewBag.PowderNameDescSortParm })" title="Descending">
                         <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
                     </a>
                 </span>
@@ -35,7 +54,7 @@
                     <a href="@Url.Action("AllPowderIndex", "PowderBottles", new { sortOrder = ViewBag.BottleNumberAscSortParm })" title="Ascending">
                         <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
                     </a>
-                    <a href="@Url.Action("AllPowderIndex", "PowderBottles",  new { sortOrder = ViewBag.BottleNumberDescSortParm })" title="Descending">
+                    <a href="@Url.Action("AllPowderIndex", "PowderBottles", new { sortOrder = ViewBag.BottleNumberDescSortParm })" title="Descending">
                         <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
                     </a>
                 </span>
@@ -48,7 +67,7 @@
                     <a href="@Url.Action("AllPowderIndex", "PowderBottles", new { sortOrder = ViewBag.WeightAscSortParm })" title="Ascending">
                         <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
                     </a>
-                    <a href="@Url.Action("AllPowderIndex", "PowderBottles",  new { sortOrder = ViewBag.WeightDescSortParm })" title="Descending">
+                    <a href="@Url.Action("AllPowderIndex", "PowderBottles", new { sortOrder = ViewBag.WeightDescSortParm })" title="Descending">
                         <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
                     </a>
                 </span>
@@ -61,20 +80,26 @@
                     <a href="@Url.Action("AllPowderIndex", "PowderBottles", new { sortOrder = ViewBag.LotNumberAscSortParm })" title="Ascending">
                         <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
                     </a>
-                    <a href="@Url.Action("AllPowderIndex", "PowderBottles",  new { sortOrder = ViewBag.LotNumberDescSortParm })" title="Descending">
+                    <a href="@Url.Action("AllPowderIndex", "PowderBottles", new { sortOrder = ViewBag.LotNumberDescSortParm })" title="Descending">
                         <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
                     </a>
                 </span>
             </th>
-
+            <th>
+                Cost per lb
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
 
-            var weightStr = string.Format("{0:0.0000}", item.Weight);
+        -@{var index = -1;}
+
+            @foreach (var item in Model)
+            {
+                index += 1;
+
+                var weightStr = string.Format("{0:0.0000}", item.Weight);
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.StaticPowderInfo.PowderName)
@@ -88,7 +113,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.LotNumber)
                 </td>
-
+                <td>
+                    @costs[index].ToString("C")
+                </td>
                 <td>
                     <a asp-action="Edit" asp-controller="PowderBottles" asp-route-id="@item.PowderBottleId">Edit</a> |
                     <a asp-action="Details" asp-controller="PowderBottles" asp-route-id="@item.PowderBottleId">Details</a> |

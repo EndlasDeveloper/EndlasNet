@@ -50,6 +50,8 @@ namespace EndlasNet.Data
         {
             return await _db.PowderBottles
                 .Include(p => p.StaticPowderInfo)
+                .Include(p => p.LineItem)
+                .Include(p => p.LineItem.PowderOrder)
                 .OrderByDescending(p => p.StaticPowderInfo.PowderName)
                 .ToListAsync();
         }
