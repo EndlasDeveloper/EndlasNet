@@ -76,7 +76,7 @@ namespace EndlasNet.Web.Controllers
                     var bottleFee = PowderBottleUtil.GetFeePerBottle((float)order.ShippingCost, (float)order.TaxCost, lineItemBottles[0].Count());
                     foreach(PowderBottle b in lineItemBottles[0])
                     {
-                        b.CostPerPound = PowderBottleUtil.GetCostPerPound(item.LineItemCost/lineItemBottles[0].Count(), (float)bottleFee, b.InitWeight);
+                        b.CostPerPound = PowderBottleUtil.GetCostPerPound(item.LineItemCost, (float)bottleFee, item.Weight);
                     }
                 }
             }

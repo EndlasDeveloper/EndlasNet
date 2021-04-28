@@ -19,9 +19,9 @@ namespace EndlasNet.UnitTest
             var feePerBottle = PowderBottleUtil.GetFeePerBottle(shippingCost, taxCost, numberOfBottles);
             Assert.AreEqual(20.0f, feePerBottle);
 
-            var cost = PowderBottleUtil.GetCostPerPound(lineItemCost/numberOfBottles, (float)feePerBottle, numberOfPounds);
+            var cost = PowderBottleUtil.GetCostPerPound(lineItemCost, (float)feePerBottle, numberOfPounds);
             // ASSERT
-            Assert.AreEqual(7.0, cost);
+            Assert.AreEqual(12.0, cost);
         }
     }
 }

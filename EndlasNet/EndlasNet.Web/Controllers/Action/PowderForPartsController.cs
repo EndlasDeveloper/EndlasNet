@@ -30,8 +30,10 @@ namespace EndlasNet.Web.Controllers
 
             ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
+
             ViewBag.PowderBottleDescSortParm = String.IsNullOrEmpty(sortOrder) ? "powder_bottle_desc" : "";
             ViewBag.PowderBottleAscSortParm = String.IsNullOrEmpty(sortOrder) ? "powder_bottle_asc" : "";
+
             ViewBag.PartDrawingDescSortParm = String.IsNullOrEmpty(sortOrder) ? "part_drawing_desc" : "";
             ViewBag.PartDrawingAscSortParm = String.IsNullOrEmpty(sortOrder) ? "part_drawing_asc" : "";
 

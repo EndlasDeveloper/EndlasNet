@@ -1,0 +1,59 @@
+﻿
+@model IEnumerable<EndlasNet.Data.Quote>
+
+@{
+    ViewData["Title"] = "Quotes";
+}
+<a asp-action="Quotes" asp-controller="Home">
+    <span>
+        <img src="~/img/backArrow.jpg" width="30" height="30" />
+        Quotes
+    </span>
+</a>
+<h1>Quotes</h1>
+
+<p>
+    <a asp-action="Create">Create new</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <div>
+                    @Html.DisplayNameFor(model => model.EndlasNumber)
+                </div>
+                <span>
+                    <a href="@Url.Action("Index", "Quotes", new { sortOrder = ViewBag.EndlasNumberAscSortParm })" title="Ascending">
+                        <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+                    <a href="@Url.Action("Index", "Quotes", new { sortOrder = ViewBag.EndlasNumberDescSortParm })" title="Descending">
+                        <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
+                    </a>
+
+                </span>
+            </th>
+
+
+          
+          
+         
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndlasNumber)
+                </td>
+             
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.QuoteId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.QuoteId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.QuoteId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
