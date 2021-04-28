@@ -49,6 +49,7 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Create()
         {
             ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
+            ViewData["QuoteId"] = new SelectList(await _context.Quotes.OrderByDescending(q => q.EndlasNumber).ToListAsync(), "QuoteId", "EndlasNumber");
             return View();
         }
 
@@ -57,24 +58,21 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Job job)
+        public async Task<IActionResult> Create([Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Job job)
         {
-
-            var work = await _context.Work.Where(w => w.EndlasNumber == job.EndlasNumber).FirstOrDefaultAsync();
-            if(work != null)
-            {    
-                ViewBag.EndlasNumberConflict = "true";
-                ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
-                return View(job);
-            }
+            
             if (ModelState.IsValid)
             {
                 job.WorkId = Guid.NewGuid();
+                var quote = await _context.Quotes.FirstOrDefaultAsync(q => q.QuoteId == job.QuoteId);
+                job.EndlasNumber = quote.EndlasNumber;
                 job.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 await _jobRepo.AddRow(job);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerAddress", job.CustomerId);
+            ViewData["QuoteId"] = new SelectList(await _context.Quotes.OrderByDescending(q => q.EndlasNumber).ToListAsync(), "QuoteId", "EndlasNumber");
+
             return View(job);
         }
 
@@ -92,6 +90,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
             ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", job.CustomerId);
+            ViewData["QuoteId"] = new SelectList(await _context.Quotes.OrderByDescending(q => q.EndlasNumber).ToListAsync(), "QuoteId", "EndlasNumber");
+
             return View(job);
         }
 
@@ -100,7 +100,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Job job)
+        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Job job)
         {
             if (id != job.WorkId)
             {
@@ -112,7 +112,8 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     job.UserId = new Guid(HttpContext.Session.GetString("userId"));
-
+                    var quote = await _context.Quotes.FirstOrDefaultAsync(q => q.QuoteId == job.QuoteId);
+                    job.EndlasNumber = quote.EndlasNumber;
                     _context.Update(job);
                     await _context.SaveChangesAsync();
                 }
@@ -130,6 +131,8 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", job.CustomerId);
+            ViewData["QuoteId"] = new SelectList(await _context.Quotes.OrderByDescending(q => q.EndlasNumber).ToListAsync(), "QuoteId", "EndlasNumber");
+
             return View(job);
         }
 

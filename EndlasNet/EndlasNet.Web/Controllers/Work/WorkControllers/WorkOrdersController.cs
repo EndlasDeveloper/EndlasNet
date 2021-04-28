@@ -61,8 +61,9 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] WorkOrder workOrder)
         {
-            var work = await _context.Work.Where(w => w.EndlasNumber == workOrder.EndlasNumber).FirstOrDefaultAsync();
-            if (work != null)
+            var work = await _context.Work.Where(w => w.EndlasNumber == workOrder.EndlasNumber).ToListAsync();
+            var quotes = await _context.Quotes.Where(q => q.EndlasNumber == workOrder.EndlasNumber).ToListAsync();
+            if (work.Count > 0 || quotes.Count > 0)
             {
                 ViewBag.EndlasNumberConflict = "true";
                 ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
@@ -114,7 +115,14 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-
+                    var work = await _context.Work.Where(w => w.EndlasNumber == workOrder.EndlasNumber).ToListAsync();
+                    var quotes = await _context.Quotes.Where(q => q.EndlasNumber == workOrder.EndlasNumber).ToListAsync();
+                    if (work.Count > 1 || quotes.Count > 0)
+                    {
+                        ViewBag.EndlasNumberConflict = "true";
+                        ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
+                        return View(workOrder);
+                    }
                     await _workOrderRepo.UpdateRow(workOrder);
                 }
                 catch (DbUpdateConcurrencyException)
