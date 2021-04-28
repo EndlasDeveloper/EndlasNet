@@ -17,8 +17,8 @@
             <span>
                 <input asp-for="@workDesc" class="form-control" readonly />
                 <a href='@Url.Action("CreateGetWork", "PowderForParts")'>
-                    <span class="form-inline">
-                        <img style="max-width:20px;max-height:20px" src="~/img/restart.png" />&nbsp;Reset
+                    <span style="margin-top:5px" class="form-inline">
+                        <img style="max-width:20px;max-height:20px;" src="~/img/restart.png" />&nbsp;Reset
                     </span>
                 </a>
             </span>
@@ -37,6 +37,7 @@
                 @if (ViewBag.HasEnoughPowder == "false")
                 {
                     <span class="text-danger">Not enough powder. @ViewBag.PowderLeft lbs left.</span>
+
                 }
             </div>
 
@@ -58,9 +59,10 @@
 
                 </thead>
             </table>
-            @if(ViewBag.NoCheckboxSelect == "true")
+            @if (ViewBag.NoCheckboxSelect == "true")
             {
                 <span class="text-danger">Please select at least 1 part.</span>
+                <br />
             }
             <br />
             <input type="submit" onsubmit="onClick()" value="Submit" class="btn btn-primary" />

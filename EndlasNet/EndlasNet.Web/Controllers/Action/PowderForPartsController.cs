@@ -248,7 +248,11 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var powderForPart = await _context.PowderForParts.FindAsync(id);
+            
+            var powderForPart = await _context.PowderForParts.Include(p => p.PowderBottle).FirstOrDefaultAsync(p => p.PowderForPartId == id);
+            var bottle = powderForPart.PowderBottle;
+            bottle.Weight += powderForPart.PowderWeightUsed;
+            _context.Update(bottle);
             _context.PowderForParts.Remove(powderForPart);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
