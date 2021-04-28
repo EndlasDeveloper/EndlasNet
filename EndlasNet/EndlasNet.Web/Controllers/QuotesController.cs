@@ -42,6 +42,26 @@ namespace EndlasNet.Web
             return View(quotes);
         }
 
+        // GET: PowderForParts/Details/5
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var quotes = await _context.Quotes
+                .FirstOrDefaultAsync(q => q.QuoteId == id);
+
+            if (quotes == null)
+            {
+                return NotFound();
+            }
+
+            return View(quotes);
+        }
+
+
         // GET: PowderForParts/Create
         public IActionResult Create()
         {
@@ -125,7 +145,7 @@ namespace EndlasNet.Web
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!(await QuoteExists(quote.QuoteId)))
+                    if (!QuoteExists(quote.QuoteId))
                     {
                         return NotFound();
                     }
@@ -139,9 +159,38 @@ namespace EndlasNet.Web
             return View(quote);
         }
 
-        private async Task<bool> QuoteExists(Guid quoteId)
+        // GET: PowderForParts/Delete/5
+        public async Task<IActionResult> Delete(Guid? id)
         {
-            return await _context.Quotes.AnyAsync(q => q.QuoteId == quoteId);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var quotes = await _context.Quotes
+                .FirstOrDefaultAsync(q => q.QuoteId == id);
+            if (quotes == null)
+            {
+                return NotFound();
+            }
+
+            return View(quotes);
+        }
+
+        // POST: PowderForParts/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var quote = await _context.Quotes.FindAsync(id);
+            _context.Quotes.Remove(quote);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool QuoteExists(Guid id)
+        {
+            return _context.PowderForParts.Any(e => e.PowderForPartId == id);
         }
     }
 }
