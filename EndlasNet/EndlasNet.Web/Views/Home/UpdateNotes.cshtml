@@ -10,56 +10,12 @@
     ViewData["Title"] = "Update notes";
     
 }
-<h1 class="display-4">@ViewData["Title"] - 4/23/2021</h1>
+<h1 class="display-4">@ViewData["Title"] - 4/28/2021</h1>
 <p>
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
-        <li class="update-notes-li">
-            Added back to previous view all index views. Added back from viewing list under Parts for work/job/work order.
-        </li>
-        <li class="update-notes-li">
-            PowderOrder -> Fixed UI issue vendor on Index, vendor on create/edit.
-        </li>
-        <li class="update-notes-li">
-            Added quotes tab, quotes view to hold action links for creating a quote.
-        </li>
-        <li class="update-notes-li">
-            PowderForParts -> Changed UI to round to 4 decimal places on index, and round to 5 on details and delete.
-        </li>
-        <li class="update-notes-li">
-            PowderBottles -> Made bottle number + lot number unique. (change from only bottle num unique).
-            Error message appears in UI if this condition is violated.
-        </li>
-        <li class="update-notes-li">
-            MachiningTools -> Removed Batch PO cost from index.
-            Replaced with tool description.
-        </li>
-        <li>
-            Added reset feature to the powder to parts work flow. After a work item is selected, the user can click
-            a reset button to allow for choosing of another work item. Added restart icon to the restart button. Button
-            is located directly under the disabled work input field after the user gets parts. Works as intended.
-        </li>
-        <li class="update-notes-li">
-            All powder -> added cost per lb. Exists as a non-mapped attribute in powder bottles. Created static
-            methods to calculate bottle fee (based on tax and shipping), and to calculate the cost per pound of
-            a particular bottle. Wrote unit tests to verify their efficacy. All tests pass. Appears to be working correctly.
-        </li>
-        <li class="update-notes-li">
-            Added quotes action link to CRUD operations for quote. Can create a quote with an endlas number, edit the quote object, view details, and delete.
-        </li>
-        <li class="update-notes-li">
-            Forced the creation of a job object to be dependent on referencing an existing quote. Work orders don't have this constraint
-            (although endlas number must still be unique across all work and quotes). Fixed issue in work order where endlas number uniqueness
-            wasn't being check against existing quote objects.
-        </li>
-        <li class="update-notes-li">
-            Added functionality to powder for parts delete method. Now, upon delete, the powder used on the part is re-added to the powder bottle from
-            which it originally came.
-        </li>
-        <li class="update-notes-li">
-            Updated the ERD to reflect the current state of the database.
-        </li>
+        
     </ul>
 
 
@@ -67,6 +23,49 @@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
 
+        
+
+        <li class="update-notes-li">
+            Under Jobs/WorkOrder, add PDF column, ProcessSheetNotes
+        </li>
+
+        <li class="update-notes-li">
+            Add user to all action entities.
+        </li>
+
+        <li class="update-notes-li">
+            PowderForPart -> add column DateUsed
+        </li>
+
+        <li class="update-notes-li">
+            Issue in use a machining tool. Change default DateTime to use client-side code rather than server-side.
+        </li>
+
+        <li class="update-notes-li">
+            PartForWork -> filter rows by PO date (by year/month/day).
+        </li>
+
+        <li class="update-notes-li">
+            PowderForPart -> allow to choose year to filter by.
+        </li>
+
+        <li class="update-notes-li">
+            Work -> Add all work action link under Work tab (and the necessary back/front-end stuff to handle it).
+        </li>
+
+        <li class="update-notes-li">
+            Consider other places to define units.
+        </li>
+
+        <li class="update-notes-li">
+            MachiningTool -> Create/Edit -> Add functionality to choose diameter or radius, rather than just having radial metric.
+        </li>
+        <li class="update-notes-li">
+            MachiningTool -> Create/Edit -> Add functionality to specify the units in which the radial metric is measured.
+        </li>
+        <li class="update-notes-li">
+            Add another image column to PartForWork (not sure what to name it yet).
+        </li>
         <li class="update-notes-li">
             Summary of powders by lot number.
         </li>

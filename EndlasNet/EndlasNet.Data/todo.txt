@@ -1,1 +1,1 @@
-﻿Add quotes action link to CRUD operations for quote.
+﻿

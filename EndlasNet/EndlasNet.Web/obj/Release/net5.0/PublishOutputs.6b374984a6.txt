@@ -9,6 +9,7 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\endlasLogo.png
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\endlas_db_erd.jpg
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\laserBeam.png
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\restart.png
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\smartsheetLogo.png
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\img\up_arrow.png
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\wwwroot\js\ajax-common.js
@@ -66,8 +67,6 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.AspNetCore.Connections.Abstractions.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.AspNetCore.CookiePolicy.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.AspNetCore.Cors.dll
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.AspNetCore.Cryptography.Internal.dll
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.AspNetCore.DataProtection.Abstractions.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.AspNetCore.DataProtection.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.AspNetCore.DataProtection.Extensions.dll
@@ -153,8 +152,6 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Hosting.Abstractions.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Hosting.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Http.dll
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Identity.Core.dll
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Localization.Abstractions.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Localization.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\refs\Microsoft.Extensions.Logging.Abstractions.dll
@@ -335,7 +332,11 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\EndlasNet.Web.runtimeconfig.json
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\EndlasNet.Web.pdb
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Humanizer.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll
@@ -356,6 +357,8 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.Extensions.DependencyModel.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.Extensions.Identity.Core.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.Extensions.Primitives.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.Identity.Client.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\PubTmp\Out\Microsoft.IdentityModel.JsonWebTokens.dll
