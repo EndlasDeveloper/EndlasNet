@@ -50,7 +50,8 @@
         </li>
         <li class="update-notes-li">
             Forced the creation of a job object to be dependent on referencing an existing quote. Work orders don't have this constraint
-            (although endlas number must still be unique across all work and quotes).
+            (although endlas number must still be unique across all work and quotes). Fixed issue in work order where endlas number uniqueness
+            wasn't being check against existing quote objects.
         </li>
     </ul>
 

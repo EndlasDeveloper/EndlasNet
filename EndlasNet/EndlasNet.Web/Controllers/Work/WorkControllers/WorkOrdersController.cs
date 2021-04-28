@@ -114,15 +114,22 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    var work = await _context.Work.Where(w => w.EndlasNumber == workOrder.EndlasNumber).ToListAsync();
-                    var quotes = await _context.Quotes.Where(q => q.EndlasNumber == workOrder.EndlasNumber).ToListAsync();
-                    if (work.Count > 1 || quotes.Count > 0)
+                    var work = await _context.Work
+                        .Where(w => w.WorkId != workOrder.WorkId)
+                        .Where(w => w.EndlasNumber == workOrder.EndlasNumber)
+                        .ToListAsync();
+                    var quotes = await _context.Quotes
+                        .Where(q => q.EndlasNumber == workOrder.EndlasNumber)
+                        .ToListAsync();
+
+                    if (work.Count > 0 || quotes.Count > 0)
                     {
                         ViewBag.EndlasNumberConflict = "true";
                         ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
                         return View(workOrder);
                     }
+                    workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+
                     await _workOrderRepo.UpdateRow(workOrder);
                 }
                 catch (DbUpdateConcurrencyException)
