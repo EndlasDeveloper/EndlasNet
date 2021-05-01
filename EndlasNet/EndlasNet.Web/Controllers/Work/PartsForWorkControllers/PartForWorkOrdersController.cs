@@ -49,7 +49,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId")] PartForWorkOrder partForWorkOrder)
+        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId,ClearImg,ImageName,ImageFile")] PartForWorkOrder partForWorkOrder)
         {
             // gets list of tools that have count > 0
             var resultList = await _context.PartsForWorkOrders
@@ -86,13 +86,16 @@ namespace EndlasNet.Web.Controllers
                 {
                     try
                     {
-                        var tempPartForJob = partForWorkOrder;
+                        var tempPartForWorkOrder = partForWorkOrder;
                         // set suffix
-                        tempPartForJob.Suffix = PartSuffixGenerator.IndexToSuffix(i);
-                        tempPartForJob.PartForWorkId = Guid.NewGuid();
+                        tempPartForWorkOrder.Suffix = PartSuffixGenerator.IndexToSuffix(i);
+                        tempPartForWorkOrder.PartForWorkId = Guid.NewGuid();
                         // save user email
-                        tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                        await _repo.AddPartForWorkOrderAsync(tempPartForJob);
+                        tempPartForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                        if (partForWorkOrder.ImageFile != null)
+                            partForWorkOrder.DrawingImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
+                        await _repo.AddPartForWorkOrderAsync(tempPartForWorkOrder);
+                        await _repo.AddPartForWorkOrderAsync(tempPartForWorkOrder);
                     }
                     catch (Exception ex) { ex.ToString(); continue; }
                 }

@@ -72,6 +72,20 @@
         </dd>
     </dl>
 </div>
+<br />
+<br />
+<h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
+    Title:
+    <em>
+        @Html.DisplayFor(model => model.ImageName)
+    </em>
+</h6>
+
+<div class="col-sm-2">
+    <img src="@Html.DisplayFor(model => model.ImageUrl)" alt="Drawing Image" />
+</div>
+<br />
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.PartForWorkId">Edit</a> |
     @Html.ActionLink("Back to list", "BackToList", new { id = Model.PartForWorkId, workId = Model.WorkId, partInfoId = Model.StaticPartInfoId })

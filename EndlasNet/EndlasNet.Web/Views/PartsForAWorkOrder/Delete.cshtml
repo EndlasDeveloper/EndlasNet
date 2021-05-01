@@ -72,6 +72,19 @@
             @Html.DisplayFor(model => model.User.EndlasEmail)
         </dd>
     </dl>
+    <br />
+    <br />
+    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
+        Title:
+        <em>
+            @Html.DisplayFor(model => model.ImageName)
+        </em>
+    </h6>
+
+    <div class="col-sm-2">
+        <img src="@Html.DisplayFor(model => model.ImageUrl)" alt="Drawing Image" />
+    </div>
+    <br />
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="PartForWorkId" />

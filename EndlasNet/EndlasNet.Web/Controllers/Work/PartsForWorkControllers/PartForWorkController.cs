@@ -104,12 +104,15 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForWork partForWork)
+        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ImageName,ImageFile,ClearImg")] PartForWork partForWork)
         {
             if (ModelState.IsValid)
             {
                 partForWork.PartForWorkId = Guid.NewGuid();
                 partForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                if (partForWork.ImageFile != null)
+                    partForWork.DrawingImageBytes= await FileURL.GetFileBytes(partForWork.ImageFile);
+
                 _context.Add(partForWork);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -140,7 +143,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForWork partForWork)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ImageName,ImageFile,ClearImg")] PartForWork partForWork)
         {
             if (id != partForWork.PartForWorkId)
             {
@@ -151,7 +154,11 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    partForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    if (partForWork.ImageFile != null)
+                        partForWork.DrawingImageBytes = await FileURL.GetFileBytes(partForWork.ImageFile);
+                    if (partForWork.ClearImg)
+                        partForWork.DrawingImageBytes = null;
+                        partForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Update(partForWork);
                     await _context.SaveChangesAsync();
                 }

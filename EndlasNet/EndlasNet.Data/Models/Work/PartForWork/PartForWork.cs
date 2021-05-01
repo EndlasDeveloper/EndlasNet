@@ -60,6 +60,21 @@ namespace EndlasNet.Data
         public string WorkType { get; set; }
         [NotMapped]
         public string DrawingNumberSuffix { get; set; }
+
+        /************************* IMG ***************************/
+        [NotMapped]
+        [Display(Name = "Part image")]
+        public IFormFile ImageFile { get; set; }
+
+        [NotMapped] // for showing thumbnail images for multiple rows in a single view
+        public string ImageUrl { get; set; }
+        public byte[] DrawingImageBytes { get; set; }
+
+        [NotMapped]
+        public bool ClearImg { get; set; } = false;
+
+        [Display(Name ="Image name")]
+        public string ImageName { get; set; }
         public IEnumerable<PowderForPart> PowdersUsed { get; set; }
     }
 }

@@ -50,7 +50,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId")] PartForJob partForJob)
+        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId,ImageName,ImageFile")] PartForJob partForJob)
         {
             var resultList = await _context.PartsForJobs
                 .Where(p => p.StaticPartInfoId == partForJob.StaticPartInfoId)
@@ -85,6 +85,8 @@ namespace EndlasNet.Web.Controllers
                         tempPartForJob.Suffix = PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                        if (partForJob.ImageFile != null)
+                            partForJob.DrawingImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
                         await _repo .AddPartForJobAsync(tempPartForJob);
                     } catch(Exception ex) { ex.ToString(); continue; }
                 }

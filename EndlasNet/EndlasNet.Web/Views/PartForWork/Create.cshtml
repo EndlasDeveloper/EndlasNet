@@ -14,11 +14,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="WorkId" class="control-label"></label>
-                <select asp-for="WorkId" class ="form-control" asp-items="ViewBag.WorkId"></select>
+                <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="StaticPartInfoId" class="control-label"></label>
-                <select asp-for="StaticPartInfoId" class ="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
+                <select asp-for="StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Suffix" class="control-label"></label>
@@ -54,6 +54,18 @@
                 <label asp-for="ProcessingNotes" class="control-label"></label>
                 <input asp-for="ProcessingNotes" class="form-control" />
                 <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageName" class="control-label"></label>
+                <input asp-for="ImageName" class="form-control" />
+                <span asp-validation-for="ImageName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <div></div>
+                <input asp-for="ImageFile" accept="image/*" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

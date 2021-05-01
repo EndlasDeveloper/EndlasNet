@@ -74,6 +74,8 @@ namespace EndlasNet.Web.Controllers
             ViewBag.id = id;
             ViewBag.workId = partForWorkOrder.WorkId;
             ViewBag.partInfoId = partForWorkOrder.StaticPartInfoId;
+            if (partForWorkOrder.DrawingImageBytes != null)
+                FileURL.SetImageURL(partForWorkOrder);
 
             return View(partForWorkOrder);
         }
@@ -97,13 +99,14 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForWorkOrder partForWorkOrder)
+        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ClearImg,ImageName,ImageFile")] PartForWorkOrder partForWorkOrder)
         {
             if (ModelState.IsValid)
             {
                 partForWorkOrder.PartForWorkId = Guid.NewGuid();
                 partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-
+                if (partForWorkOrder.ImageFile != null)
+                    partForWorkOrder.DrawingImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
                 _context.Add(partForWorkOrder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "PartsForAWorkOrder",
@@ -135,7 +138,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId")] PartForWorkOrder partForWorkOrder)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ClearImg,ImageName,ImageFile")] PartForWorkOrder partForWorkOrder)
         {
             if (id != partForWorkOrder.PartForWorkId)
             {
@@ -147,6 +150,10 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    if (partForWorkOrder.ImageFile != null)
+                        partForWorkOrder.DrawingImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
+                    if (partForWorkOrder.ClearImg)
+                        partForWorkOrder.DrawingImageBytes = null;
                     _context.Update(partForWorkOrder);
                     await _context.SaveChangesAsync();
                 }
@@ -186,7 +193,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
+            if (partForWorkOrder.DrawingImageBytes != null)
+                FileURL.SetImageURL(partForWorkOrder);
             return View(partForWorkOrder);
         }
 
