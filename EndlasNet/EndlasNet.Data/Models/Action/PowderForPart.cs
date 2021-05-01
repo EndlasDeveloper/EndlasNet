@@ -10,6 +10,11 @@ namespace EndlasNet.Data
     {
         [Key]
         public Guid PowderForPartId { get; set; }
+
+        [Required]
+        [Display(Name = "Date used")]
+        public DateTime DateUsed { get; set; } = DateTime.Now;
+
         [ForeignKey("PowderBottleId")]
         [Display(Name ="Powder bottle")]
         public Guid? PowderBottleId { get; set; }

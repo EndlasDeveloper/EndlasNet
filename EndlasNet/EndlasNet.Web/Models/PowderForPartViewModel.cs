@@ -26,6 +26,9 @@ namespace EndlasNet.Web.Models
         [Display(Name = "Powder bottle")]
         public Guid PowderBottleId { get; set; }
 
+        [Display(Name = "Date used")]
+        public DateTime DateUsed { get; set; } = DateTime.Now;
+
         [Display(Name = "Powder weight used (lbs)")]
         [Range(0.0001, 200.0)]
         public float PowderWeightUsed { get; set; }

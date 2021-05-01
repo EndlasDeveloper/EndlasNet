@@ -129,7 +129,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PowderForPartId,PowderBottleId,PartForWorkId,PowderWeightUsed")] PowderForPart powderForPart)
+        public async Task<IActionResult> Create([Bind("PowderForPartId,DatUsed,PowderBottleId,PartForWorkId,PowderWeightUsed")] PowderForPart powderForPart)
         {
             if (ModelState.IsValid)
             {
@@ -188,7 +188,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PowderForPartId,PowderBottleId,PartForWorkId,PowderWeightUsed")] PowderForPart powderForPart)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PowderForPartId,DatUsed,PowderBottleId,PartForWorkId,PowderWeightUsed")] PowderForPart powderForPart)
         {
             if (id != powderForPart.PowderForPartId)
             {
@@ -281,12 +281,12 @@ namespace EndlasNet.Web.Controllers
         [HttpPost]
         public IActionResult CreateGetWork([Bind("WorkId,Work,PowderBottleId,PowderWeightUsed,CheckBoxes")] PowderForPartViewModel vm)
         {
-            return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0, selectedCheckboxes = true, powderWeightUsed = 0});
+            return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0, selectedCheckboxes = true, powderWeightUsed = 0, dateUsed = DateTime.Now});
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> CreateWithWorkSet(Guid workId, bool hasEnoughPowder, float powderLeft, bool selectedCheckboxes, float powderWeightUsed)
+        public async Task<IActionResult> CreateWithWorkSet(Guid workId, bool hasEnoughPowder, float powderLeft, bool selectedCheckboxes, float powderWeightUsed, DateTime dateUsed)
         {
             if (!selectedCheckboxes)
             {
@@ -307,6 +307,7 @@ namespace EndlasNet.Web.Controllers
             {
                 Work = work,
                 WorkId = work.WorkId,
+                DateUsed = dateUsed,
                 CheckBoxes = new List<CheckBoxInfo>()
             };
 
@@ -343,7 +344,7 @@ namespace EndlasNet.Web.Controllers
             var checkedBoxes = vm.CheckBoxes.Where(c => c.IsChecked).ToList();
             if(checkedBoxes.Count == 0)
             {
-                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0, selectedCheckboxes = false, powderWeightUsed = vm.PowderWeightUsed });
+                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0, selectedCheckboxes = false, powderWeightUsed = vm.PowderWeightUsed, dateUsed = vm.DateUsed });
             }
             // find the bottle of powder associated with powderForParts
             var powder = await _context.PowderBottles
@@ -355,7 +356,7 @@ namespace EndlasNet.Web.Controllers
                 ViewBag.HasEnoughPowder = "false";
                 ViewBag.PowderLeft = string.Format("{0:0.0000}", powder.Weight);
                 await SetViewData();
-                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = false, powderLeft = powder.Weight, selectedCheckboxes = true, powderWeightUsed = vm.PowderWeightUsed });
+                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = false, powderLeft = powder.Weight, selectedCheckboxes = true, powderWeightUsed = vm.PowderWeightUsed, dateUsed = vm.DateUsed });
             }
             powder.Weight -= vm.PowderWeightUsed;
             // if below threshold after subtracting weight, zero out weight
@@ -374,7 +375,8 @@ namespace EndlasNet.Web.Controllers
                         PartForWorkId = box.PartForWorkId,
                         PowderBottleId = vm.PowderBottleId,
                         PowderForPartId = Guid.NewGuid(),
-                        PowderWeightUsed = weightPerPart
+                        PowderWeightUsed = weightPerPart,
+                        DateUsed = vm.DateUsed
                     };
                     await _powderForPartRepo.AddRow(powderForPart);
                 }
