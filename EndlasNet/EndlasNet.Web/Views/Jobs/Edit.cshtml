@@ -12,9 +12,10 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="WorkId" />
+            <input type="hidden" asp-for="ProcessSheetNotesPdfBytes" />
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <div class="form-group">
@@ -42,6 +43,35 @@
                 <input asp-for="DueDate" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" value="@Model.DueDate.ToString("s")" />
                 <span asp-validation-for="DueDate" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                @if (Model.ProcessSheetNotesPdfBytes != null)
+                {
+                    <label asp-for="ProcessSheetNotesFile" class="control-label">Process sheet notes:&nbsp;</label>
+
+                    @Html.ActionLink(
+                        linkText: "Download process sheet notes PDF",
+                        actionName: "DownloadProcessPdf",
+                        controllerName: "Jobs",
+                        routeValues: new { id = Model.WorkId },
+                        htmlAttributes: null)
+                    <br />
+                    <span>
+                        Clear process notes file
+                        <input asp-for="ClearPdf" class="form-check-inline" />
+                    </span>
+
+                }
+                else
+                {
+                    <label asp-for="ProcessSheetNotesFile" class="control-label"></label>
+
+                }                <div></div>
+
+                <input asp-for="ProcessSheetNotesFile" accept="application/pdf" />
+                <span asp-validation-for="ProcessSheetNotesFile" class="text-danger"></span>
+            </div>
+            <br />
+
             <div class="form-group">
                 <label asp-for="CustomerId" class="control-label"></label>
                 <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>

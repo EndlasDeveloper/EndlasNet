@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -43,7 +44,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
+            if (workOrder.ProcessSheetNotesPdfBytes != null)
+                ViewBag.HasProcessSheet = "true";
             return View(workOrder);
         }
 
@@ -59,7 +61,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] WorkOrder workOrder)
+        public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId,ProcessSheetNotesFile")] WorkOrder workOrder)
         {
             var work = await _context.Work.Where(w => w.EndlasNumber == workOrder.EndlasNumber).ToListAsync();
             var quotes = await _context.Quotes.Where(q => q.EndlasNumber == workOrder.EndlasNumber).ToListAsync();
@@ -72,6 +74,10 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 workOrder.WorkId = Guid.NewGuid();
+                if (workOrder.ProcessSheetNotesFile != null)
+                {
+                    workOrder.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(workOrder.ProcessSheetNotesFile);
+                }
                 workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 await _workOrderRepo.AddRow(workOrder);
                 return RedirectToAction(nameof(Index));
@@ -103,7 +109,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] WorkOrder workOrder)
+        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId,ProcessSheetNotesFile")] WorkOrder workOrder)
         {
             if (id != workOrder.WorkId)
             {
@@ -114,6 +120,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+
                     var work = await _context.Work
                         .Where(w => w.WorkId != workOrder.WorkId)
                         .Where(w => w.EndlasNumber == workOrder.EndlasNumber)
@@ -130,6 +137,14 @@ namespace EndlasNet.Web.Controllers
                     }
                     workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
 
+                    if (workOrder.ProcessSheetNotesFile != null)
+                    {
+                        workOrder.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(workOrder.ProcessSheetNotesFile);
+                    }
+                    if (workOrder.ClearPdf)
+                    {
+                        workOrder.ProcessSheetNotesPdfBytes = null;
+                    }
                     await _workOrderRepo.UpdateRow(workOrder);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -162,7 +177,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
+            if (workOrder.ProcessSheetNotesPdfBytes != null)
+                ViewBag.HasProcessSheet = "true";
             return View(workOrder);
         }
 
@@ -178,6 +194,27 @@ namespace EndlasNet.Web.Controllers
         private async Task<bool> WorkOrderExists(Guid id)
         {
             return await _workOrderRepo.RowExists(id);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadProcessPdf(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var workOrder = await _workOrderRepo.GetRow(id);
+
+            var fileName = workOrder.EndlasNumber + "_process_notes.pdf";
+            Response.ContentType = "application/pdf";
+            Response.Headers.Add("content-disposition", "attachment;filename=" + fileName);
+            MemoryStream ms = new MemoryStream(workOrder.ProcessSheetNotesPdfBytes);
+            if (ms == null)
+            {
+                return NotFound();
+            }
+            return File(ms, "application/pdf", fileName);
         }
     }
 }

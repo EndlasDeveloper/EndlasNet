@@ -31,6 +31,7 @@ namespace EndlasNet.Data
         {
             return await _db.Jobs
                 .Include(j => j.Customer)
+                .Include(j => j.Quote)
                 .OrderByDescending(j => j.EndlasNumber)
                 .ToListAsync();
         }
@@ -40,6 +41,7 @@ namespace EndlasNet.Data
             return await _db.Jobs
                 .Include(j => j.Customer)
                 .Include(j => j.User)
+                .Include(j => j.Quote)
                 .FirstOrDefaultAsync(j => j.WorkId == id);
         }
 
@@ -49,6 +51,7 @@ namespace EndlasNet.Data
                 .AsNoTracking()
                 .Include(j => j.Customer)
                 .Include(j => j.User)
+                .Include(j => j.Quote)
                 .FirstOrDefaultAsync(j => j.WorkId == id);
         }
 

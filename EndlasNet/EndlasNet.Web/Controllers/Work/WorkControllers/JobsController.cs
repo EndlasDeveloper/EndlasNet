@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -58,12 +59,17 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Job job)
+        public async Task<IActionResult> Create([Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
         {
             
             if (ModelState.IsValid)
             {
                 job.WorkId = Guid.NewGuid();
+
+                if (job.ProcessSheetNotesFile != null)
+                {
+                    job.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(job.ProcessSheetNotesFile);
+                }
                 var quote = await _context.Quotes.FirstOrDefaultAsync(q => q.QuoteId == job.QuoteId);
                 job.EndlasNumber = quote.EndlasNumber;
                 job.UserId = new Guid(HttpContext.Session.GetString("userId"));
@@ -100,7 +106,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId")] Job job)
+        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
         {
             if (id != job.WorkId)
             {
@@ -111,6 +117,14 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    if (job.ProcessSheetNotesFile != null)
+                    {
+                        job.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(job.ProcessSheetNotesFile);
+                    }
+                    if (job.ClearPdf)
+                    {
+                        job.ProcessSheetNotesPdfBytes = null;
+                    }
                     job.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     var quote = await _context.Quotes.FirstOrDefaultAsync(q => q.QuoteId == job.QuoteId);
                     job.EndlasNumber = quote.EndlasNumber;
@@ -165,6 +179,27 @@ namespace EndlasNet.Web.Controllers
         private async Task<bool> JobExists(Guid id)
         {
             return await _jobRepo.RowExists(id);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadProcessPdf(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var job = await _jobRepo.GetRow(id);
+
+            var fileName = job.EndlasNumber + "_process_notes.pdf";
+            Response.ContentType = "application/pdf";
+            Response.Headers.Add("content-disposition", "attachment;filename=" + fileName);
+            MemoryStream ms = new MemoryStream(job.ProcessSheetNotesPdfBytes);
+            if (ms == null)
+            {
+                return NotFound();
+            }
+            return File(ms, "application/pdf", fileName);
         }
     }
 }

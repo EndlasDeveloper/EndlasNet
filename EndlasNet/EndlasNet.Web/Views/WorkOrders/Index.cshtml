@@ -30,7 +30,7 @@
                 @Html.DisplayNameFor(model => model.DueDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Customer)
+                @Html.DisplayNameFor(model => model.ProcessSheetNotesFile)
             </th>
             <th></th>
         </tr>
@@ -51,7 +51,19 @@
                 @Html.DisplayFor(modelItem => item.DueDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+                @if (item.ProcessSheetNotesPdfBytes != null)
+                {
+                    @Html.ActionLink(
+                        linkText: "Download process sheet PDF",
+                        actionName: "DownloadProcessPdf",
+                        controllerName: "WorkOrders",
+                        routeValues: new { id = item.WorkId },
+                        htmlAttributes: null)
+                }
+                else
+                {
+                    <a style="color:gray">None</a>
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.WorkId">Edit</a> |

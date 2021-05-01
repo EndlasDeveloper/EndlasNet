@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -44,6 +45,20 @@ namespace EndlasNet.Data
         public Guid? CustomerId { get; set; }
         [Display(Name ="Customer")]
         public virtual Customer Customer { get; set; }
+
+
+        /*********************** PDF ***************************/
+        [NotMapped]
+        [Display(Name = "Upload process sheet notes")]
+        public IFormFile ProcessSheetNotesFile{ get; set; }
+        public byte[] ProcessSheetNotesPdfBytes { get; set; }
+
+        /*******************************************************/
+
+        [NotMapped]
+        [Display(Name = "Clear process sheet notes")]
+        public bool ClearPdf { get; set; }
+
 
         public IEnumerable<PartForWork> PartsForWork { get; set; }
         public IEnumerable<MachiningToolForJob> ToolsForJob { get; set; }
