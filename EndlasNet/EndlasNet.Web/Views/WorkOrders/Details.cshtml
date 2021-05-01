@@ -3,7 +3,13 @@
 @{
     ViewData["Title"] = "Details";
 }
+<style type="text/css" media="screen">
 
+    .my-custom-img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+</style>
 <h1>Details</h1>
 
 <div>
@@ -41,7 +47,7 @@
             @if (ViewBag.HasProcessSheet != null)
             {
                 <a title="Download process sheet PDF" asp-action="DownloadProcessPdf" asp-controller="WorkOrders" asp-route-myvar="@Model.WorkId">
-                    <span class="form-inline"><img src="~/img/download.png" style="max-width:60px;max-height:60px" /></span>
+                    <span class="form-inline"><img src="~/img/download.png" class="my-custom-img"/></span>
                 </a>
             }
             else

@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Part information";
 }
+<style type="text/css" media="screen">
+
+    .my-custom-img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+</style>
 <a asp-action="Work" asp-controller="Home">
     <span>
         <img src="~/img/backArrow.jpg" width="30" height="30" />
@@ -61,7 +68,7 @@
                 else
                 {
                     <a title="Download blank PDF" asp-action="DownloadBlankPdf" asp-controller="StaticPartInfoes" asp-route-myvar="@item.StaticPartInfoId">
-                        <span class="form-inline"><img src="~/img/download.png" style="max-width:60px;max-height:60px" /></span>
+                        <span class="form-inline"><img src="~/img/download.png" class="my-custom-img"/></span>
                     </a>
                 }
             </td>
@@ -73,7 +80,7 @@
                 else
                 {
                     <a title="Download finish PDF" asp-action="DownloadFinishPdf" asp-controller="StaticPartInfoes" asp-route-myvar="@item.StaticPartInfoId">
-                        <span class="form-inline"><img src="~/img/download.png" style="max-width:60px;max-height:60px" /></span>
+                        <span class="form-inline"><img src="~/img/download.png" class="my-custom-img" /></span>
                     </a>
                 }
             </td>

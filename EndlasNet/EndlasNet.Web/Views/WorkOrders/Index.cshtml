@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Work orders";
 }
+<style type="text/css" media="screen">
+
+    .my-custom-img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+</style>
 <a asp-action="Work" asp-controller="Home">
     <span>
         <img src="~/img/backArrow.jpg" width="30" height="30" />
@@ -54,7 +61,7 @@
                 @if (item.ProcessSheetNotesPdfBytes != null)
                 {
                     <a title="Download process sheet PDF" asp-action="DownloadProcessPdf" asp-controller="WorkOrders" asp-route-myvar="@item.WorkId">
-                        <span><img src="~/img/download.png" style="max-width:60px;max-height:60px" /></span>
+                        <span><img src="~/img/download.png" class="my-custom-img"/></span>
                     </a>
                 }
                 else

@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style type="text/css" media="screen">
+
+    .my-custom-img{
+        max-width: 60px;
+        max-height: 60px;
+
+    }
+</style>
 <a asp-action="Inventory" asp-controller="Home">
     <span>
         <img src="~/img/backArrow.jpg" width="30" height="30" />
@@ -58,7 +66,7 @@
                 else
                 {
                     <a title="Download process sheet PDF" asp-action="DownloadCompositionPdf" asp-controller="StaticPowderInfoes" asp-route-myvar="@item.StaticPowderInfoId">
-                        <span class="form-inline"><img src="~/img/download.png" style="max-width:60px;max-height:60px" /></span>
+                        <span class="form-inline"><img src="~/img/download.png" class="my-custom-img" /></span>
                     </a>
                 }
             </td>
