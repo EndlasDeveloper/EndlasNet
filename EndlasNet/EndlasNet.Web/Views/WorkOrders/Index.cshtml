@@ -53,12 +53,9 @@
             <td>
                 @if (item.ProcessSheetNotesPdfBytes != null)
                 {
-                    @Html.ActionLink(
-                        linkText: "Download process sheet PDF",
-                        actionName: "DownloadProcessPdf",
-                        controllerName: "WorkOrders",
-                        routeValues: new { id = item.WorkId },
-                        htmlAttributes: null)
+                    <a title="Download process sheet PDF" asp-action="DownloadProcessPdf" asp-controller="WorkOrders" asp-route-myvar="@item.WorkId">
+                        <span><img src="~/img/download.png" style="max-width:60px;max-height:60px" /></span>
+                    </a>
                 }
                 else
                 {

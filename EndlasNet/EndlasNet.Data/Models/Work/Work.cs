@@ -49,7 +49,7 @@ namespace EndlasNet.Data
 
         /*********************** PDF ***************************/
         [NotMapped]
-        [Display(Name = "Upload process sheet notes")]
+        [Display(Name = "Process sheet notes")]
         public IFormFile ProcessSheetNotesFile{ get; set; }
         public byte[] ProcessSheetNotesPdfBytes { get; set; }
 

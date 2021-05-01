@@ -50,6 +50,8 @@ namespace EndlasNet.Data
         public async Task<StaticPartInfo> GetRowNoTracking(Guid? id)
         {
             return await _db.StaticPartInfo
+                .Include(s => s.User)
+                .Include(s => s.Customer)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
         }

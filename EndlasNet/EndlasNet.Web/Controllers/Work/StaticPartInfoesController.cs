@@ -175,7 +175,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPartInfo = (StaticPartInfo)await _staticPartInfoRepo.GetRow(id);
+            var staticPartInfo = await _staticPartInfoRepo.GetRow(id);
 
             if (staticPartInfo == null)
             {

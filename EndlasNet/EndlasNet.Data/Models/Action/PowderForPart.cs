@@ -29,5 +29,10 @@ namespace EndlasNet.Data
         [Display(Name ="Powder bottle weight used (lbs)")]
         [Range(0.0001,200.0)]
         public float PowderWeightUsed { get; set; }
+
+        [ForeignKey("UserId")]
+        [Display(Name = "User")]
+        public Guid? UserId { get; set; }
+        public virtual User User { get; set; }
     }
 }

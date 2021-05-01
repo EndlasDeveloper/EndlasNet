@@ -57,12 +57,9 @@
                 }
                 else
                 {
-                    @Html.ActionLink(
-                        linkText: "Download PDF",
-                        actionName: "DownloadCompositionPdf",
-                        controllerName: "StaticPowderInfoes",
-                        routeValues: new { id = item.StaticPowderInfoId },
-                        htmlAttributes: null)
+                    <a title="Download process sheet PDF" asp-action="DownloadCompositionPdf" asp-controller="StaticPowderInfoes" asp-route-myvar="@item.StaticPowderInfoId">
+                        <span class="form-inline"><img src="~/img/download.png" style="max-width:60px;max-height:60px" /></span>
+                    </a>
                 }
             </td>
             <td>

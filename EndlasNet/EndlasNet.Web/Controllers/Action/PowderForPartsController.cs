@@ -156,6 +156,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 // all good, so create new powder for part guid and save
                 powderForPart.PowderForPartId = Guid.NewGuid();
+                powderForPart.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 _context.Add(powderForPart);
                 await _context.SaveChangesAsync();
 

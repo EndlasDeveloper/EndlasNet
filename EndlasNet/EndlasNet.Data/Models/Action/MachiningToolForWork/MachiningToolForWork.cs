@@ -37,5 +37,6 @@ namespace EndlasNet.Data
         [Display(Name ="Machining type")]
         public MachiningTypes MachiningType { get; set; }
 
+
     }
 }

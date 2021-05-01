@@ -36,6 +36,36 @@
             @Html.DisplayFor(model => model.Customer.CustomerName)
         </dd>
         <dt class="col-sm-2">
+            Blanking PDF
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.BlankDrawingPdfBytes != null)
+            {
+                <a title="Download blank PDF" asp-action="DownloadBlankPdf" asp-controller="StaticPartInfoes" asp-route-myvar="@Model.StaticPartInfoId">
+                    <span class="form-inline"><img src="~/img/download.png" style="max-width:60px;max-height:60px" /></span>
+                </a>
+            }
+            else
+            {
+                <a>No blank PDF</a>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Finishing PDF
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.FinishDrawingPdfBytes != null)
+            {
+                <a title="Download finish PDF" asp-action="DownloadFinishPdf" asp-controller="StaticPartInfoes" asp-route-myvar="@Model.StaticPartInfoId">
+                    <span class="form-inline"><img src="~/img/download.png" style="max-width:60px;max-height:60px" /></span>
+                </a>
+            }
+            else
+            {
+                <a>No finish PDF</a>
+            }
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.User)
         </dt>
         <dd class="col-sm-10">
@@ -45,33 +75,7 @@
     </dl>
 </div>
 <span>
-@if (ViewBag.HasBlankPdf != null)
-{
-    @Html.ActionLink(
-        linkText: "Download blank PDF",
-        actionName: "DownloadBlankPdf",
-        controllerName: "StaticPartInfoes",
-        routeValues: new { id = ViewBag.id },
-        htmlAttributes: null)
-}
-else
-{
-    <a>No blank PDF</a>
-}
-&nbsp;|&nbsp;
-@if (ViewBag.HasFinishPdf != null)
-{
-    @Html.ActionLink(
-        linkText: "Download finish PDF",
-        actionName: "DownloadFinishPdf",
-        controllerName: "StaticPartInfoes",
-        routeValues: new { id = ViewBag.id },
-        htmlAttributes: null)
-}
-else
-{
-    <a>No finish PDF</a>
-}
+
 </span>
 <br />
 <br />
