@@ -59,7 +59,8 @@ namespace EndlasNet.Data
         [Display(Name = "Clear process sheet notes")]
         public bool ClearPdf { get; set; }
 
-
+        [NotMapped]
+        public string WorkType { get; set; }
         public IEnumerable<PartForWork> PartsForWork { get; set; }
         public IEnumerable<MachiningToolForJob> ToolsForJob { get; set; }
         public IEnumerable<MachiningToolForWorkOrder> ToolsForWorkOrder { get; set; }
