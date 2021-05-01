@@ -18,18 +18,10 @@ namespace EndlasNet.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Work> allWork = new List<Work>();
-            var allJobs = await _context.Jobs.ToListAsync();
-            foreach(var job in allJobs)
+            var allWork = await _context.Work.ToListAsync();
+            foreach(var work in allWork)
             {
-                job.WorkType = "Job";
-                allWork.Add(job);
-            }
-            var allWorkOrders = await _context.WorkOrders.ToListAsync();
-            foreach(var workOrder in allWorkOrders)
-            {
-                workOrder.WorkType = "Work order";
-                allWork.Add(workOrder);
+               work.WorkType = _context.Entry(work).Property("Discriminator").CurrentValue.ToString();
             }
             return View(allWork);
         }
