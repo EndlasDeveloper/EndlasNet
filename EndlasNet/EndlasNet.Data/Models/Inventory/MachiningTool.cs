@@ -17,8 +17,16 @@ namespace EndlasNet.Data
         public ToolTypes ToolType { get; set; }
 
         [Required]
-        [Display(Name = "Radial metric")]
+        [Display(Name = "Tool measurment value")]
         public float ToolDiameter { get; set; }
+
+        [Required]
+        [Display(Name ="Tool measurment type")]
+        public MachiningToolMetrics RadialMetric { get; set; }
+
+        [Required]
+        [Display(Name ="Tool measurment units")]
+        public MachiningToolUnits Units { get; set; }
 
         [Required]
         [Display(Name = "Tool description")]

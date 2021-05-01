@@ -52,7 +52,10 @@
                 @Html.DisplayFor(modelItem => item.ToolDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ToolDiameter)
+                <span>
+                    @Html.DisplayFor(modelItem => item.ToolDiameter) @Html.DisplayFor(modelItems => item.Units) (@Html.DisplayFor(modelItems => item.RadialMetric))
+                    
+                </span>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VendorDescription)

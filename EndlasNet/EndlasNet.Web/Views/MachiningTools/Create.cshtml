@@ -22,6 +22,21 @@
                 </div>
                 <span asp-validation-for="ToolType" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="RadialMetric" class="control-label"></label>
+                <div>
+                    @Html.DropDownListFor(m => m.RadialMetric, new SelectList(Enum.GetValues(typeof(MachiningToolMetrics))))
+                </div>
+                <span asp-validation-for="RadialMetric" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Units" class="control-label"></label>
+                <div>
+                    @Html.DropDownListFor(m => m.Units, new SelectList(Enum.GetValues(typeof(MachiningToolUnits))))
+                </div>
+                <span asp-validation-for="Units" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="ToolDiameter" class="control-label"></label>
                 <input asp-for="ToolDiameter" class="form-control" />

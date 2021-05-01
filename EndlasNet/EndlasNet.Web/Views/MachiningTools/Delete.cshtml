@@ -23,7 +23,9 @@
             @Html.DisplayNameFor(model => model.ToolDiameter)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ToolDiameter)
+            <span>
+                @Html.DisplayFor(model => model.ToolDiameter) @Html.DisplayFor(model => model.Units) (@Html.DisplayFor(model => model.RadialMetric))
+            </span>
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ToolDescription)
