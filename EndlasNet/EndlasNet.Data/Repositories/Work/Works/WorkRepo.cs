@@ -15,12 +15,33 @@ namespace EndlasNet.Data
         }
         public async Task<IEnumerable<Work>> GetAllWork()
         {
-            return await _db.Work.ToListAsync();
+            return await _db.Work
+                .Include(w => w.User)
+                .Include(w => w.Quote)
+                .Include(w => w.Customer)
+                .ToListAsync();
         }
 
-        public async Task<Work> GetWork(Guid id)
+        public async Task<Work> GetWork(Guid? id)
         {
-            return await _db.Work.FirstOrDefaultAsync(w => w.WorkId == id);
+            return await _db.Work
+                .Include(w => w.User)
+                .Include(w => w.Quote)
+                .Include(w => w.Customer)
+                .FirstOrDefaultAsync(w => w.WorkId == id);
+        }
+
+        public async Task DeleteWork(Guid? id)
+        {
+            var work = await _db.Work
+                .FirstOrDefaultAsync(j => j.WorkId == id);
+            _db.Remove(work);
+            await _db.SaveChangesAsync();
+        }
+
+        public string GetWorkType(Work work)
+        {
+            return _db.Entry(work).Property("Discriminator").CurrentValue.ToString();
         }
     }
 }

@@ -1,0 +1,87 @@
+﻿@model EndlasNet.Data.Work
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style type="text/css" media="screen">
+
+    .my-custom-img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+</style>
+<h1>Details</h1>
+
+<div>
+    <h4>Work</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Work type
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WorkType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Quote.EndlasNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Quote.EndlasNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WorkDescription)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WorkDescription)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PurchaseOrderNum)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PurchaseOrderNum)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+        <dt class="col-sm-2">
+            Process sheet notes
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.ProcessSheetNotesPdfBytes != null)
+            {
+                <a title="Download process sheet PDF" asp-action="DownloadProcessPdf" asp-controller="Jobs" asp-route-myvar="@Model.WorkId">
+                    <span class="form-inline"><img src="~/img/download.png" class="my-custom-img" /></span>
+                </a>
+            }
+            else
+            {
+                <a>No process sheet PDF</a>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.EndlasEmail)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Customer.CustomerName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.WorkId">Edit</a> |
+    <a asp-action="Index">Back to list</a>
+</div>
