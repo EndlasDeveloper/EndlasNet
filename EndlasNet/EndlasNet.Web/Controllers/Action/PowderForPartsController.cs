@@ -98,6 +98,7 @@ namespace EndlasNet.Web.Controllers
             var powderForPart = await _context.PowderForParts
                 .Include(p => p.PartForWork)
                 .Include(p => p.PowderBottle)
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.PowderForPartId == id);
 
             if (powderForPart == null)
@@ -231,6 +232,7 @@ namespace EndlasNet.Web.Controllers
             var powderForPart = await _context.PowderForParts
                 .Include(p => p.PartForWork)
                 .Include(p => p.PowderBottle)
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.PowderForPartId == id);
             if (powderForPart == null)
             {
@@ -370,6 +372,7 @@ namespace EndlasNet.Web.Controllers
                 await _context.SaveChangesAsync();
             }
             var weightPerPart = vm.PowderWeightUsed / vm.CheckBoxes.Where(c => c.IsChecked).Count();
+            var usrId = new Guid(HttpContext.Session.GetString("userId"));
             foreach(CheckBoxInfo box in vm.CheckBoxes)
             {
                 if (box.IsChecked)
@@ -379,7 +382,8 @@ namespace EndlasNet.Web.Controllers
                         PowderBottleId = vm.PowderBottleId,
                         PowderForPartId = Guid.NewGuid(),
                         PowderWeightUsed = weightPerPart,
-                        DateUsed = vm.DateUsed
+                        DateUsed = vm.DateUsed,
+                        UserId = usrId
                     };
                     await _powderForPartRepo.AddRow(powderForPart);
                 }
