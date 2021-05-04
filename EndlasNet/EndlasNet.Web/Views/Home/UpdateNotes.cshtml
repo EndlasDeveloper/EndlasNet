@@ -17,56 +17,22 @@
     <ul style="font-size:14px;line-height:200%;">
 
 
-        <li class="update-notes-li">
-            Under Jobs/WorkOrder, added PDF column on back-end (ProcessSheetNotes).
-            Added all front-end code to handle creating and editing an entity with a PDF.
-        </li>
-        <li class="update-notes-li">
-            PowderForPart -> added column DateUsed to back-end. Added front-end code to handle user input.
-            Defaults to current time on page render.
-        </li>
-        <li class="update-notes-li">
-            MachiningTool -> Create/Edit -> Added functionality to choose diameter or radius, rather than just having radial metric.
-            This is done with a dropdown option.
-        </li>
-        <li class="update-notes-li">
-            MachiningTool -> Create/Edit -> Added functionality to specify the units in which the radial metric is measured.
-            This is also done with a dropdown option.
-        </li>
-        <li class="update-notes-li">
-            Added user to all action entities.
-        </li>
-        <li class="update-notes-li">
-            Updated UI with download icons rather than the 'Download whatever-kind-of PDF'. Looks cleaner.
-            Added CSS styling for the download icons.
-        </li>
-        <li class="update-notes-li">
-            Work -> Added all work action link under Work tab (and the necessary back/front-end stuff to handle it).
-            Has details and delete action links that are functional.
-        </li>
-        <li class="update-notes-li">
-            Added another image column to PartForWork (for both job and work order). Implemented both front and back-end
-            components. Can save image on create, and view under details and delete. When editing, the image can persist or
-            be cleared by user prompt.
-        </li>
-        <li class="update-notes-li">
-            Found issue in static part info, edit and in part for job, edit. When editing a row with an existing image file, the image
-            didn't persist after the save submit. Now the image file does persist on save submit.
-        </li>
-        <li class="update-notes-li">
-            Added same functionality for adding and displaying image for parts for jobs and parts for work orders all parts for work. 
-            Seems to work as intended.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue under Part for job and Part for work order where the part count would be incorrect when multiple groups of 
-            parts for work exist. Now the number of parts displays correctly.
-        </li>
+      
     </ul>
 
 
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
+        <li class="update-notes-li">
+            Display PowderForPart user.
+        </li>
+        <li class="update-notes-li">
+            MachiningTool -> Default unit to inches and remove mils and cm.
+        </li>
+        <li class="update-notes-li">
+            Bug: StaticPowderInfo -> composition pdf download not working (also in StaticPartInfo, Work, others too).
+        </li>
         <li class="update-notes-li">
             PartForWork -> filter rows by PO date (by year/month/day).
         </li>

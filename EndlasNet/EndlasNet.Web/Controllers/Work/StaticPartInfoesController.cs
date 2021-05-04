@@ -74,7 +74,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,DrawingImageFile,FinishDrawingFile,BlankDrawingFile,CustomerId")] StaticPartInfo staticPartInfo)
+        public async Task<IActionResult> Create([Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,FinishDrawingFile,BlankDrawingFile,CustomerId,DrawingImageBytes")] StaticPartInfo staticPartInfo)
         {
             if (ModelState.IsValid)
             {
