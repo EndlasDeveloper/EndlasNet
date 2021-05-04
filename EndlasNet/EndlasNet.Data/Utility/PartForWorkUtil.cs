@@ -11,10 +11,10 @@ namespace EndlasNet.Data
         public static async Task<List<PartForJob>> MinimizeJobPartList(List<PartForJob> parts, PartForJobRepo repo)
         {
             List<PartForJob> minimizedPartList = new List<PartForJob>();
+            var flag = false;
             foreach (PartForJob part in parts)
             {
                 KeyValuePair<Guid, Guid> temp = new KeyValuePair<Guid, Guid>(part.WorkId, part.StaticPartInfoId);
-                bool flag = false;
                 for (int i = 0; i < minimizedPartList.Count; i++)
                 {
                     if (minimizedPartList[i].WorkId.Equals(temp.Key))
@@ -26,7 +26,10 @@ namespace EndlasNet.Data
                         }
                 }
                 if (!flag)
+                {
                     minimizedPartList.Add(part);
+                    flag = true;
+                }
             }
             return minimizedPartList;
         }
@@ -34,10 +37,11 @@ namespace EndlasNet.Data
         public static async Task<List<PartForWorkOrder>> MinimizeWorkOrderPartList(List<PartForWorkOrder> parts, PartForWorkOrderRepo repo)
         {
             List<PartForWorkOrder> minimizedPartList = new List<PartForWorkOrder>();
+            bool flag = false;
+
             foreach (PartForWorkOrder part in parts)
             {
                 KeyValuePair<Guid, Guid> temp = new KeyValuePair<Guid, Guid>(part.WorkId, part.StaticPartInfoId);
-                bool flag = false;
                 for (int i = 0; i < minimizedPartList.Count; i++)
                 {
                     if (minimizedPartList[i].WorkId.Equals(temp.Key))
@@ -49,7 +53,10 @@ namespace EndlasNet.Data
                         }
                 }
                 if (!flag)
+                {
                     minimizedPartList.Add(part);
+                    flag = true;
+                }
             }
             return minimizedPartList;
         }

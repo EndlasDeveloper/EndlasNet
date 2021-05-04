@@ -78,7 +78,8 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<PartForWorkOrder>> GetBatch(string workId, string partInfoId)
         {
-            var batch = await _db.PartsForWorkOrders.Include(p => p.StaticPartInfo)
+            var batch = await _db.PartsForWorkOrders
+                .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .ToListAsync();

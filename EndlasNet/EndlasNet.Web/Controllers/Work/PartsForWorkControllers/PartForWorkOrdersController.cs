@@ -29,9 +29,9 @@ namespace EndlasNet.Web.Controllers
             var minimizedPartList = await PartForWorkUtil.MinimizeWorkOrderPartList(parts, _repo);
 
             // set thumbnail image url's
-            foreach (PartForWorkOrder partForJob in minimizedPartList)
+            foreach (PartForWorkOrder partForWorkOrder in minimizedPartList)
             {
-                FileURL.SetImageURL(partForJob.StaticPartInfo);
+                FileURL.SetImageURL(partForWorkOrder.StaticPartInfo);
             }
             return View(minimizedPartList);
         }    

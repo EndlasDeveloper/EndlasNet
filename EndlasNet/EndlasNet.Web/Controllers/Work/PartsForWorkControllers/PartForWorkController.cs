@@ -89,6 +89,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
+            if (partForWork.ImageBytes != null)
+                partForWork.ImageUrl = FileURL.GetImageURL(partForWork.ImageBytes);
             return View(partForWork);
         }
 
@@ -104,7 +106,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ImageName,ImageFile,ClearImg")] PartForWork partForWork)
+        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ImageName,ImageFile,ClearImg,ImageBytes")] PartForWork partForWork)
         {
             if (ModelState.IsValid)
             {
@@ -134,6 +136,9 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+
+            if (partForWork.ImageBytes != null)
+                partForWork.ImageUrl = FileURL.GetImageURL(partForWork.ImageBytes);
             ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWork.StaticPartInfoId);
             return View(partForWork);
         }
@@ -143,7 +148,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ImageName,ImageFile,ClearImg")] PartForWork partForWork)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ImageName,ImageFile,ClearImg,ImageBytes")] PartForWork partForWork)
         {
             if (id != partForWork.PartForWorkId)
             {
@@ -197,6 +202,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
+            if (partForWork.ImageBytes != null)
+                partForWork.ImageUrl = FileURL.GetImageURL(partForWork.ImageBytes);
             return View(partForWork);
         }
 

@@ -22,7 +22,7 @@ namespace EndlasNet.Data
                .Include(p => p.StaticPartInfo)
                .Include(p => p.User)
                .Include(p => p.Work)
-               .OrderByDescending(p => p.ConditionDescription)
+               .OrderByDescending(p => p.Suffix)
                .ToListAsync();
         }
         public async Task<PartForJob> GetPartForJobDetailsAsync(Guid? id)
@@ -40,7 +40,7 @@ namespace EndlasNet.Data
             return await _db.PartsForJobs
                    .Where(p => p.WorkId == partForJob.WorkId)
                    .Where(p => p.StaticPartInfoId == partForJob.StaticPartInfoId)
-                   .OrderByDescending(p => p.ConditionDescription)
+                   .OrderByDescending(p => p.Suffix)
                    .ToListAsync();
         }
 
@@ -89,7 +89,7 @@ namespace EndlasNet.Data
 
             return batch.Where(p => p.WorkId.ToString() == workId)
                 .Where(p => p.StaticPartInfoId.ToString() == partInfoId)
-                .OrderByDescending(p => p.ConditionDescription);
+                .OrderByDescending(p => p.Suffix);
         }
     }
 }
