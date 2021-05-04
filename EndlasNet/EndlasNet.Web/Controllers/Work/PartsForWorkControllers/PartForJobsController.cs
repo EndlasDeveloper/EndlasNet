@@ -86,7 +86,7 @@ namespace EndlasNet.Web.Controllers
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                         if (partForJob.ImageFile != null)
-                            partForJob.DrawingImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
+                            partForJob.ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
                         await _repo .AddPartForJobAsync(tempPartForJob);
                     } catch(Exception ex) { ex.ToString(); continue; }
                 }

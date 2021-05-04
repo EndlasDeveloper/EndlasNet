@@ -93,7 +93,7 @@ namespace EndlasNet.Web.Controllers
                         // save user email
                         tempPartForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                         if (partForWorkOrder.ImageFile != null)
-                            partForWorkOrder.DrawingImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
+                            partForWorkOrder.ImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
                         await _repo.AddPartForWorkOrderAsync(tempPartForWorkOrder);
                         await _repo.AddPartForWorkOrderAsync(tempPartForWorkOrder);
                     }

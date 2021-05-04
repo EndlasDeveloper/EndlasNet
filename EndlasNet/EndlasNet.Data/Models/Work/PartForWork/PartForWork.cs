@@ -68,7 +68,7 @@ namespace EndlasNet.Data
 
         [NotMapped] // for showing thumbnail images for multiple rows in a single view
         public string ImageUrl { get; set; }
-        public byte[] DrawingImageBytes { get; set; }
+        public byte[] ImageBytes { get; set; }
 
         [NotMapped]
         public bool ClearImg { get; set; } = false;

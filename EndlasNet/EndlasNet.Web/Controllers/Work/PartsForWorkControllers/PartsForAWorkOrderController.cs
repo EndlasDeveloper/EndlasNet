@@ -74,7 +74,7 @@ namespace EndlasNet.Web.Controllers
             ViewBag.id = id;
             ViewBag.workId = partForWorkOrder.WorkId;
             ViewBag.partInfoId = partForWorkOrder.StaticPartInfoId;
-            if (partForWorkOrder.DrawingImageBytes != null)
+            if (partForWorkOrder.ImageBytes != null)
                 FileURL.SetImageURL(partForWorkOrder);
 
             return View(partForWorkOrder);
@@ -106,7 +106,7 @@ namespace EndlasNet.Web.Controllers
                 partForWorkOrder.PartForWorkId = Guid.NewGuid();
                 partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 if (partForWorkOrder.ImageFile != null)
-                    partForWorkOrder.DrawingImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
+                    partForWorkOrder.ImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
                 _context.Add(partForWorkOrder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "PartsForAWorkOrder",
@@ -151,9 +151,9 @@ namespace EndlasNet.Web.Controllers
                 {
                     partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     if (partForWorkOrder.ImageFile != null)
-                        partForWorkOrder.DrawingImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
+                        partForWorkOrder.ImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
                     if (partForWorkOrder.ClearImg)
-                        partForWorkOrder.DrawingImageBytes = null;
+                        partForWorkOrder.ImageBytes = null;
                     _context.Update(partForWorkOrder);
                     await _context.SaveChangesAsync();
                 }
@@ -193,7 +193,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if (partForWorkOrder.DrawingImageBytes != null)
+            if (partForWorkOrder.ImageBytes != null)
                 FileURL.SetImageURL(partForWorkOrder);
             return View(partForWorkOrder);
         }

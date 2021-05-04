@@ -111,7 +111,7 @@ namespace EndlasNet.Web.Controllers
                 partForWork.PartForWorkId = Guid.NewGuid();
                 partForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 if (partForWork.ImageFile != null)
-                    partForWork.DrawingImageBytes= await FileURL.GetFileBytes(partForWork.ImageFile);
+                    partForWork.ImageBytes= await FileURL.GetFileBytes(partForWork.ImageFile);
 
                 _context.Add(partForWork);
                 await _context.SaveChangesAsync();
@@ -155,9 +155,9 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     if (partForWork.ImageFile != null)
-                        partForWork.DrawingImageBytes = await FileURL.GetFileBytes(partForWork.ImageFile);
+                        partForWork.ImageBytes = await FileURL.GetFileBytes(partForWork.ImageFile);
                     if (partForWork.ClearImg)
-                        partForWork.DrawingImageBytes = null;
+                        partForWork.ImageBytes = null;
                         partForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     _context.Update(partForWork);
                     await _context.SaveChangesAsync();

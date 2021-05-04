@@ -73,7 +73,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if(partForJob.DrawingImageBytes != null)
+            if(partForJob.ImageBytes != null)
                 FileURL.SetImageURL(partForJob);
 
             ViewBag.id = id;
@@ -109,7 +109,7 @@ namespace EndlasNet.Web.Controllers
                 partForJob.PartForWorkId = Guid.NewGuid();
                 partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 if (partForJob.ImageFile != null)
-                    partForJob.DrawingImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
+                    partForJob.ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
                 _context.Add(partForJob);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index","PartsForAJob", new { id = partForJob.PartForWorkId, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder = "" });
@@ -130,7 +130,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-          
+            if (partForJob.ImageBytes != null)
+                FileURL.SetImageURL(partForJob);
             return View(partForJob);
         }
 
@@ -150,13 +151,17 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    if (partForJob.ImageFile != null)
-                        partForJob.DrawingImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
-                    if (partForJob.ClearImg)
-                        partForJob.DrawingImageBytes = null;
+                    if (partForJob.ImageFile != null && !partForJob.ClearImg)
+                    {
+                        partForJob.ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
+                    }
+                    else
+                    {
+                        partForJob.ImageBytes = null;
+                    }
                     partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    _context.Update(partForJob);
-
+                    var entry = _context.Entry(partForJob);
+                    entry.State = EntityState.Modified;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -192,7 +197,9 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            FileURL.SetImageURL(partForJob);
+            if(partForJob.ImageBytes != null)
+                FileURL.SetImageURL(partForJob);
+
             return View(partForJob);
         }
 
