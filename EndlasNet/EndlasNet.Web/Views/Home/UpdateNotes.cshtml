@@ -53,6 +53,14 @@
             Found issue in static part info, edit and in part for job, edit. When editing a row with an existing image file, the image
             didn't persist after the save submit. Now the image file does persist on save submit.
         </li>
+        <li class="update-notes-li">
+            Added same functionality for adding and displaying image for parts for jobs and parts for work orders all parts for work. 
+            Seems to work as intended.
+        </li>
+        <li class="update-notes-li">
+            Fixed issue under Part for job and Part for work order where the part count would be incorrect when multiple groups of 
+            parts for work exist. Now the number of parts displays correctly.
+        </li>
     </ul>
 
 
@@ -91,9 +99,6 @@
                 <li class="update-notes-li">
             Make form minimum width a little wider for form pages.
         </li>
-            <li class="update-notes-li">
-                Part count is wrong after adding 2 PartsForWork (they both display the 2nd count).
-            </li>
             <li class="update-notes-li">
                 Some delete views have a UI flaw with the delete button not fitting on one line with action links.
             </li>
