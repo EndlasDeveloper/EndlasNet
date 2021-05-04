@@ -95,7 +95,6 @@ namespace EndlasNet.Web.Controllers
                         if (partForWorkOrder.ImageFile != null)
                             partForWorkOrder.ImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
                         await _repo.AddPartForWorkOrderAsync(tempPartForWorkOrder);
-                        await _repo.AddPartForWorkOrderAsync(tempPartForWorkOrder);
                     }
                     catch (Exception ex) { ex.ToString(); continue; }
                 }
