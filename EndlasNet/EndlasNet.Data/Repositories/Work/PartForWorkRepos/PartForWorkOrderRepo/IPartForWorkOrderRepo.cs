@@ -16,6 +16,9 @@ namespace EndlasNet.Data
         public Task<PartForWorkOrder> GetCustomerForDeleteAsync(Guid? id);
         public Task UpdatePartForWorkOrderAsync(PartForWorkOrder partForWorkOrder);
         public Task<IEnumerable<PartForWorkOrder>> GetBatch(string workId, string partInfoId);
-       
+        public Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfo();
+
+        public Task<IEnumerable<WorkOrder>> GetAllWorkOrders();
+        public Task<IEnumerable<PartForWorkOrder>> GetPartsForWorkOrdersWithPartInfo(Guid staticPartInfoId);
     }
 }

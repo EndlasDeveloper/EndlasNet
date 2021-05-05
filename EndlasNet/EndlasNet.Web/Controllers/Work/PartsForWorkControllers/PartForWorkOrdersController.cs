@@ -12,13 +12,11 @@ namespace EndlasNet.Web.Controllers
 {
     public class PartForWorkOrdersController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-        private PartForWorkOrderRepo _repo;
+        private IPartForWorkOrderRepo _repo;
 
-        public PartForWorkOrdersController(EndlasNetDbContext context)
+        public PartForWorkOrdersController(IPartForWorkOrderRepo repo)
         {
-            _context = context;
-            _repo = new PartForWorkOrderRepo(context);
+            _repo = repo;
         }
 
         // GET: PartForWorkOrders
@@ -37,10 +35,10 @@ namespace EndlasNet.Web.Controllers
         }    
 
         // GET: PartForWorkOrders/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber");
-            ViewData["WorkId"] = new SelectList(_context.WorkOrders, "WorkId", "EndlasNumber");
+            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber");
+            ViewData["WorkId"] = new SelectList(await _repo.GetAllWorkOrders(), "WorkId", "EndlasNumber");
             return View();
         }
 
@@ -52,10 +50,8 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId,ClearImg,ImageName,ImageFile")] PartForWorkOrder partForWorkOrder)
         {
             // gets list of tools that have count > 0
-            var resultList = await _context.PartsForWorkOrders
-                .Where(p => p.StaticPartInfoId == partForWorkOrder.StaticPartInfoId)
-                .ToListAsync();
-            var count = resultList.Count;
+            var resultList = await _repo.GetPartsForWorkOrdersWithPartInfo(partForWorkOrder.StaticPartInfoId);
+            var count = resultList.Count();
             int maxIndex = -1;
             foreach (PartForWorkOrder pForWorkOrder in resultList)
             {
@@ -99,7 +95,7 @@ namespace EndlasNet.Web.Controllers
                     catch (Exception ex) { ex.ToString(); continue; }
                 }
                 // update the number of parts
-                var partsForWorkOrders = await _context.PartsForWorkOrders.ToListAsync();
+                var partsForWorkOrders = await _repo.GetAllPartsForWorkOrdersAsync();
                 foreach (PartForWorkOrder part in partsForWorkOrders)
                 {
                     part.NumParts = partForWorkOrder.NumParts;
@@ -109,8 +105,8 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             // fail, keep tracking referenced entities and return the part for work order back to the create view
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWorkOrder.StaticPartInfoId);
-            ViewData["WorkId"] = new SelectList(_context.WorkOrders, "WorkId", "EndlasNumber", partForWorkOrder.WorkId);
+            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForWorkOrder.StaticPartInfoId);
+            ViewData["WorkId"] = new SelectList(await _repo.GetAllWorkOrders(), "WorkId", "EndlasNumber", partForWorkOrder.WorkId);
             return View(partForWorkOrder);
         }
 
@@ -119,9 +115,9 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction("Index", "PartsForAWorkOrder", new { id = id, workId = workId, partInfoId = partInfoId, sortOrder = "suffix_asc" });
         }
 
-        private bool PartForWorkOrderExists(Guid id)
+        private async Task<bool> PartForWorkOrderExists(Guid id)
         {
-            return _context.PartsForWorkOrders.Any(e => e.PartForWorkId == id);
+            return await _repo.ConfirmPartForWorkOrderExistsAsync(id);
         }
     }
 }

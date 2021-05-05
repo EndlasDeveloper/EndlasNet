@@ -90,5 +90,26 @@ namespace EndlasNet.Data
                 .Where(p => p.StaticPartInfoId.ToString() == partInfoId)
                 .OrderByDescending(p => p.Suffix);
         }
+
+        public async Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfo()
+        {
+            return await _db.StaticPartInfo
+                .OrderByDescending(s => s.DrawingNumber)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<WorkOrder>> GetAllWorkOrders()
+        {
+            return await _db.WorkOrders
+                .OrderByDescending(j => j.EndlasNumber)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<PartForWorkOrder>> GetPartsForWorkOrdersWithPartInfo(Guid staticPartInfoId)
+        {
+            return await _db.PartsForWorkOrders
+                          .Where(p => p.StaticPartInfoId == staticPartInfoId)
+                          .ToListAsync();
+        }
     }
 }
