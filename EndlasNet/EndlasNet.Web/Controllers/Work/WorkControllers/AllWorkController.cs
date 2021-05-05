@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EndlasNet.Data;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -77,6 +78,28 @@ namespace EndlasNet.Web.Controllers
         {
             await _workRepo.DeleteWork(id);
             return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadProcessPdf(Guid? myvar)
+        {
+            if (myvar == null)
+            {
+                return NotFound();
+            }
+
+            var job = await _workRepo.GetWork(myvar);
+
+            var fileName = job.EndlasNumber + "_process_notes.pdf";
+            Response.ContentType = "application/pdf";
+            Response.Headers.Add("content-disposition", "attachment;filename=" + fileName);
+            MemoryStream ms = new MemoryStream(job.ProcessSheetNotesPdfBytes);
+            if (ms == null)
+            {
+                return NotFound();
+            }
+            return File(ms, "application/pdf", fileName);
         }
 
     }

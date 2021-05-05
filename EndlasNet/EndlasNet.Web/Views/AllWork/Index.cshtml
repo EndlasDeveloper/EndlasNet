@@ -53,7 +53,14 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
+                    @if (item.PurchaseOrderNum == null)
+                    {
+                        <span style="color:gray">NA</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.PurchaseOrderNum)
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DueDate)

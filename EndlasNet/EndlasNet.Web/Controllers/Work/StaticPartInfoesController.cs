@@ -48,7 +48,6 @@ namespace EndlasNet.Web.Controllers
             }
 
             var staticPartInfo = (StaticPartInfo)await _staticPartInfoRepo.GetRow(id);
-            staticPartInfo.User = (User)await _userRepo.GetRow(staticPartInfo.UserId);
 
             if (staticPartInfo == null)
             {
@@ -212,14 +211,14 @@ namespace EndlasNet.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DownloadFinishPdf(Guid? id)
+        public async Task<IActionResult> DownloadFinishPdf(Guid? myvar)
         {
-            if (id == null)
+            if (myvar == null)
             {
                 return NotFound();
             }
 
-            var staticPartInfo = (StaticPartInfo)await _staticPartInfoRepo.GetRow(id);
+            var staticPartInfo = (StaticPartInfo)await _staticPartInfoRepo.GetRow(myvar);
        
             var fileName = staticPartInfo.DrawingNumber + "_finish.pdf";
             Response.ContentType = "application/pdf";
@@ -232,14 +231,14 @@ namespace EndlasNet.Web.Controllers
             return File(ms, "application/pdf", fileName); 
         }
 
-        public async Task<IActionResult> DownloadBlankPdf(Guid? id)
+        public async Task<IActionResult> DownloadBlankPdf(Guid? myvar)
         {
-            if (id == null)
+            if (myvar == null)
             {
                 return NotFound();
             }
 
-            var staticPartInfo = (StaticPartInfo)await _staticPartInfoRepo.GetRow(id);         
+            var staticPartInfo = (StaticPartInfo)await _staticPartInfoRepo.GetRow(myvar);         
 
             var fileName = staticPartInfo.DrawingNumber + "_blank.pdf";
             Response.ContentType = "application/pdf";

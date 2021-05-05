@@ -58,7 +58,7 @@
         <dd class="col-sm-10">
             @if (Model.ProcessSheetNotesPdfBytes != null)
             {
-                <a title="Download process sheet PDF" asp-action="DownloadProcessPdf" asp-controller="Jobs" asp-route-myvar="@Model.WorkId">
+                <a title="Download process sheet PDF" asp-action="DownloadProcessPdf" asp-controller="AllWork" asp-route-myvar="@Model.WorkId">
                     <span class="form-inline"><img src="~/img/download.png" class="my-custom-img" /></span>
                 </a>
             }

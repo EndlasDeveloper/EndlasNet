@@ -182,14 +182,14 @@ namespace EndlasNet.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DownloadProcessPdf(Guid? id)
+        public async Task<IActionResult> DownloadProcessPdf(Guid? myvar)
         {
-            if (id == null)
+            if (myvar == null)
             {
                 return NotFound();
             }
 
-            var job = await _jobRepo.GetRow(id);
+            var job = await _jobRepo.GetRow(myvar);
 
             var fileName = job.EndlasNumber + "_process_notes.pdf";
             Response.ContentType = "application/pdf";

@@ -155,14 +155,14 @@ namespace EndlasNet.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DownloadCompositionPdf(Guid? id)
+        public async Task<IActionResult> DownloadCompositionPdf(Guid? myvar)
         {
-            if (id == null)
+            if (myvar == null)
             {
                 return NotFound();
             }
 
-            var staticPowderInfo = await _staticPowderInfoRepo.GetRow(id);
+            var staticPowderInfo = await _staticPowderInfoRepo.GetRow(myvar);
 
             var fileName = staticPowderInfo.PowderName + "_composition.pdf";
             Response.ContentType = "application/pdf";
