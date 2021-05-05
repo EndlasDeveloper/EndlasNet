@@ -13,16 +13,11 @@ namespace EndlasNet.Web.Controllers
 {
     public class WorkOrdersController : Controller
     {
-        private readonly WorkOrderRepo _workOrderRepo;
-        private readonly CustomerRepo _customerRepo;
-        private readonly UserRepo _userRepo;
-        private readonly EndlasNetDbContext _context;
-        public WorkOrdersController(EndlasNetDbContext context)
+        private readonly IWorkOrderRepo _workOrderRepo;
+ 
+        public WorkOrdersController(IWorkOrderRepo repo)
         {
-            _context = context;
-            _userRepo = new UserRepo(context);
-            _workOrderRepo = new WorkOrderRepo(context);
-            _customerRepo = new CustomerRepo(context);
+            _workOrderRepo = repo;
         }
 
         // GET: WorkOrders
@@ -52,7 +47,7 @@ namespace EndlasNet.Web.Controllers
         // GET: WorkOrders/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
+            ViewData["CustomerId"] = new SelectList(await _workOrderRepo.GetAllCustomers(), "CustomerId", "CustomerName");
             return View();
         }
 
@@ -63,12 +58,12 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId,ProcessSheetNotesFile")] WorkOrder workOrder)
         {
-            var work = await _context.Work.Where(w => w.EndlasNumber == workOrder.EndlasNumber).ToListAsync();
-            var quotes = await _context.Quotes.Where(q => q.EndlasNumber == workOrder.EndlasNumber).ToListAsync();
-            if (work.Count > 0 || quotes.Count > 0)
+            var work = await _workOrderRepo.GetWorkWithEndlasNumber(workOrder.EndlasNumber);
+            var quotes = await _workOrderRepo.GetQuotesWithEndlasNumber(workOrder.EndlasNumber);
+            if (work.Count() > 0 || quotes.Count() > 0)
             {
                 ViewBag.EndlasNumberConflict = "true";
-                ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
+                ViewData["CustomerId"] = new SelectList(await _workOrderRepo.GetAllCustomers(), "CustomerId", "CustomerName");
                 return View(workOrder);
             }
             if (ModelState.IsValid)
@@ -82,8 +77,7 @@ namespace EndlasNet.Web.Controllers
                 await _workOrderRepo.AddRow(workOrder);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerAddress", workOrder.CustomerId);
-            ViewData["UserId"] = new SelectList(await _userRepo.GetAllRows(), "UserId", "AuthString", workOrder.UserId);
+            ViewData["CustomerId"] = new SelectList(await _workOrderRepo.GetAllCustomers(), "CustomerId", "CustomerAddress", workOrder.CustomerId);
             return View(workOrder);
         }
 
@@ -100,7 +94,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", workOrder.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _workOrderRepo.GetAllCustomers(), "CustomerId", "CustomerName", workOrder.CustomerId);
             return View(workOrder);
         }
 
@@ -121,18 +115,13 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
 
-                    var work = await _context.Work
-                        .Where(w => w.WorkId != workOrder.WorkId)
-                        .Where(w => w.EndlasNumber == workOrder.EndlasNumber)
-                        .ToListAsync();
-                    var quotes = await _context.Quotes
-                        .Where(q => q.EndlasNumber == workOrder.EndlasNumber)
-                        .ToListAsync();
+                    var work = await _workOrderRepo.FindDuplicateWork(workOrder);
+                    var quotes = await _workOrderRepo.FindDuplicateQuote(workOrder);
 
-                    if (work.Count > 0 || quotes.Count > 0)
+                    if (work.Count() > 0 || quotes.Count() > 0)
                     {
                         ViewBag.EndlasNumberConflict = "true";
-                        ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
+                        ViewData["CustomerId"] = new SelectList(await _workOrderRepo.GetAllCustomers(), "CustomerId", "CustomerName");
                         return View(workOrder);
                     }
                     workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
@@ -160,7 +149,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", workOrder.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _workOrderRepo.GetAllCustomers(), "CustomerId", "CustomerName", workOrder.CustomerId);
             return View(workOrder);
         }
 

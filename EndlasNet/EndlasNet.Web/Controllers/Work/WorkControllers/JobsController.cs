@@ -13,14 +13,11 @@ namespace EndlasNet.Web.Controllers
 {
     public class JobsController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-        private readonly JobRepo _jobRepo;
-        private readonly CustomerRepo _customerRepo;
-        public JobsController(EndlasNetDbContext context)
+        private readonly IJobRepo _jobRepo;
+        public JobsController(IJobRepo repo)
         {
-            _context = context;
-            _jobRepo = new JobRepo(context);
-            _customerRepo = new CustomerRepo(context);
+            
+            _jobRepo = repo;
         }
 
         // GET: Jobs
@@ -49,8 +46,7 @@ namespace EndlasNet.Web.Controllers
         // GET: Jobs/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
-            ViewData["QuoteId"] = new SelectList(await _context.Quotes.OrderByDescending(q => q.EndlasNumber).ToListAsync(), "QuoteId", "EndlasNumber");
+            await SetViewData();
             return View();
         }
 
@@ -70,16 +66,26 @@ namespace EndlasNet.Web.Controllers
                 {
                     job.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(job.ProcessSheetNotesFile);
                 }
-                var quote = await _context.Quotes.FirstOrDefaultAsync(q => q.QuoteId == job.QuoteId);
+                var quote = await _jobRepo.GetQuote((Guid)job.QuoteId);
                 job.EndlasNumber = quote.EndlasNumber;
                 job.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 await _jobRepo.AddRow(job);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerAddress", job.CustomerId);
-            ViewData["QuoteId"] = new SelectList(await _context.Quotes.OrderByDescending(q => q.EndlasNumber).ToListAsync(), "QuoteId", "EndlasNumber");
-
+            await SetViewData();
             return View(job);
+        }
+
+        private async Task SetViewData(Job job)
+        {
+            ViewData["CustomerId"] = new SelectList(await _jobRepo.GetAllCustomers(), "CustomerId", "CustomerAddress", job.CustomerId);
+            ViewData["QuoteId"] = new SelectList(await _jobRepo.GetAllQuotes(), "QuoteId", "EndlasNumber");
+        }
+
+        private async Task SetViewData()
+        {
+            ViewData["CustomerId"] = new SelectList(await _jobRepo.GetAllCustomers(), "CustomerId", "CustomerName");
+            ViewData["QuoteId"] = new SelectList(await _jobRepo.GetAllQuotes(), "QuoteId", "EndlasNumber");
         }
 
         // GET: Jobs/Edit/5
@@ -95,8 +101,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", job.CustomerId);
-            ViewData["QuoteId"] = new SelectList(await _context.Quotes.OrderByDescending(q => q.EndlasNumber).ToListAsync(), "QuoteId", "EndlasNumber");
+            await SetViewData(job);
 
             return View(job);
         }
@@ -126,10 +131,9 @@ namespace EndlasNet.Web.Controllers
                         job.ProcessSheetNotesPdfBytes = null;
                     }
                     job.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    var quote = await _context.Quotes.FirstOrDefaultAsync(q => q.QuoteId == job.QuoteId);
+                    var quote = await _jobRepo.GetQuote((Guid)job.QuoteId);
                     job.EndlasNumber = quote.EndlasNumber;
-                    _context.Update(job);
-                    await _context.SaveChangesAsync();
+                    await _jobRepo.UpdateRow(job);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -144,8 +148,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", job.CustomerId);
-            ViewData["QuoteId"] = new SelectList(await _context.Quotes.OrderByDescending(q => q.EndlasNumber).ToListAsync(), "QuoteId", "EndlasNumber");
+            await SetViewData(job);
 
             return View(job);
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class WorkOrderRepo : IWorkRepo
+    public class WorkOrderRepo : IWorkOrderRepo
     {
         private readonly EndlasNetDbContext _db;
 
@@ -79,6 +79,64 @@ namespace EndlasNet.Data
         public async Task<WorkOrder> FindRow(Guid? id)
         {
             return await _db.WorkOrders.FindAsync(id);
+        }
+
+        public async Task<Work> GetWork(Guid? id)
+        {
+            return await _db.Work
+                .Include(w => w.User)
+                .Include(w => w.Quote)
+                .Include(w => w.Customer)
+                .FirstOrDefaultAsync(w => w.WorkId == id);
+        }
+
+        public async Task<IEnumerable<Customer>> GetAllCustomers()
+        {
+            return await _db.Customers
+                .OrderByDescending(c => c.CustomerName)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Quote>> GetAllQuotes()
+        {
+            return await _db.Quotes
+                .OrderByDescending(q => q.EndlasNumber)
+                .ToListAsync();
+        }
+
+        public async Task<Quote> GetQuote(Guid id)
+        {
+            return await _db.Quotes
+                .FirstOrDefaultAsync(q => q.QuoteId == id);
+        }
+        public async Task<IEnumerable<Work>> GetWorkWithEndlasNumber(string endlasNumber)
+        {
+            return await _db.Work
+                .Where(w => w.EndlasNumber == endlasNumber)
+                .ToListAsync();
+        }
+
+ 
+
+        public async Task<IEnumerable<Work>> FindDuplicateWork(Work work)
+        {
+            return await _db.Work
+                .Where(w => w.WorkId != work.WorkId)
+                .Where(w => w.EndlasNumber == work.EndlasNumber)
+                .ToListAsync();
+        }
+        public async  Task<IEnumerable<Quote>> FindDuplicateQuote(Work work)
+        {
+            return await _db.Quotes
+                .Where(q => q.EndlasNumber == work.EndlasNumber)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Quote>> GetQuotesWithEndlasNumber(string endlasNumber)
+        {
+            return await _db.Quotes
+                 .Where(q => q.EndlasNumber == endlasNumber)
+                 .ToListAsync();
         }
     }
 }
