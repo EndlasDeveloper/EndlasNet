@@ -15,11 +15,6 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task<User> GetUser(string email)
-        {
-            return await _db.Users.Where(p => p.EndlasEmail == email).FirstOrDefaultAsync();
-        }
-
         public string GetUserPrivileges(User user)
         {
             try
@@ -32,33 +27,13 @@ namespace EndlasNet.Data
             }
             return null;
         }
-
-        public async Task<User> GetRow(Guid? id)
-        {
-            return await _db.Users
-                .FirstOrDefaultAsync(u => u.UserId.ToString() == id.ToString());
-        }
-
+        
         public async Task<Admin> GetAdmin(Guid adminId)
         {
             return await _db.Admins
                 .FirstOrDefaultAsync(a => a.UserId == adminId);
         }
-
-        public async Task<Employee> GetEmployee(Guid employeeId)
-        {
-            return await _db.Employees
-               .FirstOrDefaultAsync(a => a.UserId == employeeId);
-        }
-
-        public async Task<IEnumerable<User>> GetAllRows()
-        {
-            var users = await _db.Users
-                .OrderByDescending(u => u.EndlasEmail)
-                .ToListAsync();
-            return users.AsEnumerable();
-        }
-
+ 
         public async Task<IEnumerable<Admin>> GetAllAdmins()
         {
             var admins = await _db.Admins
@@ -67,32 +42,11 @@ namespace EndlasNet.Data
             return admins.AsEnumerable();
         }
 
-        public async Task<IEnumerable<Employee>> GetAllEmployees()
-        {
-            var employees = await _db.Employees
-                .OrderByDescending(u => u.EndlasEmail)
-                .ToListAsync();
-            return employees.AsEnumerable();
-        }
-
-        public async Task AddRow(User user)
-        {
-            await _db.Users.AddAsync(user);
-            await _db.SaveChangesAsync();
-        }
-
         public async Task AddAdmin(Admin admin)
         {
             _db.Admins.Add(admin);
             await _db.SaveChangesAsync();
         }
-
-        public async Task AddEmployee(Employee employee)
-        {
-            _db.Employees.Add(employee);
-            await _db.SaveChangesAsync();
-        }
-
 
         public async Task UpdateRow(User user)
         {
@@ -136,13 +90,7 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task UpdateEmployee(Employee employee)
-        {
-            var entry = _db.Entry(employee);
-            entry.State = EntityState.Modified;
-            await _db.SaveChangesAsync();
-        }
-
+ 
         public async Task<User> DeleteUserAsync(Guid? id)
         {
             return await _db.Users
