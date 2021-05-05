@@ -15,5 +15,8 @@ namespace EndlasNet.Data
         [Required]
         [Display(Name ="Endlas number")]
         public string EndlasNumber { get; set; }
+
+        [Display(Name ="Short description")]
+        public string ShortDescription { get; set; }
     }
 }

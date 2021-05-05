@@ -12,7 +12,7 @@ namespace EndlasNet.Data
             modelBuilder.Entity<Customer>().HasMany(c => c.StaticPartInfos).WithOne(c => c.Customer).OnDelete(DeleteBehavior.ClientSetNull);
             modelBuilder.Entity<StaticPowderInfo>().HasMany(s => s.LineItems).WithOne(l => l.StaticPowderInfo).OnDelete(DeleteBehavior.SetNull);
             modelBuilder.Entity<StaticPowderInfo>().HasMany(s => s.Powders).WithOne(l => l.StaticPowderInfo).OnDelete(DeleteBehavior.SetNull);
-            modelBuilder.Entity<MachiningTool>().HasOne(m => m.User).WithMany(u => u.MachiningTools).OnDelete(DeleteBehavior.ClientSetNull);
+            modelBuilder.Entity<MachiningTool>().HasOne(m => m.User).WithMany(u => u.MachiningTools);
             modelBuilder.Entity<PowderBottle>().HasMany(p => p.PowderForParts).WithOne(p => p.PowderBottle).OnDelete(DeleteBehavior.SetNull);
 
             /*** USER ***/
@@ -21,14 +21,12 @@ namespace EndlasNet.Data
             modelBuilder.Entity<User>().HasMany(u => u.Work).WithOne(j => j.User).OnDelete(DeleteBehavior.SetNull);
 
             /*** WORK ***/
-            modelBuilder.Entity<Customer>().HasMany(c => c.Work).WithOne(j => j.Customer);
             modelBuilder.Entity<Work>().HasMany(j => j.PartsForWork).WithOne(p => p.Work);
-            modelBuilder.Entity<StaticPartInfo>().HasOne(s => s.Customer).WithMany(c => c.StaticPartInfos).OnDelete(DeleteBehavior.SetNull);
             modelBuilder.Entity<PartForWork>().HasMany(p => p.PowdersUsed).WithOne(p => p.PartForWork);
 
             /*** ACTION ***/
-            modelBuilder.Entity<Work>().HasMany(j => j.ToolsForJob).WithOne(m => m.Work);
-            modelBuilder.Entity<Work>().HasMany(j => j.ToolsForWorkOrder).WithOne(m => m.Work);
+            modelBuilder.Entity<Work>().HasMany(j => j.ToolsForJob).WithOne(m => m.Work).OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<Work>().HasMany(j => j.ToolsForWorkOrder).WithOne(m => m.Work).OnDelete(DeleteBehavior.SetNull);
 
             /*** QUOTE ***/
 

@@ -25,13 +25,19 @@
             Fixed bug: StaticPowderInfo -> composition pdf download not working (also in StaticPartInfo, Work, others too). Now all working as expected.
             Problem was in possibly an update to one of the Nuget packages where the variable name for the route data needed to be 'myvar' verbatim.
         </li>
+        <li class="update-notes-li">
+            Refactoring controllers to accept an interface repository class as a constructor parameter rather than the DbContext class extension.
+            Finished: Admin, Employee, vendor, Customer, StaticPartInfo, Job, WorKOrder, AllWork, PartsForJobs, PartsForWorkOrders, PartForAJob, PartForAWorkOrder, All PartsForWork
+        </li>
     </ul>
 
 
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
-
+        <li class="update-notes-li">
+            Add 'short description' string attribute to quote. Then in jobs, display short description in addition to EN.
+        </li>
         <li class="update-notes-li">
             PartForWork -> filter rows by PO date (by year/month/day).
         </li>

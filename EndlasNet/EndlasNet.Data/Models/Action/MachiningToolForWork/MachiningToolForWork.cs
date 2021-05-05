@@ -15,10 +15,9 @@ namespace EndlasNet.Data
         [Display(Name = "Date used")]
         public DateTime DateUsed { get; set; } = DateTime.Now;
 
-        [Required]
         [ForeignKey("WorkId")]
         [Display(Name = "Work")]
-        public Guid WorkId { get; set; }
+        public Guid? WorkId { get; set; }
         public virtual Work Work { get; set; }
         [Required]
         [ForeignKey("MachiningToolId")]

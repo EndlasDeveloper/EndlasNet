@@ -37,8 +37,8 @@ namespace EndlasNet.Data
         public virtual User User{ get; set; }
 
         [ForeignKey("StaticPowderInfoId")]
-        public Guid StaticPowderInfoId { get; set; }
-        public StaticPowderInfo StaticPowderInfo { get; set; }
+        public Guid? StaticPowderInfoId { get; set; }
+        public virtual StaticPowderInfo StaticPowderInfo { get; set; }
 
         [NotMapped]
         public string PowderName { get; set; }

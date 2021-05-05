@@ -73,7 +73,7 @@ namespace EndlasNet.Web
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("QuoteId,EndlasNumber")] Quote quote)
+        public async Task<IActionResult> Create([Bind("QuoteId,EndlasNumber,ShortDescription")] Quote quote)
         {
             // 1. check that endlas number is unique in both quotes and work
             var quoteDuplicates = await _context.Quotes.Where(q => q.EndlasNumber == quote.EndlasNumber).ToListAsync();
@@ -118,7 +118,7 @@ namespace EndlasNet.Web
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("QuoteId,EndlasNumber")] Quote quote)
+        public async Task<IActionResult> Edit(Guid id, [Bind("QuoteId,EndlasNumber,ShortDescription")] Quote quote)
         {
             if (id != quote.QuoteId)
             {

@@ -11,7 +11,7 @@ namespace EndlasNet.Data
 
         public DateTime DateUsed { get; set; }
 
-        public Guid WorkId { get; set; }
+        public Guid? WorkId { get; set; }
         public Work Work { get; set; }
         public Guid MachiningToolId { get; set; }
         public MachiningTool MachiningTool { get; set; }
