@@ -35,6 +35,15 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
 
+        public async Task<PartForJob> GetPartForJob(Guid? id)
+        {
+            return await _db.PartsForJobs
+            .Include(p => p.StaticPartInfo)
+            .Include(p => p.User)
+            .Include(p => p.Work)
+            .FirstOrDefaultAsync(m => m.PartForWorkId == id);
+        }
+
         public async Task<List<PartForJob>> GetExistingPartBatch(PartForJob partForJob)
         {
             return await _db.PartsForJobs
@@ -111,6 +120,18 @@ namespace EndlasNet.Data
             return await _db.PartsForJobs
                 .Where(p => p.StaticPartInfoId == staticPartInfoId)
                 .ToListAsync();
+        }
+
+        public async Task<StaticPartInfo> GetStaticPartInfo(Guid id)
+        {
+            return await _db.StaticPartInfo
+                .FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
+        }
+
+        public async Task<Work> GetWork(Guid id)
+        {
+            return await _db.Work
+                .FirstOrDefaultAsync(s => s.WorkId == id);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace EndlasNet.Data
     {
         public Task<List<PartForJob>> GetAllPartsForJobs();
         public Task<PartForJob> GetPartForJobDetailsAsync(Guid? id);
+        public Task<PartForJob> GetPartForJob(Guid? id);
         public Task<List<PartForJob>> GetExistingPartBatch(PartForJob partForJob);
         public Task AddPartForJobAsync(PartForJob partForJob);
         public Task DeletePartForJobConfirmedAsync(Guid id);
@@ -18,8 +19,9 @@ namespace EndlasNet.Data
         public Task<IEnumerable<PartForJob>> GetBatch(string workId, string partInfoId);
 
         public Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfo();
+        public Task<StaticPartInfo> GetStaticPartInfo(Guid id);
         public Task<IEnumerable<Job>> GetAllJobs();
-
+        public Task<Work> GetWork(Guid id);
         public Task<IEnumerable<PartForJob>> GetPartsForJobsWithPartInfo(Guid staticPartInfoId);
 
     }

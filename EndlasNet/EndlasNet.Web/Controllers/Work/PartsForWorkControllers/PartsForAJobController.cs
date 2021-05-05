@@ -12,12 +12,10 @@ namespace EndlasNet.Web.Controllers
 {
     public class PartsForAJobController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-        private PartForJobRepo repo;
-        public PartsForAJobController(EndlasNetDbContext context)
+        private IPartForJobRepo _repo;
+        public PartsForAJobController(IPartForJobRepo repo)
         {
-            _context = context;
-            repo = new PartForJobRepo(context);
+            _repo = repo;
         }
 
         // GET: PartsForAJob
@@ -30,13 +28,12 @@ namespace EndlasNet.Web.Controllers
             ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
 
-            var endlasNetDbContext = await repo.GetBatch(workId.ToString(), partInfoId.ToString());
+            var endlasNetDbContext = await _repo.GetBatch(workId.ToString(), partInfoId.ToString());
             foreach(PartForJob partForJob in endlasNetDbContext)
             {
-                partForJob.StaticPartInfo = await _context.StaticPartInfo
-                    .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForJob.StaticPartInfoId);
-                partForJob.Work = await _context.Work
-                    .FirstOrDefaultAsync(s => s.WorkId == partForJob.WorkId);
+
+                partForJob.StaticPartInfo = await _repo.GetStaticPartInfo(partForJob.StaticPartInfoId);
+                partForJob.Work = await _repo.GetWork(partForJob.WorkId);
             }
             switch (sortOrder)
             {
@@ -62,13 +59,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
-            var partForJob = await _context.PartsForJobs
-                .Include(p => p.StaticPartInfo)
-                .Include(p => p.User)
-                .Include(p => p.Work)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
+            var partForJob = await _repo.GetPartForJobDetailsAsync(id);
+           
             if (partForJob == null)
             {
                 return NotFound();
@@ -110,8 +102,7 @@ namespace EndlasNet.Web.Controllers
                 partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 if (partForJob.ImageFile != null)
                     partForJob.ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
-                _context.Add(partForJob);
-                await _context.SaveChangesAsync();
+                await _repo.AddPartForJobAsync(partForJob);
                 return RedirectToAction("Index","PartsForAJob", new { id = partForJob.PartForWorkId, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder = "" });
             }
             return View(partForJob);
@@ -125,7 +116,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForJobs.FindAsync(id);
+            var partForJob = await _repo.GetPartForJob(id);
             if (partForJob == null)
             {
                 return NotFound();
@@ -160,13 +151,11 @@ namespace EndlasNet.Web.Controllers
                         partForJob.ImageBytes = null;
                     }
                     partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    var entry = _context.Entry(partForJob);
-                    entry.State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
+                    await _repo.UpdatePartForJobAsync(partForJob);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PartForJobExists(partForJob.PartForWorkId))
+                    if (!(await PartForJobExists(partForJob.PartForWorkId)))
                     {
                         return NotFound();
                     }
@@ -188,11 +177,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForJob = await _context.PartsForJobs
-                .Include(p => p.StaticPartInfo)
-                .Include(p => p.User)
-                .Include(p => p.Work)
-                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
+            var partForJob = await _repo.GetPartForJob(id);
             if (partForJob == null)
             {
                 return NotFound();
@@ -208,9 +193,8 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var partForJob = await _context.PartsForJobs.FindAsync(id);
-            _context.PartsForJobs.Remove(partForJob);
-            await _context.SaveChangesAsync();
+            var partForJob = await _repo.GetPartForJob(id);
+            await _repo.DeletePartForJobConfirmedAsync(id);
             return RedirectToAction("Index","PartsForAJob",new {id = id, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder="" });
         }
 
@@ -220,9 +204,9 @@ namespace EndlasNet.Web.Controllers
 
         }
 
-        private bool PartForJobExists(Guid id)
+        private async Task<bool> PartForJobExists(Guid id)
         {
-            return _context.PartsForJobs.Any(e => e.PartForWorkId == id);
+            return await _repo.ConfirmPartForJobExistsAsync(id);
         }
     }
 }
