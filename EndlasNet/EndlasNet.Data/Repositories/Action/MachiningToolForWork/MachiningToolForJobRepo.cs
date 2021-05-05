@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class MachiningToolForJobRepo : IMachiningToolForWorkRepo
+    public class MachiningToolForJobRepo 
     {
         private readonly EndlasNetDbContext _db;
 

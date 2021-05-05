@@ -20,4 +20,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EndlasNet.Data\EndlasNet.Data.csproj" />
+    <ProjectReference Include="..\EndlasNet.Web\EndlasNet.Web.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -10,15 +10,24 @@ namespace EndlasNet.Data
     public class MachiningToolForWorkRepo : IMachiningToolForWorkRepo
     {
         private readonly EndlasNetDbContext _db;
-        private readonly MachiningToolForJobRepo _machiningToolForJobRepo;
-        private readonly MachiningToolForWorkOrderRepo _machiningToolForWorkOrderRepo;
+        public MachiningToolRepo MachiningToolRepo { get; set; }
+        public UserRepo UserRepo { get; set; }
+        public JobRepo JobRepo { get; set; }
+        public WorkOrderRepo WorkOrderRepo { get; set; }
+        public MachiningToolForJobRepo MachiningToolForJobRepo { get; set; }
+        public MachiningToolForWorkOrderRepo MachiningToolForWorkOrderRepo { get; set; }
 
         public MachiningToolForWorkRepo(EndlasNetDbContext db)
         {
             _db = db;
-            _machiningToolForJobRepo = new MachiningToolForJobRepo(db);
-            _machiningToolForWorkOrderRepo = new MachiningToolForWorkOrderRepo(db);
+            UserRepo = new UserRepo(db);
+            JobRepo = new JobRepo(db);
+            WorkOrderRepo = new WorkOrderRepo(db);
+            MachiningToolForJobRepo = new MachiningToolForJobRepo(db);
+            MachiningToolForWorkOrderRepo = new MachiningToolForWorkOrderRepo(db);
         }
+
+
 
         public async Task AddRow(MachiningToolForWork machiningToolForWork)
         {
@@ -30,11 +39,11 @@ namespace EndlasNet.Data
                 var workType = _db.Entry(work).Property("Discriminator").CurrentValue;
                 if((string)workType == nameof(Job))
                 {
-                    await _machiningToolForJobRepo.AddRow(machiningToolForWork);
+                    await MachiningToolForWorkOrderRepo.AddRow(machiningToolForWork);
                 }
                 else if((string)(workType) == nameof(WorkOrder))
                 {
-                    await _machiningToolForWorkOrderRepo.AddRow(machiningToolForWork);
+                    await MachiningToolForWorkOrderRepo.AddRow(machiningToolForWork);
                 }
             }
             catch (InvalidCastException) { }
@@ -89,15 +98,15 @@ namespace EndlasNet.Data
                           .AnyAsync(m => m.MachiningToolForWorkId == id);
         }
 
-        public async Task UpdateRow(object obj)
+        public async Task UpdateRow(MachiningToolForWork machiningToolForWork)
         {
-            try
-            {
-                var entry = _db.Entry((MachiningToolForWork)obj);
-                entry.State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            var entry = _db.Entry(machiningToolForWork);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
+
+    
+
+
     }
 }
