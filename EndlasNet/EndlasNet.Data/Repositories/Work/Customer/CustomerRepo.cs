@@ -56,10 +56,6 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public Task RemoveRow(Guid id)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task DeleteRow(Guid? customerId)
         {

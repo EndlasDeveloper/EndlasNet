@@ -11,10 +11,10 @@ namespace EndlasNet.Web.Controllers
 {
     public class CustomersController : Controller
     {
-        private CustomerRepo _customerRepo;
-        public CustomersController(EndlasNetDbContext context)
+        private ICustomerRepo _customerRepo;
+        public CustomersController(ICustomerRepo repo)
         {
-            _customerRepo = new CustomerRepo(context);
+            _customerRepo = repo;
         }
 
         // GET: Customers
