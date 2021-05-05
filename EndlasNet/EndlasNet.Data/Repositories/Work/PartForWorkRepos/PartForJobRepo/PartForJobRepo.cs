@@ -71,7 +71,7 @@ namespace EndlasNet.Data
             return await _db.PartsForJobs.AnyAsync(e => e.PartForWorkId == id);
         }
 
-        public async Task<PartForJob> DeleteCustomerAsync(Guid? id)
+        public async Task<PartForJob> DeletePartForJobAsync(Guid? id)
         {
             return await _db.PartsForJobs
                 .Include(p => p.StaticPartInfo)

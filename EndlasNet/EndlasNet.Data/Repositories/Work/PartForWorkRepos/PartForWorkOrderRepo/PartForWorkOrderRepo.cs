@@ -61,7 +61,7 @@ namespace EndlasNet.Data
             return await _db.PartsForWorkOrders.AnyAsync(e => e.PartForWorkId == id);
         }
 
-        public async Task<PartForWorkOrder> GetCustomerForDeleteAsync(Guid? id)
+        public async Task<PartForWorkOrder> GetWorkOrderForDeleteAsync(Guid? id)
         {
             return await _db.PartsForWorkOrders
                 .Include(p => p.StaticPartInfo)
@@ -110,6 +110,41 @@ namespace EndlasNet.Data
             return await _db.PartsForWorkOrders
                           .Where(p => p.StaticPartInfoId == staticPartInfoId)
                           .ToListAsync();
+        }
+        public async Task<StaticPartInfo> GetStaticPartInfo(Guid id)
+        {
+            return await _db.StaticPartInfo
+                .FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
+        }
+
+        public async Task<Work> GetWork(Guid id)
+        {
+            return await _db.Work
+                .FirstOrDefaultAsync(s => s.WorkId == id);
+        }
+
+        public async Task DeletePartForWorkOrderAsync(PartForWorkOrder partForWorkOrder)
+        {
+            _db.Remove(partForWorkOrder);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<PartForWorkOrder> GetPartForWorkOrder(Guid id)
+        {
+            return await _db.PartsForWorkOrders
+                .Include(p => p.StaticPartInfo)
+                .Include(p => p.Work)
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.WorkId == id);
+        }
+
+        public async Task<PartForWorkOrder> GetPartForWorkOrderAsync(Guid? id)
+        {
+            return await _db.PartsForWorkOrders
+                           .Include(p => p.StaticPartInfo)
+                           .Include(p => p.User)
+                           .Include(p => p.Work)
+                           .FirstOrDefaultAsync(p => p.PartForWorkId == id);
         }
     }
 }

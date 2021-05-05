@@ -14,7 +14,7 @@ namespace EndlasNet.Data
         public Task AddPartForJobAsync(PartForJob partForJob);
         public Task DeletePartForJobConfirmedAsync(Guid id);
         public Task<bool> ConfirmPartForJobExistsAsync(Guid id);
-        public Task<PartForJob> DeleteCustomerAsync(Guid? id);
+        public Task<PartForJob> DeletePartForJobAsync(Guid? id);
         public Task UpdatePartForJobAsync(PartForJob partForJob);
         public Task<IEnumerable<PartForJob>> GetBatch(string workId, string partInfoId);
 
