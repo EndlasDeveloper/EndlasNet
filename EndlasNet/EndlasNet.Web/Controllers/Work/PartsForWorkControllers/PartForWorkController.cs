@@ -12,14 +12,11 @@ namespace EndlasNet.Web.Controllers
 {
     public class PartForWorkController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-        private PartForJobRepo jobRepo;
-        private PartForWorkOrderRepo workOrderRepo;
-        public PartForWorkController(EndlasNetDbContext context)
+
+        private IPartForWorkRepo _repo;
+        public PartForWorkController(IPartForWorkRepo repo)
         {
-            _context = context;
-            jobRepo = new PartForJobRepo(context);
-            workOrderRepo = new PartForWorkOrderRepo(context);
+            _repo = repo;
         }
 
         // GET: PartForWork
@@ -31,43 +28,43 @@ namespace EndlasNet.Web.Controllers
             ViewBag.WorkTypeJob = String.IsNullOrEmpty(sortOrder) ? "work_type_job" : "";
             ViewBag.WorkTypeWorkOrder = String.IsNullOrEmpty(sortOrder) ? "work_type_work_order" : "";
 
-            var partsForWork = await _context.PartsForWork.ToListAsync();
-
-            foreach(PartForWork partForWork in partsForWork)
+            var partsForWork = await _repo.GetAllPartsForWork();
+            List<PartForWork> partsForWorkList = partsForWork.ToList();
+            foreach(PartForWork partForWork in partsForWorkList)
             {
-                partForWork.WorkType = _context.Entry(partForWork).Property("Discriminator").CurrentValue.ToString();
+                partForWork.WorkType = _repo.GetWorkType(partForWork);
             }
 
             switch (sortOrder)
             {
                 case "suffix_desc":
-                    partsForWork = partsForWork.OrderByDescending(a => a.Suffix).ToList();
+                    partsForWorkList = partsForWorkList.OrderByDescending(a => a.Suffix).ToList();
                     break;
                 case "suffix_asc":
-                    partsForWork = partsForWork.OrderByDescending(a => a.Suffix).ToList();
-                    partsForWork.Reverse();
+                    partsForWorkList = partsForWorkList.OrderByDescending(a => a.Suffix).ToList();
+                    partsForWorkList.Reverse();
                     break;
                 case "work_type_job":
-                    var partsForJob = await _context.PartsForJobs.ToListAsync();
-                    partsForWork.Clear();
-                    foreach(PartForJob partForJob in partsForJob)
+                    var partsForJobs = await _repo.GetAllPartsForJobs();
+                    partsForWorkList.Clear();
+                    foreach(PartForJob partForJob in partsForWork)
                     {
-                        partsForWork.Insert(0, partForJob);
+                        partsForWorkList.Insert(0, partForJob);
                     }
                     break;
                 case "work_type_work_order":
-                    var partsForWorkOrders = await _context.PartsForWorkOrders.ToListAsync();
-                    partsForWork.Clear();
+                    var partsForWorkOrders = await _repo.GetPartForWorkOrders();
+                    partsForWorkList.Clear();
                     foreach (PartForWorkOrder partForWorkOrder in partsForWorkOrders)
                     {
-                        partsForWork.Insert(0, partForWorkOrder);
+                        partsForWorkList.Insert(0, partForWorkOrder);
                     }
                     break;
                 default:
                     break;
             }
 
-            return View(partsForWork);
+            return View(partsForWorkList);
         }
 
         // GET: PartForWork/Details/5
@@ -78,12 +75,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForWork = await _context.PartsForWork
-                .Include(p => p.StaticPartInfo)
-                .Include(p => p.User)
-                .Include(p => p.Work)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
+            var partForWork = await _repo.GetPartForWork(id);
             if (partForWork == null)
             {
                 return NotFound();
@@ -95,9 +87,9 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PartForWork/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber");
+            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber");
             return View();
         }
 
@@ -115,11 +107,10 @@ namespace EndlasNet.Web.Controllers
                 if (partForWork.ImageFile != null)
                     partForWork.ImageBytes= await FileURL.GetFileBytes(partForWork.ImageFile);
 
-                _context.Add(partForWork);
-                await _context.SaveChangesAsync();
+                await _repo.AddPartForWork(partForWork);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWork.StaticPartInfoId);
+            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForWork.StaticPartInfoId);
             return View(partForWork);
         }
 
@@ -131,7 +122,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForWork = await _context.PartsForWork.FindAsync(id);
+            var partForWork = await _repo.GetPartForWork(id);
             if (partForWork == null)
             {
                 return NotFound();
@@ -139,7 +130,7 @@ namespace EndlasNet.Web.Controllers
 
             if (partForWork.ImageBytes != null)
                 partForWork.ImageUrl = FileURL.GetImageURL(partForWork.ImageBytes);
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWork.StaticPartInfoId);
+            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForWork.StaticPartInfoId);
             return View(partForWork);
         }
 
@@ -164,8 +155,7 @@ namespace EndlasNet.Web.Controllers
                     if (partForWork.ClearImg)
                         partForWork.ImageBytes = null;
                         partForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    _context.Update(partForWork);
-                    await _context.SaveChangesAsync();
+                    await _repo.UpdatePartForWork(partForWork);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -180,7 +170,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForWork.StaticPartInfoId);
+            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForWork.StaticPartInfoId);
             return View(partForWork);
         }
 
@@ -192,11 +182,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForWork = await _context.PartsForWork
-                .Include(p => p.StaticPartInfo)
-                .Include(p => p.User)
-                .Include(p => p.Work)
-                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
+            var partForWork = await _repo.GetPartForWork(id);
             if (partForWork == null)
             {
                 return NotFound();
@@ -212,15 +198,14 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var partForWork = await _context.PartsForWork.FindAsync(id);
-            _context.PartsForWork.Remove(partForWork);
-            await _context.SaveChangesAsync();
+            var partForWork = await _repo.GetPartForWork(id);
+            await _repo.DeletePartForWork(partForWork);
             return RedirectToAction(nameof(Index));
         }
 
         private bool PartForWorkExists(Guid id)
         {
-            return _context.PartsForWork.Any(e => e.PartForWorkId == id);
+            return _repo.PartForWorkExists(id);
         }
     }
 }

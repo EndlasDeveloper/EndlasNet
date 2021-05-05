@@ -51,6 +51,7 @@ namespace EndlasNet.Web
             services.AddScoped<IStaticPartInfoRepo, StaticPartInfoRepo>();
             services.AddScoped<IWorkRepo, WorkRepo>();
             services.AddScoped<IPartForJobRepo, PartForJobRepo>();
+            services.AddScoped<IPartForWorkRepo, PartForWorkRepo>();
             services.AddScoped<IPartForWorkOrderRepo, PartForWorkOrderRepo>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForWork>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForJob>();
