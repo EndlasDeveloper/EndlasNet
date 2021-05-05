@@ -21,15 +21,17 @@
         <li class="update-notes-li">
             MachiningTool -> Default unit to inches and removed mils and cm.
         </li>
+        <li class="update-notes-li">
+            Fixed bug: StaticPowderInfo -> composition pdf download not working (also in StaticPartInfo, Work, others too). Now all working as expected.
+            Problem was in possibly an update to one of the Nuget packages where the variable name for the route data needed to be 'myvar' verbatim.
+        </li>
     </ul>
 
 
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
-        <li class="update-notes-li">
-            Bug: StaticPowderInfo -> composition pdf download not working (also in StaticPartInfo, Work, others too).
-        </li>
+
         <li class="update-notes-li">
             PartForWork -> filter rows by PO date (by year/month/day).
         </li>
