@@ -14,16 +14,10 @@ namespace EndlasNet.Web.Controllers
 {
     public class StaticPartInfoesController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-        private readonly StaticPartInfoRepo _staticPartInfoRepo;
-        private readonly CustomerRepo _customerRepo;
-        private readonly UserRepo _userRepo;
-        public StaticPartInfoesController(EndlasNetDbContext context)
+        private readonly IStaticPartInfoRepo _staticPartInfoRepo;
+        public StaticPartInfoesController(IStaticPartInfoRepo repo)
         {
-            _context = context;
-            _userRepo = new UserRepo(context);
-            _customerRepo = new CustomerRepo(context);
-            _staticPartInfoRepo = new StaticPartInfoRepo(context);
+            _staticPartInfoRepo = repo;
         }
 
         // GET: StaticPartInfoes
@@ -64,7 +58,7 @@ namespace EndlasNet.Web.Controllers
         // GET: StaticPartInfoes/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName");
+            ViewData["CustomerId"] = new SelectList(await _staticPartInfoRepo.GetAllCustomers(), "CustomerId", "CustomerName");
             return View();
         }
 
@@ -90,7 +84,7 @@ namespace EndlasNet.Web.Controllers
                 await _staticPartInfoRepo.AddRow(staticPartInfo);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", staticPartInfo.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _staticPartInfoRepo.GetAllCustomers(), "CustomerId", "CustomerName", staticPartInfo.CustomerId);
             return View(staticPartInfo);
         }
 
@@ -104,15 +98,16 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPartInfo = await _context.StaticPartInfo.FindAsync(id);
+            var staticPartInfo = await _staticPartInfoRepo.GetRow(id);
             if (staticPartInfo == null)
             {
                 return NotFound();
             }
+
             if(staticPartInfo.DrawingImageBytes != null)
                 FileURL.SetImageURL(staticPartInfo);
             ViewBag.id = id;
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", staticPartInfo.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _staticPartInfoRepo.GetAllCustomers(), "CustomerId", "CustomerName", staticPartInfo.CustomerId);
             return View(staticPartInfo);
         }
 
@@ -166,7 +161,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _customerRepo.GetAllRows(), "CustomerId", "CustomerName", staticPartInfo.CustomerId);
+            ViewData["CustomerId"] = new SelectList(await _staticPartInfoRepo.GetAllCustomers(), "CustomerId", "CustomerName", staticPartInfo.CustomerId);
             return View(staticPartInfo);
         }
 

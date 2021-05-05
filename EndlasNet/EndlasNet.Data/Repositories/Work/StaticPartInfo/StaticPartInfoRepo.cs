@@ -30,6 +30,13 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Customer>> GetAllCustomers()
+        {
+            return await _db.Customers
+                .OrderByDescending(c => c.CustomerName)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<StaticPartInfo>> GetAllRows()
         {
             return await _db.StaticPartInfo
@@ -73,5 +80,7 @@ namespace EndlasNet.Data
             entry.State = EntityState.Modified;
             await _db.SaveChangesAsync();
         }
+
+
     }
 }
