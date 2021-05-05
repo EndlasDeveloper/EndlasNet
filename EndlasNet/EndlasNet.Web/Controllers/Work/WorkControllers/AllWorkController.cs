@@ -11,12 +11,10 @@ namespace EndlasNet.Web.Controllers
 {
     public class AllWorkController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-        private readonly WorkRepo _workRepo;
-        public AllWorkController(EndlasNetDbContext context)
+        private readonly IWorkRepo _workRepo;
+        public AllWorkController(IWorkRepo repo)
         {
-            _context = context;
-            _workRepo = new WorkRepo(context);
+            _workRepo = repo; 
         }
 
         public async Task<IActionResult> Index()
@@ -45,12 +43,12 @@ namespace EndlasNet.Web.Controllers
 
         private async Task<List<Work>> GetWork()
         {
-            var allWork = await _context.Work.ToListAsync();
+            var allWork = await _workRepo.GetAllWork();
             foreach (var work in allWork)
             {
                 work.WorkType = _workRepo.GetWorkType(work);
             }
-            return allWork;
+            return allWork.ToList();
         }
 
         // GET: Jobs/Delete/5

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class WorkRepo
+    public class WorkRepo : IWorkRepo
     {
         protected EndlasNetDbContext _db;
         public WorkRepo(EndlasNetDbContext db)
