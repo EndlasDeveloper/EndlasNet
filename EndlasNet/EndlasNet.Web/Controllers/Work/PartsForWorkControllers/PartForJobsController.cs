@@ -13,19 +13,17 @@ namespace EndlasNet.Web.Controllers
 {
     public class PartForJobsController : Controller
     {
-        private PartForJobRepo _repo;
-        private readonly EndlasNetDbContext _context;
+        private IPartForJobRepo _repo;
 
-        public PartForJobsController(EndlasNetDbContext context)
+        public PartForJobsController(IPartForJobRepo repo)
         {
-            _context = context;
-            _repo = new PartForJobRepo(context);
+            _repo = repo;
         }
 
         // GET: PartForJob
         public async Task<IActionResult> Index()
         {
-            var parts = await _repo.GetAllPartsForJobsAsync();
+            var parts = await _repo.GetAllPartsForJobs();
             // minimize part list to batched row representation
             var minimizedPartList = await PartForWorkUtil.MinimizeJobPartList(parts, _repo);
 
@@ -38,10 +36,10 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PartForJobs/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber");
-            ViewData["WorkId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber");
+            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber");
+            ViewData["WorkId"] = new SelectList(await _repo.GetAllJobs(), "WorkId", "EndlasNumber");
             return View();
         }
 
@@ -52,10 +50,8 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId,ImageName,ImageFile")] PartForJob partForJob)
         {
-            var resultList = await _context.PartsForJobs
-                .Where(p => p.StaticPartInfoId == partForJob.StaticPartInfoId)
-                .ToListAsync();
-            var count = resultList.Count;
+            var resultList = await _repo.GetPartsForJobsWithPartInfo(partForJob.StaticPartInfoId);
+            var count = resultList.Count();
             int max = -1;
             foreach(PartForJob pForJob in resultList)
             {
@@ -90,7 +86,7 @@ namespace EndlasNet.Web.Controllers
                         await _repo .AddPartForJobAsync(tempPartForJob);
                     } catch(Exception ex) { ex.ToString(); continue; }
                 }
-                var partsForJobs = await _context.PartsForJobs.ToListAsync();
+                var partsForJobs = await _repo.GetAllPartsForJobs();
                 foreach(PartForJob part in partsForJobs)
                 {
                     part.NumParts = partForJob.NumParts;
@@ -99,8 +95,8 @@ namespace EndlasNet.Web.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StaticPartInfoId"] = new SelectList(_context.StaticPartInfo, "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
-            ViewData["WorkId"] = new SelectList(_context.Jobs, "WorkId", "EndlasNumber", partForJob.WorkId);
+            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
+            ViewData["WorkId"] = new SelectList(await _repo.GetAllJobs(), "WorkId", "EndlasNumber", partForJob.WorkId);
             return View(partForJob);
         }
 

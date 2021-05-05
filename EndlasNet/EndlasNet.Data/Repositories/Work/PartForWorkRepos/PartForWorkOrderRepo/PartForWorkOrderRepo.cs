@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class PartForWorkOrderRepo
+    public class PartForWorkOrderRepo : IPartForWorkOrderRepo
     {
         private readonly EndlasNetDbContext _db;
 

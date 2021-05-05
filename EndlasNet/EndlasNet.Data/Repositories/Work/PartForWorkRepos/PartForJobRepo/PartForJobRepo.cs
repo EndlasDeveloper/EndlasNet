@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class PartForJobRepo
+    public class PartForJobRepo : IPartForJobRepo
     {
         private readonly EndlasNetDbContext _db;
 
@@ -16,7 +16,7 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task<List<PartForJob>> GetAllPartsForJobsAsync()
+        public async Task<List<PartForJob>> GetAllPartsForJobs()
         {
            return await _db.PartsForJobs
                .Include(p => p.StaticPartInfo)
@@ -90,6 +90,27 @@ namespace EndlasNet.Data
             return batch.Where(p => p.WorkId.ToString() == workId)
                 .Where(p => p.StaticPartInfoId.ToString() == partInfoId)
                 .OrderByDescending(p => p.Suffix);
+        }
+
+        public async Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfo()
+        {
+            return await _db.StaticPartInfo
+                .OrderByDescending(s => s.DrawingNumber)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Job>> GetAllJobs()
+        {
+            return await _db.Jobs
+                .OrderByDescending(j => j.EndlasNumber)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<PartForJob>> GetPartsForJobsWithPartInfo(Guid staticPartInfoId)
+        {
+            return await _db.PartsForJobs
+                .Where(p => p.StaticPartInfoId == staticPartInfoId)
+                .ToListAsync();
         }
     }
 }
