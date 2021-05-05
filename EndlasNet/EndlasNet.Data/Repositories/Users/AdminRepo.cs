@@ -2,16 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class UserRepo : IUserRepo
+    public class AdminRepo : IAdminRepo
     {
         private readonly EndlasNetDbContext _db;
-        public UserRepo(EndlasNetDbContext db)
+        public AdminRepo(EndlasNetDbContext db)
         {
             _db = db;
         }
@@ -27,7 +26,7 @@ namespace EndlasNet.Data
             {
                 return (string)_db.Entry(user).Property("Discriminator").CurrentValue;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.Out.WriteLine(ex.ToString());
             }
@@ -109,7 +108,7 @@ namespace EndlasNet.Data
 
         public async Task DeleteRow(Guid id)
         {
-          
+
             var user = await _db.Users
                 .FirstOrDefaultAsync(u => u.UserId == id);
             _db.Users.Remove(user);
@@ -156,5 +155,6 @@ namespace EndlasNet.Data
             return await _db.Users
                 .AnyAsync(u => u.UserId == id);
         }
+
     }
 }

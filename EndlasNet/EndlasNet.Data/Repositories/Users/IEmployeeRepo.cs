@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public interface IUserRepo
+    public interface IEmployeeRepo
     {
         public Task<User> GetUser(string email);
         public Task<Admin> GetAdmin(Guid adminId);
@@ -23,6 +23,5 @@ namespace EndlasNet.Data
         Task DeleteRow(Guid id);
         Task<bool> UserExists(Guid id);
         public Task<bool> RowExists(Guid id);
-
     }
 }

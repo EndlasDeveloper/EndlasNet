@@ -42,6 +42,8 @@ namespace EndlasNet.Web
                 JsonNamingPolicy.CamelCase;
             });
             services.AddScoped<UserRepo>();
+            services.AddScoped<IEmployeeRepo, EmployeeRepo>();
+            services.AddScoped<IAdminRepo, AdminRepo>();
             services.AddScoped<IVendorRepo, VendorRepo>();
             services.AddScoped<ICustomerRepo, CustomerRepo>();
 

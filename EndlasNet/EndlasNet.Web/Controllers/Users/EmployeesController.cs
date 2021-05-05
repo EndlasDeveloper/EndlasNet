@@ -11,17 +11,16 @@ namespace EndlasNet.Web.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-
-        public EmployeesController(EndlasNetDbContext context)
+        private IEmployeeRepo _employeeRepo;
+        public EmployeesController(IEmployeeRepo repo) 
         {
-            _context = context;
+            _employeeRepo = repo;
         }
 
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Employees.ToListAsync());
+            return View(await _employeeRepo.GetAllEmployees());
         }
 
         // GET: Employees/Details/5
@@ -32,8 +31,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees.AsNoTracking()
-                .FirstOrDefaultAsync(m => m.UserId == id);
+            var employee = await _employeeRepo.GetRowNoTracking(id);
             if (employee == null)
             {
                 return NotFound();
@@ -61,8 +59,7 @@ namespace EndlasNet.Web.Controllers
 
                 // **** HASH AUTH STRING ****
                 employee.AuthString = Security.ComputeSha256Hash(employee.AuthString);
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
+                await _employeeRepo.AddEmployee(employee);
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
@@ -76,7 +73,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _employeeRepo.GetEmployee((Guid)id);
             if (employee == null)
             {
                 return NotFound();
@@ -103,12 +100,11 @@ namespace EndlasNet.Web.Controllers
                     // **** HASH AUTH STRING ****
                     employee.AuthString = Security.ComputeSha256Hash(employee.AuthString);
                     // update shadow property
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
+                    await _employeeRepo.UpdateEmployee(employee);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.UserId))
+                    if (!(await EmployeeExists(employee.UserId)))
                     {
                         return NotFound();
                     }
@@ -130,8 +126,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.UserId == id);
+            var employee = await _employeeRepo.GetEmployee((Guid)id);
             if (employee == null)
             {
                 return NotFound();
@@ -145,15 +140,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            var employee = await _employeeRepo.DeleteUserAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeExists(Guid id)
+        private async Task<bool> EmployeeExists(Guid id)
         {
-            return _context.Employees.Any(e => e.UserId == id);
+            return await _employeeRepo.RowExists(id);
         }
     }
 }

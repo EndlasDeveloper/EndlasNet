@@ -11,14 +11,11 @@ namespace EndlasNet.Web.Controllers
 {
     public class AdminsController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-        private UserRepo _userRepo;
-        public AdminsController(EndlasNetDbContext context)
+        private IAdminRepo _adminRepo;
+        public AdminsController(IAdminRepo repo)
         {
-            _context = context;
-            _userRepo = new UserRepo(context);
+            _adminRepo = repo;
         }
-
 
         // GET: Admins
         public async Task<IActionResult> Index(string sortOrder)
@@ -33,7 +30,7 @@ namespace EndlasNet.Web.Controllers
             ViewBag.EmailDescSortParm = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
             ViewBag.EmailAscSortParm = String.IsNullOrEmpty(sortOrder) ? "email_asc" : "";
 
-            var admins = await _userRepo.GetAllAdmins();
+            var admins = await _adminRepo.GetAllAdmins();
             
             switch (sortOrder)
             {
@@ -71,7 +68,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            var admin = await _userRepo.GetRowNoTracking(id);
+            var admin = await _adminRepo.GetRowNoTracking(id);
            
             if (admin == null)
             {
@@ -102,7 +99,7 @@ namespace EndlasNet.Web.Controllers
                 // **** HASH AUTH STRING ****
                 admin.AuthString = Security.ComputeSha256Hash(admin.AuthString);
                 // update shadow properties
-                await _userRepo.AddAdmin(admin);
+                await _adminRepo.AddAdmin(admin);
                 return RedirectToAction(nameof(Index));
             }
             return View(admin);
@@ -116,7 +113,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var admin = await _context.Admins.FindAsync(id);
+            var admin = await _adminRepo.GetAdmin((Guid)id);
             if (admin == null)
             {
                 return NotFound();
@@ -144,7 +141,7 @@ namespace EndlasNet.Web.Controllers
                     admin.AuthString = Security.ComputeSha256Hash(admin.AuthString);
                     // update email as lower case
                     admin.EndlasEmail = admin.EndlasEmail.ToLower();
-                    await _userRepo.UpdateRow(admin);
+                    await _adminRepo.UpdateAdmin(admin);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -170,7 +167,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var admin = await _userRepo.GetRow(id);
+            var admin = await _adminRepo.GetAdmin((Guid)id);
             if (admin == null)
             {
                 return NotFound();
@@ -184,13 +181,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _userRepo.DeleteRow(id);
+            await _adminRepo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> AdminExists(Guid id)
         {
-            return await _userRepo.RowExists(id);
+            return await _adminRepo.RowExists(id);
         }
     }
 }
