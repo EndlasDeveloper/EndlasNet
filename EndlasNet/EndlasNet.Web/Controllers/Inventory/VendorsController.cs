@@ -12,12 +12,10 @@ namespace EndlasNet.Web.Controllers
 {
     public class VendorsController : Controller
     {
-        private UserRepo _userRepo;
-        private VendorRepo _vendorRepo;
-        public VendorsController(EndlasNetDbContext context)
+        private IVendorRepo _vendorRepo;
+        public VendorsController(IVendorRepo repo)
         {
-            _userRepo = new UserRepo(context);
-            _vendorRepo = new VendorRepo(context);
+            _vendorRepo = repo;
         }
 
         // GET: Vendors

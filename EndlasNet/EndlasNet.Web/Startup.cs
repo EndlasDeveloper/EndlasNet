@@ -42,6 +42,7 @@ namespace EndlasNet.Web
                 JsonNamingPolicy.CamelCase;
             });
             services.AddScoped<UserRepo>();
+            services.AddScoped<IVendorRepo, VendorRepo>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForWork>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForJob>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForWorkOrder>();

@@ -67,10 +67,6 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(v => v.VendorId == id);
         }
 
-        public Task RemoveRow(Guid id)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<Vendor> GetRowNoTracking(Guid? id)
         {
@@ -82,7 +78,7 @@ namespace EndlasNet.Data
         public async Task<bool> RowExists(Guid id)
         {
             return await _db.Vendors
-                .AnyAsync(e => e.VendorId == id);
+                          .AnyAsync(e => e.VendorId == id);
         }
     }
 }
