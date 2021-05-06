@@ -16,12 +16,10 @@ namespace EndlasNet.Web.Controllers
     {
         private readonly float WEIGHT_THRESHOLD = 0.001f;
 
-        private readonly EndlasNetDbContext _context;
-        private readonly PowderForPartRepo _powderForPartRepo;
-        public PowderForPartsController(EndlasNetDbContext context)
+        private readonly IPowderForPartRepo _repo;
+        public PowderForPartsController(IPowderForPartRepo repo)
         {
-            _context = context;
-            _powderForPartRepo = new PowderForPartRepo(context);
+            _repo = repo;
         }
 
         // GET: PowderForParts
@@ -40,17 +38,15 @@ namespace EndlasNet.Web.Controllers
             var powderBottles = await GetPowderBottleList();
             var partsForWork = await GetPartsForWorkList();
 
-            var powderForParts = await _powderForPartRepo.GetAllRows();
+            var powderForParts = await _repo.GetAllRows();
 
             foreach (PowderForPart powderForPart in powderForParts)
             {
-                var staticPartInfo = await _context.StaticPartInfo
-                    .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
+                var staticPartInfo = await _repo.GetStaticPartInfo(powderForPart.PartForWork.StaticPartInfoId);
 
                 powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
 
-                var staticPowderInfo = await _context.StaticPowderInfo
-                    .FirstOrDefaultAsync(s => s.StaticPowderInfoId == powderForPart.PowderBottle.StaticPowderInfoId);
+                var staticPowderInfo = await _repo.GetStaticPowderInfo((Guid)powderForPart.PowderBottle.StaticPowderInfoId);
 
                 powderForPart.PowderBottle.StaticPowderInfo = staticPowderInfo;
 
@@ -95,19 +91,14 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var powderForPart = await _context.PowderForParts
-                .Include(p => p.PartForWork)
-                .Include(p => p.PowderBottle)
-                .Include(p => p.User)
-                .FirstOrDefaultAsync(m => m.PowderForPartId == id);
+            var powderForPart = await _repo.GetRow(id);
 
             if (powderForPart == null)
             {
                 return NotFound();
             }
 
-            var staticPartInfo = await _context.StaticPartInfo
-                .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
+            var staticPartInfo = await _repo.GetStaticPartInfo(powderForPart.PartForWork.StaticPartInfoId);
 
             powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
 
@@ -135,8 +126,7 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 // find the bottle of powder associated with powderForParts
-                var powder = await _context.PowderBottles
-                    .FirstOrDefaultAsync(p => p.PowderBottleId == powderForPart.PowderBottleId);
+                var powder = await _repo.GetPowderBottle((Guid)powderForPart.PowderBottleId);
 
                 // make sure there is enough powder to perform putting powder to part
                 if (powder.Weight < powderForPart.PowderWeightUsed)
@@ -152,14 +142,12 @@ namespace EndlasNet.Web.Controllers
                 if (powder.Weight <= WEIGHT_THRESHOLD)
                 {
                     powder.Weight = 0.0f;
-                    _context.Update(powder);
-                    await _context.SaveChangesAsync();
+                    await _repo.UpdatePowderBottle(powder);
                 }
                 // all good, so create new powder for part guid and save
                 powderForPart.PowderForPartId = Guid.NewGuid();
                 powderForPart.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                _context.Add(powderForPart);
-                await _context.SaveChangesAsync();
+                await _repo.AddRow(powderForPart);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -175,8 +163,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var powderForPart = await _context.PowderForParts
-                .FindAsync(id);
+            var powderForPart = await _repo.GetRow(id);
             if (powderForPart == null)
             {
                 return NotFound();
@@ -201,8 +188,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    _context.Update(powderForPart);
-                    await _context.SaveChangesAsync();
+                    await _repo.UpdateRow(powderForPart);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -229,18 +215,13 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var powderForPart = await _context.PowderForParts
-                .Include(p => p.PartForWork)
-                .Include(p => p.PowderBottle)
-                .Include(p => p.User)
-                .FirstOrDefaultAsync(m => m.PowderForPartId == id);
+            var powderForPart = await _repo.GetRow(id);
             if (powderForPart == null)
             {
                 return NotFound();
             }
 
-            var staticPartInfo = await _context.StaticPartInfo
-                .FirstOrDefaultAsync(s => s.StaticPartInfoId == powderForPart.PartForWork.StaticPartInfoId);
+            var staticPartInfo = await _repo.GetStaticPartInfo(powderForPart.PartForWork.StaticPartInfoId);
             powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
             FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
             return View(powderForPart);
@@ -250,28 +231,26 @@ namespace EndlasNet.Web.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {            
-            var powderForPart = await _context.PowderForParts
-                .Include(p => p.PowderBottle)
-                .FirstOrDefaultAsync(p => p.PowderForPartId == id);
+        {
+            var powderForPart = await _repo.GetPowderForPartWithBottles(id);
 
             var bottle = powderForPart.PowderBottle;
             bottle.Weight += powderForPart.PowderWeightUsed;
-            _context.Update(bottle);
-            _context.PowderForParts.Remove(powderForPart);
-            await _context.SaveChangesAsync();
+            await _repo.UpdatePowderBottle(bottle);
+            await _repo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool PowderForPartExists(Guid id)
         {
-            return _context.PowderForParts.Any(e => e.PowderForPartId == id);
+            return _repo.PowderForPartExists(id);
         }
 
         private async Task PopulateWorkForCreate()
         {
-            var work = _context.Work.Include(w => w.PartsForWork);
-            var workList = await work.Where(w => w.PartsForWork.Count() > 0).ToListAsync();
+            var work = await _repo.GetAllWorkWithBottles();
+            var wl = work.ToList();
+            var workList = wl.Where(w => w.PartsForWork.Count() > 0).ToList();
             ViewData["WorkId"] = new SelectList(workList, "WorkId", "WorkDescription");
             ViewBag.Init = "true";
         }
@@ -302,11 +281,9 @@ namespace EndlasNet.Web.Controllers
                 ViewBag.HasEnoughPowder = "false";
                 ViewBag.PowderLeft = powderLeft;
             }
-            var work = await _context.Work
-                .FirstOrDefaultAsync(w => w.WorkId == workId);
+            var work = await _repo.GetWork(workId);
 
-            var partsForWork = await _context.PartsForWork
-                .Where(p => p.WorkId == workId).ToListAsync();
+            var partsForWork = await _repo.GetPartsForWorkSingle(workId);
 
             var vm = new PowderForPartViewModel
             {
@@ -318,8 +295,7 @@ namespace EndlasNet.Web.Controllers
 
             foreach (PartForWork partForWork in partsForWork)
             {
-
-                partForWork.Work = await _context.Work.FirstOrDefaultAsync(p => p.WorkId == workId);
+                partForWork.Work = await _repo.GetWork(partForWork.WorkId);
 
                 var checkBox = new CheckBoxInfo()
                 {
@@ -352,8 +328,7 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0, selectedCheckboxes = false, powderWeightUsed = vm.PowderWeightUsed, dateUsed = vm.DateUsed });
             }
             // find the bottle of powder associated with powderForParts
-            var powder = await _context.PowderBottles
-                .FirstOrDefaultAsync(p => p.PowderBottleId == vm.PowderBottleId);
+            var powder = await _repo.GetPowderBottle(vm.PowderBottleId);
 
             // make sure there is enough powder to perform putting powder to part
             if (powder.Weight < vm.PowderWeightUsed)
@@ -368,8 +343,7 @@ namespace EndlasNet.Web.Controllers
             if (powder.Weight <= WEIGHT_THRESHOLD)
             {
                 powder.Weight = 0.0f;
-                _context.Update(powder);
-                await _context.SaveChangesAsync();
+                await _repo.UpdatePowderBottle(powder);
             }
             var weightPerPart = vm.PowderWeightUsed / vm.CheckBoxes.Where(c => c.IsChecked).Count();
             var usrId = new Guid(HttpContext.Session.GetString("userId"));
@@ -385,43 +359,38 @@ namespace EndlasNet.Web.Controllers
                         DateUsed = vm.DateUsed,
                         UserId = usrId
                     };
-                    await _powderForPartRepo.AddRow(powderForPart);
+                    await _repo.AddRow(powderForPart);
                 }
             }
             return RedirectToAction(nameof(Index));
            
         }
 
-
-
-
         public async Task<List<PartForWork>> GetPartsForWorkList()
         {
-            var partsForWork = await _context.PartsForWork.ToListAsync();
+            var partsForWork = await _repo.GetPartsForWork();
 
             foreach (PartForWork partForWork in partsForWork)
             {
-                partForWork.StaticPartInfo = await _context.StaticPartInfo
-                    .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
+                partForWork.StaticPartInfo = await _repo.GetStaticPartInfo(partForWork.StaticPartInfoId);
 
                 partForWork.DrawingNumberSuffix = partForWork.StaticPartInfo.DrawingNumber
                     + " - " + partForWork.Suffix;
             }
-            return partsForWork;
+            return partsForWork.ToList();
         }
 
         public async Task<List<PowderBottle>> GetPowderBottleList()
         {
-            var powders = await _context.PowderBottles.Where(p => p.Weight > WEIGHT_THRESHOLD).ToListAsync();
+            var powders = await _repo.GetBottlesWithPowder(WEIGHT_THRESHOLD);
 
             foreach (PowderBottle powder in powders)
             {
-                powder.StaticPowderInfo = await _context.StaticPowderInfo
-                    .FirstOrDefaultAsync(s => s.StaticPowderInfoId == powder.StaticPowderInfoId);
+                powder.StaticPowderInfo = await _repo.GetStaticPowderInfo((Guid)powder.StaticPowderInfoId);
 
                 powder.PowderName = powder.StaticPowderInfo.PowderName + " - " + powder.BottleNumber;
             }
-            return powders;
+            return powders.ToList();
         }
 
         public async Task SetViewData()
@@ -435,22 +404,14 @@ namespace EndlasNet.Web.Controllers
             ViewData["PartForWorkId"] = new SelectList(partsForWork, "PartForWorkId", "DrawingNumberSuffix");
             ViewData["PowderBottleId"] = new SelectList(powders, "PowderBottleId", "PowderName");
         }
-/*        [HttpGet("PowderForParts/CreateWithWorkSet/{id}")]
-        public IActionResult setParts()
-        {
-            HttpContext.Request.RouteValues.TryGetValue("id", out object obj);
-
-            PowderForPartViewModel vm = (PowderForPartViewModel)JsonConvert.DeserializeObject(obj.ToString());
-            return Json(vm);
-        }*/
 
         [HttpGet("PowderForParts/CreateGetWork/{id}")]
-        public  IActionResult getParts()
+        public async Task<IActionResult> getParts()
         {
             HttpContext.Request.RouteValues.TryGetValue("id", out object obj);
             Guid workId = new Guid(obj.ToString());
             IActionResult ret = null;
-            var parts = _context.PartsForWork.Where(p => p.WorkId == workId);
+            var parts = await _repo.GetPartsForWorkSingle(workId);
             if(parts.Count() != 0)
             {
                 ViewBag.GotParts = true;

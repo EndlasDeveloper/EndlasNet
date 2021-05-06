@@ -20,10 +20,14 @@
             Added 'short description' string attribute to quote. All front-end code is in place to create, edit, delete, and display.
         </li>
         <li class="update-notes-li">
+            Added interface for repoository classes so they can be tested with Moq (part of the work below).
+        </li>
+        <li class="update-notes-li">
             Refactoring controllers to accept an interface repository class as a constructor parameter rather than the DbContext class extension.
             Finished: Admin, Employee, Vendor, Customer, StaticPartInfo, Job, WorKOrder, AllWork, PartsForJobs, PartsForWorkOrders, PartForAJob,
             PartForAWorkOrder, All PartsForWork, Quote, StaticPowderInfo, PowderOrder, LineItem, PowderBottle, MachiningTools, MachiningToolForWork.
         </li>
+
     </ul>
 
 
@@ -40,9 +44,6 @@
             PowderForPart -> allow to choose year to filter by.
         </li>
         <li class="update-notes-li">
-            Consider other places to define units.
-        </li>
-        <li class="update-notes-li">
             Summary of powders by lot number.
         </li>
         <li class="update-notes-li">
@@ -51,12 +52,7 @@
         <li class="update-notes-li">
             Write unit tests for all of the Utility methods. Write unit tests for the controllers.
         </li>
-        <li class="update-notes-li">
-            Implement repository pattern for more entities and replace the direct context calls in the controllers.
-        </li>
-        <li class="update-notes-li">
-            Add interface for repoository classes so they can be tested with Moq.
-        </li>
+
     </ul>
 
     @* ****** KNOWN ISSUES ****** *@
