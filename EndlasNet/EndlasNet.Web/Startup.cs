@@ -56,6 +56,7 @@ namespace EndlasNet.Web
             services.AddScoped<IQuoteRepo, QuoteRepo>();
             services.AddScoped<IPowderOrderRepo, PowderOrderRepo>();
             services.AddScoped<ILineItemRepo, LineItemRepo>();
+            services.AddScoped<IPowderBottleRepo, PowderBottleRepo>();
             services.AddScoped<IStaticPowderInfoRepo, StaticPowderInfoRepo>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForWork>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForJob>();
