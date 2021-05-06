@@ -59,9 +59,6 @@ namespace EndlasNet.Web
             services.AddScoped<IPowderBottleRepo, PowderBottleRepo>();
             services.AddScoped<IMachiningToolRepo, MachiningToolRepo>();
             services.AddScoped<IStaticPowderInfoRepo, StaticPowderInfoRepo>();
-            services.AddScoped<IMachiningToolForWork, MachiningToolForWork>();
-            services.AddScoped<IMachiningToolForWork, MachiningToolForJob>();
-            services.AddScoped<IMachiningToolForWork, MachiningToolForWorkOrder>();
             services.AddScoped<IMachiningToolForWorkRepo, MachiningToolForWorkRepo>();
 
             // session time to 2 hours
