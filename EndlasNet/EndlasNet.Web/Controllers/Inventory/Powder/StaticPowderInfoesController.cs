@@ -13,17 +13,16 @@ namespace EndlasNet.Web.Controllers
     public class StaticPowderInfoesController : Controller
     {
         private readonly EndlasNetDbContext _context;
-        private readonly StaticPowderInfoRepo _staticPowderInfoRepo;
-        public StaticPowderInfoesController(EndlasNetDbContext context)
+        private readonly IStaticPowderInfoRepo _repo;
+        public StaticPowderInfoesController(IStaticPowderInfoRepo repo)
         {
-            _context = context;
-            _staticPowderInfoRepo = new StaticPowderInfoRepo(context);
+            _repo = repo;
         }
 
         // GET: StaticPowderInfoes
         public async Task<IActionResult> Index()
         {
-            return View(await _staticPowderInfoRepo.GetAllRows());
+            return View(await _repo.GetAllRows());
         }
 
         // GET: StaticPowderInfoes/Details/5
@@ -34,7 +33,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPowderInfo = await _staticPowderInfoRepo.GetRow(id);
+            var staticPowderInfo = await _repo.GetRow(id);
 
             if (staticPowderInfo == null)
             {
@@ -62,7 +61,7 @@ namespace EndlasNet.Web.Controllers
                 staticPowderInfo.StaticPowderInfoId = Guid.NewGuid();
                 if (staticPowderInfo.CompositionFile != null)
                     staticPowderInfo.CompositionFilePdfBytes = await FileURL.GetFileBytes(staticPowderInfo.CompositionFile);
-                await _staticPowderInfoRepo.AddRow(staticPowderInfo);
+                await _repo.AddRow(staticPowderInfo);
                 return RedirectToAction(nameof(Index));
             }
             return View(staticPowderInfo);
@@ -104,7 +103,7 @@ namespace EndlasNet.Web.Controllers
                         staticPowderInfo.CompositionFilePdfBytes = null;
                     else if (staticPowderInfo.CompositionFile != null)
                         staticPowderInfo.CompositionFilePdfBytes = await FileURL.GetFileBytes(staticPowderInfo.CompositionFile);
-                    await _staticPowderInfoRepo.UpdateRow(staticPowderInfo);
+                    await _repo.UpdateRow(staticPowderInfo);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -130,7 +129,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPowderInfo = await _staticPowderInfoRepo.GetRow(id);
+            var staticPowderInfo = await _repo.GetRow(id);
 
             if (staticPowderInfo == null)
             {
@@ -145,13 +144,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _staticPowderInfoRepo.DeleteRow(id);
+            await _repo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> StaticPowderInfoExists(Guid id)
         {
-            return await _staticPowderInfoRepo.RowExists(id);
+            return await _repo.RowExists(id);
         }
 
         [HttpGet]
@@ -162,7 +161,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPowderInfo = await _staticPowderInfoRepo.GetRow(myvar);
+            var staticPowderInfo = await _repo.GetRow(myvar);
 
             var fileName = staticPowderInfo.PowderName + "_composition.pdf";
             Response.ContentType = "application/pdf";
