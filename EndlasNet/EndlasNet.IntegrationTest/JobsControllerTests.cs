@@ -8,9 +8,9 @@ using Xunit;
 using EndlasNet.Web.Controllers;
 namespace EndlasNet.IntegrationTest
 {
-    public class MachiningToolForJobRepoTests
+    public class JobsControllerTests
     {
-        public Mock<IMachiningToolForWorkRepo> mock = new Mock<IMachiningToolForWorkRepo>();
+        public Mock<IJobRepo> mock = new Mock<IJobRepo>();
 
         [Fact]
         public void MachiningToolForJobDetailsTest()
