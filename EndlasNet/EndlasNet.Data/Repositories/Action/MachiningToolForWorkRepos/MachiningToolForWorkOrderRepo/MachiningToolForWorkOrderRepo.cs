@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class MachiningToolForWorkOrderRepo
+    public class MachiningToolForWorkOrderRepo : IMachiningToolForWorkOrderRepo
     {
         private readonly EndlasNetDbContext _db;
 
@@ -85,7 +85,7 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<object>> GetAllRows()
+        public async Task<IEnumerable<MachiningToolForWork>> GetAllRows()
         {
             return await _db.MachiningToolsForWorkOrders
                 .Include(m => m.MachiningTool)
@@ -95,7 +95,7 @@ namespace EndlasNet.Data
                 .ToListAsync();
         }
 
-        public async Task<object> GetRow(Guid? id)
+        public async Task<MachiningToolForWork> GetRow(Guid? id)
         {
             return await _db.MachiningToolsForWorkOrders
                 .Include(m => m.MachiningTool)
@@ -104,7 +104,7 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(m => m.MachiningToolForWorkId == id);
         }
 
-        public async Task<object> GetRowNoTracking(Guid? id)
+        public async Task<MachiningToolForWork> GetRowNoTracking(Guid? id)
         {
             return await _db.MachiningToolsForWorkOrders
                 .AsNoTracking()
@@ -114,10 +114,6 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(m => m.MachiningToolForWorkId == id);
         }
 
-        public Task RemoveRow(Guid id)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<bool> RowExists(Guid id)
         {
@@ -125,15 +121,11 @@ namespace EndlasNet.Data
                           .AnyAsync(m => m.MachiningToolForWorkId == id);
         }
 
-        public async Task UpdateRow(object obj)
+        public async Task UpdateRow(MachiningToolForWork machiningToolForWork)
         {
-            try
-            {
-                var entry = _db.Entry((MachiningToolForJob)obj);
-                entry.State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            var entry = _db.Entry(machiningToolForWork);
+            entry.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
     }
 }
