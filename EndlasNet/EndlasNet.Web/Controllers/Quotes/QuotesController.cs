@@ -10,10 +10,10 @@ namespace EndlasNet.Web
 {
     public class QuotesController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-        public QuotesController(EndlasNetDbContext context)
+        private readonly IQuoteRepo _repo;
+        public QuotesController(IQuoteRepo repo)
         {
-            _context = context;
+            _repo = repo;
         }
 
         public async Task<IActionResult> Index(string sortOrder)
@@ -22,9 +22,7 @@ namespace EndlasNet.Web
             ViewBag.EndlasNumberDescSortParm = String.IsNullOrEmpty(sortOrder) ? "endlas_number_desc" : "";
             ViewBag.EndlasNumberAscSortParm = String.IsNullOrEmpty(sortOrder) ? "endlas_number_asc" : "";
 
-            var quotes = await _context.Quotes
-                .OrderByDescending(q => q.EndlasNumber)
-                .ToListAsync();
+            var quotes = await _repo.GetAllRows();
 
             switch (sortOrder)
             {
@@ -50,8 +48,7 @@ namespace EndlasNet.Web
                 return NotFound();
             }
 
-            var quotes = await _context.Quotes
-                .FirstOrDefaultAsync(q => q.QuoteId == id);
+            var quotes = await _repo.GetRow((Guid)id);
 
             if (quotes == null)
             {
@@ -76,10 +73,10 @@ namespace EndlasNet.Web
         public async Task<IActionResult> Create([Bind("QuoteId,EndlasNumber,ShortDescription")] Quote quote)
         {
             // 1. check that endlas number is unique in both quotes and work
-            var quoteDuplicates = await _context.Quotes.Where(q => q.EndlasNumber == quote.EndlasNumber).ToListAsync();
-            var workDuplicates = await _context.Work.Where(w => w.EndlasNumber == quote.EndlasNumber).ToListAsync();
+            var quoteDuplicates = await _repo.GetDuplicateQuotes(quote);
+            var workDuplicates = await _repo.GetDuplicateWork(quote);
 
-            if(quoteDuplicates.Count > 0 || workDuplicates.Count > 0)
+            if(quoteDuplicates.Count() > 0 || workDuplicates.Count() > 0)
             {
                 ViewBag.HasDuplicate = "true";
                 ViewBag.EndlasNumber = quote.EndlasNumber;
@@ -90,8 +87,7 @@ namespace EndlasNet.Web
             {
                 // assign new id
                 quote.QuoteId = Guid.NewGuid();
-                _context.Add(quote);
-                await _context.SaveChangesAsync();
+                await _repo.AddRow(quote);
                 return RedirectToAction(nameof(Index));
             }
             return View(quote);
@@ -104,8 +100,7 @@ namespace EndlasNet.Web
                 return NotFound();
             }
 
-            var quote = await _context.Quotes
-                .FindAsync(id);
+            var quote = await _repo.GetRow((Guid)id);
             if (quote == null)
             {
                 return NotFound();
@@ -125,10 +120,10 @@ namespace EndlasNet.Web
                 return NotFound();
             }
             // 1. check that endlas number is unique in both quotes and work
-            var quoteDuplicates = await _context.Quotes.Where(q => q.QuoteId != quote.QuoteId).Where(q => q.EndlasNumber == quote.EndlasNumber).ToListAsync();
-            var workDuplicates = await _context.Work.Where(w => w.EndlasNumber == quote.EndlasNumber).ToListAsync();
+            var quoteDuplicates = await _repo.GetDuplicateQuotes(quote);
+            var workDuplicates = await _repo.GetDuplicateWork(quote);
 
-            if (quoteDuplicates.Count > 0 || workDuplicates.Count > 0)
+            if (quoteDuplicates.Count() > 0 || workDuplicates.Count() > 0)
             {
                 ViewBag.HasDuplicate = "true";
                 ViewBag.EndlasNumber = quote.EndlasNumber;
@@ -140,8 +135,7 @@ namespace EndlasNet.Web
             {
                 try
                 {
-                    _context.Update(quote);
-                    await _context.SaveChangesAsync();
+                    await _repo.UpdateRow(quote);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -167,8 +161,7 @@ namespace EndlasNet.Web
                 return NotFound();
             }
 
-            var quotes = await _context.Quotes
-                .FirstOrDefaultAsync(q => q.QuoteId == id);
+            var quotes = await _repo.GetRow((Guid)id);
             if (quotes == null)
             {
                 return NotFound();
@@ -182,15 +175,14 @@ namespace EndlasNet.Web
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var quote = await _context.Quotes.FindAsync(id);
-            _context.Quotes.Remove(quote);
-            await _context.SaveChangesAsync();
+            var quote = await _repo.GetRow((Guid)id);
+            await _repo.DeleteRow(quote);
             return RedirectToAction(nameof(Index));
         }
 
         private bool QuoteExists(Guid id)
         {
-            return _context.PowderForParts.Any(e => e.PowderForPartId == id);
+            return _repo.QuoteExists(id);
         }
     }
 }

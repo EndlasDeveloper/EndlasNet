@@ -53,6 +53,7 @@ namespace EndlasNet.Web
             services.AddScoped<IPartForJobRepo, PartForJobRepo>();
             services.AddScoped<IPartForWorkRepo, PartForWorkRepo>();
             services.AddScoped<IPartForWorkOrderRepo, PartForWorkOrderRepo>();
+            services.AddScoped<IQuoteRepo, QuoteRepo>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForWork>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForJob>();
             services.AddScoped<IMachiningToolForWork, MachiningToolForWorkOrder>();
