@@ -12,20 +12,16 @@ namespace EndlasNet.Web.Controllers
 {
     public class PowderOrdersController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-        private readonly VendorRepo _vendorRepo;
-        private readonly PowderOrderRepo _powderOrderRepo;
-        public PowderOrdersController(EndlasNetDbContext context)
+        private readonly IPowderOrderRepo _repo;
+        public PowderOrdersController(IPowderOrderRepo repo)
         {
-            _context = context;
-            _vendorRepo = new VendorRepo(context);
-            _powderOrderRepo = new PowderOrderRepo(context);
+            _repo = repo;
         }
 
         // GET: PowderOrders
         public async Task<IActionResult> Index()
         {
-            return View(await _powderOrderRepo.GetAllRows());
+            return View(await _repo.GetAllRows());
         }
 
         // GET: PowderOrders/Details/5
@@ -36,9 +32,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var powderOrder = await _context.PowderOrders
-                .Include(p => p.Vendor)
-                .FirstOrDefaultAsync(m => m.PowderOrderId == id);
+            var powderOrder = await _repo.GetRow(id);
             if (powderOrder == null)
             {
                 return NotFound();
@@ -48,9 +42,9 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PowderOrders/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["VendorId"] = new SelectList(_context.Vendors, "VendorId", "VendorName");
+            ViewData["VendorId"] = new SelectList(await _repo.GetAllVendors(), "VendorId", "VendorName");
             return View();
         }
 
@@ -69,8 +63,8 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {             
                 powderOrder.PowderOrderId = Guid.NewGuid();
-                _context.Add(powderOrder);
-                await _context.SaveChangesAsync();
+                await _repo.AddRow(powderOrder);
+                List<LineItem> lineItems = new List<LineItem>();
                 for(int i = 0; i < powderOrder.NumberOfLineItems; i++)
                 {
                     var lineItem = new LineItem()
@@ -85,12 +79,12 @@ namespace EndlasNet.Web.Controllers
                         ParticleSizeMax = 0.0f,
                         IsInitialized = false
                     };
-                    _context.Add(lineItem);
+                    lineItems.Add(lineItem);
                 }
-                await _context.SaveChangesAsync();
+                await _repo.AddLineItems(lineItems);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VendorId"] = new SelectList(await _vendorRepo.GetAllRows(), "VendorId", "VendorName", powderOrder.VendorId);
+            ViewData["VendorId"] = new SelectList(await _repo.GetAllVendors(), "VendorId", "VendorName", powderOrder.VendorId);
             return View(powderOrder);
         }
 
@@ -102,12 +96,12 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var powderOrder = await _context.PowderOrders.FindAsync(id);
+            var powderOrder = await _repo.GetRow(id);
             if (powderOrder == null)
             {
                 return NotFound();
             }
-            ViewData["VendorId"] = new SelectList(await _vendorRepo.GetAllRows(), "VendorId", "VendorName", powderOrder.VendorId);
+            ViewData["VendorId"] = new SelectList(await _repo.GetAllVendors(), "VendorId", "VendorName", powderOrder.VendorId);
             return View(powderOrder);
         }
 
@@ -127,7 +121,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    await _powderOrderRepo.UpdateRow(powderOrder);
+                    await _repo.UpdateRow(powderOrder);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -142,7 +136,7 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["VendorId"] = new SelectList(await _vendorRepo.GetAllRows(), "VendorId", "VendorName", powderOrder.VendorId);
+            ViewData["VendorId"] = new SelectList(await _repo.GetAllVendors(), "VendorId", "VendorName", powderOrder.VendorId);
             return View(powderOrder);
         }
 
@@ -154,7 +148,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var powderOrder = await _powderOrderRepo.GetRow(id);
+            var powderOrder = await _repo.GetRow(id);
 
             if (powderOrder == null)
             {
@@ -169,14 +163,14 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _powderOrderRepo.DeleteRow(id);
+            await _repo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 
 
         private bool PowderOrderExists(Guid id)
         {
-            return _powderOrderRepo.RowExists(id);
+            return _repo.RowExists(id);
         }
     }
 }

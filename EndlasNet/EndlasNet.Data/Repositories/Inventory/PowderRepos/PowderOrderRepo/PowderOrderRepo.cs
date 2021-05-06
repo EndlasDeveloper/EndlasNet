@@ -7,12 +7,21 @@ using System.Threading.Tasks;
 
 namespace EndlasNet.Data
 {
-    public class PowderOrderRepo
+    public class PowderOrderRepo : IPowderOrderRepo
     {
         private readonly EndlasNetDbContext _db;
         public PowderOrderRepo(EndlasNetDbContext db)
         {
             _db = db;
+        }
+
+        public async Task AddLineItems(List<LineItem> lineItems)
+        {
+            foreach(LineItem lineItem in lineItems)
+            {
+                _db.LineItems.Add(lineItem);
+            }
+            await _db.SaveChangesAsync();
         }
 
         public async Task AddRow(PowderOrder powderOrder)
@@ -37,11 +46,18 @@ namespace EndlasNet.Data
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Vendor>> GetAllVendors()
+        {
+            return await _db.Vendors
+                .OrderByDescending(v => v.VendorName)
+                .ToListAsync();
+        }
 
         public async Task<PowderOrder> GetRow(Guid? powderOrderId)
         {
             return await _db.PowderOrders
-                           .FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
+                .Include(p => p.Vendor)
+                .FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
         }
 
         public Task<object> GetRowNoTracking(Guid? id)
