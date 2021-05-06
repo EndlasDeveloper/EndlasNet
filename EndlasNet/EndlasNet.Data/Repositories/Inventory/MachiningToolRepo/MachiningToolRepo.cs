@@ -83,5 +83,12 @@ namespace EndlasNet.Data
                 .OrderByDescending(m => m.ToolType)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Vendor>> GetAllVendors()
+        {
+            return await _db.Vendors
+                .OrderByDescending(v => v.VendorName)
+                .ToListAsync();
+        }
     }
 }
