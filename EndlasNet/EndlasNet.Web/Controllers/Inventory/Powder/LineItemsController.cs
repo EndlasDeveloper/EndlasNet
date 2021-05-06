@@ -12,28 +12,19 @@ namespace EndlasNet.Web.Controllers
 {
     public class LineItemsController : Controller
     {
-        private readonly EndlasNetDbContext _context;
-        private readonly LineItemRepo _lineItemRepo;
-        private readonly PowderOrderRepo _powderOrderRepo;
-        private readonly PowderBottleRepo _powderRepo;
-        private readonly StaticPowderInfoRepo _staticPowderRepo;
+        private readonly ILineItemRepo _repo;
 
-        public LineItemsController(EndlasNetDbContext context)
+        public LineItemsController(ILineItemRepo repo)
         {
-            _context = context;
-            _lineItemRepo = new LineItemRepo(context);
-            _powderOrderRepo = new PowderOrderRepo(context);
-            _powderRepo = new PowderBottleRepo(context);
-            _staticPowderRepo = new StaticPowderInfoRepo(context);
+            _repo = repo;
         }
 
         // GET: LineItems
 
         public async Task<IActionResult> Index(Guid powderOrderId)
         {
-            var powderOrder = await _powderOrderRepo.GetRow(powderOrderId);
-            ViewBag.PurchaseOrderNum = powderOrder.PurchaseOrderNum;
-            return View(await _lineItemRepo.GetLineItems(powderOrderId));  
+            ViewBag.PurchaseOrderNum = await _repo.GetPurchaseOrderNumber(powderOrderId);
+            return View(await _repo.GetLineItems(powderOrderId));  
         }
 
         // GET: LineItems/Details/5
@@ -44,8 +35,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _lineItemRepo.GetRow(id);
-            lineItem.PowderOrder = await _powderOrderRepo.GetRow(lineItem.PowderOrderId);
+            var lineItem = await _repo.GetRow(id);
+            lineItem.PowderOrder = await _repo.GetPowderOrder(lineItem.PowderOrderId);
             if (lineItem == null)
             {
                 return NotFound();
@@ -60,10 +51,10 @@ namespace EndlasNet.Web.Controllers
         }
 
 
-        public IActionResult Create(Guid powderOrderId)
+        public async Task<IActionResult> Create(Guid powderOrderId)
         {
             ViewBag.PowderOrderId = powderOrderId;
-            ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfo, "StaticPowderInfoId", "PowderName");
+            ViewData["StaticPowderInfoId"] = new SelectList(await _repo.GetAllStaticPowderInfo(), "StaticPowderInfoId", "PowderName");
             return View();
         }
         [HttpGet]
@@ -74,9 +65,9 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _lineItemRepo.GetLineItemInclude(id);
+            var lineItem = await _repo.GetLineItemInclude(id);
 
-            ViewData["StaticPowderInfoId"] = new SelectList(_context.StaticPowderInfo, "StaticPowderInfoId", "PowderName");
+            ViewData["StaticPowderInfoId"] = new SelectList(await _repo.GetAllStaticPowderInfo(), "StaticPowderInfoId", "PowderName");
             return View(lineItem);
         }
 
@@ -85,14 +76,12 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Initialize([Bind("LineItemId,StaticPowderInfoId,VendorDescription,Weight,LineItemCost,ParticleSizeMin,ParticleSizeMax,PowderOrderId,NumBottles")] LineItem lineItem)
         {
             lineItem.IsInitialized = true;
-            lineItem.StaticPowderInfo = await _context.StaticPowderInfo
-                .FirstOrDefaultAsync(s => s.StaticPowderInfoId == lineItem.StaticPowderInfoId);
-            _context.Update(lineItem);
-            await _context.SaveChangesAsync();
-
+            lineItem.StaticPowderInfo = await _repo.GetStaticPowderInfo((Guid)lineItem.StaticPowderInfoId);
+            await _repo.UpdateRow(lineItem);
+            List<PowderBottle> bottles = new List<PowderBottle>();
             for (int i = 0; i < lineItem.NumBottles; i++)
             {
-                var newPowder = new PowderBottle
+                bottles.Add(new PowderBottle
                 {
                     PowderBottleId = Guid.NewGuid(),
                     BottleNumber = "",
@@ -104,12 +93,12 @@ namespace EndlasNet.Web.Controllers
                     LineItemId = lineItem.LineItemId,
                     StaticPowderInfo = lineItem.StaticPowderInfo,
                     StaticPowderInfoId = lineItem.StaticPowderInfo.StaticPowderInfoId
-                };
-                _context.Add(newPowder);
+                });
+                
             }
-            await _context.SaveChangesAsync();
-            lineItem.PowderOrder = await _context.PowderOrders
-                .FirstOrDefaultAsync(p => p.PowderOrderId == lineItem.PowderOrderId);
+            await _repo.AddPowderBottles(bottles);
+
+            lineItem.PowderOrder = await _repo.GetPowderOrder(lineItem.PowderOrderId);
             return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
         }
         
@@ -123,11 +112,11 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 lineItem.LineItemId = Guid.NewGuid();
-                lineItem.StaticPowderInfo = await _staticPowderRepo.GetStaticPowderInfo(lineItem.StaticPowderInfoId);
+                lineItem.StaticPowderInfo = await _repo.GetStaticPowderInfo((Guid)lineItem.StaticPowderInfoId);
                 lineItem.StaticPowderInfoId = lineItem.StaticPowderInfo.StaticPowderInfoId;
 
-                await _lineItemRepo.AddRow(lineItem);
-
+                await _repo.AddRow(lineItem);
+                List<PowderBottle> bottles = new List<PowderBottle>();
                 for (int i = 0; i < lineItem.NumBottles; i++)
                 {
                     var newPowder = new PowderBottle
@@ -143,8 +132,9 @@ namespace EndlasNet.Web.Controllers
                         StaticPowderInfo = lineItem.StaticPowderInfo,
                         StaticPowderInfoId = lineItem.StaticPowderInfo.StaticPowderInfoId
                     };
-                    await _powderRepo.AddRow(newPowder);
+                    bottles.Add(newPowder);
                 }
+                await _repo.AddPowderBottles(bottles);
                 return RedirectToAction("Index", "PowderOrders");
             }
             return View(lineItem);
@@ -158,14 +148,14 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _lineItemRepo.GetLineItemInclude(id);
+            var lineItem = await _repo.GetLineItemInclude(id);
 
             if (lineItem == null)
             {
                 return NotFound();
             }
 
-            ViewData["StaticPowderInfoId"] = new SelectList(await _staticPowderRepo.GetAllRows(), "StaticPowderInfoId", "PowderName");
+            ViewData["StaticPowderInfoId"] = new SelectList(await _repo.GetAllStaticPowderInfo(), "StaticPowderInfoId", "PowderName");
             return View(lineItem);
         }
 
@@ -186,7 +176,7 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     lineItem.IsInitialized = true;
-                    await _lineItemRepo.UpdateRow(lineItem);
+                    await _repo.UpdateRow(lineItem);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -212,7 +202,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var lineItem = await _lineItemRepo.GetLineItemInclude(id);
+            var lineItem = await _repo.GetLineItemInclude(id);
 
             if (lineItem == null)
             {
@@ -227,17 +217,14 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UninitializeConfirmed(Guid id)
         {
-            var lineItem = (LineItem)await _lineItemRepo.GetRow(id);
-            var powders = await _powderRepo.GetLineItemPowders(id);
+            var lineItem = (LineItem)await _repo.GetRow(id);
+            var powders = await _repo.GetLineItemPowder(lineItem);
 
             // delete lineItem's powders
-            foreach(PowderBottle powder in powders)
-            {
-                _context.PowderBottles.Remove(powder);
-            }
+            _repo.RemovePowderBottles(powders.ToList());
             lineItem.IsInitialized = false;
 
-            await _lineItemRepo.UpdateRow(lineItem);
+            await _repo.UpdateRow(lineItem);
 
             return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
         }
@@ -248,7 +235,7 @@ namespace EndlasNet.Web.Controllers
         }
         private async Task<bool> LineItemExists(Guid id)
         {
-            return await _lineItemRepo.RowExists(id);
+            return await _repo.RowExists(id);
         }
     }
 }

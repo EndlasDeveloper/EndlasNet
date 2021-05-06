@@ -93,5 +93,58 @@ namespace EndlasNet.Data
         {
             return await _db.LineItems.AnyAsync(e => e.LineItemId == id);
         }
+
+        public async Task<string> GetPurchaseOrderNumber(Guid powderOrderId)
+        {
+            var powderOrder = await _db.PowderOrders
+                .FirstOrDefaultAsync(p => p.PowderOrderId == powderOrderId);
+            return powderOrder.PurchaseOrderNum;
+        }
+
+        public async Task<PowderOrder> GetPowderOrder(Guid id)
+        {
+            return await _db.PowderOrders
+                .FirstOrDefaultAsync(p => p.PowderOrderId == id);
+        }
+
+        public async Task<IEnumerable<StaticPowderInfo>> GetAllStaticPowderInfo()
+        {
+            return await _db.StaticPowderInfo
+                .OrderByDescending(s => s.PowderName)
+                .ToListAsync();
+        }
+
+        public async Task<StaticPowderInfo> GetStaticPowderInfo(Guid id)
+        {
+            return await _db.StaticPowderInfo
+                .FirstOrDefaultAsync(s => s.StaticPowderInfoId == id);
+        }
+
+        public async Task AddPowderBottles(List<PowderBottle> bottles)
+        {
+            foreach(PowderBottle bottle in bottles)
+            {
+                _db.PowderBottles.Add(bottle);
+            }
+            await _db.SaveChangesAsync();
+        }
+
+        public void RemovePowderBottles(List<PowderBottle> bottles)
+        {
+            foreach (PowderBottle bottle in bottles)
+            {
+                _db.PowderBottles.Remove(bottle);
+            }
+        }
+
+        public async Task<IEnumerable<PowderBottle>> GetLineItemPowder(LineItem lineItem)
+        {
+            return await _db.PowderBottles
+                .Include(l => l.StaticPowderInfo)
+                .Include(l => l.LineItem)
+                .Where(p => p.LineItemId == lineItem.LineItemId)
+                .OrderByDescending(p => p.StaticPowderInfo.PowderName)
+                .ToListAsync();
+        }
     }
 }
