@@ -12,7 +12,6 @@ namespace EndlasNet.Web.Controllers
 {
     public class StaticPowderInfoesController : Controller
     {
-        private readonly EndlasNetDbContext _context;
         private readonly IStaticPowderInfoRepo _repo;
         public StaticPowderInfoesController(IStaticPowderInfoRepo repo)
         {
@@ -75,7 +74,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPowderInfo = await _context.StaticPowderInfo.FindAsync(id);
+            var staticPowderInfo = await _repo.GetRow(id);
             if (staticPowderInfo == null)
             {
                 return NotFound();

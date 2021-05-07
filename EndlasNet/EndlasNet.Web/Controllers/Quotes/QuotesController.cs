@@ -28,10 +28,10 @@ namespace EndlasNet.Web
             {
                 case "endlas_number_desc":
                     quotes = quotes.OrderByDescending(q => q.EndlasNumber).ToList();
+
                     break;
                 case "endlas_number_asc":
-                    quotes = quotes.OrderByDescending(q => q.EndlasNumber).ToList();
-                    quotes.Reverse();
+                    quotes = quotes.OrderBy(q => q.EndlasNumber).ToList();
                     break;
                 default:
                     break;
