@@ -107,106 +107,6 @@ namespace EndlasNet.Web.Controllers
             return View(powderForPart);
         }
 
-
-
-        // GET: PowderForParts/Create
-        public async Task<IActionResult> Create()
-        {
-            await SetViewData();
-            return View();
-        }
-
-        // POST: PowderForParts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PowderForPartId,DatUsed,PowderBottleId,PartForWorkId,PowderWeightUsed")] PowderForPart powderForPart)
-        {
-            if (ModelState.IsValid)
-            {
-                // find the bottle of powder associated with powderForParts
-                var powder = await _repo.GetPowderBottle((Guid)powderForPart.PowderBottleId);
-
-                // make sure there is enough powder to perform putting powder to part
-                if (powder.Weight < powderForPart.PowderWeightUsed)
-                {
-                    ViewBag.HasEnoughPowder = "false";
-                    ViewBag.PowderLeft = string.Format("{0:0.0000}", powder.Weight);
-                    await SetViewData();
-                    return View(powderForPart);
-                }
-                // subtract off what was used
-                powder.Weight -= powderForPart.PowderWeightUsed;
-                // if below threshold after subtracting weight, zero out weight
-                if (powder.Weight <= WEIGHT_THRESHOLD)
-                {
-                    powder.Weight = 0.0f;
-                    await _repo.UpdatePowderBottle(powder);
-                }
-                // all good, so create new powder for part guid and save
-                powderForPart.PowderForPartId = Guid.NewGuid();
-                powderForPart.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                await _repo.AddRow(powderForPart);
-
-                return RedirectToAction(nameof(Index));
-            }
-            await SetViewData();
-            return View(powderForPart);
-        }
-
-        // GET: PowderForParts/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var powderForPart = await _repo.GetRow(id);
-            if (powderForPart == null)
-            {
-                return NotFound();
-            }
-            await SetViewData();
-            return View(powderForPart);
-        }
-
-        // POST: PowderForParts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PowderForPartId,DatUsed,PowderBottleId,PartForWorkId,PowderWeightUsed")] PowderForPart powderForPart)
-        {
-            if (id != powderForPart.PowderForPartId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _repo.UpdateRow(powderForPart);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PowderForPartExists(powderForPart.PowderForPartId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            await SetViewData();
-            return View(powderForPart);
-        }
-
         // GET: PowderForParts/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -265,7 +165,8 @@ namespace EndlasNet.Web.Controllers
         [HttpPost]
         public IActionResult CreateGetWork([Bind("WorkId,Work,PowderBottleId,PowderWeightUsed,CheckBoxes")] PowderForPartViewModel vm)
         {
-            return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0, selectedCheckboxes = true, powderWeightUsed = 0, dateUsed = DateTime.Now});
+            return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0,
+                selectedCheckboxes = true, powderWeightUsed = 0, dateUsed = DateTime.Now});
         }
 
 
@@ -325,7 +226,8 @@ namespace EndlasNet.Web.Controllers
             var checkedBoxes = vm.CheckBoxes.Where(c => c.IsChecked).ToList();
             if(checkedBoxes.Count == 0)
             {
-                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0, selectedCheckboxes = false, powderWeightUsed = vm.PowderWeightUsed, dateUsed = vm.DateUsed });
+                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0,
+                    selectedCheckboxes = false, powderWeightUsed = vm.PowderWeightUsed, dateUsed = vm.DateUsed });
             }
             // find the bottle of powder associated with powderForParts
             var powder = await _repo.GetPowderBottle(vm.PowderBottleId);
@@ -336,7 +238,8 @@ namespace EndlasNet.Web.Controllers
                 ViewBag.HasEnoughPowder = "false";
                 ViewBag.PowderLeft = string.Format("{0:0.0000}", powder.Weight);
                 await SetViewData();
-                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = false, powderLeft = powder.Weight, selectedCheckboxes = true, powderWeightUsed = vm.PowderWeightUsed, dateUsed = vm.DateUsed });
+                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = false,
+                    powderLeft = powder.Weight, selectedCheckboxes = true, powderWeightUsed = vm.PowderWeightUsed, dateUsed = vm.DateUsed });
             }
             powder.Weight -= vm.PowderWeightUsed;
             // if below threshold after subtracting weight, zero out weight
