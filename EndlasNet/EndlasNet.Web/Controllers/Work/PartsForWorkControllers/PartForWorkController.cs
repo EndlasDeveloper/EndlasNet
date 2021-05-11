@@ -20,14 +20,31 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PartForWork
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? pageNumber)
         {
-            ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
-            ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
+            PaginatedList<PartForWork> pagList = null;
+            ViewBag.SortOrder = sortOrder;
+            ViewBag.CurrentFilter = currentFilter;
+            ViewBag.SearchString = searchString;
+            ViewBag.PageNumber = pageNumber;
+
+            ViewData["CurrentSort"] = sortOrder;
+            ViewBag.SuffixSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
 
             ViewBag.WorkTypeJob = String.IsNullOrEmpty(sortOrder) ? "work_type_job" : "";
             ViewBag.WorkTypeWorkOrder = String.IsNullOrEmpty(sortOrder) ? "work_type_work_order" : "";
 
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
             ViewData["CurrentFilter"] = searchString;
 
             var partsForWork = await _repo.GetAllPartsForWork();
@@ -38,12 +55,14 @@ namespace EndlasNet.Web.Controllers
                 partForWork.WorkType = _repo.GetWorkType(partForWork);
             }
 
-
             if (!String.IsNullOrEmpty(searchString))
             {
-                
-                partsForWork = partsForWork.Where(p => p.Work.DueDate.ToString().Contains(searchString));
-                return View(partsForWork.ToList());
+                partsForWork = partsForWork.Where(p => p.Work.DueDate
+                    .ToString()
+                    .Contains(searchString));
+                pagList = PaginatedList<PartForWork>.Create(partsForWork.ToList(), pageNumber ?? 1, PaginatedListStaticVariables.PAGE_SIZE);
+
+                return View(pagList);
             }
 
             switch (sortOrder)
@@ -73,8 +92,9 @@ namespace EndlasNet.Web.Controllers
                 default:
                     break;
             }
-
-            return View(partsForWorkList);
+            pagList = PaginatedList<PartForWork>.Create(partsForWorkList, pageNumber ?? 1, PaginatedListStaticVariables.PAGE_SIZE);
+            ViewData["PaginatedList"] = pagList;
+            return View(pagList);
         }
 
         // GET: PartForWork/Details/5

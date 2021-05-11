@@ -1,7 +1,21 @@
-﻿@model IEnumerable<EndlasNet.Data.PartForWork>
+﻿@using EndlasNet.Data;
+@model PaginatedList<PartForWork>
 
 @{
     ViewData["Title"] = "All parts for work";
+    var searchString = ViewBag.SearchString;
+    var sortOrder = ViewBag.SortOrder;
+    var pageNumber = ViewBag.PageNumber;
+    var pagList = ViewData["PaginatedList"];
+    if (sortOrder != null)
+    {
+        ViewBag.PageNumber = 1;
+    }
+    else
+    {
+        searchString = ViewBag.CurrentFilter;
+    }
+
 }
 <a asp-action="Work" asp-controller="Home">
     <span>
@@ -14,10 +28,10 @@
 </h3>
 <br />
 
-<form asp-action="Index" method="get">
+<form asp-action="Index" method="get" >
     <div class="form-actions no-color">
         <p>
-            Find by due date: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            Find by work due date: <input type="text" name="SearchString" placeholder="mm/dd/yyyy hr:min:sec" value="@ViewBag.CurrentFilter" />
             <input type="submit" value="Search" class="btn btn-default" /> |
             <a asp-action="Index">Back to full list</a>
         </p>
@@ -32,36 +46,28 @@
                     Work type
                 </div>
                 <span style="color:darkred">
-                    @Html.ActionLink("Jobs ", "Index", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.WorkTypeJob }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink("Jobs ", "Index", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.WorkTypeJob }, new { @style = "color:firebrick;" })
                     -
-                    @Html.ActionLink(" Work orders", "Index", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.WorkTypeWorkOrder }, new { @style = "font-size:small;color:firebrick;" })
+                    @Html.ActionLink(" Work orders", "Index", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.WorkTypeWorkOrder }, new { @style = "color:firebrick;" })
                 </span>
             </th>
             <th>
 
                 <div>
-                    Suffix
+                    <a style="color:firebrick" asp-action="Index" asp-route-sortOrder="@ViewData["SuffixSortParm"]" asp-route-currentFilter="@ViewBag.CurrentFilter">Suffix</a>
                 </div>
-                <span style="color:darkred">
-                    <a href="@Url.Action("Index", "PartForWork", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.SuffixAscSortParm })" title="Ascending">
-                        <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
-                    </a>
-                    <a href="@Url.Action("Index", "PartForWork", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.SuffixDescSortParm })" title="Descending">
-                        <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
-                    </a>        
-                </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ConditionDescription)
+                Condition description
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InitWeight)
+                Initial weight (lbs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CladdedWeight)
+                Cladded weight (lbs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FinishedWeight)
+                Finished weight (lbs)
             </th>
 
             <th></th>
@@ -77,7 +83,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Suffix)
                 </td>
-
                 <td>
                     @Html.DisplayFor(modelItem => item.ConditionDescription)
                 </td>
@@ -100,3 +105,22 @@
         }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
