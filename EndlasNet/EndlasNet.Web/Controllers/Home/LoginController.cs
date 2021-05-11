@@ -44,7 +44,7 @@ namespace EndlasNet.Web.Controllers
             var user = await _db.GetUser(email.ToLower());
 
             //Specify on next view what the error was using ViewBag to send message
-            if (user == null || Security.ComputeSha256Hash(pwd) != user.AuthString)
+            if (user == null || Utility.Security.ComputeSha256Hash(pwd) != user.AuthString)
             {
                 // login failed
                 ViewBag.IsUserLoggedIn = "false";

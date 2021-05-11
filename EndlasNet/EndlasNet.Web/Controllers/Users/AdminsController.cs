@@ -97,7 +97,7 @@ namespace EndlasNet.Web.Controllers
                 // save emails as lower case
                 admin.EndlasEmail = admin.EndlasEmail.ToLower();
                 // **** HASH AUTH STRING ****
-                admin.AuthString = Security.ComputeSha256Hash(admin.AuthString);
+                admin.AuthString = Utility.Security.ComputeSha256Hash(admin.AuthString);
                 // update shadow properties
                 await _adminRepo.AddAdmin(admin);
                 return RedirectToAction(nameof(Index));
@@ -138,7 +138,7 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     // **** HASH AUTH STRING ****
-                    admin.AuthString = Security.ComputeSha256Hash(admin.AuthString);
+                    admin.AuthString = Utility.Security.ComputeSha256Hash(admin.AuthString);
                     // update email as lower case
                     admin.EndlasEmail = admin.EndlasEmail.ToLower();
                     await _adminRepo.UpdateAdmin(admin);
