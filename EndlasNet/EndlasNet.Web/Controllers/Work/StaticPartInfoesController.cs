@@ -72,7 +72,6 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 staticPartInfo.StaticPartInfoId = Guid.NewGuid();
-                staticPartInfo.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 
                 if (staticPartInfo.ImageFile != null)
                     staticPartInfo.DrawingImageBytes = await FileURL.GetFileBytes(staticPartInfo.ImageFile);
@@ -116,7 +115,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,DrawingImageBytes,ClearImg,FinishDrawingFile,FinishDrawingPdfBytes,ClearFinish,BlankDrawingFile,BlankDrawingPdfBytes,ClearBlank,CustomerId,UserId")] StaticPartInfo staticPartInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPartInfoId,DrawingNumber,ApproxWeight,PartDescription,ImageName,ImageFile,DrawingImageBytes,ClearImg,FinishDrawingFile,FinishDrawingPdfBytes,ClearFinish,BlankDrawingFile,BlankDrawingPdfBytes,ClearBlank,CustomerId")] StaticPartInfo staticPartInfo)
         {
             if (id != staticPartInfo.StaticPartInfoId)
             {

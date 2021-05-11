@@ -66,11 +66,11 @@ namespace EndlasNet.Data
         [Display(Name = "Invoice number")]
         public string InvoiceNumber { get; set; }
 
-        // FK references
+/*        // FK references
         [ForeignKey("UserId")]
         [Display(Name = "User")]
         public Guid? UserId { get; set; }
-        public virtual User User { get; set; }
+        public virtual User User { get; set; }*/
 
         [ForeignKey("VendorId")]
         [Display(Name = "Vendor")]

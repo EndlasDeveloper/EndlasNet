@@ -41,7 +41,6 @@ namespace EndlasNet.Data
         {
             return await _db.StaticPartInfo
                 .Include(s => s.Customer)
-                .Include(s => s.User)
                 .OrderByDescending(s => s.DrawingNumber)
                 .ToListAsync();
         }
@@ -50,14 +49,12 @@ namespace EndlasNet.Data
         {
             return await _db.StaticPartInfo
                 .Include(s => s.Customer)
-                .Include(s => s.User)
                 .FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
         }
 
         public async Task<StaticPartInfo> GetRowNoTracking(Guid? id)
         {
             return await _db.StaticPartInfo
-                .Include(s => s.User)
                 .Include(s => s.Customer)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.StaticPartInfoId == id);

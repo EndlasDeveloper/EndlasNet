@@ -31,7 +31,6 @@ namespace EndlasNet.Data
         {
             return await _db.MachiningTools
                 .Include(m => m.Vendor)
-                .Include(m => m.User)
                 .OrderByDescending(m => m.ToolType)
                 .ToListAsync();
         }
@@ -39,7 +38,6 @@ namespace EndlasNet.Data
         public async Task<MachiningTool> GetRow(Guid? id)
         {
             return await _db.MachiningTools
-                .Include(m => m.User)
                 .Include(m => m.Vendor)
                 .FirstOrDefaultAsync(m => m.MachiningToolId == id);
         }
@@ -48,7 +46,6 @@ namespace EndlasNet.Data
         {
             return await _db.MachiningTools
                 .AsNoTracking()
-                .Include(m => m.User)
                 .Include(m => m.Vendor)
                 .FirstOrDefaultAsync(m => m.MachiningToolId == id);
         }

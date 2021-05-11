@@ -54,14 +54,13 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MachiningToolId,ToolType,ToolDiameter,RadialMetric,Units,ToolDescription,VendorDescription,InitToolCount,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderCost,InvoiceNumber,UserId,VendorId")] MachiningTool machiningTool)
+        public async Task<IActionResult> Create([Bind("MachiningToolId,ToolType,ToolDiameter,RadialMetric,Units,ToolDescription,VendorDescription,InitToolCount,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderCost,InvoiceNumber,VendorId")] MachiningTool machiningTool)
         {
             if (ModelState.IsValid)
             {
                 machiningTool.MachiningToolId = Guid.NewGuid();
                 // default tool count to the initial tool count
                 machiningTool.ToolCount = machiningTool.InitToolCount;
-                machiningTool.UserId = new Guid(HttpContext.Session.GetString("userId"));
 
                 await _repo.AddRow(machiningTool);
                 return RedirectToAction(nameof(Index));
@@ -92,7 +91,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolId,ToolType,ToolDiameter,RadialMetric,Units,ToolDescription,VendorDescription,InitToolCount,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderCost,InvoiceNumber,UserId,VendorId")] MachiningTool machiningTool)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolId,ToolType,ToolDiameter,RadialMetric,Units,ToolDescription,VendorDescription,InitToolCount,ToolCount,PurchaseOrderNum,PurchaseOrderDate,PurchaseOrderCost,InvoiceNumber,VendorId")] MachiningTool machiningTool)
         {
             if (id != machiningTool.MachiningToolId)
             {
@@ -103,7 +102,6 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    machiningTool.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     await _repo.UpdateRow(machiningTool);
                 }
                 catch (DbUpdateConcurrencyException)

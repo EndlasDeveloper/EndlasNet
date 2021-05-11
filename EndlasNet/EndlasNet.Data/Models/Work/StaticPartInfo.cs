@@ -55,10 +55,10 @@ namespace EndlasNet.Data
         public Guid? CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
 
-        [ForeignKey("UserId")]
+/*        [ForeignKey("UserId")]
         [Display(Name = "User")]
         public Guid? UserId { get; set; }
-        public virtual User User { get; set; }
+        public virtual User User { get; set; }*/
 
         // Static part info has (describes) many PartsForWork
         public IEnumerable<PartForWork> PartsForWork { get; set; }
