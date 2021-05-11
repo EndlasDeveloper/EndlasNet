@@ -25,7 +25,7 @@ namespace EndlasNet.Web.Controllers
         {
             var parts = await _repo.GetAllPartsForJobs();
             // minimize part list to batched row representation
-            var minimizedPartList = await PartForWorkUtil.MinimizeJobPartList(parts, _repo);
+            var minimizedPartList = await Utility.PartsForWorkUtil.MinimizeJobPartList(parts, _repo);
 
             // set thumbnail image url's
             foreach (PartForJob partForJob in minimizedPartList)
@@ -78,7 +78,7 @@ namespace EndlasNet.Web.Controllers
                     try
                     {
                         var tempPartForJob = partForJob;
-                        tempPartForJob.Suffix = PartSuffixGenerator.IndexToSuffix(i);
+                        tempPartForJob.Suffix = Utility.PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                         if (partForJob.ImageFile != null)

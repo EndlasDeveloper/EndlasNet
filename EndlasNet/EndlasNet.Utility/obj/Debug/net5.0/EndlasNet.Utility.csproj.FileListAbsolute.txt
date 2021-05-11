@@ -1,0 +1,12 @@
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\bin\Debug\net5.0\EndlasNet.Utility.deps.json
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\bin\Debug\net5.0\EndlasNet.Utility.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\bin\Debug\net5.0\ref\EndlasNet.Utility.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\bin\Debug\net5.0\EndlasNet.Utility.pdb
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\obj\Debug\net5.0\EndlasNet.Utility.csprojAssemblyReference.cache
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\obj\Debug\net5.0\EndlasNet.Utility.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\obj\Debug\net5.0\EndlasNet.Utility.AssemblyInfoInputs.cache
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\obj\Debug\net5.0\EndlasNet.Utility.AssemblyInfo.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\obj\Debug\net5.0\EndlasNet.Utility.csproj.CoreCompileInputs.cache
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\obj\Debug\net5.0\EndlasNet.Utility.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\obj\Debug\net5.0\ref\EndlasNet.Utility.dll
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Utility\obj\Debug\net5.0\EndlasNet.Utility.pdb

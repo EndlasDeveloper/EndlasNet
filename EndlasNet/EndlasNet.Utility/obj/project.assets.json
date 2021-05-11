@@ -1,0 +1,65 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v3.5": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v3.5": []
+  },
+  "packageFolders": {
+    "C:\\Users\\EndlasLaptop2\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Utility\\EndlasNet.Utility.csproj",
+      "projectName": "EndlasNet.Utility",
+      "projectPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Utility\\EndlasNet.Utility.csproj",
+      "packagesPath": "C:\\Users\\EndlasLaptop2\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\EndlasLaptop2\\Desktop\\EndlasNet\\EndlasNet\\EndlasNet.Utility\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\EndlasLaptop2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net35"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net35": {
+          "targetAlias": "net3.5",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net35": {
+        "targetAlias": "net3.5",
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

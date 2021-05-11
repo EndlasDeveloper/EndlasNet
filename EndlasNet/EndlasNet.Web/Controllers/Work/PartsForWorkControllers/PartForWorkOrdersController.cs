@@ -24,7 +24,7 @@ namespace EndlasNet.Web.Controllers
         {
             var parts = await _repo.GetAllPartsForWorkOrdersAsync();
             // minimize part list to batched row representation
-            var minimizedPartList = await PartForWorkUtil.MinimizeWorkOrderPartList(parts, _repo);
+            var minimizedPartList = await Utility.PartsForWorkUtil.MinimizeWorkOrderPartList(parts, _repo);
 
             // set thumbnail image url's
             foreach (PartForWorkOrder partForWorkOrder in minimizedPartList)
@@ -84,7 +84,7 @@ namespace EndlasNet.Web.Controllers
                     {
                         var tempPartForWorkOrder = partForWorkOrder;
                         // set suffix
-                        tempPartForWorkOrder.Suffix = PartSuffixGenerator.IndexToSuffix(i);
+                        tempPartForWorkOrder.Suffix = Utility.PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForWorkOrder.PartForWorkId = Guid.NewGuid();
                         // save user email
                         tempPartForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
