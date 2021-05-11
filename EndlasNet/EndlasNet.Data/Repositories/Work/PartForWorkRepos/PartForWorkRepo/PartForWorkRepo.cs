@@ -30,21 +30,31 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<PartForJob>> GetAllPartsForJobs()
         {
             return await _db.PartsForJobs
-                .OrderByDescending(p => p.Suffix
-                ).ToListAsync();
+                .Include(p => p.Work)
+                .OrderBy(p => p.Suffix)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<PartForWorkOrder>> GetAllPartsForWorkOrders()
+        {
+            return await _db.PartsForWorkOrders
+                .Include(p => p.Work)
+                .OrderBy(p => p.Suffix)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<PartForWork>> GetAllPartsForWork()
         {
             return await _db.PartsForWork
-                .OrderByDescending(p => p.Suffix)
+                .Include(p => p.Work)
+                .OrderBy(p => p.Suffix)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfo()
         {
             return await _db.StaticPartInfo
-                .OrderByDescending(s => s.DrawingNumber)
+                .OrderBy(s => s.DrawingNumber)
                 .ToListAsync();
         }
 
@@ -57,14 +67,18 @@ namespace EndlasNet.Data
                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
 
-        public Task<IEnumerable<PartForWorkOrder>> GetPartForWorkOrders()
+        public async Task<IEnumerable<PartForWorkOrder>> GetPartForWorkOrders()
         {
-            throw new NotImplementedException();
+            return await _db.PartsForWorkOrders
+               .Include(p => p.StaticPartInfo)
+               .Include(p => p.User)
+               .Include(p => p.Work).ToListAsync();
         }
 
         public string GetWorkType(PartForWork partForWork)
         {
-            return _db.Entry(partForWork).Property("Discriminator").CurrentValue.ToString();
+            return _db.Entry(partForWork)
+                .Property("Discriminator").CurrentValue.ToString();
         }
 
         public bool PartForWorkExists(Guid id)

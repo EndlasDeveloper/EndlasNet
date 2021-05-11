@@ -20,7 +20,7 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PartForWork
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
             ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
@@ -28,11 +28,22 @@ namespace EndlasNet.Web.Controllers
             ViewBag.WorkTypeJob = String.IsNullOrEmpty(sortOrder) ? "work_type_job" : "";
             ViewBag.WorkTypeWorkOrder = String.IsNullOrEmpty(sortOrder) ? "work_type_work_order" : "";
 
+            ViewData["CurrentFilter"] = searchString;
+
             var partsForWork = await _repo.GetAllPartsForWork();
+
             List<PartForWork> partsForWorkList = partsForWork.ToList();
             foreach(PartForWork partForWork in partsForWorkList)
             {
                 partForWork.WorkType = _repo.GetWorkType(partForWork);
+            }
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                
+                partsForWork = partsForWork.Where(p => p.Work.DueDate.ToString().Contains(searchString));
+                return View(partsForWork.ToList());
             }
 
             switch (sortOrder)
@@ -41,8 +52,7 @@ namespace EndlasNet.Web.Controllers
                     partsForWorkList = partsForWorkList.OrderByDescending(a => a.Suffix).ToList();
                     break;
                 case "suffix_asc":
-                    partsForWorkList = partsForWorkList.OrderByDescending(a => a.Suffix).ToList();
-                    partsForWorkList.Reverse();
+                    partsForWorkList = partsForWorkList.OrderBy(a => a.Suffix).ToList();
                     break;
                 case "work_type_job":
                     var partsForJobs = await _repo.GetAllPartsForJobs();
