@@ -45,10 +45,12 @@
                 <div>
                     Work type
                 </div>
-                <span style="color:darkred">
-                    @Html.ActionLink("Jobs ", "Index", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.WorkTypeJob }, new { @style = "color:firebrick;" })
+                <span style="color:firebrick">
+                    <a style="color:firebrick" asp-action="Index"
+                       asp-route-sortOrder="@ViewData["WorkTypeJob"]" asp-route-currentFilter="@ViewBag.CurrentFilter">Jobs</a>    
                     -
-                    @Html.ActionLink(" Work orders", "Index", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.WorkTypeWorkOrder }, new { @style = "color:firebrick;" })
+                    <a style="color:firebrick" asp-action="Index" 
+                       asp-route-sortOrder="@ViewData["WorkTypeWorkOrder"]" asp-route-currentFilter="@ViewBag.CurrentFilter">WorkOrders</a>
                 </span>
             </th>
             <th>

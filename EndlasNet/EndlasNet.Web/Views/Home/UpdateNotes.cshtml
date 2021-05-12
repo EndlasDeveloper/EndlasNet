@@ -33,8 +33,11 @@
             all unnecessary view files from views. Removed unnecessary controller methods that corresponded to the removed views.
         </li>
         <li class="update-notes-li">
-            Fixed subtle issue with respect to database migrations. The database can have existing data, a database schema change can be made, then, 
+            Fixed subtle issue with respect to database migrations. The database can have existing data, a database schema change can be made, then,
             after the changes have been applied, the data will persist.
+        </li>
+        <li class="update-notes-li">
+            PartForWork -> filters rows by PO date (by year/month/day).
         </li>
     </ul>
 
@@ -46,9 +49,7 @@
         <li class="update-notes-li">
             Begin writing Moq tests now that the controllers that are important accept an interface repo as a parameter.
         </li>
-        <li class="update-notes-li">
-            PartForWork -> filter rows by PO date (by year/month/day).
-        </li>
+        
         <li class="update-notes-li">
             PowderForPart -> allow to choose year to filter by.
         </li>
