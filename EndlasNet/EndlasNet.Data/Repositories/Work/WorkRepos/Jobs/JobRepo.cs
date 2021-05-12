@@ -117,11 +117,34 @@ namespace EndlasNet.Data
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Quote>> GetAllQuotes()
+        public async Task<IEnumerable<Quote>> GetAllQuotesWithoutJob()
         {
-            return await _db.Quotes
-                .OrderByDescending(q => q.EndlasNumber)
+            var jobs = await _db.Jobs
+                .Include(j => j.Quote)
                 .ToListAsync();
+            var allQuotes = await _db.Quotes.ToListAsync();
+            List<Quote> jobQuotes = new List<Quote>();
+            foreach(Job job in jobs)
+            {
+                jobQuotes.Insert(0, job.Quote);
+            }
+            List<Quote> returnQuotes = new List<Quote>();
+            foreach(Quote quote in allQuotes)
+            {
+                returnQuotes.Insert(0, quote);
+            }
+            foreach(Quote aQuote in allQuotes)
+            {
+                foreach (Quote jQuote in jobQuotes)
+                {
+                    if(aQuote.QuoteId == jQuote.QuoteId)
+                    {
+                        returnQuotes.Remove(aQuote);
+                    }
+                }
+            }
+
+            return returnQuotes.OrderByDescending(q => q.EndlasNumber);
         }
 
         public async Task<Quote> GetQuote(Guid id)

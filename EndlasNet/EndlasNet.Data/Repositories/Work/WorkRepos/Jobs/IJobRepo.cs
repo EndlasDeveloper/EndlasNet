@@ -22,6 +22,6 @@ namespace EndlasNet.Data
         public Task<Quote> GetQuote(Guid id);
 
         public Task<IEnumerable<Customer>> GetAllCustomers();
-        public Task<IEnumerable<Quote>> GetAllQuotes();
+        public Task<IEnumerable<Quote>> GetAllQuotesWithoutJob();
     }
 }

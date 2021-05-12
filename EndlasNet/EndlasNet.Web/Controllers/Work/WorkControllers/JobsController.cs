@@ -79,13 +79,13 @@ namespace EndlasNet.Web.Controllers
         private async Task SetViewData(Job job)
         {
             ViewData["CustomerId"] = new SelectList(await _jobRepo.GetAllCustomers(), "CustomerId", "CustomerAddress", job.CustomerId);
-            ViewData["QuoteId"] = new SelectList(await _jobRepo.GetAllQuotes(), "QuoteId", "EndlasNumber");
+            ViewData["QuoteId"] = new SelectList(await _jobRepo.GetAllQuotesWithoutJob(), "QuoteId", "EndlasNumber");
         }
 
         private async Task SetViewData()
         {
             ViewData["CustomerId"] = new SelectList(await _jobRepo.GetAllCustomers(), "CustomerId", "CustomerName");
-            ViewData["QuoteId"] = new SelectList(await _jobRepo.GetAllQuotes(), "QuoteId", "EndlasNumber");
+            ViewData["QuoteId"] = new SelectList(await _jobRepo.GetAllQuotesWithoutJob(), "QuoteId", "EndlasNumber");
         }
 
         // GET: Jobs/Edit/5

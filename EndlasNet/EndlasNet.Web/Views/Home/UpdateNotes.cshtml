@@ -40,6 +40,11 @@
             PartForWork -> filters rows by PO date (by year/month/day). Added search bar to search for parts for work by the work's due date. Added
             capability to search for a due date, then apply either suffix sore or filter by work type.
         </li>
+        <li class="update-notes-li">
+            Fixed issue in Jobs -> Jobs was allowing the user to create multiple jobs referencing a single quote. This shouldn't be. There was/is a check
+            put into place in quotes to make sure the user cannot put in duplicate quotes with the same endlas number, however. Now only quotes without
+            job references appear in the dropdown for quote reference when creating a job.
+        </li>
     </ul>
 
 
