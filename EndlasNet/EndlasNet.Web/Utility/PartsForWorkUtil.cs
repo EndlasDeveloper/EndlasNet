@@ -10,6 +10,10 @@ namespace EndlasNet.Web.Utility
     {
         public static async Task<List<PartForJob>> MinimizeJobPartList(List<PartForJob> parts, IPartForJobRepo repo)
         {
+
+
+
+
             List<PartForJob> minimizedPartList = new List<PartForJob>();
             var flag = false;
             foreach (PartForJob part in parts)

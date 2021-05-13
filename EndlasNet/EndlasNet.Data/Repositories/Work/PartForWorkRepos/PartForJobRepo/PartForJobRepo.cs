@@ -108,10 +108,24 @@ namespace EndlasNet.Data
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfoWithoutJob()
+        {
+            return await _db.StaticPartInfo
+                .Include(s => s.PartsForWork)
+                .Where(s => s.PartsForWork.Count() == 0).ToListAsync();
+        }
+
         public async Task<IEnumerable<Job>> GetAllJobs()
         {
             return await _db.Jobs
                 .OrderByDescending(j => j.EndlasNumber)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Job>> GetJobsWithNoParts()
+        {
+            return await _db.Jobs
+                .Where(j => j.PartsForWork.Count() == 0)
                 .ToListAsync();
         }
 
@@ -132,6 +146,23 @@ namespace EndlasNet.Data
         {
             return await _db.Work
                 .FirstOrDefaultAsync(s => s.WorkId == id);
+        }
+
+        public async Task<IEnumerable<Job>> GetJobsWithParts()
+        {
+            var jobs = await _db.Jobs
+                .Include(j => j.PartsForWork)
+                .ToListAsync();
+
+            foreach (Job job in jobs)
+            {
+                foreach (PartForWork partForWork in job.PartsForWork)
+                {
+                    partForWork.StaticPartInfo = await _db.StaticPartInfo
+                        .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
+                }
+            }
+            return jobs;
         }
     }
 }

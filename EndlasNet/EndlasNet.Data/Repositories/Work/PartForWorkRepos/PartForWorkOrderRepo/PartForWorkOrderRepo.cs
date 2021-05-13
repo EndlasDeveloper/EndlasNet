@@ -43,6 +43,29 @@ namespace EndlasNet.Data
                    .ToListAsync();
         }
 
+        public async Task<IEnumerable<WorkOrder>> GetWorkOrdersWithParts()
+        {
+            var workOrders = await _db.WorkOrders
+                .Include(j => j.PartsForWork)
+                .ToListAsync();
+
+            foreach (WorkOrder order in workOrders)
+            {
+                foreach (PartForWork partForWork in order.PartsForWork)
+                {
+                    partForWork.StaticPartInfo = await _db.StaticPartInfo
+                        .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
+                }
+            }
+            return workOrders;
+        }
+
+        public async Task<IEnumerable<WorkOrder>> GetWorkOrdersWithNoParts()
+        {
+            return await _db.WorkOrders
+                .Where(j => j.PartsForWork.Count() == 0)
+                .ToListAsync();
+        }
         public async Task AddPartForWorkOrderAsync(PartForWorkOrder partForWorkOrder)
         {
             _db.Add(partForWorkOrder);

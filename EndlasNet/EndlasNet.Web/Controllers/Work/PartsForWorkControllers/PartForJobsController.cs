@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
-
+using EndlasNet.Web.Models;
 namespace EndlasNet.Web.Controllers
 {
     public class PartForJobsController : Controller
@@ -23,23 +23,34 @@ namespace EndlasNet.Web.Controllers
         // GET: PartForJob
         public async Task<IActionResult> Index()
         {
-            var parts = await _repo.GetAllPartsForJobs();
-            // minimize part list to batched row representation
-            var minimizedPartList = await Utility.PartsForWorkUtil.MinimizeJobPartList(parts, _repo);
-
-            // set thumbnail image url's
-            foreach (PartForJob partForJob in minimizedPartList)
+            var jobs = await _repo.GetJobsWithParts();
+            List<PartsForWorkMinimizedViewModel> vmList = new List<PartsForWorkMinimizedViewModel>();
+            foreach(Job job in jobs)
             {
-                FileURL.SetImageURL(partForJob.StaticPartInfo);
+                var partForWork = job.PartsForWork.ToList().FirstOrDefault();
+                if (partForWork != null)
+                {
+                    var vm = new PartsForWorkMinimizedViewModel
+                    {
+                        WorkId = job.WorkId,
+                        PartForWorkId = partForWork.PartForWorkId,
+                        StaticPartInfo = partForWork.StaticPartInfo,
+                        DrawingNumber = partForWork.StaticPartInfo.DrawingNumber,
+                        JobNumber = job.EndlasNumber,
+                        PartCount = job.PartsForWork.Count()
+                    };
+                    FileURL.SetImageURL(vm.StaticPartInfo);
+                    vmList.Insert(0, vm);
+                }
             }
-            return View(minimizedPartList);
+            return View(vmList);
         }
 
         // GET: PartForJobs/Create
         public async Task<IActionResult> Create()
         {
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber");
-            ViewData["WorkId"] = new SelectList(await _repo.GetAllJobs(), "WorkId", "EndlasNumber");
+            ViewData["WorkId"] = new SelectList(await _repo.GetJobsWithNoParts(), "WorkId", "EndlasNumber");
             return View();
         }
 

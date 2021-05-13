@@ -1,7 +1,7 @@
 ﻿@using System;
 @using EndlasNet.Data;
 @using System.Collections.Generic;
-@model IEnumerable<EndlasNet.Data.PartForJob>
+@model IEnumerable<EndlasNet.Web.Models.PartsForWorkMinimizedViewModel>
 
 @{
     ViewData["Title"] = "Parts for jobs";
@@ -52,16 +52,16 @@
                     <img src=@Html.DisplayFor(modelItem => item.StaticPartInfo.ImageUrl) alt="Drawing Image" style="max-width:75px;max-height:60px" />
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
+                    @Html.DisplayFor(modelItem => item.JobNumber)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StaticPartInfo.DrawingNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NumParts)
+                    @Html.DisplayFor(modelItem => item.PartCount)
                 </td>
                 <td>
-                    @Html.ActionLink("View list", "ViewList", new { id = item.PartForWorkId, workId = item.WorkId, partInfoId = item.StaticPartInfoId })
+                    @Html.ActionLink("View list", "ViewList", new { id = item.PartForWorkId, workId = item.WorkId, partInfoId = item.StaticPartInfo.StaticPartInfoId })
                 </td>
             </tr>
         }

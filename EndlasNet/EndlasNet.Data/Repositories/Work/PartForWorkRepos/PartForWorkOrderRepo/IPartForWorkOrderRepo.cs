@@ -19,6 +19,8 @@ namespace EndlasNet.Data
         public Task UpdatePartForWorkOrderAsync(PartForWorkOrder partForWorkOrder);
         public Task<IEnumerable<PartForWorkOrder>> GetBatch(string workId, string partInfoId);
         public Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfo();
+        public Task<IEnumerable<WorkOrder>> GetWorkOrdersWithNoParts();
+        public Task<IEnumerable<WorkOrder>> GetWorkOrdersWithParts();
 
         public Task<IEnumerable<WorkOrder>> GetAllWorkOrders();
         public Task<IEnumerable<PartForWorkOrder>> GetPartsForWorkOrdersWithPartInfo(Guid staticPartInfoId);

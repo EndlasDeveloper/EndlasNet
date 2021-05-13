@@ -10,7 +10,7 @@
     ViewData["Title"] = "Update notes";
     
 }
-<h1 class="display-4">@ViewData["Title"] - 5/7/2021</h1>
+<h1 class="display-4">@ViewData["Title"] - 5/13/2021</h1>
 <p>
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
@@ -45,6 +45,10 @@
             put into place in quotes to make sure the user cannot put in duplicate quotes with the same endlas number, however. Now only quotes without
             job references appear in the dropdown for quote reference when creating a job.
         </li>
+        <li class="update-notes-li">
+            Refactored Part for job/work order. Now it uses a view model rather than the data model. Also, the views group the rows into similar work
+            parent classes.
+        </li>
     </ul>
 
 
@@ -53,7 +57,7 @@
     <ul style="font-size:14px;line-height:200%;">
   
         <li class="update-notes-li">
-            Begin writing Moq tests now that the controllers that are important accept an interface repo as a parameter.
+            Keep writing Moq tests now that the controllers that are important accept an interface repo as a parameter.
         </li>
         
         <li class="update-notes-li">

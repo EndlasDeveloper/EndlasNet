@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
+using EndlasNet.Web.Models;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -20,25 +21,37 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PartForWorkOrders
+        // GET: PartForJob
         public async Task<IActionResult> Index()
         {
-            var parts = await _repo.GetAllPartsForWorkOrdersAsync();
-            // minimize part list to batched row representation
-            var minimizedPartList = await Utility.PartsForWorkUtil.MinimizeWorkOrderPartList(parts, _repo);
-
-            // set thumbnail image url's
-            foreach (PartForWorkOrder partForWorkOrder in minimizedPartList)
+            var workOrders = await _repo.GetWorkOrdersWithParts();
+            List<PartsForWorkMinimizedViewModel> vmList = new List<PartsForWorkMinimizedViewModel>();
+            foreach (var order in workOrders)
             {
-                FileURL.SetImageURL(partForWorkOrder.StaticPartInfo);
+                var partForWork = order.PartsForWork.ToList().FirstOrDefault();
+                if (partForWork != null)
+                {
+                    var vm = new PartsForWorkMinimizedViewModel
+                    {
+                        WorkId = order.WorkId,
+                        PartForWorkId = partForWork.PartForWorkId,
+                        StaticPartInfo = partForWork.StaticPartInfo,
+                        DrawingNumber = partForWork.StaticPartInfo.DrawingNumber,
+                        JobNumber = order.EndlasNumber,
+                        PartCount = order.PartsForWork.Count()
+                    };
+                    FileURL.SetImageURL(vm.StaticPartInfo);
+                    vmList.Insert(0, vm);
+                }
             }
-            return View(minimizedPartList);
-        }    
+            return View(vmList);
+        }
 
         // GET: PartForWorkOrders/Create
         public async Task<IActionResult> Create()
         {
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber");
-            ViewData["WorkId"] = new SelectList(await _repo.GetAllWorkOrders(), "WorkId", "EndlasNumber");
+            ViewData["WorkId"] = new SelectList(await _repo.GetWorkOrdersWithNoParts(), "WorkId", "EndlasNumber");
             return View();
         }
 

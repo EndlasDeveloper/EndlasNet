@@ -17,6 +17,9 @@ namespace EndlasNet.Data
         public Task<PartForJob> DeletePartForJobAsync(Guid? id);
         public Task UpdatePartForJobAsync(PartForJob partForJob);
         public Task<IEnumerable<PartForJob>> GetBatch(string workId, string partInfoId);
+        public Task<IEnumerable<Job>> GetJobsWithParts();
+        public Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfoWithoutJob();
+        public Task<IEnumerable<Job>> GetJobsWithNoParts();
 
         public Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfo();
         public Task<StaticPartInfo> GetStaticPartInfo(Guid id);
