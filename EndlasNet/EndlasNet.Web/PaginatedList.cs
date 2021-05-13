@@ -8,7 +8,7 @@ namespace EndlasNet.Web
 {
     public static class PaginatedListStaticVariables
     {
-        public static int PAGE_SIZE = 5;
+        public static int PARTS_FOR_WORK_PAGE_SIZE = 50;
     }
     public class PaginatedList<T> : List<T>
     {

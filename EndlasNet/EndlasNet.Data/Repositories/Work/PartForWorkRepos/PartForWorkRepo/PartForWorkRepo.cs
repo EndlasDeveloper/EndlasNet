@@ -31,7 +31,7 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForJobs
                 .Include(p => p.Work)
-                .OrderBy(p => p.Work).ThenBy(p => p.Work.DueDate).ThenBy(p => p.Suffix)
+                .OrderByDescending(p => p.Work.DueDate).ThenBy(p => p.Suffix)
                 .ToListAsync();
         }
 
@@ -39,7 +39,7 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForWorkOrders
                 .Include(p => p.Work)
-                .OrderBy(p => p.Work).ThenBy(p => p.Work.DueDate).ThenBy(p => p.Suffix)
+                .OrderByDescending(p => p.Work.DueDate).ThenBy(p => p.Suffix)
                 .ToListAsync();
         }
 
@@ -47,7 +47,7 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForWork
                 .Include(p => p.Work)
-                .OrderBy(p => p.Work).ThenBy(p => p.Work.DueDate).ThenBy(p => p.Suffix)
+                .OrderByDescending(p => p.Work.DueDate).ThenBy(p => p.Suffix)
                 .ToListAsync();
         }
 

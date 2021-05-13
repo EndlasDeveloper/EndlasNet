@@ -74,7 +74,7 @@ namespace EndlasNet.Web.Controllers
                 default:
                     break;
             }
-            pagList = PaginatedList<PartForWork>.Create(partsForWork.ToList(), pageNumber ?? 1, PaginatedListStaticVariables.PAGE_SIZE);
+            pagList = PaginatedList<PartForWork>.Create(partsForWork.ToList(), pageNumber ?? 1, PaginatedListStaticVariables.PARTS_FOR_WORK_PAGE_SIZE);
             ViewData["PaginatedList"] = pagList;
             return View(pagList);
         }
