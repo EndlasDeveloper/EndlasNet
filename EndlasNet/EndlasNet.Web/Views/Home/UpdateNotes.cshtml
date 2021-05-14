@@ -16,46 +16,37 @@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
 
-        <li class="update-notes-li">
-            Added 'short description' string attribute to quote. All front-end code is in place to create, edit, delete, and display.
-        </li>
-        <li class="update-notes-li">
-            Added interface for repoository classes so they can be tested with Moq (part of the work below).
-        </li>
-        <li class="update-notes-li">
-            Refactoring controllers to accept an interface repository class as a constructor parameter rather than the DbContext class extension.
-            Finished: Admin, Employee, Vendor, Customer, StaticPartInfo, Job, WorKOrder, AllWork, PartsForJobs, PartsForWorkOrders, PartForAJob,
-            PartForAWorkOrder, All PartsForWork, Quote, StaticPowderInfo, PowderOrder, LineItem, PowderBottle, MachiningTools, MachiningToolForWork,
-            and PowderForPart.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue in PowderForParts -> Details view still had an edit option that led to an old view I didn't realize was still there. Removed
-            all unnecessary view files from views. Removed unnecessary controller methods that corresponded to the removed views.
-        </li>
-        <li class="update-notes-li">
-            Fixed subtle issue with respect to database migrations. The database can have existing data, a database schema change can be made, then,
-            after the changes have been applied, the data will persist.
-        </li>
-        <li class="update-notes-li">
-            PartForWork -> filters rows by PO date (by year/month/day). Added search bar to search for parts for work by the work's due date. Added
-            capability to search for a due date, then apply either suffix sore or filter by work type.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue in Jobs -> Jobs was allowing the user to create multiple jobs referencing a single quote. This shouldn't be. There was/is a check
-            put into place in quotes to make sure the user cannot put in duplicate quotes with the same endlas number, however. Now only quotes without
-            job references appear in the dropdown for quote reference when creating a job.
-        </li>
-        <li class="update-notes-li">
-            Refactored Part for job/work order. Now it uses a view model rather than the data model. Also, the views group the rows into similar work
-            parent classes.
-        </li>
+
     </ul>
 
 
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
-  
+        <li class="update-notes-li">
+            PartsForWork -> want functionality to select columns to display then apply multiple to selected columns.
+        </li>
+        <li class="update-notes-li">
+            PartsForJob -> Job part batch -0> make name action link to apply attribute value to multiple parts for work. 
+        </li>
+        <li class="update-notes-li">
+            Remove 'hr:min:sec' portion of the due date in all places possible.
+        </li>
+        <li class="update-notes-li">
+            Action tab -> completed work, upload pdf (PackingSlip), work completed date
+        </li>
+        <li class="update-notes-li">
+            Job -> edit -> make quote reference persist. Probably add some indication of what the current quote reference is.
+        </li>
+        <li class="update-notes-li">
+            Jobs -> add number of line items to define upon work creation. 
+        </li>
+        <li class="update-notes-li">
+            Work -> add CompletedDate attribute. 
+        </li>
+        <li class="update-notes-li">
+            Fix the search functionality of the PartForWork UI, make search check static part info and customer. Add search due date range, 
+        </li>
         <li class="update-notes-li">
             Keep writing Moq tests now that the controllers that are important accept an interface repo as a parameter.
         </li>
