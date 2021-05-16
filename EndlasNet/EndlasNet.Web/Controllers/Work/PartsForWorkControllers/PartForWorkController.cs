@@ -20,7 +20,7 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PartForWork
-        public async Task<IActionResult> Index(string sortOrder,
+        public async Task<IActionResult> Index(string sortOrder, string startDate, string endDate,
             string currentFilter,
             string searchString,
             int? pageNumber)
@@ -48,56 +48,70 @@ namespace EndlasNet.Web.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             var partsForWork = await _repo.GetAllPartsForWork();
-            List<PartForWork> partForWorkList = partsForWork.ToList();
+            List<PartForWork> partsForWorkList = partsForWork.ToList();
 
             // fills in work type at run time
-            foreach (PartForWork partForWork in partForWorkList)
+            foreach (PartForWork partForWork in partsForWorkList)
             {
                 partForWork.WorkType = _repo.GetWorkType(partForWork);
             }
-            if (!String.IsNullOrEmpty(searchString))
+            // filter the list
+            if (!String.IsNullOrEmpty(startDate) && !String.IsNullOrEmpty(endDate))
             {
-                partForWorkList = partForWorkList.Where(p => p.Work.DueDate
-                    .ToString().
-                    Contains(searchString)).ToList();
+                partsForWorkList = FilterListByDateRange(startDate, endDate, partsForWorkList);
             }
 
-
+            // sort the list
             switch (sortOrder)
             {
                 case "suffix_desc":
-                    partForWorkList = partForWorkList.OrderByDescending(a => a.Suffix).ToList();
+                    partsForWorkList = partsForWorkList.OrderByDescending(a => a.Suffix).ToList();
                     break;
                 case "suffix_asc":
-                    partForWorkList = partForWorkList.OrderBy(a => a.Suffix).ToList();
+                    partsForWorkList = partsForWorkList.OrderBy(a => a.Suffix).ToList();
                     break;
                 case "work_type_job":
-                    partForWorkList = partForWorkList.Where(p => p.WorkType == nameof(PartForJob)).ToList();
+                    partsForWorkList = partsForWorkList.Where(p => p.WorkType == nameof(PartForJob)).ToList();
                     break;
                 case "work_type_work_order":
-                    partForWorkList = partForWorkList.Where(p => p.WorkType == nameof(PartForWorkOrder)).ToList();
+                    partsForWorkList = partsForWorkList.Where(p => p.WorkType == nameof(PartForWorkOrder)).ToList();
                     break;
                 default:
-                    partForWorkList = partForWorkList.OrderBy(a => a.Suffix).ToList();
+                    partsForWorkList = partsForWorkList.OrderBy(a => a.Suffix).ToList();
                     break;
             }
-
-            // apply filter
-
-            pagList = PaginatedList<PartForWork>.Create(partForWorkList, pageNumber ?? 1, PaginatedListStaticVariables.PARTS_FOR_WORK_PAGE_SIZE);
+            // paginate the list
+            pagList = PaginatedList<PartForWork>.Create(partsForWorkList, pageNumber ?? 1, PaginatedListStaticVariables.PARTS_FOR_WORK_PAGE_SIZE);
             ViewData["PaginatedList"] = pagList;
             return View(pagList);
         }
 
-        private static IEnumerable<PartForWork> FilterWork(string searchString, IEnumerable<PartForWork> partsForWork)
+        private List<PartForWork> FilterListByDateRange(string startDate, string endDate, IEnumerable<PartForWork> partsForWork)
         {
-            if (!String.IsNullOrEmpty(searchString))
+            if (String.IsNullOrEmpty(startDate))
             {
-                partsForWork = partsForWork.Where(p => p.Work.DueDate
-                    .ToString().
-                    Contains(searchString));
+                startDate = "";
             }
-            return partsForWork.ToList();
+            if (String.IsNullOrEmpty(endDate))
+            {
+                endDate = "";
+            }
+
+            List<PartForWork> list = partsForWork.ToList();
+            for(int i = 0; i < list.Count; i++)
+            {
+                string dueDate = list[i].Work.DueDate.Year.ToString();
+                dueDate += "-";
+                dueDate += list[i].Work.DueDate.Month.ToString();
+                dueDate += "-";
+                dueDate += list[i].Work.DueDate.Day.ToString();
+
+                if(string.Compare(dueDate, startDate) >= 0 || string.Compare(dueDate,endDate) <= 0)
+                {
+                    list.RemoveAt(i);
+                }
+            }
+            return list;
         }
 
         // GET: PartForWork/Details/5

@@ -31,9 +31,20 @@
 <form asp-action="Index" method="get" >
     <div class="form-actions no-color">
         <p>
-            Find by work due date: <input type="text" name="SearchString" placeholder="'mm/dd/yyyy hr:min:sec'" value="@ViewBag.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Index">Back to full list</a>
+            <span>
+                Start date:
+                <input type="date" name="StartDate" placeholder="'mm/dd/yyyy hr:min:sec'" value="@ViewBag.CurrentFilter" />
+                &nbsp;End date:
+                <input type="date" name="EndDate" placeholder="'mm/dd/yyyy hr:min:sec'" value="@ViewBag.CurrentFilter" />
+            </span>
+        </p>
+        <p>
+            <span>
+                Customer or part info:
+                <input type="text" name="SearchString" placeholder="Customer or part info" value="@ViewBag.CurrentFilter" style="min-width:auto" />
+                <input type="submit" value="Search" class="btn btn-default" /> |
+                <a asp-action="Index">Back to full list</a>
+            </span>
         </p>
     </div>
 </form>

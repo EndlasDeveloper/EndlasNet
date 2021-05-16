@@ -1,1 +1,1 @@
-﻿
+﻿Next step -> Display work due date on 'All parts for work' view. 
