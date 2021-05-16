@@ -48,51 +48,48 @@ namespace EndlasNet.Web.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             var partsForWork = await _repo.GetAllPartsForWork();
+            List<PartForWork> partForWorkList = partsForWork.ToList();
 
-            List<PartForWork> partsForWorkList = partsForWork.ToList();
-            foreach(PartForWork partForWork in partsForWorkList)
+            // fills in work type at run time
+            foreach (PartForWork partForWork in partForWorkList)
             {
                 partForWork.WorkType = _repo.GetWorkType(partForWork);
             }
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                partForWorkList = partForWorkList.Where(p => p.Work.DueDate
+                    .ToString().
+                    Contains(searchString)).ToList();
+            }
+
 
             switch (sortOrder)
             {
                 case "suffix_desc":
-                    FilterWork(searchString, ref partsForWork);
-                    partsForWork = partsForWork.OrderByDescending(a => a.Suffix);
+                    partForWorkList = partForWorkList.OrderByDescending(a => a.Suffix).ToList();
                     break;
                 case "suffix_asc":
-                    FilterWork(searchString, ref partsForWork);
-                    partsForWork = partsForWork.OrderBy(a => a.Suffix);
+                    partForWorkList = partForWorkList.OrderBy(a => a.Suffix).ToList();
                     break;
                 case "work_type_job":
-                    partsForWork = await GetFilteredJobs(searchString);
+                    partForWorkList = partForWorkList.Where(p => p.WorkType == nameof(PartForJob)).ToList();
                     break;
                 case "work_type_work_order":
-                    partsForWork = await GetFilteredWorkOrders(searchString);
+                    partForWorkList = partForWorkList.Where(p => p.WorkType == nameof(PartForWorkOrder)).ToList();
                     break;
                 default:
+                    partForWorkList = partForWorkList.OrderBy(a => a.Suffix).ToList();
                     break;
             }
-            pagList = PaginatedList<PartForWork>.Create(partsForWork.ToList(), pageNumber ?? 1, PaginatedListStaticVariables.PARTS_FOR_WORK_PAGE_SIZE);
+
+            // apply filter
+
+            pagList = PaginatedList<PartForWork>.Create(partForWorkList, pageNumber ?? 1, PaginatedListStaticVariables.PARTS_FOR_WORK_PAGE_SIZE);
             ViewData["PaginatedList"] = pagList;
             return View(pagList);
         }
 
-        private async Task<IEnumerable<PartForWork>> GetFilteredJobs(string searchString)
-        {
-            IEnumerable<PartForWork> partsForJobs = await _repo.GetAllPartsForJobs();
-            FilterWork(searchString, ref partsForJobs);
-            return partsForJobs;
-        }
-
-        private async Task<IEnumerable<PartForWork>> GetFilteredWorkOrders(string searchString)
-        {
-            IEnumerable<PartForWork> partsForWorkOrders = await _repo.GetPartForWorkOrders();
-            FilterWork(searchString, ref partsForWorkOrders);
-            return partsForWorkOrders;
-        }
-        private static void FilterWork(string searchString, ref IEnumerable<PartForWork> partsForWork)
+        private static IEnumerable<PartForWork> FilterWork(string searchString, IEnumerable<PartForWork> partsForWork)
         {
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -100,6 +97,7 @@ namespace EndlasNet.Web.Controllers
                     .ToString().
                     Contains(searchString));
             }
+            return partsForWork.ToList();
         }
 
         // GET: PartForWork/Details/5

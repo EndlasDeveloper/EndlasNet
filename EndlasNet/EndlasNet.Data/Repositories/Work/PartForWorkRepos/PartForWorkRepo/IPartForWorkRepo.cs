@@ -11,6 +11,7 @@ namespace EndlasNet.Data
         public Task<IEnumerable<PartForWork>> GetAllPartsForWork();
 
         public Task<IEnumerable<PartForJob>> GetAllPartsForJobs();
+        public Task<IEnumerable<PartForWorkOrder>> GetAllPartsForWorkOrders();   
         public Task<IEnumerable<PartForWorkOrder>> GetPartForWorkOrders();
 
         public string GetWorkType(PartForWork partForWork);
