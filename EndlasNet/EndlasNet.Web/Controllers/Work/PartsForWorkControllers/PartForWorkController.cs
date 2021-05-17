@@ -72,12 +72,17 @@ namespace EndlasNet.Web.Controllers
                 string year = partForWork.Work.DueDate.Year.ToString();
                 var dueDate = year + "/" + month + "/" + day;
                 var displayDueDate = month + "/" + day + "/" + year;
-                vmList.Insert(0, new AllPartForWorkViewModel { PartForWork = partForWork, WorkDueDate = dueDate, DisplayDueDate = displayDueDate });
+                vmList.Insert(0, new AllPartForWorkViewModel { PartForWork = partForWork, WorkDueDate = dueDate, DisplayDueDate = displayDueDate});
             }
-            // filter the list
+            // filter the list by date range
             if (!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate))
             {
                 vmList = FilterListByDateRange(startDate, endDate, vmList);
+            }
+            // then filter the list by searchFilter
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                vmList = FilterListBySearchString(searchString, vmList);
             }
 
             // sort the list
@@ -103,6 +108,13 @@ namespace EndlasNet.Web.Controllers
             pagList = PaginatedList<AllPartForWorkViewModel>.Create(vmList, pageNumber ?? 1, PaginatedListStaticVariables.PARTS_FOR_WORK_PAGE_SIZE);
             ViewData["PaginatedList"] = pagList;
             return View(pagList);
+        }
+
+        private List<AllPartForWorkViewModel> FilterListBySearchString(string searchString, List<AllPartForWorkViewModel> vmList)
+        {
+            vmList = vmList.Where(vm => vm.PartForWork.Work.Customer != null).ToList();
+            vmList = vmList.Where(vm => vm.PartForWork.Work.Customer.CustomerName.Contains(searchString)).ToList();
+            return vmList;
         }
 
         private List<AllPartForWorkViewModel> FilterListByDateRange(string startDate, string endDate, List<AllPartForWorkViewModel> vmList)

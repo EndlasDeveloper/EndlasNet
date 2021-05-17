@@ -47,11 +47,21 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<PartForWork>> GetAllPartsForWork()
         {
-            return await _db.PartsForWork
+            var list = await _db.PartsForWork
                 .Include(p => p.Work)
                 .Include(p => p.StaticPartInfo)
                 .OrderByDescending(p => p.Work.DueDate).ThenBy(p => p.Suffix)
                 .ToListAsync();
+            foreach(PartForWork partForWork in list)
+            {
+                partForWork.Work.Customer = await _db.Customers.FirstOrDefaultAsync(p => p.CustomerId == partForWork.Work.CustomerId);
+            }
+            return list;
+        }
+
+        public async Task<Customer> GetCustomer(Guid id)
+        {
+            return await _db.Customers.FirstOrDefaultAsync(c => c.CustomerId == id);
         }
 
         public async Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfo()

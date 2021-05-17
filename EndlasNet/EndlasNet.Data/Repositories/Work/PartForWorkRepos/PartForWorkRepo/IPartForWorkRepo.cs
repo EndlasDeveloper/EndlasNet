@@ -15,7 +15,7 @@ namespace EndlasNet.Data
         public Task<IEnumerable<PartForWorkOrder>> GetPartForWorkOrders();
 
         public string GetWorkType(PartForWork partForWork);
-
+        public Task<Customer> GetCustomer(Guid id);
         public Task<PartForWork> GetPartForWork(Guid? id);
         public Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfo();
 
