@@ -33,7 +33,12 @@ namespace EndlasNet.Web.Controllers
             ViewBag.PageNumber = pageNumber;
 
             ViewData["CurrentSort"] = sortOrder;
-            ViewBag.SuffixSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
+
+            ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
+            ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
+
+            ViewBag.DueDateDescSortParm = String.IsNullOrEmpty(sortOrder) ? "due_date_desc" : "";
+            ViewBag.DueDateAscSortParm = String.IsNullOrEmpty(sortOrder) ? "due_date_asc" : "";
 
             ViewBag.WorkTypeJob = String.IsNullOrEmpty(sortOrder) ? "work_type_job" : "";
             ViewBag.WorkTypeWorkOrder = String.IsNullOrEmpty(sortOrder) ? "work_type_work_order" : "";
@@ -78,11 +83,14 @@ namespace EndlasNet.Web.Controllers
             if (!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate))
             {
                 vmList = FilterListByDateRange(startDate, endDate, vmList);
+                ViewBag.DateRangeFilter = true;
             }
+
             // then filter the list by searchFilter
             if (!String.IsNullOrEmpty(searchString))
             {
                 vmList = FilterListBySearchString(searchString, vmList);
+                ViewBag.SearchStringFilter = true;
             }
 
             // sort the list
@@ -94,6 +102,9 @@ namespace EndlasNet.Web.Controllers
                 case "suffix_asc":
                     vmList = vmList.OrderBy(vm => vm.PartForWork.Suffix).ToList();
                     break;
+                case "due_date_desc":
+                    vmList = vmList.OrderByDescending(vm => vm.WorkDueDate).ToList();
+                    break;
                 case "work_type_job":
                     vmList = vmList.Where(vm => vm.PartForWork.WorkType == nameof(PartForJob)).ToList();
                     break;
@@ -101,7 +112,17 @@ namespace EndlasNet.Web.Controllers
                     vmList = vmList.Where(vm => vm.PartForWork.WorkType == nameof(PartForWorkOrder)).ToList();
                     break;
                 default:
-                    vmList = vmList.OrderBy(vm => vm.PartForWork.Suffix).ToList();
+                    // default - none set
+                    if (String.IsNullOrEmpty(startDate) && String.IsNullOrEmpty(endDate))
+                    {
+                        vmList = vmList.OrderBy(vm => vm.PartForWork.Suffix).ToList();
+                    }
+                    // date range - 1 or both of the dates is set, search string is not set
+                    else 
+                    {
+                        vmList = vmList.OrderBy(vm => vm.WorkDueDate).ToList();
+                    }
+                   
                     break;
             }
             // paginate the list
@@ -110,7 +131,7 @@ namespace EndlasNet.Web.Controllers
             return View(pagList);
         }
 
-        private List<AllPartForWorkViewModel> FilterListBySearchString(string searchString, List<AllPartForWorkViewModel> vmList)
+        private static List<AllPartForWorkViewModel> FilterListBySearchString(string searchString, List<AllPartForWorkViewModel> vmList)
         {
             var customerFilter = vmList;
             var partFilter = vmList;

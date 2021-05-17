@@ -18,6 +18,11 @@
 
         <li class="update-notes-li">
             Fixed the search functionality of the PartForWork UI (using work due date).
+        </li> 
+
+        <li class="update-notes-li">
+            All PartForWork view -> search filter -> made search check static part info (drawing number) and customer (customer name). Also, added search due date range. Effect combines.
+            Based on which inputs were filled out by the user, the return view prioritizes the attributes shown in the UI index view.s
         </li>
 
     </ul>
@@ -47,9 +52,7 @@
         <li class="update-notes-li">
             Work -> add CompletedDate attribute. 
         </li>
-        <li class="update-notes-li">
-           PartForWork -> search filter -> make search check static part info and customer. Also, add search due date range. Effect should combine.
-        </li>
+
         <li class="update-notes-li">
             Keep writing Moq tests now that the controllers that are important accept an interface repo as a parameter.
         </li>

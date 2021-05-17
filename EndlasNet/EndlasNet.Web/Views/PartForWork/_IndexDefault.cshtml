@@ -1,0 +1,90 @@
+﻿@using EndlasNet.Data;
+@using EndlasNet.Web.Models;
+@model PaginatedList<AllPartForWorkViewModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <div>
+                    Work type
+                </div>
+                <span style="color:firebrick">
+                    <a style="color:firebrick" asp-action="Index" asp-route-sortOrder="@ViewData["WorkTypeJob"]"
+                       asp-route-currentFilter="@ViewBag.CurrentFilter" asp-route-startDate="@ViewBag.CurrentStartDate" asp-route-endDate="@ViewBag.CurrentEndDate">Jobs</a>
+                    -
+                    <a style="color:firebrick" asp-action="Index" asp-route-sortOrder="@ViewData["WorkTypeWorkOrder"]"
+                       asp-route-currentFilter="@ViewBag.CurrentFilter" asp-route-startDate="@ViewBag.CurrentStartDate" asp-route-endDate="@ViewBag.CurrentEndDate">WorkOrders</a>
+                </span>
+            </th>
+            <th>
+                <div>
+                    <div>
+                        Suffix
+                    </div>
+                    <span>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["SuffixAscSortParm"]" asp-route-currentFilter="@ViewBag.CurrentFilter"
+                           asp-route-startDate="@ViewBag.CurrentStartDate" asp-route-endDate="@ViewBag.CurrentEndDate">
+                            <img style="max-width:15px;max-height:15px" src="~/img/up_arrow.png" />
+                        </a>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["SuffixDescSortParm"]" asp-route-currentFilter="@ViewBag.CurrentFilter"
+                           asp-route-startDate="@ViewBag.CurrentStartDate" asp-route-endDate="@ViewBag.CurrentEndDate">
+                            <img style="max-width:15px;max-height:15px" src="~/img/down_arrow.png" />
+                        </a>
+                    </span>
+                </div>
+            </th>
+            <th>
+                Work due date
+            </th>
+            <th>
+                Condition description
+            </th>
+            <th>
+                Initial weight (lbs)
+            </th>
+            <th>
+                Cladded weight (lbs)
+            </th>
+            <th>
+                Finished weight (lbs)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartForWork.WorkType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartForWork.Suffix)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplayDueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartForWork.ConditionDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartForWork.InitWeight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartForWork.CladdedWeight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartForWork.FinishedWeight)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PartForWork.PartForWorkId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PartForWork.PartForWorkId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PartForWork.PartForWorkId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
