@@ -1,5 +1,6 @@
 ﻿@using EndlasNet.Data;
-@model PaginatedList<PartForWork>
+@using EndlasNet.Web.Models;
+@model PaginatedList<AllPartForWorkViewModel>
 
 @{
     ViewData["Title"] = "All parts for work";
@@ -92,34 +93,33 @@
     <tbody>
         @foreach (var item in Model)
         {
-            var dueDate = item.Work.DueDate.Month.ToString() + "/" + item.Work.DueDate.Day.ToString() + "/" + item.Work.DueDate.Year.ToString();
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.WorkType)
+                    @Html.DisplayFor(modelItem => item.PartForWork.WorkType)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Suffix)
+                    @Html.DisplayFor(modelItem => item.PartForWork.Suffix)
                 </td>
                 <td>
-                    @dueDate
+                    @Html.DisplayFor(modelItem => item.DisplayDueDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ConditionDescription)
+                    @Html.DisplayFor(modelItem => item.PartForWork.ConditionDescription)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InitWeight)
+                    @Html.DisplayFor(modelItem => item.PartForWork.InitWeight)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CladdedWeight)
+                    @Html.DisplayFor(modelItem => item.PartForWork.CladdedWeight)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FinishedWeight)
+                    @Html.DisplayFor(modelItem => item.PartForWork.FinishedWeight)
                 </td>
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.PartForWorkId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.PartForWorkId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.PartForWorkId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.PartForWork.PartForWorkId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PartForWork.PartForWorkId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PartForWork.PartForWorkId">Delete</a>
                 </td>
             </tr>
         }

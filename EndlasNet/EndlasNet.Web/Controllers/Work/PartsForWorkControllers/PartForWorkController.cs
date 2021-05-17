@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
+using EndlasNet.Web.Models;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -25,7 +26,7 @@ namespace EndlasNet.Web.Controllers
             string searchString,
             int? pageNumber)
         {
-            PaginatedList<PartForWork> pagList = null;
+            PaginatedList<AllPartForWorkViewModel> pagList = null;
             ViewBag.SortOrder = sortOrder;
             ViewBag.CurrentFilter = currentFilter;
             ViewBag.SearchString = searchString;
@@ -48,78 +49,94 @@ namespace EndlasNet.Web.Controllers
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentStartDate"] = startDate;
             ViewData["CurrentEndDate"] = endDate;
+            
+            // get all parts for work from repo
             var partsForWork = await _repo.GetAllPartsForWork();
             List<PartForWork> partsForWorkList = partsForWork.ToList();
+            List<AllPartForWorkViewModel> vmList = new List<AllPartForWorkViewModel>();
 
             // fills in work type at run time
             foreach (PartForWork partForWork in partsForWorkList)
             {
                 partForWork.WorkType = _repo.GetWorkType(partForWork);
+                string month = partForWork.Work.DueDate.Month.ToString();
+                if(month.Length == 1)
+                {
+                    month = "0" + month;
+                }
+                string day = partForWork.Work.DueDate.Day.ToString();
+                if(day.Length == 1)
+                {
+                    day = "0" + day;
+                }
+                string year = partForWork.Work.DueDate.Year.ToString();
+                var dueDate = year + "/" + month + "/" + day;
+                var displayDueDate = month + "/" + day + "/" + year;
+                vmList.Insert(0, new AllPartForWorkViewModel { PartForWork = partForWork, WorkDueDate = dueDate, DisplayDueDate = displayDueDate });
             }
             // filter the list
-            if (!String.IsNullOrEmpty(startDate) && !String.IsNullOrEmpty(endDate))
+            if (!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate))
             {
-                partsForWorkList = FilterListByDateRange(startDate, endDate, partsForWorkList);
+                vmList = FilterListByDateRange(startDate, endDate, vmList);
             }
 
             // sort the list
             switch (sortOrder)
             {
                 case "suffix_desc":
-                    partsForWorkList = partsForWorkList.OrderByDescending(a => a.Suffix).ToList();
+                    vmList = vmList.OrderByDescending(vm => vm.PartForWork.Suffix).ToList();
                     break;
                 case "suffix_asc":
-                    partsForWorkList = partsForWorkList.OrderBy(a => a.Suffix).ToList();
+                    vmList = vmList.OrderBy(vm => vm.PartForWork.Suffix).ToList();
                     break;
                 case "work_type_job":
-                    partsForWorkList = partsForWorkList.Where(p => p.WorkType == nameof(PartForJob)).ToList();
+                    vmList = vmList.Where(vm => vm.PartForWork.WorkType == nameof(PartForJob)).ToList();
                     break;
                 case "work_type_work_order":
-                    partsForWorkList = partsForWorkList.Where(p => p.WorkType == nameof(PartForWorkOrder)).ToList();
+                    vmList = vmList.Where(vm => vm.PartForWork.WorkType == nameof(PartForWorkOrder)).ToList();
                     break;
                 default:
-                    partsForWorkList = partsForWorkList.OrderBy(a => a.Suffix).ToList();
+                    vmList = vmList.OrderBy(vm => vm.PartForWork.Suffix).ToList();
                     break;
             }
             // paginate the list
-            pagList = PaginatedList<PartForWork>.Create(partsForWorkList, pageNumber ?? 1, PaginatedListStaticVariables.PARTS_FOR_WORK_PAGE_SIZE);
+            pagList = PaginatedList<AllPartForWorkViewModel>.Create(vmList, pageNumber ?? 1, PaginatedListStaticVariables.PARTS_FOR_WORK_PAGE_SIZE);
             ViewData["PaginatedList"] = pagList;
             return View(pagList);
         }
 
-        private List<PartForWork> FilterListByDateRange(string startDate, string endDate, List<PartForWork> partsForWork)
+        private List<AllPartForWorkViewModel> FilterListByDateRange(string startDate, string endDate, List<AllPartForWorkViewModel> vmList)
         {
-            for (int i = 0; i < partsForWork.Count; i++)
+            List<AllPartForWorkViewModel> start = null;
+            List<AllPartForWorkViewModel> end = null;
+
+            if (!String.IsNullOrEmpty(startDate))
+            {       
+                startDate = startDate.Replace("-", "/");
+                start = vmList.Where(vm => string.Compare(vm.WorkDueDate, startDate, true) >= 0).ToList();
+                if (String.IsNullOrEmpty(endDate))
+                    return start;
+            }
+            if (!String.IsNullOrEmpty(endDate))
             {
-                string dueDate = partsForWork[i].Work.DueDate.Year.ToString();
-                dueDate += "-";
-                var month = partsForWork[i].Work.DueDate.Month.ToString();
-                if (month.Length == 1)
-                    month = "0" + month;
-                dueDate += month;
-                dueDate += "-";
-                var day = partsForWork[i].Work.DueDate.Day.ToString();
-                if (day.Length == 1)
-                    day = "0" + day;
-                dueDate += day;
-                if (!String.IsNullOrEmpty(startDate))
+                endDate = endDate.Replace("-", "/");
+                end = vmList.Where(vm => string.Compare(vm.WorkDueDate, endDate, true) <= 0).ToList();
+                if (String.IsNullOrEmpty(startDate))
+                    return end;
+            }
+
+            List<AllPartForWorkViewModel> returnList = new List<AllPartForWorkViewModel>();
+            foreach(AllPartForWorkViewModel startVm in start)
+            {
+                foreach(AllPartForWorkViewModel endVm in end)
                 {
-                    if (string.Compare(dueDate, startDate) < 0)
+                    if(startVm.PartForWork.PartForWorkId == endVm.PartForWork.PartForWorkId)
                     {
-                        partsForWork.Remove(partsForWork[i]);
-                        continue;
-                    }
-                }
-                if (!String.IsNullOrEmpty(endDate))
-                {
-                    if (string.Compare(dueDate, endDate) > 0)
-                    {
-                        partsForWork.Remove(partsForWork[i]);
+                        returnList.Insert(0, startVm);
                     }
                 }
             }
-            
-            return partsForWork;
+            return returnList;
         }
 
         // GET: PartForWork/Details/5

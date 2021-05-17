@@ -1,1 +1,1 @@
-﻿Next step -> Display work due date on 'All parts for work' view. 
+﻿Make view model for part for work controllers
