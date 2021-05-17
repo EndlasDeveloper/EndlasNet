@@ -112,9 +112,23 @@ namespace EndlasNet.Web.Controllers
 
         private List<AllPartForWorkViewModel> FilterListBySearchString(string searchString, List<AllPartForWorkViewModel> vmList)
         {
-            vmList = vmList.Where(vm => vm.PartForWork.Work.Customer != null).ToList();
-            vmList = vmList.Where(vm => vm.PartForWork.Work.Customer.CustomerName.Contains(searchString)).ToList();
-            return vmList;
+            var customerFilter = vmList;
+            var partFilter = vmList;
+            customerFilter = vmList.Where(vm => vm.PartForWork.Work.Customer != null).ToList();
+            customerFilter = customerFilter.Where(vm => vm.PartForWork.Work.Customer.CustomerName.Contains(searchString)).ToList();
+            partFilter = vmList
+                .Where(vm => vm.PartForWork.StaticPartInfo.DrawingNumber.Contains(searchString) || vm.PartForWork.StaticPartInfo.PartDescription.Contains(searchString)).ToList();
+            for(int i = 0; i < partFilter.Count; i++)
+            {
+                for(int j = 0; j < customerFilter.Count; j++)
+                {
+                    if(partFilter[i].PartForWork.PartForWorkId == customerFilter[j].PartForWork.PartForWorkId)
+                    {
+                        partFilter.Remove(partFilter[i]);
+                    }
+                }
+            }
+            return customerFilter.Concat(partFilter).ToList();
         }
 
         private List<AllPartForWorkViewModel> FilterListByDateRange(string startDate, string endDate, List<AllPartForWorkViewModel> vmList)
