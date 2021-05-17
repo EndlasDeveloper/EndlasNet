@@ -46,7 +46,8 @@ namespace EndlasNet.Web.Controllers
                 searchString = currentFilter;
             }
             ViewData["CurrentFilter"] = searchString;
-
+            ViewData["CurrentStartDate"] = startDate;
+            ViewData["CurrentEndDate"] = endDate;
             var partsForWork = await _repo.GetAllPartsForWork();
             List<PartForWork> partsForWorkList = partsForWork.ToList();
 
@@ -86,32 +87,39 @@ namespace EndlasNet.Web.Controllers
             return View(pagList);
         }
 
-        private List<PartForWork> FilterListByDateRange(string startDate, string endDate, IEnumerable<PartForWork> partsForWork)
+        private List<PartForWork> FilterListByDateRange(string startDate, string endDate, List<PartForWork> partsForWork)
         {
-            if (String.IsNullOrEmpty(startDate))
+            for (int i = 0; i < partsForWork.Count; i++)
             {
-                startDate = "";
-            }
-            if (String.IsNullOrEmpty(endDate))
-            {
-                endDate = "";
-            }
-
-            List<PartForWork> list = partsForWork.ToList();
-            for(int i = 0; i < list.Count; i++)
-            {
-                string dueDate = list[i].Work.DueDate.Year.ToString();
+                string dueDate = partsForWork[i].Work.DueDate.Year.ToString();
                 dueDate += "-";
-                dueDate += list[i].Work.DueDate.Month.ToString();
+                var month = partsForWork[i].Work.DueDate.Month.ToString();
+                if (month.Length == 1)
+                    month = "0" + month;
+                dueDate += month;
                 dueDate += "-";
-                dueDate += list[i].Work.DueDate.Day.ToString();
-
-                if(string.Compare(dueDate, startDate) >= 0 || string.Compare(dueDate,endDate) <= 0)
+                var day = partsForWork[i].Work.DueDate.Day.ToString();
+                if (day.Length == 1)
+                    day = "0" + day;
+                dueDate += day;
+                if (!String.IsNullOrEmpty(startDate))
                 {
-                    list.RemoveAt(i);
+                    if (string.Compare(dueDate, startDate) < 0)
+                    {
+                        partsForWork.Remove(partsForWork[i]);
+                        continue;
+                    }
+                }
+                if (!String.IsNullOrEmpty(endDate))
+                {
+                    if (string.Compare(dueDate, endDate) > 0)
+                    {
+                        partsForWork.Remove(partsForWork[i]);
+                    }
                 }
             }
-            return list;
+            
+            return partsForWork;
         }
 
         // GET: PartForWork/Details/5

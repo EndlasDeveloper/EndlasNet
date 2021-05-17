@@ -33,9 +33,9 @@
         <p>
             <span>
                 Start date:
-                <input type="date" name="StartDate" placeholder="'mm/dd/yyyy hr:min:sec'" value="@ViewBag.CurrentFilter" />
+                <input type="date" name="StartDate" placeholder="'mm/dd/yyyy hr:min:sec'" value="@ViewBag.CurrentStartDate" />
                 &nbsp;End date:
-                <input type="date" name="EndDate" placeholder="'mm/dd/yyyy hr:min:sec'" value="@ViewBag.CurrentFilter" />
+                <input type="date" name="EndDate" placeholder="'mm/dd/yyyy hr:min:sec'" value="@ViewBag.CurrentEndDate" />
             </span>
         </p>
         <p>
@@ -57,18 +57,21 @@
                     Work type
                 </div>
                 <span style="color:firebrick">
-                    <a style="color:firebrick" asp-action="Index"
-                       asp-route-sortOrder="@ViewData["WorkTypeJob"]" asp-route-currentFilter="@ViewBag.CurrentFilter">Jobs</a>    
+                    <a style="color:firebrick" asp-action="Index" asp-route-sortOrder="@ViewData["WorkTypeJob"]"
+                       asp-route-currentFilter="@ViewBag.CurrentFilter" asp-route-startDate="@ViewBag.CurrentStartDate" asp-route-endDate="@ViewBag.CurrentEndDate">Jobs</a>    
                     -
-                    <a style="color:firebrick" asp-action="Index" 
-                       asp-route-sortOrder="@ViewData["WorkTypeWorkOrder"]" asp-route-currentFilter="@ViewBag.CurrentFilter">WorkOrders</a>
+                    <a style="color:firebrick" asp-action="Index" asp-route-sortOrder="@ViewData["WorkTypeWorkOrder"]"
+                       asp-route-currentFilter="@ViewBag.CurrentFilter"  asp-route-startDate="@ViewBag.CurrentStartDate" asp-route-endDate="@ViewBag.CurrentEndDate">WorkOrders</a>
                 </span>
             </th>
             <th>
-
                 <div>
-                    <a style="color:firebrick" asp-action="Index" asp-route-sortOrder="@ViewData["SuffixSortParm"]" asp-route-currentFilter="@ViewBag.CurrentFilter">Suffix</a>
+                    <a style="color:firebrick" asp-action="Index" asp-route-sortOrder="@ViewData["SuffixSortParm"]" asp-route-currentFilter="@ViewBag.CurrentFilter"
+                       asp-route-startDate="@ViewBag.CurrentStartDate" asp-route-endDate="@ViewBag.CurrentEndDate">Suffix</a>
                 </div>
+            </th>
+            <th>
+                Work due date
             </th>
             <th>
                 Condition description
@@ -89,12 +92,16 @@
     <tbody>
         @foreach (var item in Model)
         {
+            var dueDate = item.Work.DueDate.Month.ToString() + "/" + item.Work.DueDate.Day.ToString() + "/" + item.Work.DueDate.Year.ToString();
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.WorkType)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Suffix)
+                </td>
+                <td>
+                    @dueDate
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ConditionDescription)
