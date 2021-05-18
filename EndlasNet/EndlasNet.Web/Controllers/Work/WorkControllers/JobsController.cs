@@ -55,11 +55,16 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
+        public async Task<IActionResult> Create([Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
         {
             
             if (ModelState.IsValid)
             {
+                if(job.QuoteId == null)
+                {
+                    ViewBag.NoQuoteWarning = true;
+                    return View(job);
+                }
                 job.WorkId = Guid.NewGuid();
 
                 if (job.ProcessSheetNotesFile != null)
@@ -102,6 +107,13 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
             await SetViewData(job);
+            var currJob = await _jobRepo.GetRow(id);
+
+            var quotes = await _jobRepo.GetAllQuotesWithoutJob();
+            var quotesList = quotes.ToList();
+            quotesList.Insert(0, currJob.Quote);
+            
+            ViewData["QuoteId"] = new SelectList(quotesList, "QuoteId", "EndlasNumber");
 
             return View(job);
         }
@@ -111,7 +123,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
+        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
         {
             if (id != job.WorkId)
             {

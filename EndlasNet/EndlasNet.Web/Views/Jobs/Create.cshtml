@@ -16,6 +16,10 @@
                 <div class="form-group">
                     <label asp-for="QuoteId" class="control-label"></label>
                     <select asp-for="QuoteId" class="form-control" asp-items="ViewBag.QuoteId"></select>
+                    @if(ViewBag.NoQuoteWarning == true)
+                    {
+                        <span class="text-danger">No quote selected. Make sure there is an unreferenced quote available.</span>
+                    }
                 </div>
             </div>
             <input asp-for="EndlasNumber" value="temp" hidden />

@@ -22,7 +22,14 @@
 
         <li class="update-notes-li">
             All PartForWork view -> search filter -> made search check static part info (drawing number) and customer (customer name). Also, added search due date range. Effect combines.
-            Based on which inputs were filled out by the user, the return view prioritizes the attributes shown in the UI index view.s
+            Based on which inputs were filled out by the user, the return view prioritizes the attributes shown in the UI index view.
+        </li>
+        <li class="update-notes-li">
+            Fixed issue in job create/edit where the user could submit the form without setting the quote. Also, fixed issue where editing a job would result in losing
+            the foreign key reference to the quote it was originally set for.
+        </li>
+        <li class="update-notes-li">
+            Added complete date to work as an attribute. Cannot set from create view, but can from the edit view.
         </li>
 
     </ul>
@@ -32,10 +39,22 @@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
         <li class="update-notes-li">
+            All parts for work -> ad powder name and lot number to search filter functionality.
+        </li>
+        <li class="update-notes-li">
+            Change part for work to reference image table to save memory. 
+        </li>
+        <li class="update-notes-li">
+            Job -> Add short description to job quote dropdown display.
+        </li>
+        <li class="update-notes-li">
+            Work -> add StartDate and PoDate as nullable attributes.
+        </li>
+        <li class="update-notes-li">
             PartsForWork -> want functionality to select columns to display then apply multiple to selected columns.
         </li>
         <li class="update-notes-li">
-            PartsForJob -> Job part batch -0> make name action link to apply attribute value to multiple parts for work. 
+            PartsForJob -> Job part batch -> make name action link to apply attribute value to multiple parts for work. 
         </li>
         <li class="update-notes-li">
             Remove 'hr:min:sec' portion of the due date in all places possible.

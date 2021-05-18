@@ -36,6 +36,9 @@ namespace EndlasNet.Data
         [Display(Name = "Due date")]
         public DateTime DueDate { get; set; }
 
+        [Display(Name ="Complete date")]
+        public DateTime? CompleteDate { get; set; }
+
         [ForeignKey("UserId")]
         public Guid? UserId { get; set; }
         public virtual User User { get; set; }

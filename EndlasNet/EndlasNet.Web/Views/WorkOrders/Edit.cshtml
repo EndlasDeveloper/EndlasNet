@@ -4,6 +4,12 @@
 
 @{
     ViewData["Title"] = "Edit";
+    DateTime completeDate;
+    if (Model.CompleteDate != null)
+        completeDate = (DateTime)Model.CompleteDate;
+    else
+        completeDate = new DateTime();
+    var completeDateStr = completeDate.ToString("s");
 }
 
 <h1>Edit</h1>
@@ -42,7 +48,11 @@
                 <input asp-for="DueDate" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" value="@Model.DueDate.ToString("s")" />
                 <span asp-validation-for="DueDate" class="text-danger"></span>
             </div>
-
+            <div class="form-group">
+                <label asp-for="CompleteDate" class="control-label"></label>
+                <input asp-for="CompleteDate" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" value="@completeDateStr" />
+                <span asp-validation-for="CompleteDate" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 @if (Model.ProcessSheetNotesPdfBytes != null)
                 {
