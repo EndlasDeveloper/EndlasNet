@@ -18,10 +18,10 @@ namespace EndlasNet.Web
                 staticPartInfo.ImageUrl = imageUrl;
             }
         }
-        public static void SetImageURL(PartForWork partForWork)
+        public static void SetImageURL(PartForWorkImg partForWorkImg)
         {
-            string imageUrl = GetImageURL(partForWork.ImageBytes);
-            partForWork.ImageUrl = imageUrl;
+            string imageUrl = GetImageURL(partForWorkImg.ImageBytes);
+            partForWorkImg.ImageUrl = imageUrl;
         }
 
         public static string GetImageURL(byte[] imgBytes)

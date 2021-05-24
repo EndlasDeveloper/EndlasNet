@@ -200,8 +200,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            if (partForWork.ImageBytes != null)
-                partForWork.ImageUrl = FileURL.GetImageURL(partForWork.ImageBytes);
+            if (partForWork.PartForWorkImg.ImageBytes != null)
+                partForWork.PartForWorkImg.ImageUrl = FileURL.GetImageURL(partForWork.PartForWorkImg.ImageBytes);
             return View(partForWork);
         }
 
@@ -224,7 +224,7 @@ namespace EndlasNet.Web.Controllers
                 partForWork.PartForWorkId = Guid.NewGuid();
                 partForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 if (partForWork.ImageFile != null)
-                    partForWork.ImageBytes= await FileURL.GetFileBytes(partForWork.ImageFile);
+                    partForWork.PartForWorkImg.ImageBytes= await FileURL.GetFileBytes(partForWork.ImageFile);
 
                 await _repo.AddPartForWork(partForWork);
                 return RedirectToAction(nameof(Index));
@@ -247,8 +247,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            if (partForWork.ImageBytes != null)
-                partForWork.ImageUrl = FileURL.GetImageURL(partForWork.ImageBytes);
+            if (partForWork.PartForWorkImg.ImageBytes != null)
+                partForWork.PartForWorkImg.ImageUrl = FileURL.GetImageURL(partForWork.PartForWorkImg.ImageBytes);
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForWork.StaticPartInfoId);
             return View(partForWork);
         }
@@ -270,9 +270,9 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     if (partForWork.ImageFile != null)
-                        partForWork.ImageBytes = await FileURL.GetFileBytes(partForWork.ImageFile);
+                        partForWork.PartForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForWork.ImageFile);
                     if (partForWork.ClearImg)
-                        partForWork.ImageBytes = null;
+                        partForWork.PartForWorkImg.ImageBytes = null;
                         partForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     await _repo.UpdatePartForWork(partForWork);
                 }
@@ -307,8 +307,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            if (partForWork.ImageBytes != null)
-                partForWork.ImageUrl = FileURL.GetImageURL(partForWork.ImageBytes);
+            if (partForWork.PartForWorkImg.ImageBytes != null)
+                partForWork.PartForWorkImg.ImageUrl = FileURL.GetImageURL(partForWork.PartForWorkImg.ImageBytes);
             return View(partForWork);
         }
 

@@ -56,28 +56,6 @@ namespace EndlasNet.Web.Controllers
             return View();
         }
 
-        [NoDirectAccess]
-        public async Task<IActionResult> ViewPartImages()
-        {
-            return View(await _repo.GetAllPartForWorkImgs());
-        }
-
-
-        [NoDirectAccess]
-        public async Task<IActionResult> AddOrEditPartImage(Guid? id)
-        {
-            if (id == null)
-                return View(new PartForWorkImg());
-            else
-            {
-                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)id);
-                if (partForWorkImg == null)
-                {
-                    return NotFound();
-                }
-                return View(partForWorkImg);
-            }
-        }
 
         // POST: PartForJobs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -107,15 +85,17 @@ namespace EndlasNet.Web.Controllers
                 {
                     part.NumParts += existingBatch.Count;
                 }
-
-                var partForWorkImg = new PartForWorkImg
+                PartForWorkImg partForWorkImg = null;
+                if(partForJob.ImageFile != null)
                 {
-                    PartForWorkImgId = Guid.NewGuid(),
-                    ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile),
-                    ImageName = partForJob.ImageName,
-                };
-                await _repo.AddPartForWorkImg(partForWorkImg);
-
+                    partForWorkImg = new PartForWorkImg
+                    {
+                        PartForWorkImgId = Guid.NewGuid(),
+                        ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile),
+                        ImageName = partForJob.ImageName,
+                    };
+                    await _repo.AddPartForWorkImg(partForWorkImg);
+                }
                 // create each part for the part batch
                 for (int i = count; i < initCount + count; i++)
                 {
@@ -125,8 +105,6 @@ namespace EndlasNet.Web.Controllers
                         tempPartForJob.Suffix = Utility.PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                        if (partForJob.ImageFile != null)
-                            partForJob.ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
                         tempPartForJob.PartForWorkImgId = partForWorkImg.PartForWorkImgId;
                         tempPartForJob.PartForWorkImg = partForWorkImg;
                         await _repo .AddPartForJobAsync(tempPartForJob);

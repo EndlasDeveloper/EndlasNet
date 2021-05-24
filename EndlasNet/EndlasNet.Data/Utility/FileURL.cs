@@ -24,8 +24,8 @@ namespace EndlasNet.Data
         }
         public static void SetImageURL(PartForWork partForWork)
         {
-            string imageUrl = GetImageURL(partForWork.ImageBytes);
-            partForWork.ImageUrl = imageUrl;
+            string imageUrl = GetImageURL(partForWork.PartForWorkImg.ImageBytes);
+            partForWork.PartForWorkImg.ImageUrl = imageUrl;
         }
 
         public static string GetImageURL(byte[] imgBytes)

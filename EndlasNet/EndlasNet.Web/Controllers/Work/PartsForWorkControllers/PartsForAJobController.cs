@@ -65,8 +65,13 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if(partForJob.ImageBytes != null)
-                FileURL.SetImageURL(partForJob);
+            if(partForJob.PartForWorkImgId != null)
+            {
+                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
+                FileURL.SetImageURL(partForWorkImg);
+                partForJob.PartForWorkImg = partForWorkImg;
+            }
+                
 
             ViewBag.id = id;
             ViewBag.workId = partForJob.WorkId;
@@ -89,24 +94,6 @@ namespace EndlasNet.Web.Controllers
             return View();
         }
 
-        // POST: PartsForAJob/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ClearImg,ImageName,ImageFile,ImageBytes")] PartForJob partForJob)
-        {
-            if (ModelState.IsValid)
-            {
-                partForJob.PartForWorkId = Guid.NewGuid();
-                partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                if (partForJob.ImageFile != null)
-                    partForJob.ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
-                await _repo.AddPartForJobAsync(partForJob);
-                return RedirectToAction("Index","PartsForAJob", new { id = partForJob.PartForWorkId, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder = "" });
-            }
-            return View(partForJob);
-        }
 
         // GET: PartsForAJob/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
@@ -121,8 +108,13 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if (partForJob.ImageBytes != null)
-                FileURL.SetImageURL(partForJob);
+            if (partForJob.PartForWorkImgId != null)
+            {
+                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
+                FileURL.SetImageURL(partForWorkImg);
+                partForJob.PartForWorkImg = partForWorkImg;
+            }
+          
             return View(partForJob);
         }
 
@@ -144,11 +136,11 @@ namespace EndlasNet.Web.Controllers
                 {
                     if (partForJob.ImageFile != null && !partForJob.ClearImg)
                     {
-                        partForJob.ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
+                        partForJob.PartForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
                     }
                     else if(partForJob.ClearImg)
                     {
-                        partForJob.ImageBytes = null;
+                        partForJob.PartForWorkImg.ImageBytes = null;
                     }
                     partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     await _repo.UpdatePartForJobAsync(partForJob);
@@ -178,12 +170,18 @@ namespace EndlasNet.Web.Controllers
             }
 
             var partForJob = await _repo.GetPartForJob(id);
+            if (partForJob.PartForWorkImgId != null)
+            {
+                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
+                FileURL.SetImageURL(partForWorkImg);
+                partForJob.PartForWorkImg = partForWorkImg;
+            }
             if (partForJob == null)
             {
                 return NotFound();
             }
-            if(partForJob.ImageBytes != null)
-                FileURL.SetImageURL(partForJob);
+            if(partForJob.PartForWorkImg.ImageBytes != null)
+                FileURL.SetImageURL(partForJob.PartForWorkImg);
 
             return View(partForJob);
         }

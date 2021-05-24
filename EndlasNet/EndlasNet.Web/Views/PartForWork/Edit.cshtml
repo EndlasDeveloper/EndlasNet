@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PartForWorkId" />
             <input type="hidden" asp-for="WorkId" class="form-control" />
-            <input type="hidden" asp-for="ImageBytes" />
+            <input type="hidden" asp-for="PartForWorkImg.ImageBytes" />
             <input type="hidden" asp-for="WorkId" />
             <input type="hidden" asp-for="Work" />
             <div class="form-group">
@@ -65,10 +65,10 @@
 
             <div class="form-group">
                 <div></div>
-                @if (Model.ImageBytes != null)
+                @if (Model.PartForWorkImg.ImageBytes != null)
                 {
                     <label asp-for="ImageFile" class="control-label">Current image:&nbsp;</label>
-                    <img src="@Html.DisplayFor(model => model.ImageUrl)" alt="Image" style="max-height:50px;max-width:120px" />
+                    <img src="@Html.DisplayFor(model => model.PartForWorkImg.ImageUrl)" alt="Image" style="max-height:50px;max-width:120px" />
                     <br /><br />
                     <span>
                         Clear image

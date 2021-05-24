@@ -65,8 +65,8 @@ namespace EndlasNet.Web.Controllers
             ViewBag.id = id;
             ViewBag.workId = partForWorkOrder.WorkId;
             ViewBag.partInfoId = partForWorkOrder.StaticPartInfoId;
-            if (partForWorkOrder.ImageBytes != null)
-                FileURL.SetImageURL(partForWorkOrder);
+            if (partForWorkOrder.PartForWorkImg.ImageBytes != null)
+                FileURL.SetImageURL(partForWorkOrder.PartForWorkImg);
 
             return View(partForWorkOrder);
         }
@@ -97,7 +97,7 @@ namespace EndlasNet.Web.Controllers
                 partForWorkOrder.PartForWorkId = Guid.NewGuid();
                 partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 if (partForWorkOrder.ImageFile != null)
-                    partForWorkOrder.ImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
+                    partForWorkOrder.PartForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
                 await _repo.AddPartForWorkOrderAsync(partForWorkOrder);
                 return RedirectToAction("Index", "PartsForAWorkOrder",
                     new { id = partForWorkOrder.PartForWorkId, workId = partForWorkOrder.WorkId,
@@ -120,8 +120,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if (partForWorkOrder.ImageBytes != null)
-                FileURL.SetImageURL(partForWorkOrder);
+            if (partForWorkOrder.PartForWorkImg.ImageBytes != null)
+                FileURL.SetImageURL(partForWorkOrder.PartForWorkImg);
             return View(partForWorkOrder);
         }
 
@@ -144,11 +144,11 @@ namespace EndlasNet.Web.Controllers
                     partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     if (partForWorkOrder.ImageFile != null && !partForWorkOrder.ClearImg)
                     {
-                        partForWorkOrder.ImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
+                        partForWorkOrder.PartForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
                     }
                     else if (partForWorkOrder.ClearImg)
                     {
-                        partForWorkOrder.ImageBytes = null;
+                        partForWorkOrder.PartForWorkImg.ImageBytes = null;
                     }
                     await _repo.UpdatePartForWorkOrderAsync(partForWorkOrder);
                 }
@@ -184,8 +184,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if (partForWorkOrder.ImageBytes != null)
-                FileURL.SetImageURL(partForWorkOrder);
+            if (partForWorkOrder.PartForWorkImg.ImageBytes != null)
+                FileURL.SetImageURL(partForWorkOrder.PartForWorkImg);
             return View(partForWorkOrder);
         }
 

@@ -30,6 +30,7 @@ namespace EndlasNet.Data
                 .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
+                .Include(p => p.PartForWorkImg)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
@@ -90,6 +91,7 @@ namespace EndlasNet.Data
                 .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
+                .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
 
@@ -105,6 +107,7 @@ namespace EndlasNet.Data
                 .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
+                .Include(p => p.PartForWorkImg)
                 .ToListAsync();
 
             batch = (List<PartForWorkOrder>)batch.AsEnumerable();
@@ -158,6 +161,7 @@ namespace EndlasNet.Data
                 .Include(p => p.StaticPartInfo)
                 .Include(p => p.Work)
                 .Include(p => p.User)
+                .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(p => p.WorkId == id);
         }
 
@@ -167,6 +171,7 @@ namespace EndlasNet.Data
                            .Include(p => p.StaticPartInfo)
                            .Include(p => p.User)
                            .Include(p => p.Work)
+                           .Include(p => p.PartForWorkImg)
                            .FirstOrDefaultAsync(p => p.PartForWorkId == id);
         }
     }
