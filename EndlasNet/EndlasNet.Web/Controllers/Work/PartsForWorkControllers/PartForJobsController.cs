@@ -9,6 +9,8 @@ using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using EndlasNet.Web.Models;
+using static EndlasNet.Web.Helper;
+
 namespace EndlasNet.Web.Controllers
 {
     public class PartForJobsController : Controller
@@ -54,6 +56,29 @@ namespace EndlasNet.Web.Controllers
             return View();
         }
 
+        [NoDirectAccess]
+        public async Task<IActionResult> ViewPartImages()
+        {
+            return View(await _repo.GetAllPartForWorkImgs());
+        }
+
+
+        [NoDirectAccess]
+        public async Task<IActionResult> AddOrEditPartImage(Guid? id)
+        {
+            if (id == null)
+                return View(new PartForWorkImg());
+            else
+            {
+                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)id);
+                if (partForWorkImg == null)
+                {
+                    return NotFound();
+                }
+                return View(partForWorkImg);
+            }
+        }
+
         // POST: PartForJobs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -83,6 +108,14 @@ namespace EndlasNet.Web.Controllers
                     part.NumParts += existingBatch.Count;
                 }
 
+                var partForWorkImg = new PartForWorkImg
+                {
+                    PartForWorkImgId = Guid.NewGuid(),
+                    ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile),
+                    ImageName = partForJob.ImageName,
+                };
+                await _repo.AddPartForWorkImg(partForWorkImg);
+
                 // create each part for the part batch
                 for (int i = count; i < initCount + count; i++)
                 {
@@ -94,6 +127,8 @@ namespace EndlasNet.Web.Controllers
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                         if (partForJob.ImageFile != null)
                             partForJob.ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
+                        tempPartForJob.PartForWorkImgId = partForWorkImg.PartForWorkImgId;
+                        tempPartForJob.PartForWorkImg = partForWorkImg;
                         await _repo .AddPartForJobAsync(tempPartForJob);
                     } catch(Exception ex) { ex.ToString(); continue; }
                 }

@@ -164,5 +164,30 @@ namespace EndlasNet.Data
             }
             return jobs;
         }
+        public async Task<IEnumerable<PartForWorkImg>> GetAllPartForWorkImgs()
+        {
+            return await _db.PartForWorkImages.ToListAsync();
+        }
+
+        public async Task<PartForWorkImg> GetPartForWorkImg(Guid id)
+        {
+            return await _db.PartForWorkImages
+                .FirstOrDefaultAsync(p => p.PartForWorkImgId == id);
+        }
+        public async Task UpdatePartForWorkImg(PartForWorkImg partForWorkImg)
+        {
+            _db.Update(partForWorkImg);
+            await _db.SaveChangesAsync();
+        }
+        public async Task DeletePartForWorkImg(PartForWorkImg partForWorkImg)
+        {
+            _db.Remove(partForWorkImg);
+            await _db.SaveChangesAsync();
+        }
+        public async Task AddPartForWorkImg(PartForWorkImg partForWorkImg)
+        {
+            await _db.AddAsync(partForWorkImg);
+            await _db.SaveChangesAsync();
+        }
     }
 }

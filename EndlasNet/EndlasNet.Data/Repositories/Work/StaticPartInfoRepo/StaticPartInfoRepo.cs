@@ -40,7 +40,6 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<StaticPartInfo>> GetAllRows()
         {
             return await _db.StaticPartInfo
-                .Include(s => s.Customer)
                 .OrderByDescending(s => s.DrawingNumber)
                 .ToListAsync();
         }
@@ -48,15 +47,12 @@ namespace EndlasNet.Data
         public async Task<StaticPartInfo> GetRow(Guid? id)
         {
             return await _db.StaticPartInfo
-                .Include(s => s.Customer)
                 .FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
         }
 
         public async Task<StaticPartInfo> GetRowNoTracking(Guid? id)
         {
             return await _db.StaticPartInfo
-                .Include(s => s.Customer)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
         }
 

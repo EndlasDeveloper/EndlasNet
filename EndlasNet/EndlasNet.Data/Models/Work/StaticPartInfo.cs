@@ -48,17 +48,7 @@ namespace EndlasNet.Data
         [NotMapped]
         [Display(Name ="Upload finish drawing pdf")]
         public IFormFile FinishDrawingFile { get; set; }
-        public byte[] FinishDrawingPdfBytes { get; set; }   
-
-        [ForeignKey("CustomerId")]
-        [Display(Name ="Customer")]
-        public Guid? CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
-
-/*        [ForeignKey("UserId")]
-        [Display(Name = "User")]
-        public Guid? UserId { get; set; }
-        public virtual User User { get; set; }*/
+        public byte[] FinishDrawingPdfBytes { get; set; }    
 
         // Static part info has (describes) many PartsForWork
         public IEnumerable<PartForWork> PartsForWork { get; set; }

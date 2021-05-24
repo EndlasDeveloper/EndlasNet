@@ -37,6 +37,7 @@ namespace EndlasNet.Data
         public DbSet<PartForWork> PartsForWork { get; set; }
         public DbSet<PartForJob> PartsForJobs { get; set; }
         public DbSet<PartForWorkOrder> PartsForWorkOrders { get; set; }
+        public DbSet<PartForWorkImg> PartForWorkImages { get; set; }
 
         // ACTION
         public DbSet<MachiningToolForWork> MachiningToolsForWork { get; set; }

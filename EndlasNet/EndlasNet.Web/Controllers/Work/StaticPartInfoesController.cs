@@ -83,7 +83,6 @@ namespace EndlasNet.Web.Controllers
                 await _staticPartInfoRepo.AddRow(staticPartInfo);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _staticPartInfoRepo.GetAllCustomers(), "CustomerId", "CustomerName", staticPartInfo.CustomerId);
             return View(staticPartInfo);
         }
 
@@ -106,7 +105,6 @@ namespace EndlasNet.Web.Controllers
             if(staticPartInfo.DrawingImageBytes != null)
                 FileURL.SetImageURL(staticPartInfo);
             ViewBag.id = id;
-            ViewData["CustomerId"] = new SelectList(await _staticPartInfoRepo.GetAllCustomers(), "CustomerId", "CustomerName", staticPartInfo.CustomerId);
             return View(staticPartInfo);
         }
 
@@ -160,7 +158,6 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(await _staticPartInfoRepo.GetAllCustomers(), "CustomerId", "CustomerName", staticPartInfo.CustomerId);
             return View(staticPartInfo);
         }
 

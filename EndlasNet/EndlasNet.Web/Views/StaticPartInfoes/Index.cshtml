@@ -39,9 +39,7 @@
             <th>
                 Finish pdf
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer)
-            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -84,9 +82,7 @@
                     </a>
                 }
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerName)
-            </td>
+
         
             <td>
                 <a asp-action="Edit" asp-route-id="@item.StaticPartInfoId">Edit</a> |

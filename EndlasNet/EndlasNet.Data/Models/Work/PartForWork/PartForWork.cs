@@ -61,6 +61,10 @@ namespace EndlasNet.Data
         [NotMapped]
         public string DrawingNumberSuffix { get; set; }
 
+        [Display(Name ="Part image")]
+        public Guid? PartForWorkImgId { get; set; }
+        public PartForWorkImg PartForWorkImg{ get; set; }
+
         /************************* IMG ***************************/
         [NotMapped]
         [Display(Name = "Part image")]
