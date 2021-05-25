@@ -51,7 +51,10 @@ namespace EndlasNet.Web.Controllers
         // GET: PartForJobs/Create
         public async Task<IActionResult> Create()
         {
+            var partForWorkImgs = await _repo.GetAllPartForWorkImgs();
+            
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber");
+            ViewData["PartForWorkImgId"] = new SelectList(partForWorkImgs, "PartForWorkImgId", "ImageName");
             ViewData["WorkId"] = new SelectList(await _repo.GetJobsWithNoParts(), "WorkId", "EndlasNumber");
             return View();
         }
@@ -62,7 +65,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId,ImageName,ImageFile")] PartForJob partForJob)
+        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId,PartForWorkImgId")] PartForJob partForJob)
         {
             var resultList = await _repo.GetPartsForJobsWithPartInfo(partForJob.StaticPartInfoId);
             var count = resultList.Count();
@@ -86,16 +89,7 @@ namespace EndlasNet.Web.Controllers
                     part.NumParts += existingBatch.Count;
                 }
                 PartForWorkImg partForWorkImg = null;
-                if(partForJob.ImageFile != null)
-                {
-                    partForWorkImg = new PartForWorkImg
-                    {
-                        PartForWorkImgId = Guid.NewGuid(),
-                        ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile),
-                        ImageName = partForJob.ImageName,
-                    };
-                    await _repo.AddPartForWorkImg(partForWorkImg);
-                }
+              
                 // create each part for the part batch
                 for (int i = count; i < initCount + count; i++)
                 {
@@ -106,7 +100,6 @@ namespace EndlasNet.Web.Controllers
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                         tempPartForJob.PartForWorkImgId = partForWorkImg.PartForWorkImgId;
-                        tempPartForJob.PartForWorkImg = partForWorkImg;
                         await _repo .AddPartForJobAsync(tempPartForJob);
                     } catch(Exception ex) { ex.ToString(); continue; }
                 }

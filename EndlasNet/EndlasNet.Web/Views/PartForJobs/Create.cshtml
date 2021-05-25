@@ -25,18 +25,12 @@
                 <input asp-for="NumParts" class="form-control" />
                 <span asp-validation-for="NumParts" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ImageName" class="control-label"></label>
-                <input asp-for="ImageName" class="form-control" />
-                <span asp-validation-for="ImageName" class="text-danger"></span>
-            </div>
 
             <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <div></div>
-                <input asp-for="ImageFile" accept="image/*" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                <label asp-for="PartForWorkImgId" class="control-label">Part image</label>
+                <select asp-for="PartForWorkImgId" class="form-control" asp-items="ViewBag.PartForWorkImgId"></select>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
