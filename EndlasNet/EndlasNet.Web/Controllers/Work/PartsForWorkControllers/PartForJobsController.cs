@@ -16,7 +16,7 @@ namespace EndlasNet.Web.Controllers
     public class PartForJobsController : Controller
     {
         private IPartForJobRepo _repo;
-
+        private Guid noneGuid = Guid.Empty;
         public PartForJobsController(IPartForJobRepo repo)
         {
             _repo = repo;
@@ -52,9 +52,15 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Create()
         {
             var partForWorkImgs = await _repo.GetAllPartForWorkImgs();
-            
+            var list = partForWorkImgs.ToList();
+            var partForWorkImgNone = new PartForWorkImg
+            {
+                PartForWorkImgId = noneGuid,
+                ImageName = "None"
+            };
+            list.Insert(0, partForWorkImgNone);
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber");
-            ViewData["PartForWorkImgId"] = new SelectList(partForWorkImgs, "PartForWorkImgId", "ImageName");
+            ViewData["PartForWorkImgId"] = new SelectList(list, "PartForWorkImgId", "ImageName");
             ViewData["WorkId"] = new SelectList(await _repo.GetJobsWithNoParts(), "WorkId", "EndlasNumber");
             return View();
         }
@@ -99,7 +105,9 @@ namespace EndlasNet.Web.Controllers
                         tempPartForJob.Suffix = Utility.PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                        tempPartForJob.PartForWorkImgId = partForWorkImg.PartForWorkImgId;
+                        if (tempPartForJob.PartForWorkImgId == noneGuid)
+                            tempPartForJob.PartForWorkImgId = null;
+
                         await _repo .AddPartForJobAsync(tempPartForJob);
                     } catch(Exception ex) { ex.ToString(); continue; }
                 }

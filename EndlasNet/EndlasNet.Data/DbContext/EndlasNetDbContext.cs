@@ -139,6 +139,8 @@ namespace EndlasNet.Data
 
             modelBuilder.Entity<Vendor>().HasData(dummyVendor);
             modelBuilder.Entity<Customer>().HasData(dummyCustomer);
+
+
         }
     }
 }
