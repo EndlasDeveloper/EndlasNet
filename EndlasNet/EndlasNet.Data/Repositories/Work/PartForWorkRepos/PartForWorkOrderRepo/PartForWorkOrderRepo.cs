@@ -21,6 +21,7 @@ namespace EndlasNet.Data
                 .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
+                .Include(p => p.PartForWorkImg)
                 .OrderByDescending(p => p.Suffix)
                 .ToListAsync();
         }
@@ -108,6 +109,7 @@ namespace EndlasNet.Data
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .Include(p => p.PartForWorkImg)
+                .OrderBy(p => p.Suffix)
                 .ToListAsync();
 
             batch = (List<PartForWorkOrder>)batch.AsEnumerable();
@@ -162,7 +164,7 @@ namespace EndlasNet.Data
                 .Include(p => p.Work)
                 .Include(p => p.User)
                 .Include(p => p.PartForWorkImg)
-                .FirstOrDefaultAsync(p => p.WorkId == id);
+                .FirstOrDefaultAsync(p => p.PartForWorkId == id);
         }
 
         public async Task<PartForWorkOrder> GetPartForWorkOrderAsync(Guid? id)
@@ -173,6 +175,31 @@ namespace EndlasNet.Data
                            .Include(p => p.Work)
                            .Include(p => p.PartForWorkImg)
                            .FirstOrDefaultAsync(p => p.PartForWorkId == id);
+        }
+        public async Task<IEnumerable<PartForWorkImg>> GetAllPartForWorkImgs()
+        {
+            return await _db.PartForWorkImages.ToListAsync();
+        }
+
+        public async Task<PartForWorkImg> GetPartForWorkImg(Guid id)
+        {
+            return await _db.PartForWorkImages
+                .FirstOrDefaultAsync(p => p.PartForWorkImgId == id);
+        }
+        public async Task UpdatePartForWorkImg(PartForWorkImg partForWorkImg)
+        {
+            _db.Update(partForWorkImg);
+            await _db.SaveChangesAsync();
+        }
+        public async Task DeletePartForWorkImg(PartForWorkImg partForWorkImg)
+        {
+            _db.Remove(partForWorkImg);
+            await _db.SaveChangesAsync();
+        }
+        public async Task AddPartForWorkImg(PartForWorkImg partForWorkImg)
+        {
+            await _db.AddAsync(partForWorkImg);
+            await _db.SaveChangesAsync();
         }
     }
 }

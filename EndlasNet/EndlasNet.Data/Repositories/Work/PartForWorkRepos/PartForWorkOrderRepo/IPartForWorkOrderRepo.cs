@@ -29,5 +29,12 @@ namespace EndlasNet.Data
         public Task<StaticPartInfo> GetStaticPartInfo(Guid id);
         public Task<Work> GetWork(Guid id);
         public Task<PartForWorkOrder> GetPartForWorkOrder(Guid id);
+
+        // PART IMAGE
+        public Task<IEnumerable<PartForWorkImg>> GetAllPartForWorkImgs();
+        public Task<PartForWorkImg> GetPartForWorkImg(Guid id);
+        public Task UpdatePartForWorkImg(PartForWorkImg partForWorkImg);
+        public Task DeletePartForWorkImg(PartForWorkImg partForWorkImg);
+        public Task AddPartForWorkImg(PartForWorkImg partForWorkImg);
     }
 }

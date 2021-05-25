@@ -14,6 +14,7 @@ namespace EndlasNet.Web.Controllers
     public class PartForWorkOrdersController : Controller
     {
         private IPartForWorkOrderRepo _repo;
+        private readonly Guid NONE_ID = Guid.Empty;
 
         public PartForWorkOrdersController(IPartForWorkOrderRepo repo)
         {
@@ -50,7 +51,16 @@ namespace EndlasNet.Web.Controllers
         // GET: PartForWorkOrders/Create
         public async Task<IActionResult> Create()
         {
+            var partForWorkImgs = await _repo.GetAllPartForWorkImgs();
+            var list = partForWorkImgs.ToList();
+            var partForWorkImgNone = new PartForWorkImg
+            {
+                PartForWorkImgId = NONE_ID,
+                ImageName = "None"
+            };
+            list.Insert(0, partForWorkImgNone);
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber");
+            ViewData["PartForWorkImgId"] = new SelectList(list, "PartForWorkImgId", "ImageName");
             ViewData["WorkId"] = new SelectList(await _repo.GetWorkOrdersWithNoParts(), "WorkId", "EndlasNumber");
             return View();
         }
@@ -60,7 +70,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId,ClearImg,ImageName,ImageFile")] PartForWorkOrder partForWorkOrder)
+        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,NumParts,StartSuffix,UserId,ClearImg,PartForWorkImgId")] PartForWorkOrder partForWorkOrder)
         {
             // gets list of tools that have count > 0
             var resultList = await _repo.GetPartsForWorkOrdersWithPartInfo(partForWorkOrder.StaticPartInfoId);
@@ -101,8 +111,8 @@ namespace EndlasNet.Web.Controllers
                         tempPartForWorkOrder.PartForWorkId = Guid.NewGuid();
                         // save user email
                         tempPartForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                        if (partForWorkOrder.ImageFile != null)
-                            partForWorkOrder.PartForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
+                        if (tempPartForWorkOrder.PartForWorkImgId == NONE_ID)
+                            tempPartForWorkOrder.PartForWorkImgId = null;
                         await _repo.AddPartForWorkOrderAsync(tempPartForWorkOrder);
                     }
                     catch (Exception ex) { ex.ToString(); continue; }

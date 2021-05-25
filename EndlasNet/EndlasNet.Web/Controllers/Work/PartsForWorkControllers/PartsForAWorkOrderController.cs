@@ -62,11 +62,17 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+
+            if (partForWorkOrder.PartForWorkImgId != null)
+            {
+                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForWorkOrder.PartForWorkImgId);
+                FileURL.SetImageURL(partForWorkImg);
+                partForWorkOrder.PartForWorkImg = partForWorkImg;
+            }
+
             ViewBag.id = id;
             ViewBag.workId = partForWorkOrder.WorkId;
             ViewBag.partInfoId = partForWorkOrder.StaticPartInfoId;
-            if (partForWorkOrder.PartForWorkImg.ImageBytes != null)
-                FileURL.SetImageURL(partForWorkOrder.PartForWorkImg);
 
             return View(partForWorkOrder);
         }
@@ -77,34 +83,6 @@ namespace EndlasNet.Web.Controllers
             ViewBag.workId = workId;
             ViewBag.partInfoId = partInfoId;
             return RedirectToAction("Index", new { id = id, workId = workId, partInfoId = partInfoId, sortOrder = "" });
-        }
-
-        // GET: PartsForAWorkOrder/Create
-        public IActionResult Create()
-        {           
-            return View();
-        }
-
-        // POST: PartsForAWorkOrder/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ClearImg,ImageName,ImageFile,ImageBytes")] PartForWorkOrder partForWorkOrder)
-        {
-            if (ModelState.IsValid)
-            {
-                partForWorkOrder.PartForWorkId = Guid.NewGuid();
-                partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                if (partForWorkOrder.ImageFile != null)
-                    partForWorkOrder.PartForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
-                await _repo.AddPartForWorkOrderAsync(partForWorkOrder);
-                return RedirectToAction("Index", "PartsForAWorkOrder",
-                    new { id = partForWorkOrder.PartForWorkId, workId = partForWorkOrder.WorkId,
-                        partInfoId = partForWorkOrder.StaticPartInfoId, sortOrder = "" });
-
-            }
-            return View(partForWorkOrder);
         }
 
         // GET: PartsForAWorkOrder/Edit/5
@@ -120,8 +98,12 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if (partForWorkOrder.PartForWorkImg.ImageBytes != null)
-                FileURL.SetImageURL(partForWorkOrder.PartForWorkImg);
+            if (partForWorkOrder.PartForWorkImgId != null)
+            {
+                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForWorkOrder.PartForWorkImgId);
+                FileURL.SetImageURL(partForWorkImg);
+                partForWorkOrder.PartForWorkImg = partForWorkImg;
+            }
             return View(partForWorkOrder);
         }
 
@@ -179,7 +161,13 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForWorkOrder = await _repo.GetPartForWorkOrderAsync((Guid)id);
+            var partForWorkOrder = await _repo.GetPartForWorkOrder((Guid)id);
+            if (partForWorkOrder.PartForWorkImgId != null)
+            {
+                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForWorkOrder.PartForWorkImgId);
+                FileURL.SetImageURL(partForWorkImg);
+                partForWorkOrder.PartForWorkImg = partForWorkImg;
+            }
             if (partForWorkOrder == null)
             {
                 return NotFound();

@@ -16,7 +16,7 @@ namespace EndlasNet.Web.Controllers
     public class PartForJobsController : Controller
     {
         private IPartForJobRepo _repo;
-        private Guid noneId = Guid.Empty;
+        private readonly Guid NONE_ID = Guid.Empty;
         public PartForJobsController(IPartForJobRepo repo)
         {
             _repo = repo;
@@ -55,7 +55,7 @@ namespace EndlasNet.Web.Controllers
             var list = partForWorkImgs.ToList();
             var partForWorkImgNone = new PartForWorkImg
             {
-                PartForWorkImgId = noneId,
+                PartForWorkImgId = NONE_ID,
                 ImageName = "None"
             };
             list.Insert(0, partForWorkImgNone);
@@ -94,7 +94,6 @@ namespace EndlasNet.Web.Controllers
                 {
                     part.NumParts += existingBatch.Count;
                 }
-                PartForWorkImg partForWorkImg = null;
               
                 // create each part for the part batch
                 for (int i = count; i < initCount + count; i++)
@@ -105,7 +104,7 @@ namespace EndlasNet.Web.Controllers
                         tempPartForJob.Suffix = Utility.PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                        if (tempPartForJob.PartForWorkImgId == noneId)
+                        if (tempPartForJob.PartForWorkImgId == NONE_ID)
                             tempPartForJob.PartForWorkImgId = null;
 
                         await _repo .AddPartForJobAsync(tempPartForJob);
@@ -123,38 +122,6 @@ namespace EndlasNet.Web.Controllers
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForJob.StaticPartInfoId);
             ViewData["WorkId"] = new SelectList(await _repo.GetAllJobs(), "WorkId", "EndlasNumber", partForJob.WorkId);
             return View(partForJob);
-        }
-
-        public async Task<IActionResult> PartForJobImages()
-        {
-            var partImages = await _repo.GetAllPartForWorkImgs();
-            foreach(PartForWorkImg img in partImages)
-            {
-                img.ImageUrl = FileURL.GetImageURL(img.ImageBytes);
-            }
-            return View(await _repo.GetAllPartForWorkImgs());
-        }
-
-        public IActionResult PartForWorkImageCreate()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PartForWorkImageCreate([Bind("ImageName,ImageFile")] PartForWorkImg partForWorkImg)
-        {
-            if (ModelState.IsValid)
-            {
-                partForWorkImg.PartForWorkImgId = Guid.NewGuid();
-                if(partForWorkImg.ImageFile != null)
-                {
-                    partForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForWorkImg.ImageFile);
-                }
-                await _repo.AddPartForWorkImg(partForWorkImg);
-                return RedirectToAction("PartForJobImages");
-            }
-            return View(partForWorkImg);
         }
 
 
