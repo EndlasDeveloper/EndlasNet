@@ -16,7 +16,7 @@ namespace EndlasNet.Web.Controllers
     public class PartForJobsController : Controller
     {
         private IPartForJobRepo _repo;
-        private Guid noneGuid = Guid.Empty;
+        private Guid noneId = Guid.Empty;
         public PartForJobsController(IPartForJobRepo repo)
         {
             _repo = repo;
@@ -55,7 +55,7 @@ namespace EndlasNet.Web.Controllers
             var list = partForWorkImgs.ToList();
             var partForWorkImgNone = new PartForWorkImg
             {
-                PartForWorkImgId = noneGuid,
+                PartForWorkImgId = noneId,
                 ImageName = "None"
             };
             list.Insert(0, partForWorkImgNone);
@@ -105,7 +105,7 @@ namespace EndlasNet.Web.Controllers
                         tempPartForJob.Suffix = Utility.PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                        if (tempPartForJob.PartForWorkImgId == noneGuid)
+                        if (tempPartForJob.PartForWorkImgId == noneId)
                             tempPartForJob.PartForWorkImgId = null;
 
                         await _repo .AddPartForJobAsync(tempPartForJob);
