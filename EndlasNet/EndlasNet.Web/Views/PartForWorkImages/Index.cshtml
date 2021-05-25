@@ -1,0 +1,54 @@
+﻿@using System;
+@using EndlasNet.Data;
+@using System.Collections.Generic;
+@model IEnumerable<PartForWorkImg>
+
+@{
+    ViewData["Title"] = "Parts for jobs";
+}
+<a asp-action="Index" asp-controller="PartForJobs">
+    <span>
+        <img src="~/img/backArrow.jpg" width="30" height="30" />
+        Parts for jobs
+    </span>
+</a>
+<h1>Part for work images</h1>
+
+<a asp-action="Create">New part image</a>
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <div>
+                    Image name
+                </div>
+            <th>
+                <div>
+                    Image
+                </div>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageName)
+            </td>
+            <td>
+                <img src=@Html.DisplayFor(modelItem => item.ImageUrl) alt="Drawing Image" style="max-width:75px;max-height:60px" />
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.PartForWorkImgId">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+

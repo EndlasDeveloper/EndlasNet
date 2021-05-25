@@ -124,6 +124,39 @@ namespace EndlasNet.Web.Controllers
             return View(partForJob);
         }
 
+        public async Task<IActionResult> PartForJobImages()
+        {
+            var partImages = await _repo.GetAllPartForWorkImgs();
+            foreach(PartForWorkImg img in partImages)
+            {
+                img.ImageUrl = FileURL.GetImageURL(img.ImageBytes);
+            }
+            return View(await _repo.GetAllPartForWorkImgs());
+        }
+
+        public IActionResult PartForWorkImageCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PartForWorkImageCreate([Bind("ImageName,ImageFile")] PartForWorkImg partForWorkImg)
+        {
+            if (ModelState.IsValid)
+            {
+                partForWorkImg.PartForWorkImgId = Guid.NewGuid();
+                if(partForWorkImg.ImageFile != null)
+                {
+                    partForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForWorkImg.ImageFile);
+                }
+                await _repo.AddPartForWorkImg(partForWorkImg);
+                return RedirectToAction("PartForJobImages");
+            }
+            return View(partForWorkImg);
+        }
+
+
         public ActionResult ViewList(Guid? id, Guid workId, Guid partInfoId)
         {
             return RedirectToAction("Index", "PartsForAJob", new { id = id, workId = workId, partInfoId = partInfoId, sortOrder = "suffix_asc" });
