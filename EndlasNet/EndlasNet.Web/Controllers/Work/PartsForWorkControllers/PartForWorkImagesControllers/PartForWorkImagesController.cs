@@ -48,6 +48,48 @@ namespace EndlasNet.Web.Controllers
             return View(partForWorkImg);
         }
 
+        // GET: PartsForAJob/Edit/5
+        public async Task<IActionResult> Edit(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var partForWorkImg = await _repo.GetPartForWorkImg((Guid)id);
+            if (partForWorkImg == null)
+            {
+                return NotFound();
+            }
+
+            FileURL.SetImageURL(partForWorkImg);
+
+            return View(partForWorkImg);
+        }
+
+        // POST: PartsForAJob/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkImgId,ImageName,ImageFile")] PartForWorkImg partForWorkImg)
+        {
+            if (id != partForWorkImg.PartForWorkImgId)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                if (partForWorkImg.ImageFile != null)
+                {
+                    partForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForWorkImg.ImageFile);
+                }
+                await _repo.UpdatePartForWorkImg(partForWorkImg);
+                return RedirectToAction("Index");
+            }
+            return View(partForWorkImg);
+        }
+
         // GET: PartsForAJob/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
