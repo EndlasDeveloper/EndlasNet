@@ -13,6 +13,7 @@ namespace EndlasNet.Web.Controllers
     public class PartsForAWorkOrderController : Controller
     {
         private IPartForWorkOrderRepo _repo;
+        private readonly Guid NONE_ID = Guid.Empty;
         public PartsForAWorkOrderController(IPartForWorkOrderRepo repo)
         {
             _repo = repo;
@@ -93,18 +94,23 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var partForWorkOrder = await _repo.GetPartForWorkOrderAsync((Guid)id);
-            if (partForWorkOrder == null)
+            var partForJob = await _repo.GetPartForWorkOrder((Guid)id);
+            if (partForJob == null)
             {
                 return NotFound();
             }
-            if (partForWorkOrder.PartForWorkImgId != null)
+            if (partForJob.PartForWorkImgId != null)
             {
-                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForWorkOrder.PartForWorkImgId);
+                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                 FileURL.SetImageURL(partForWorkImg);
-                partForWorkOrder.PartForWorkImg = partForWorkImg;
+                partForJob.PartForWorkImg = partForWorkImg;
             }
-            return View(partForWorkOrder);
+            var images = await _repo.GetAllPartForWorkImgs();
+            var list = images.ToList();
+            var noneImg = new PartForWorkImg { PartForWorkImgId = NONE_ID, ImageName = "None" };
+            list.Insert(0, noneImg);
+            ViewData["PartForWorkImgId"] = new SelectList(list, "PartForWorkImgId", "ImageName");
+            return View(partForJob);
         }
 
         // POST: PartsForAWorkOrder/Edit/5
@@ -112,7 +118,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ClearImg,ImageName,ImageFile,ImageBytes")] PartForWorkOrder partForWorkOrder)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,PartForWorkImgId")] PartForWorkOrder partForWorkOrder)
         {
             if (id != partForWorkOrder.PartForWorkId)
             {
@@ -124,14 +130,6 @@ namespace EndlasNet.Web.Controllers
                 try
                 {
                     partForWorkOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    if (partForWorkOrder.ImageFile != null && !partForWorkOrder.ClearImg)
-                    {
-                        partForWorkOrder.PartForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForWorkOrder.ImageFile);
-                    }
-                    else if (partForWorkOrder.ClearImg)
-                    {
-                        partForWorkOrder.PartForWorkImg.ImageBytes = null;
-                    }
                     await _repo.UpdatePartForWorkOrderAsync(partForWorkOrder);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -145,11 +143,8 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-
-                return RedirectToAction("Index", "PartsForAWorkOrder", new { id = id, workId = partForWorkOrder.WorkId,
-                    partInfoId = partForWorkOrder.StaticPartInfoId, sortOrder = "suffix_asc" });
+                return RedirectToAction("Index", "PartsForAWorkOrder", new { id = id, workId = partForWorkOrder.WorkId, partInfoId = partForWorkOrder.StaticPartInfoId, sortOrder = "suffix_asc" });
             }
-
             return View(partForWorkOrder);
         }
 
