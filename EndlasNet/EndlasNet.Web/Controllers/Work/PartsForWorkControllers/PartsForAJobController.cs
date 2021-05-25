@@ -13,6 +13,7 @@ namespace EndlasNet.Web.Controllers
     public class PartsForAJobController : Controller
     {
         private IPartForJobRepo _repo;
+        private readonly Guid NONE_ID = Guid.Empty;
         public PartsForAJobController(IPartForJobRepo repo)
         {
             _repo = repo;
@@ -114,7 +115,11 @@ namespace EndlasNet.Web.Controllers
                 FileURL.SetImageURL(partForWorkImg);
                 partForJob.PartForWorkImg = partForWorkImg;
             }
-          
+            var images = await _repo.GetAllPartForWorkImgs();
+            var list = images.ToList();
+            var noneImg = new PartForWorkImg { PartForWorkImgId = NONE_ID, ImageName = "None" };
+            list.Insert(0, noneImg);
+            ViewData["PartForWorkImgId"] = new SelectList(list, "PartForWorkImgId", "ImageName");
             return View(partForJob);
         }
 
@@ -123,7 +128,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ClearImg,ImageName,ImageFile,ImageBytes")] PartForJob partForJob)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,PartForWorkImgId")] PartForJob partForJob)
         {
             if (id != partForJob.PartForWorkId)
             {
@@ -134,14 +139,6 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    if (partForJob.ImageFile != null && !partForJob.ClearImg)
-                    {
-                        partForJob.PartForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForJob.ImageFile);
-                    }
-                    else if(partForJob.ClearImg)
-                    {
-                        partForJob.PartForWorkImg.ImageBytes = null;
-                    }
                     partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     await _repo.UpdatePartForJobAsync(partForJob);
                 }
