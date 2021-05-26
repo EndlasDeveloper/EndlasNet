@@ -38,14 +38,14 @@ namespace EndlasNet.Data
         public float? FlowRateYIntercept { get; set; }
 
         [NotMapped]
-        [Display(Name = "Upload composition pdf")]
-        public IFormFile CompositionFile { get; set; }
-        public byte[] CompositionFilePdfBytes { get; set; }
+        [Display(Name = "Upload information pdf")]
+        public IFormFile InformationFile { get; set; }
+        public byte[] InformationFilePdfBytes { get; set; }
 
         public IEnumerable<PowderBottle> Powders { get; set; }
         public IEnumerable<LineItem> LineItems { get; set; }
 
         [NotMapped]
-        public bool ClearComposition { get; set; }
+        public bool ClearInformation { get; set; }
     }
 }

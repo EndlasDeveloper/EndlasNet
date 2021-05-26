@@ -23,6 +23,8 @@ namespace EndlasNet.Web.Controllers
         // GET: Jobs
         public async Task<IActionResult> Index()
         {
+            var jobs = await _jobRepo.GetAllRows();
+
             return View(await _jobRepo.GetAllRows());
         }
 

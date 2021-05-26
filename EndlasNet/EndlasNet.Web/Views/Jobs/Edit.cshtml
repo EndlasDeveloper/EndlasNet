@@ -50,37 +50,37 @@
             </div>
             <div class="form-group">
                 <label asp-for="CompleteDate" class="control-label"></label>
-                <input asp-for="CompleteDate" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}"  value="@completeDateStr" />
+                <input asp-for="CompleteDate" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" value="@completeDateStr" />
                 <span asp-validation-for="CompleteDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @if (Model.ProcessSheetNotesPdfBytes != null)
-                {
-                    <label asp-for="ProcessSheetNotesFile" class="control-label">Process sheet notes:&nbsp;</label>
-
-                    @Html.ActionLink(
-                        linkText: "Download process sheet notes PDF",
-                        actionName: "DownloadProcessPdf",
-                        controllerName: "Jobs",
-                        routeValues: new { id = Model.WorkId },
-                        htmlAttributes: null)
-                    <br />
-                    <span>
-                        Clear process notes file
-                        <input asp-for="ClearPdf" class="form-check-inline" />
-                    </span>
-
-                }
-                else
-                {
-                    <label asp-for="ProcessSheetNotesFile" class="control-label"></label>
-
-                }                <div></div>
+                <div></div>
 
                 <input asp-for="ProcessSheetNotesFile" accept="application/pdf" />
                 <span asp-validation-for="ProcessSheetNotesFile" class="text-danger"></span>
             </div>
+            @if (Model.ProcessSheetNotesPdfBytes != null)
+            {
+                <label asp-for="ProcessSheetNotesFile" class="control-label">Process sheet notes:&nbsp;</label>
 
+                @Html.ActionLink(
+                    linkText: "Download process notes PDF",
+                    actionName: "DownloadProcessPdf",
+                    controllerName: "Jobs",
+                    routeValues: new { id = Model.WorkId },
+                    htmlAttributes: null)
+                <br />
+                <span>
+                    Clear process notes file
+                    <input asp-for="ClearPdf" class="form-check-inline" />
+                </span>
+
+            }
+            else
+            {
+                <label asp-for="ProcessSheetNotesFile" class="control-label"></label>
+
+            }
             <div class="form-group">
                 <label asp-for="CustomerId" class="control-label"></label>
                 <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>

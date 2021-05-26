@@ -38,7 +38,7 @@
                 @Html.DisplayNameFor(model => model.Composition)
             </th>
             <th>
-                Composition pdf
+                Information pdf
             </th>
             <th></th>
         </tr>
@@ -59,7 +59,7 @@
                 @Html.DisplayFor(modelItem => item.Composition)
             </td>
             <td>
-                @if (item.CompositionFilePdfBytes == null)
+                @if (item.InformationFilePdfBytes == null)
                 {
                     <a style="color:gray">None</a>
                 }

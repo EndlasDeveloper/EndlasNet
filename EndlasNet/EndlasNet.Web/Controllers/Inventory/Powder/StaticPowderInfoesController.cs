@@ -38,7 +38,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewBag.HasCompositionPdf = staticPowderInfo.CompositionFilePdfBytes;
+            ViewBag.HasCompositionPdf = staticPowderInfo.InformationFilePdfBytes;
             return View(staticPowderInfo);
         }
 
@@ -53,13 +53,13 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaticPowderInfoId,PowderName,Density,Description,EstCostPerLb,Composition,FlowRateSlope,FlowRateYIntercept,CompositionFile")] StaticPowderInfo staticPowderInfo)
+        public async Task<IActionResult> Create([Bind("StaticPowderInfoId,PowderName,Density,Description,EstCostPerLb,Composition,FlowRateSlope,FlowRateYIntercept,InformationFile")] StaticPowderInfo staticPowderInfo)
         {
             if (ModelState.IsValid)
             {
                 staticPowderInfo.StaticPowderInfoId = Guid.NewGuid();
-                if (staticPowderInfo.CompositionFile != null)
-                    staticPowderInfo.CompositionFilePdfBytes = await FileURL.GetFileBytes(staticPowderInfo.CompositionFile);
+                if (staticPowderInfo.InformationFile != null)
+                    staticPowderInfo.InformationFilePdfBytes = await FileURL.GetFileBytes(staticPowderInfo.InformationFile);
                 await _repo.AddRow(staticPowderInfo);
                 return RedirectToAction(nameof(Index));
             }
@@ -87,7 +87,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPowderInfoId,PowderName,Density,Description,EstCostPerLb,Composition,ClearComposition,FlowRateSlope,FlowRateYIntercept,CompositionFile")] StaticPowderInfo staticPowderInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPowderInfoId,PowderName,Density,Description,EstCostPerLb,Composition,ClearInformation,FlowRateSlope,FlowRateYIntercept,InformationFile")] StaticPowderInfo staticPowderInfo)
         {
             if (id != staticPowderInfo.StaticPowderInfoId)
             {
@@ -98,10 +98,10 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    if (staticPowderInfo.ClearComposition)
-                        staticPowderInfo.CompositionFilePdfBytes = null;
-                    else if (staticPowderInfo.CompositionFile != null)
-                        staticPowderInfo.CompositionFilePdfBytes = await FileURL.GetFileBytes(staticPowderInfo.CompositionFile);
+                    if (staticPowderInfo.ClearInformation)
+                        staticPowderInfo.InformationFilePdfBytes = null;
+                    else if (staticPowderInfo.InformationFile != null)
+                        staticPowderInfo.InformationFilePdfBytes = await FileURL.GetFileBytes(staticPowderInfo.InformationFile);
                     await _repo.UpdateRow(staticPowderInfo);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -134,7 +134,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            ViewBag.HasCompositionPdf = staticPowderInfo.CompositionFilePdfBytes;
+            ViewBag.HasCompositionPdf = staticPowderInfo.InformationFilePdfBytes;
             return View(staticPowderInfo);
         }
 
@@ -165,7 +165,7 @@ namespace EndlasNet.Web.Controllers
             var fileName = staticPowderInfo.PowderName + "_composition.pdf";
             Response.ContentType = "application/pdf";
             Response.Headers.Add("content-disposition", "attachment;filename=" + fileName);
-            MemoryStream ms = new MemoryStream(staticPowderInfo.CompositionFilePdfBytes);
+            MemoryStream ms = new MemoryStream(staticPowderInfo.InformationFilePdfBytes);
 
             if (ms == null)
             {

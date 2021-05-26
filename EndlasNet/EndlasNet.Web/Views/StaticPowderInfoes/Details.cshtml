@@ -62,7 +62,7 @@
             Process sheet PDF
         </dt>
         <dd class="col-sm-10">
-            @if (Model.CompositionFilePdfBytes != null)
+            @if (Model.InformationFilePdfBytes != null)
             {
                 <a title="Download process sheet PDF" asp-action="DownloadCompositionPdf" asp-controller="StaticPowderInfoes" asp-route-myvar="@Model.StaticPowderInfoId">
                     <span class="form-inline"><img src="~/img/download.png" class="my-custom-img" /></span>

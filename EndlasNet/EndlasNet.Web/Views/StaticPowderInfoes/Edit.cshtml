@@ -48,9 +48,9 @@
                 <input asp-for="FlowRateYIntercept" class="form-control" />
                 <span asp-validation-for="FlowRateYIntercept" class="text-danger"></span>
             </div>
-            @if (Model.CompositionFilePdfBytes != null)
+            @if (Model.InformationFilePdfBytes != null)
             {
-                <label asp-for="CompositionFile" class="control-label">Blank drawing:&nbsp;</label>
+                <label asp-for="InformationFile" class="control-label">Blank drawing:&nbsp;</label>
 
                 @Html.ActionLink(
                     linkText: "Download composition PDF",
@@ -61,21 +61,21 @@
                 <br />
                 <span>
                     Clear composition file
-                    <input asp-for="ClearComposition" class="form-check-inline" />
+                    <input asp-for="ClearInformation" class="form-check-inline" />
                 </span>
 
             }
             else
             {
-                <label asp-for="CompositionFile" class="control-label"></label>
+                <label asp-for="InformationFile" class="control-label"></label>
 
             }
             <div class="form-group">
                 <div></div>
-                <input asp-for="CompositionFile" accept="application/pdf" />
-                <span asp-validation-for="CompositionFile" class="text-danger"></span>
+                <input asp-for="InformationFile" accept="application/pdf" />
+                <span asp-validation-for="InformationFile" class="text-danger"></span>
             </div>
-            <input asp-for="CompositionFilePdfBytes" hidden />
+            <input asp-for="InformationFilePdfBytes" hidden />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
