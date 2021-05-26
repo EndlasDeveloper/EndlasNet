@@ -20,6 +20,13 @@
             Changed part for work to reference image table to save memory (both PartForJob and PartForWorkOrder).
             This was a large back-end and front-end change. How to use this part of the app has changed from how it was prior.
         </li>
+        <li class="update-notes-li">
+            Added pdf attribute to LineItem (CertPdf). Added back-end/database code to alloow the new attribute to be stored. Added
+            front-end code to create to allow user to set the pdf file. Added back-end code to allow the user selection to be saved in
+            the db. After files were saving, added front-end code to display the pdf file (or at least an action link to download it) in
+            Index, Details, Delete, and Edit view. Added functionality to edit to allow user to clear current pdf file selection, keep
+            current selectionk, or change the current selection to something else.
+        </li>
 
     </ul>
 
@@ -36,9 +43,7 @@
         <li class="update-notes-li">
             Job -> edit -> customer references wrong thing.
         </li>
-        <li class="update-notes-li">
-            Add pdf to LineItem (CertPdf)
-        </li>
+
         <li class="update-notes-li">
             Details -> change from composition pdf to information pdf.
         </li>
