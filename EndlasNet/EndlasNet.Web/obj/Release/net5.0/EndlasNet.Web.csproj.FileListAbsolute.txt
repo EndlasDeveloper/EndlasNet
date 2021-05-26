@@ -572,3 +572,7 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PartForWork\_IndexDateRange.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PartForWork\_IndexDefault.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PartForWork\_IndexSearchString.cshtml.g.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PartForWorkImages\Create.cshtml.g.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PartForWorkImages\Delete.cshtml.g.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PartForWorkImages\Edit.cshtml.g.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PartForWorkImages\Index.cshtml.g.cs
