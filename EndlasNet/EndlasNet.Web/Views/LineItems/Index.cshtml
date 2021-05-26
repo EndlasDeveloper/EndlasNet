@@ -30,6 +30,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.NumBottles)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CertPdfFile)
+            </th>
   
             <th></th>
         </tr>
@@ -51,9 +54,24 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.NumBottles)
                 </td>
+                <td>
+                    @if (item.CertPdfBytes == null)
+                    {
+                        <a style="color:gray">None</a>
+                    }
+                    else
+                    {
+                        <a title="Download cert PDF" asp-action="DownloadCertPdf" asp-controller="LineItems" asp-route-id="@item.LineItemId">
+                            <span class="form-inline"><img src="~/img/download.png" class="my-custom-img" /></span>
+                        </a>
+                    }
+                </td>
             }
             else
             {
+                <td>
+                    *
+                </td>
                 <td>
                     *
                 </td>

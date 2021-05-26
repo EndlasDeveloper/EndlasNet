@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -241,5 +242,27 @@ namespace EndlasNet.Web.Controllers
         {
             return await _repo.RowExists(id);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadCertPdf(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lineItem = await _repo.GetRow(id);
+
+            var fileName = "LineItemCert-" + DateTime.Now.ToString() + ".pdf";
+            Response.ContentType = "application/pdf";
+            Response.Headers.Add("content-disposition", "attachment;filename=" + fileName);
+            MemoryStream ms = new MemoryStream(lineItem.CertPdfBytes);
+            if (ms == null)
+            {
+                return NotFound();
+            }
+            return File(ms, "application/pdf", fileName);
+        }
+
     }
 }
