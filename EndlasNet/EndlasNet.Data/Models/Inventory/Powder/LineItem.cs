@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -54,7 +55,10 @@ namespace EndlasNet.Data
 
         public IEnumerable<PowderBottle> PowderBottles { get; set; }
 
-
+        [NotMapped]
+        [Display(Name = "Cert pdf")]
+        public IFormFile CertPdf{ get; set; }
+        public byte[] CertPdfBytes { get; set; }
 
     }
 }
