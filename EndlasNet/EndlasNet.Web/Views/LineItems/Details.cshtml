@@ -47,6 +47,21 @@
             @Html.DisplayFor(model => model.LineItemCost)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CertPdfFile)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.CertPdfBytes != null)
+            {
+                <a title="Download cert PDF" asp-action="DownloadCertPdf" asp-controller="LineItems" asp-route-id="@Model.LineItemId">
+                    <span class="form-inline"><img src="~/img/download.png" class="my-custom-img" /></span>
+                </a>
+            }
+            else
+            {
+                <a>No cert PDF</a>
+            }
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PowderOrder)
         </dt>
         <dd class="col-sm-10">

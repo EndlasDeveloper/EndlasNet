@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using EndlasNet.Web.Models;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -154,14 +155,18 @@ namespace EndlasNet.Web.Controllers
             }
 
             var lineItem = await _repo.GetLineItemInclude(id);
-
+            LineItemViewModel lineItemVm = new LineItemViewModel
+            {
+                LineItemId = lineItem.LineItemId,
+                LineItem = lineItem,
+            };
             if (lineItem == null)
             {
                 return NotFound();
             }
 
             ViewData["StaticPowderInfoId"] = new SelectList(await _repo.GetAllStaticPowderInfo(), "StaticPowderInfoId", "PowderName");
-            return View(lineItem);
+            return View(lineItemVm);
         }
 
         // POST: LineItems/Edit/5
@@ -169,9 +174,9 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("LineItemId,PowderName,VendorDescription,Weight,LineItemCost,ParticleSizeMin,ParticleSizeMax,NumBottles,PowderOrderId,StaticPowderInfoId,NumBottles")] LineItem lineItem)
+        public async Task<IActionResult> Edit(Guid id, [Bind("LineItemId,LineItem,ClearCertPdf")] LineItemViewModel lineItemVm)
         {
-            if (id != lineItem.LineItemId)
+            if (id != lineItemVm.LineItemId)
             {
                 return NotFound();
             }
@@ -180,12 +185,20 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    lineItem.IsInitialized = true;
-                    await _repo.UpdateRow(lineItem);
+                    if(lineItemVm.LineItem.CertPdfFile != null)
+                    {
+                        lineItemVm.LineItem.CertPdfBytes = await FileURL.GetFileBytes(lineItemVm.LineItem.CertPdfFile);
+                    }
+                    if (lineItemVm.ClearCertPdf)
+                    {
+                        lineItemVm.LineItem.CertPdfBytes = null;
+                    }
+                    lineItemVm.LineItem.IsInitialized = true;
+                    await _repo.UpdateRow(lineItemVm.LineItem);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!(await LineItemExists(lineItem.LineItemId)))
+                    if (!(await LineItemExists(lineItemVm.LineItemId)))
                     {
                         return NotFound();
                     }
@@ -194,9 +207,9 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
+                return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItemVm.LineItem.PowderOrderId });
             }
-            return View(lineItem);
+            return View(lineItemVm);
         }
 
         // GET: LineItems/Delete/5
@@ -253,7 +266,7 @@ namespace EndlasNet.Web.Controllers
 
             var lineItem = await _repo.GetRow(id);
 
-            var fileName = "LineItemCert-" + DateTime.Now.ToString() + ".pdf";
+            var fileName = "Cert-" + lineItem.VendorDescription + "-" + DateTime.Today.ToString() + ".pdf";
             Response.ContentType = "application/pdf";
             Response.Headers.Add("content-disposition", "attachment;filename=" + fileName);
             MemoryStream ms = new MemoryStream(lineItem.CertPdfBytes);

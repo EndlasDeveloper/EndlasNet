@@ -1,4 +1,4 @@
-﻿@model EndlasNet.Data.LineItem
+﻿@model EndlasNet.Web.Models.LineItemViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,49 +13,100 @@
         <form asp-action="Edit" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="LineItemId" />
+            <input id="certPdfBytes" type="hidden" asp-for="LineItem.CertPdfBytes" />
+
             <div class="form-group">
-                <label asp-for="StaticPowderInfoId" class="control-label"></label>
-                <select asp-for="StaticPowderInfoId" class="form-control" asp-items="ViewBag.StaticPowderInfoId"></select>
-                <span asp-validation-for="StaticPowderInfoId" class="text-danger"></span>
+                <label asp-for="LineItem.StaticPowderInfoId" class="control-label"></label>
+                <select id="staticPowderInfoId" asp-for="LineItem.StaticPowderInfoId" class="form-control" asp-items="ViewBag.StaticPowderInfoId"></select>
+                <span asp-validation-for="LineItem.StaticPowderInfoId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VendorDescription" class="control-label"></label>
-                <input asp-for="VendorDescription" class="form-control" />
-                <span asp-validation-for="VendorDescription" class="text-danger"></span>
+                <label asp-for="LineItem.VendorDescription" class="control-label"></label>
+                <input id="vendorDescription" asp-for="LineItem.VendorDescription" class="form-control" />
+                <span asp-validation-for="LineItem.VendorDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Weight" class="control-label"></label>
-                <input asp-for="Weight" class="form-control" />
-                <span asp-validation-for="Weight" class="text-danger"></span>
+                <label asp-for="LineItem.Weight" class="control-label"></label>
+                <input id="weight" asp-for="LineItem.Weight" class="form-control" />
+                <span asp-validation-for="LineItem.Weight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LineItemCost" class="control-label"></label>
-                <input asp-for="LineItemCost" class="form-control" />
-                <span asp-validation-for="LineItemCost" class="text-danger"></span>
+                <label asp-for="LineItem.LineItemCost" class="control-label"></label>
+                <input id="lineItemCost" asp-for="LineItem.LineItemCost" class="form-control" />
+                <span asp-validation-for="LineItem.LineItemCost" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ParticleSizeMin" class="control-label">Minimum particle size (&#956;m)</label>
-                <input asp-for="ParticleSizeMin" class="form-control" />
-                <span asp-validation-for="ParticleSizeMin" class="text-danger"></span>
+                <label asp-for="LineItem.ParticleSizeMin" class="control-label">Minimum particle size (&#956;m)</label>
+                <input id="particleSizeMin" asp-for="LineItem.ParticleSizeMin" class="form-control" />
+                <span asp-validation-for="LineItem.ParticleSizeMin" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ParticleSizeMax" class="control-label">Maximum particle size (&#956;m)</label>
-                <input asp-for="ParticleSizeMax" class="form-control" />
-                <span asp-validation-for="ParticleSizeMax" class="text-danger"></span>
+                <label asp-for="LineItem.ParticleSizeMax" class="control-label">Maximum particle size (&#956;m)</label>
+                <input id="particleSizeMax" asp-for="LineItem.ParticleSizeMax" class="form-control" />
+                <span asp-validation-for="LineItem.ParticleSizeMax" class="text-danger"></span>
             </div>
-            <input asp-for="PowderOrderId" class="form-control" hidden readonly />
-            <input asp-for="LineItemId" class="form-control" hidden readonly />
-            <input asp-for="IsInitialized" hidden readonly />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="LineItem.CertPdfFile" class="control-label"></label>
+                <div></div>
+                <input id="certPdfFile" asp-for="LineItem.CertPdfFile" accept="application/pdf" />
+                <span asp-validation-for="LineItem.CertPdfFile" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                @if (Model.LineItem.CertPdfBytes != null)
+                {
+                    <label asp-for="LineItem.CertPdfFile" class="control-label">Cert pdf:&nbsp;</label>
+
+                    @Html.ActionLink(
+                        linkText: "Download cert PDF",
+                        actionName: "DownloadCertPdf",
+                        controllerName: "LineItems",
+                        routeValues: new { id = Model.LineItemId },
+                        htmlAttributes: null)
+                    <br />
+                    <span>
+                        Clear cert file
+                        <input asp-for="ClearCertPdf" class="form-check-inline" />
+                    </span>
+
+                }
+   
+            </div>
+                <input id="powderOrderId" asp-for="LineItem.PowderOrderId" class="form-control" hidden readonly />
+                <input id="lineItemId" asp-for="LineItem.LineItemId" class="form-control" hidden readonly />
+                <input id="isInitialized" asp-for="LineItem.IsInitialized" hidden readonly />
+                <div class="form-group">
+                    <input type="submit" onsubmit="onClick()" value="Save" class="btn btn-primary" />
+                </div>
         </form>
     </div>
 </div>
 <div>
-    @Html.ActionLink("Back to list", "Index", new { powderOrderId = Model.PowderOrderId })
+    @Html.ActionLink("Back to list", "Index", new { powderOrderId = Model.LineItem.PowderOrderId })
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+        function onClick() {
+        $.ajax({
+            type: "POST",
+            url: "LineItems/Edit",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: { "lineItemVm": @Model },
+            success: function (response) {
+                alert(response.responseText);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+</script>
