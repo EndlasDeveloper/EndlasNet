@@ -73,10 +73,14 @@ namespace EndlasNet.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Initialize([Bind("LineItemId,StaticPowderInfoId,VendorDescription,Weight,LineItemCost,ParticleSizeMin,ParticleSizeMax,PowderOrderId,NumBottles")] LineItem lineItem)
+        public async Task<IActionResult> Initialize([Bind("LineItemId,StaticPowderInfoId,VendorDescription,Weight,LineItemCost,ParticleSizeMin,ParticleSizeMax,PowderOrderId,NumBottles,CertPdfFile")] LineItem lineItem)
         {
             lineItem.IsInitialized = true;
             lineItem.StaticPowderInfo = await _repo.GetStaticPowderInfo((Guid)lineItem.StaticPowderInfoId);
+            if(lineItem.CertPdfFile != null)
+            {
+                lineItem.CertPdfBytes = await FileURL.GetFileBytes(lineItem.CertPdfFile);
+            }
             await _repo.UpdateRow(lineItem);
             List<PowderBottle> bottles = new List<PowderBottle>();
             for (int i = 0; i < lineItem.NumBottles; i++)

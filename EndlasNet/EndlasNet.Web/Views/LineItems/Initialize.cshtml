@@ -49,6 +49,12 @@
                 <input asp-for="NumBottles" class="form-control" />
                 <span asp-validation-for="NumBottles" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="CertPdfFile" class="control-label"></label>
+                <div></div>
+                <input asp-for="CertPdfFile" accept="application/pdf" />
+                <span asp-validation-for="CertPdfFile" class="text-danger"></span>
+            </div>
             <input asp-for="PowderOrderId" class="form-control" hidden readonly />
             <input asp-for="LineItemId" class="form-control" hidden readonly />
             <input asp-for="IsInitialized" class="form-control" hidden readonly />

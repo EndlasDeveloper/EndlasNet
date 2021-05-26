@@ -57,7 +57,7 @@ namespace EndlasNet.Data
 
         [NotMapped]
         [Display(Name = "Cert pdf")]
-        public IFormFile CertPdf{ get; set; }
+        public IFormFile CertPdfFile{ get; set; }
         public byte[] CertPdfBytes { get; set; }
 
     }
