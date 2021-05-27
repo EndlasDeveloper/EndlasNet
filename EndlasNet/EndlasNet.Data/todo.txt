@@ -1,1 +1,1 @@
-﻿Make view model for part for work controllers
+﻿
