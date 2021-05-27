@@ -19,6 +19,19 @@ function getFromInput(partsForWork) {
     };
 }
 
+function getCheckBoxFromInput(id) {
+    let fullId = "id " + id;
+    console.log(fullId);
+    console.log(getValue(fullId));
+    let value = "value " + id;
+    return {
+        "IsChecked": getValue(fullId),
+        "PartForWorkId": getValue(value),
+        "Label": null,
+        "RuntimeId": fullId
+    }
+}
+
 
        /* public Guid PowderForPartId { get; set; }
 [ForeignKey("PowderBottleId")]

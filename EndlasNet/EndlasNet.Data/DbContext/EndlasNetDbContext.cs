@@ -10,7 +10,7 @@ namespace EndlasNet.Data
     */
     public class EndlasNetDbContext : DbContext
     {
-        private readonly string connectionString = ConnectionStrings.endlas_local;
+        private readonly string connectionString = ConnectionStrings.endlas_db;
 
         // USERS
         public DbSet<User> Users { get; set; }

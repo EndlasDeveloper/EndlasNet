@@ -10,38 +10,25 @@
     ViewData["Title"] = "Update notes";
     
 }
-<h1 class="display-4">@ViewData["Title"] - 5/25/2021</h1>
+<h1 class="display-4">@ViewData["Title"] - 5/27/2021</h1>
 <p>
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
 
-        <li class="update-notes-li">
-            Changed part for work to reference image table to save memory (both PartForJob and PartForWorkOrder).
-            This was a large back-end and front-end change. How to use this part of the app has changed from how it was prior.
-        </li>
-        <li class="update-notes-li">
-            Added pdf attribute to LineItem (CertPdf). Added back-end/database code to alloow the new attribute to be stored. Added
-            front-end code to create to allow user to set the pdf file. Added back-end code to allow the user selection to be saved in
-            the db. After files were saving, added front-end code to display the pdf file (or at least an action link to download it) in
-            Index, Details, Delete, and Edit view. Added functionality to edit to allow user to clear current pdf file selection, keep
-            current selectionk, or change the current selection to something else.
-        </li>
-        <li class="update-notes-li">
-            Job -> edit -> dropdown for customer used customer address as identifier; it now uses customer name to identify the rows in customer.
-        </li>
-        <li class="update-notes-li">
-            StaticPowderInfo -> Details -> change from composition pdf to information pdf.
-        </li>
-        <li>
-            Changed Details and Delete views in Job and WorkOrder to display 'Not completed' when the CompleteDate isn't set (i.e., it hasn't been completed yet).
-        </li>
+
     </ul>
 
 
     @* ****** TODO ****** *@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
+        <li class="update-notes-li">
+            Process sheet notes showing on edit and it shouldn't.
+        </li>
+        <li class="update-notes-li">
+            StaticPowderInfo -> Details, Delete -> change UI to show Information pdf rather than whatever is there now.
+        </li>
         <li class="update-notes-li">
             Bug: Edit -> part for a job -> have current image then set ot non gives error.
         </li>
