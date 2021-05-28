@@ -50,7 +50,7 @@
             </div>
             @if (Model.InformationFilePdfBytes != null)
             {
-                <label asp-for="InformationFile" class="control-label">Blank drawing:&nbsp;</label>
+                <label asp-for="InformationFile" class="control-label">Information pdf:&nbsp;</label>
 
                 @Html.ActionLink(
                     linkText: "Download composition PDF",
@@ -60,7 +60,7 @@
                     htmlAttributes: null)
                 <br />
                 <span>
-                    Clear composition file
+                    Clear information file
                     <input asp-for="ClearInformation" class="form-check-inline" />
                 </span>
 
