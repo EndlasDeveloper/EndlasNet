@@ -11,16 +11,16 @@ namespace EndlasNet.Web.Controllers
 {
     public class CustomersController : Controller
     {
-        private ICustomerRepo _customerRepo;
+        private ICustomerRepo repo;
         public CustomersController(ICustomerRepo repo)
         {
-            _customerRepo = repo;
+            this.repo = repo;
         }
 
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _customerRepo.GetAllRows());
+            return View(await repo.GetAllRows());
         }
 
         // GET: Customers/Details/5
@@ -31,7 +31,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _customerRepo.GetCustomerDetailsAsync(id);
+            var customer = await repo.GetCustomerDetailsAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 customer.CustomerId = Guid.NewGuid();
-                await _customerRepo.AddRow(customer);
+                await repo.AddRow(customer);
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
@@ -70,7 +70,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var customer = await _customerRepo.GetCustomerEditAsync(id);
+            var customer = await repo.GetCustomerEditAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -94,7 +94,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    await _customerRepo.UpdateRow(customer);
+                    await repo.UpdateRow(customer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -120,7 +120,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var customer = (Customer)await _customerRepo.GetRow(id);
+            var customer = (Customer)await repo.GetRow(id);
             if (customer == null)
             {
                 return NotFound();
@@ -134,13 +134,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _customerRepo.DeleteRow(id);
+            await repo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> CustomerExists(Guid id)
         {
-            return await _customerRepo.RowExists(id);
+            return await repo.RowExists(id);
         }
     }
 }

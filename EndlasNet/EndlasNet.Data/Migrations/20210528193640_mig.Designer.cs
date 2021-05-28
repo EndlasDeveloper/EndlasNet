@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20210527142159_mig")]
+    [Migration("20210528193640_mig")]
     partial class mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CustomerId = new Guid("3294f1e8-cfb1-46b4-bc5d-915f2e1c6bcf"),
+                            CustomerId = new Guid("4fff5520-3aa9-4dd0-87fd-91c4791705dd"),
                             CustomerAddress = "Dummy Customer Address",
                             CustomerName = "Dummy Customer Name",
                             CustomerPhone = "0987654321",
@@ -602,7 +602,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            VendorId = new Guid("e15625d2-9836-4fef-8239-cb93d6c0716d"),
+                            VendorId = new Guid("390f8635-bdcb-442f-8c30-b91c9ac8457e"),
                             PointOfContact = "Dummy Point of Contact",
                             VendorAddress = "Dummy Vendor Address",
                             VendorName = "Dummy Vendor Name",
@@ -636,6 +636,9 @@ namespace EndlasNet.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime?>("PoDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<byte[]>("ProcessSheetNotesPdfBytes")
                         .HasColumnType("varbinary(max)");
 
@@ -644,6 +647,9 @@ namespace EndlasNet.Data.Migrations
 
                     b.Property<Guid?>("QuoteId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -719,7 +725,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("f00b1025-5093-4f71-a51d-de891e3f38fb"),
+                            UserId = new Guid("bf64312f-646c-477e-9c2d-c0cf48e1818a"),
                             AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
                             EndlasEmail = "sa@endlas.com",
                             FirstName = "SA",
@@ -727,7 +733,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("2ae535f0-24e9-4bf7-8df6-f96f1ffe482f"),
+                            UserId = new Guid("56608b30-6600-4aa3-89ad-14cbcc85b257"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "james.tomich@endlas.com",
                             FirstName = "Jimmy",
@@ -735,7 +741,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("27861f9e-54d5-4095-82e1-c3e6970d4cdc"),
+                            UserId = new Guid("f61559ad-5c97-4687-8f78-9b051b4b02df"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "josh.hammell@endlas.com",
                             FirstName = "Josh",
@@ -743,7 +749,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("28770980-5639-449f-b7d4-b43acd4ce55a"),
+                            UserId = new Guid("1485b416-ca69-49af-8070-4258cd8b2a24"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                             EndlasEmail = "blt@endlas.com",
                             FirstName = "Brett",

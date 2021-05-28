@@ -36,6 +36,12 @@ namespace EndlasNet.Data
         [Display(Name = "Due date")]
         public DateTime DueDate { get; set; }
 
+        [Display(Name ="Start date")]
+        public DateTime? StartDate{ get; set; }
+
+        [Display(Name ="PO date")]
+        public DateTime? PoDate { get; set; }
+
         [Display(Name ="Complete date")]
         public DateTime? CompleteDate { get; set; }
 
