@@ -83,20 +83,26 @@ namespace EndlasNet.Web.Controllers
 
         private async Task SetViewData(Job job)
         {
+            var quotes = await _repo.GetAllQuotesWithoutJob();
             ViewData["CustomerId"] = new SelectList(await _repo.GetAllCustomers(), "CustomerId", "CustomerName", job.CustomerId);
-            ViewData["QuoteId"] = new SelectList(await _repo.GetAllQuotesWithoutJob(), "QuoteId", "EndlasNumber");
+            ViewData["QuoteId"] = new SelectList(GetQuoteViewModelDropDownList(quotes.ToList()), "QuoteId", "DropDownQuoteDisplayStr");
         }
 
         private async Task SetViewData()
         {
             var quotes = await _repo.GetAllQuotesWithoutJob();
+            ViewData["CustomerId"] = new SelectList(await _repo.GetAllCustomers(), "CustomerId", "CustomerName");
+            ViewData["QuoteId"] = new SelectList(GetQuoteViewModelDropDownList(quotes.ToList()), "QuoteId", "DropDownQuoteDisplayStr");
+        }
+
+        private List<QuoteDropDownViewModel> GetQuoteViewModelDropDownList(List<Quote> quotes)
+        {
             List<QuoteDropDownViewModel> vmList = new List<QuoteDropDownViewModel>();
-            foreach(Quote quote in quotes)
+            foreach (Quote quote in quotes)
             {
                 vmList.Insert(0, new QuoteDropDownViewModel { QuoteId = quote.QuoteId, DropDownQuoteDisplayStr = quote.EndlasNumber + "-" + quote.ShortDescription });
             }
-            ViewData["CustomerId"] = new SelectList(await _repo.GetAllCustomers(), "CustomerId", "CustomerName");
-            ViewData["QuoteId"] = new SelectList(vmList, "QuoteId", "DropDownQuoteDisplayStr");
+            return vmList;
         }
 
         // GET: Jobs/Edit/5
@@ -118,8 +124,12 @@ namespace EndlasNet.Web.Controllers
             var quotes = await _repo.GetAllQuotesWithoutJob();
             var quotesList = quotes.ToList();
             quotesList.Insert(0, currJob.Quote);
-            
-            ViewData["QuoteId"] = new SelectList(quotesList, "QuoteId", "EndlasNumber");
+            List<QuoteDropDownViewModel> vmList = new List<QuoteDropDownViewModel>();
+            foreach(Quote quote in quotesList)
+            {
+                vmList.Insert(0, new QuoteDropDownViewModel { QuoteId = quote.QuoteId, DropDownQuoteDisplayStr = quote.EndlasNumber + "-" + quote.ShortDescription });
+            }
+            ViewData["QuoteId"] = new SelectList(GetQuoteViewModelDropDownList(quotesList), "QuoteId", "DropDownQuoteDisplayStr");
 
             return View(job);
         }
