@@ -15,44 +15,47 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <input type="hidden" asp-for="PartForWorkId" />
-            <input type="hidden" asp-for="WorkId" />
-            <input type="hidden" asp-for="StaticPartInfoId" />
-            <input type="hidden" asp-for="PartForWorkImg.ImageBytes" />
+        <form asp-action="Edit" enctype="multipart/form-data" >
+            <input type="hidden" asp-for="PartForWorkId" id="partForWorkId" />
+            <input type="hidden" id="workId" asp-for="WorkId" />
+            <input type="hidden" id="work" asp-for="Work" />
+            <input type="hidden" id="imgeFile" asp-for="PartForWorkImg.ImageFile" />
+
+            <input type="hidden" id="staticPartInfoId" asp-for="StaticPartInfoId" />
+            <input type="hidden" id="imageBytes" asp-for="PartForWorkImg.ImageBytes" />
             <div class="form-group">
                 <label asp-for="ConditionDescription" class="control-label"></label>
-                <input asp-for="ConditionDescription" class="form-control" />
+                <input id="conditionDescription" asp-for="ConditionDescription" class="form-control" />
                 <span asp-validation-for="ConditionDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="InitWeight" class="control-label"></label>
-                <input asp-for="InitWeight" class="form-control" />
+                <input id="initWeight" asp-for="InitWeight" class="form-control" />
                 <span asp-validation-for="InitWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CladdedWeight" class="control-label"></label>
-                <input asp-for="CladdedWeight" class="form-control" />
+                <input id="claddedWeight" asp-for="CladdedWeight" class="form-control" />
                 <span asp-validation-for="CladdedWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FinishedWeight" class="control-label"></label>
-                <input asp-for="FinishedWeight" class="form-control" />
+                <input id="finishedWeight "asp-for="FinishedWeight" class="form-control" />
                 <span asp-validation-for="FinishedWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProcessingNotes" class="control-label"></label>
-                <input asp-for="ProcessingNotes" class="form-control" />
+                <input id="processingNotes" asp-for="ProcessingNotes" class="form-control" />
                 <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Suffix" class="control-label"></label>
-                <input asp-for="Suffix" class="form-control" />
+                <input id="suffix" asp-for="Suffix" class="form-control" />
                 <span asp-validation-for="Suffix" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PartForWorkImgId" class="control-label"></label>
-                <select asp-for="PartForWorkImgId" class="form-control" asp-items="ViewBag.PartForWorkImgId"></select>
+                <select id="partForWorkImgId" asp-for="PartForWorkImgId" class="form-control" asp-items="ViewBag.PartForWorkImgId"></select>
             </div>
             <div class="form-group">
                 <div></div>
@@ -74,10 +77,10 @@
                 }
 
             </div>
-            <input asp-for="NumParts" class="form-control" hidden readonly />
+            <input id="numParts" asp-for="NumParts" class="form-control" hidden readonly />
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input onsubmit="onClick()" type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -90,3 +93,43 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+     function onClick() {
+        @Model = getPartForWork();
+        $.ajax({
+            type: "POST",
+            url: "PartsForAJob/Edit",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: { "vm": @Model },
+            success: function (response) {
+                alert(response.responseText);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+   }
+    function getPartForWork() {
+        return {
+            "partForWorkId": getValue("partForWorkId"),
+            "workId": getValue("workId"),
+            "work": getValue("work"),
+            "staticPartInfoId": getValue("staticPartInfoId"),
+            "staticPartInfo": getValue("staticPartInfo"),
+            "suffix": getValue("suffix"),
+            "numParts": getValue("numParts"),
+            "initWeight": getValue("initWeight"),
+            "claddedWeight": getValue("claddedWeight"),
+            "finishedWeight": getValue("finishedWeight"),
+            "processingNotes": getValue("processingNotes"),
+            "partForWorkImgId": getValue("partForWorkImgId")
+
+        }
+    }
+</script>
