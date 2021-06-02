@@ -47,6 +47,9 @@ namespace EndlasNet.Web
             }
         }
 
-
+        internal static void SetImageURL(PartForJob partForJob)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

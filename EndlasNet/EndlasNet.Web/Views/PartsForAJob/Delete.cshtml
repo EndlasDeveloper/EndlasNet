@@ -99,7 +99,76 @@
         }
     </div>
     <br />
+    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
 
+        <em>
+            Machining image
+        </em>
+    </h6>
+
+    <div class="col-sm-2">
+        @if (Model.MachiningImageBytes == null)
+        {
+            @imageUrl
+        }
+        else
+        {
+            <img src="@Html.DisplayFor(model => model.MachiningImageUrl)" alt="Machining Image" />
+        }
+    </div>
+    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
+        <em>
+            Cladding image
+        </em>
+    </h6>
+
+    <div class="col-sm-2">
+        @if (Model.CladdingImageBytes == null)
+        {
+            @imageUrl;
+        }
+        else
+        {
+            <img src="@Html.DisplayFor(model => model.CladdingImageUrl)" alt="Cladding Image" />
+        }
+    </div>
+    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
+
+        <em>
+            Finished image
+        </em>
+    </h6>
+
+    <div class="col-sm-2">
+        @if (Model.FinishedImageBytes == null)
+        {
+            @imageUrl;
+        }
+        else
+        {
+            <img src="@Html.DisplayFor(model => model.FinishedImageUrl)" alt="Finished Image" />
+        }
+    </div>
+    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
+        <em>
+            Used image
+        </em>
+    </h6>
+
+    <div class="col-sm-2">
+        @if (Model.UsedImageBytes == null)
+        {
+            @imageUrl;
+        }
+        else
+        {
+            <img src="@Html.DisplayFor(model => model.UsedImageUrl)" alt="Used Image" />
+        }
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
     <form asp-action="Delete">
         <input type="hidden" asp-for="PartForWorkId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

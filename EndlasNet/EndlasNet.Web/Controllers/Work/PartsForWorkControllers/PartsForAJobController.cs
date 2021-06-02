@@ -193,18 +193,36 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
             var partForJob = await _repo.GetPartForJob(id);
+
+            if (partForJob == null)
+            {
+                return NotFound();
+            }
             if (partForJob.PartForWorkImgId != null)
             {
                 var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                 FileURL.SetImageURL(partForWorkImg);
                 partForJob.PartForWorkImg = partForWorkImg;
             }
-            if (partForJob == null)
+            if(partForJob.MachiningImageBytes != null)
             {
-                return NotFound();
+                partForJob.MachiningImageUrl = FileURL.GetImageURL(partForJob.MachiningImageBytes);
             }
+            if(partForJob.CladdingImageBytes != null)
+            {
+                partForJob.CladdingImageUrl = FileURL.GetImageURL(partForJob.CladdingImageBytes);
+            }
+            if(partForJob.FinishedImageBytes != null)
+            {
+                partForJob.FinishedImageUrl = FileURL.GetImageURL(partForJob.FinishedImageBytes);
+            }
+            if(partForJob.UsedImageBytes != null)
+            {
+                partForJob.UsedImageUrl = FileURL.GetImageURL(partForJob.UsedImageBytes);
+            }
+
+
             if(partForJob.PartForWorkImg.ImageBytes != null)
                 FileURL.SetImageURL(partForJob.PartForWorkImg);
 
