@@ -100,7 +100,7 @@ namespace EndlasNet.Web.Controllers
             List<QuoteDropDownViewModel> vmList = new List<QuoteDropDownViewModel>();
             foreach (Quote quote in quotes)
             {
-                vmList.Insert(0, new QuoteDropDownViewModel { QuoteId = quote.QuoteId, DropDownQuoteDisplayStr = quote.EndlasNumber + "-" + quote.ShortDescription });
+                vmList.Insert(0, new QuoteDropDownViewModel(quote));
             }
             return vmList;
         }
@@ -120,15 +120,9 @@ namespace EndlasNet.Web.Controllers
             }
             await SetViewData(job);
             var currJob = await _repo.GetRow(id);
-
             var quotes = await _repo.GetAllQuotesWithoutJob();
             var quotesList = quotes.ToList();
             quotesList.Insert(0, currJob.Quote);
-            List<QuoteDropDownViewModel> vmList = new List<QuoteDropDownViewModel>();
-            foreach(Quote quote in quotesList)
-            {
-                vmList.Insert(0, new QuoteDropDownViewModel { QuoteId = quote.QuoteId, DropDownQuoteDisplayStr = quote.EndlasNumber + "-" + quote.ShortDescription });
-            }
             ViewData["QuoteId"] = new SelectList(GetQuoteViewModelDropDownList(quotesList), "QuoteId", "DropDownQuoteDisplayStr");
 
             return View(job);
