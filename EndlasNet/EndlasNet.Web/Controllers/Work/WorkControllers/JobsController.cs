@@ -8,24 +8,22 @@ using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
-
+using EndlasNet.Web.Models;
 namespace EndlasNet.Web.Controllers
 {
     public class JobsController : Controller
     {
-        private readonly IJobRepo _jobRepo;
+        private readonly IJobRepo _repo;
         public JobsController(IJobRepo repo)
         {
             
-            _jobRepo = repo;
+            _repo = repo;
         }
 
         // GET: Jobs
         public async Task<IActionResult> Index()
         {
-            var jobs = await _jobRepo.GetAllRows();
-
-            return View(await _jobRepo.GetAllRows());
+            return View(await _repo.GetAllRows());
         }
 
         // GET: Jobs/Details/5
@@ -36,7 +34,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = (Job)await _jobRepo.GetRow(id);
+            var job = (Job)await _repo.GetRow(id);
             if (job == null)
             {
                 return NotFound();
@@ -73,10 +71,10 @@ namespace EndlasNet.Web.Controllers
                 {
                     job.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(job.ProcessSheetNotesFile);
                 }
-                var quote = await _jobRepo.GetQuote((Guid)job.QuoteId);
+                var quote = await _repo.GetQuote((Guid)job.QuoteId);
                 job.EndlasNumber = quote.EndlasNumber;
                 job.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                await _jobRepo.AddRow(job);
+                await _repo.AddRow(job);
                 return RedirectToAction(nameof(Index));
             }
             await SetViewData();
@@ -85,14 +83,20 @@ namespace EndlasNet.Web.Controllers
 
         private async Task SetViewData(Job job)
         {
-            ViewData["CustomerId"] = new SelectList(await _jobRepo.GetAllCustomers(), "CustomerId", "CustomerName", job.CustomerId);
-            ViewData["QuoteId"] = new SelectList(await _jobRepo.GetAllQuotesWithoutJob(), "QuoteId", "EndlasNumber");
+            ViewData["CustomerId"] = new SelectList(await _repo.GetAllCustomers(), "CustomerId", "CustomerName", job.CustomerId);
+            ViewData["QuoteId"] = new SelectList(await _repo.GetAllQuotesWithoutJob(), "QuoteId", "EndlasNumber");
         }
 
         private async Task SetViewData()
         {
-            ViewData["CustomerId"] = new SelectList(await _jobRepo.GetAllCustomers(), "CustomerId", "CustomerName");
-            ViewData["QuoteId"] = new SelectList(await _jobRepo.GetAllQuotesWithoutJob(), "QuoteId", "EndlasNumber");
+            var quotes = await _repo.GetAllQuotesWithoutJob();
+            List<QuoteViewModel> vmList = new List<QuoteViewModel>();
+            foreach(Quote quote in quotes)
+            {
+                vmList.Insert(0, new QuoteViewModel { QuoteId = quote.QuoteId, Quote = quote, DropDownQuoteDisplayStr = quote.EndlasNumber + "-" + quote.ShortDescription });
+            }
+            ViewData["CustomerId"] = new SelectList(await _repo.GetAllCustomers(), "CustomerId", "CustomerName");
+            ViewData["QuoteId"] = new SelectList(vmList, "QuoteId", "DropDownQuoteDisplayStr");
         }
 
         // GET: Jobs/Edit/5
@@ -103,15 +107,15 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _jobRepo.FindRow(id);
+            var job = await _repo.FindRow(id);
             if (job == null)
             {
                 return NotFound();
             }
             await SetViewData(job);
-            var currJob = await _jobRepo.GetRow(id);
+            var currJob = await _repo.GetRow(id);
 
-            var quotes = await _jobRepo.GetAllQuotesWithoutJob();
+            var quotes = await _repo.GetAllQuotesWithoutJob();
             var quotesList = quotes.ToList();
             quotesList.Insert(0, currJob.Quote);
             
@@ -145,9 +149,9 @@ namespace EndlasNet.Web.Controllers
                         job.ProcessSheetNotesPdfBytes = null;
                     }
                     job.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    var quote = await _jobRepo.GetQuote((Guid)job.QuoteId);
+                    var quote = await _repo.GetQuote((Guid)job.QuoteId);
                     job.EndlasNumber = quote.EndlasNumber;
-                    await _jobRepo.UpdateRow(job);
+                    await _repo.UpdateRow(job);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -175,7 +179,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = (Job)await _jobRepo.GetRow(id);
+            var job = (Job)await _repo.GetRow(id);
             if (job == null)
             {
                 return NotFound();
@@ -189,13 +193,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _jobRepo.DeleteRow(id);
+            await _repo.DeleteRow(id);
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> JobExists(Guid id)
         {
-            return await _jobRepo.RowExists(id);
+            return await _repo.RowExists(id);
         }
 
         [HttpGet]
@@ -206,7 +210,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _jobRepo.GetRow(myvar);
+            var job = await _repo.GetRow(myvar);
 
             var fileName = job.EndlasNumber + "_process_notes.pdf";
             Response.ContentType = "application/pdf";
