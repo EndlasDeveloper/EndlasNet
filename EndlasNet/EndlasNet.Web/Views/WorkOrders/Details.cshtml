@@ -41,6 +41,32 @@
             @Html.DisplayFor(model => model.DueDate)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.StartDate == null)
+            {
+                <span>Not started</span>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.StartDate)
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PoDate)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.PoDate == null)
+            {
+                <span>No PO date</span>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.PoDate)
+            }
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CompleteDate)
         </dt>
         <dd class="col-sm-10">

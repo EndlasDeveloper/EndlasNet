@@ -65,14 +65,14 @@
             </div>
             <div class="form-group">
                 <div></div>
-                <label asp-for="ProcessSheetNotesFile" class="control-label">Process sheet notes:&nbsp;</label>
+                <label asp-for="ProcessSheetNotesFile" class="control-label"></label>
 
                 <input asp-for="ProcessSheetNotesFile" accept="application/pdf" />
                 <span asp-validation-for="ProcessSheetNotesFile" class="text-danger"></span>
             </div>
             @if (Model.ProcessSheetNotesPdfBytes != null)
             {
-                <label asp-for="ProcessSheetNotesFile" class="control-label">Process sheet notes:&nbsp;</label>
+                <label asp-for="ProcessSheetNotesFile" class="control-label"></label>
 
                 @Html.ActionLink(
                     linkText: "Download process notes PDF",

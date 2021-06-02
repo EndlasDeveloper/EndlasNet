@@ -56,7 +56,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] WorkOrder workOrder)
+        public async Task<IActionResult> Create([Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] WorkOrder workOrder)
         {
             var work = await _workOrderRepo.GetWorkWithEndlasNumber(workOrder.EndlasNumber);
             var quotes = await _workOrderRepo.GetQuotesWithEndlasNumber(workOrder.EndlasNumber);
@@ -103,7 +103,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] WorkOrder workOrder)
+        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] WorkOrder workOrder)
         {
             if (id != workOrder.WorkId)
             {
