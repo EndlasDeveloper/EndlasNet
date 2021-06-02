@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using EndlasNet.Data;
 namespace EndlasNet.Web.Models
 {
-    public class QuoteViewModel
+    public class QuoteDropDownViewModel
     {
-        public Quote Quote{ get; set; }
         public Guid QuoteId { get; set; }
         public string DropDownQuoteDisplayStr { get; set; }
     }

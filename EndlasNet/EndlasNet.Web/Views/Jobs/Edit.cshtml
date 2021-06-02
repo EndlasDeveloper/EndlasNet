@@ -49,6 +49,16 @@
                 <span asp-validation-for="DueDate" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoDate" class="control-label"></label>
+                <input asp-for="PoDate" class="form-control" />
+                <span asp-validation-for="PoDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="CompleteDate" class="control-label"></label>
                 <input asp-for="CompleteDate" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" value="@completeDateStr" />
                 <span asp-validation-for="CompleteDate" class="text-danger"></span>

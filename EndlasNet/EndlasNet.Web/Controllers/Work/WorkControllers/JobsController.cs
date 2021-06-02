@@ -55,7 +55,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
+        public async Task<IActionResult> Create([Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
         {
             
             if (ModelState.IsValid)
@@ -90,10 +90,10 @@ namespace EndlasNet.Web.Controllers
         private async Task SetViewData()
         {
             var quotes = await _repo.GetAllQuotesWithoutJob();
-            List<QuoteViewModel> vmList = new List<QuoteViewModel>();
+            List<QuoteDropDownViewModel> vmList = new List<QuoteDropDownViewModel>();
             foreach(Quote quote in quotes)
             {
-                vmList.Insert(0, new QuoteViewModel { QuoteId = quote.QuoteId, Quote = quote, DropDownQuoteDisplayStr = quote.EndlasNumber + "-" + quote.ShortDescription });
+                vmList.Insert(0, new QuoteDropDownViewModel { QuoteId = quote.QuoteId, DropDownQuoteDisplayStr = quote.EndlasNumber + "-" + quote.ShortDescription });
             }
             ViewData["CustomerId"] = new SelectList(await _repo.GetAllCustomers(), "CustomerId", "CustomerName");
             ViewData["QuoteId"] = new SelectList(vmList, "QuoteId", "DropDownQuoteDisplayStr");
@@ -129,7 +129,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
+        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
         {
             if (id != job.WorkId)
             {
