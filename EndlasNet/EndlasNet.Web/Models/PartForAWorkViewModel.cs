@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 using EndlasNet.Data;
 namespace EndlasNet.Web.Models
 {
-    public class PartForWorkViewModel
+    public class PartForAWorkViewModel
     {
+        public PartForAWorkViewModel(PartForWork partForWork)
+        {
+            PartForWork = partForWork;
+            PartForWorkId = partForWork.PartForWorkId;
+        }
 
         public PartForWork PartForWork;
         public Guid PartForWorkId { get; set; }

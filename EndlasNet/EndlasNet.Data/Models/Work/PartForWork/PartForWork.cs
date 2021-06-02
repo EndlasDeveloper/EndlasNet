@@ -66,7 +66,15 @@ namespace EndlasNet.Data
         public PartForWorkImg PartForWorkImg{ get; set; }
 
         /************************* IMG ***************************/
+        [NotMapped]
+        [Display(Name = "Part image")]
+        public IFormFile ImageFile { get; set; }
 
+        [NotMapped]
+        public bool ClearImg { get; set; } = false;
+
+        [Display(Name ="Image name")]
+        public string ImageName { get; set; }
 
         /***************OPTIONAL IMAGES*******************/
 

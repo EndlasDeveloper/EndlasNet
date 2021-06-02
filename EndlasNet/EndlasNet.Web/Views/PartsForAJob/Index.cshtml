@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EndlasNet.Data.PartForJob>
+﻿@model IEnumerable<EndlasNet.Web.Models.PartForAWorkViewModel>
 
 @{
     ViewData["Title"] = "Part batch";
@@ -14,7 +14,7 @@
 </h3>
 <br />
 <h4>
-    @Html.DisplayFor(modelItem => Model.FirstOrDefault().StaticPartInfo.DrawingNumber), @Html.DisplayFor(modelItem => Model.FirstOrDefault().Work.EndlasNumber)
+    @Html.DisplayFor(modelItem => Model.FirstOrDefault().PartForWork.StaticPartInfo.DrawingNumber), @Html.DisplayFor(modelItem => Model.FirstOrDefault().PartForWork.Work.EndlasNumber)
 </h4>
 
 
@@ -35,19 +35,19 @@
                 </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ConditionDescription)
+                @Html.DisplayNameFor(model => model.PartForWork.ConditionDescription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InitWeight)
+                @Html.DisplayNameFor(model => model.PartForWork.InitWeight)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CladdedWeight)
+                @Html.DisplayNameFor(model => model.PartForWork.CladdedWeight)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FinishedWeight)
+                @Html.DisplayNameFor(model => model.PartForWork.FinishedWeight)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProcessingNotes)
+                @Html.DisplayNameFor(model => model.PartForWork.ProcessingNotes)
             </th>
 
             <th></th>
@@ -57,23 +57,23 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Suffix)
+                @Html.DisplayFor(modelItem => item.PartForWork.Suffix)
             </td>
 
             <td>
-                @Html.DisplayFor(modelItem => item.ConditionDescription)
+                @Html.DisplayFor(modelItem => item.PartForWork.ConditionDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InitWeight)
+                @Html.DisplayFor(modelItem => item.PartForWork.InitWeight)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CladdedWeight)
+                @Html.DisplayFor(modelItem => item.PartForWork.CladdedWeight)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FinishedWeight)
+                @Html.DisplayFor(modelItem => item.PartForWork.FinishedWeight)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProcessingNotes)
+                @Html.DisplayFor(modelItem => item.PartForWork.ProcessingNotes)
             </td>
 
             <td>

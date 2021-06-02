@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
-
+using EndlasNet.Web.Models;
 namespace EndlasNet.Web.Controllers
 {
     public class PartsForAJobController : Controller
@@ -30,26 +30,27 @@ namespace EndlasNet.Web.Controllers
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
 
             var endlasNetDbContext = await _repo.GetBatch(workId.ToString(), partInfoId.ToString());
+            List<PartForAWorkViewModel> vmList = new List<PartForAWorkViewModel>();
             foreach(PartForJob partForJob in endlasNetDbContext)
             {
 
                 partForJob.StaticPartInfo = await _repo.GetStaticPartInfo(partForJob.StaticPartInfoId);
                 partForJob.Work = await _repo.GetWork(partForJob.WorkId);
+                vmList.Insert(0, new PartForAWorkViewModel(partForJob));
             }
             switch (sortOrder)
             {
                 case "suffix_desc":
-                    endlasNetDbContext = endlasNetDbContext.OrderByDescending(a => a.Suffix).ToList();
+                    vmList = vmList.OrderByDescending(a => a.PartForWork.Suffix).ToList();
                     break;
                 case "suffix_asc":
-                    endlasNetDbContext = endlasNetDbContext.OrderByDescending(a => a.Suffix).ToList();
-                    endlasNetDbContext = endlasNetDbContext.Reverse();
+                    vmList = vmList.OrderBy(a => a.PartForWork.Suffix).ToList();
                     break;
                 default:
                     break;
             }
 
-            return View(endlasNetDbContext);
+            return View(vmList);
         }
 
 
