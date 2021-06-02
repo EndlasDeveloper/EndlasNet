@@ -139,6 +139,13 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
+                    if (partForJob.PartForWorkImgId == NONE_ID)
+                    {
+                        partForJob.PartForWorkImg = null;
+                        partForJob.PartForWorkImgId = null;
+                    }
+                        
+
                     partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     await _repo.UpdatePartForJobAsync(partForJob);
                 }

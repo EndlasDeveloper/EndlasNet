@@ -66,15 +66,21 @@ namespace EndlasNet.Data
         public PartForWorkImg PartForWorkImg{ get; set; }
 
         /************************* IMG ***************************/
-        [NotMapped]
-        [Display(Name = "Part image")]
-        public IFormFile ImageFile { get; set; }
 
-        [NotMapped]
-        public bool ClearImg { get; set; } = false;
 
-        [Display(Name ="Image name")]
-        public string ImageName { get; set; }
+        /***************OPTIONAL IMAGES*******************/
+
+        public byte[] MachiningImageBytes { get; set; }
+
+      
+        public byte[] CladdingImageBytes { get; set; }
+
+       
+        public byte[] FinishedImageBytes { get; set; }
+
+      
+        public byte[] UsedImageBytes { get; set; }
+
         public IEnumerable<PowderForPart> PowdersUsed { get; set; }
     }
 }

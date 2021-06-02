@@ -217,20 +217,20 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ImageName,ImageFile,ClearImg,ImageBytes")] PartForWork partForWork)
+        public async Task<IActionResult> Create([Bind("PartForWork,PartForWorkId,ImageName,ImageFile,ClearImg,ImageBytes")] PartForWorkViewModel partForWorkVm)
         {
             if (ModelState.IsValid)
             {
-                partForWork.PartForWorkId = Guid.NewGuid();
-                partForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                if (partForWork.ImageFile != null)
-                    partForWork.PartForWorkImg.ImageBytes= await FileURL.GetFileBytes(partForWork.ImageFile);
+                partForWorkVm.PartForWorkId = Guid.NewGuid();
+                partForWorkVm.PartForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                if (partForWorkVm.ImageFile != null)
+                    partForWorkVm.PartForWork.PartForWorkImg.ImageBytes= await FileURL.GetFileBytes(partForWorkVm.ImageFile);
 
-                await _repo.AddPartForWork(partForWork);
+                await _repo.AddPartForWork(partForWorkVm.PartForWork);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForWork.StaticPartInfoId);
-            return View(partForWork);
+            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForWorkVm.PartForWork.StaticPartInfoId);
+            return View(partForWorkVm);
         }
 
         // GET: PartForWork/Edit/5
@@ -258,9 +258,9 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,ImageName,ImageFile,ClearImg,ImageBytes")] PartForWork partForWork)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,ImageName,ImageFile,ClearImg,ImageBytes")] PartForWorkViewModel partForWorkVm)
         {
-            if (id != partForWork.PartForWorkId)
+            if (id != partForWorkVm.PartForWorkId)
             {
                 return NotFound();
             }
@@ -269,16 +269,16 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    if (partForWork.ImageFile != null)
-                        partForWork.PartForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForWork.ImageFile);
-                    if (partForWork.ClearImg)
-                        partForWork.PartForWorkImg.ImageBytes = null;
-                        partForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    await _repo.UpdatePartForWork(partForWork);
+                    if (partForWorkVm.ImageFile != null)
+                        partForWorkVm.PartForWork.PartForWorkImg.ImageBytes = await FileURL.GetFileBytes(partForWorkVm.ImageFile);
+                    if (partForWorkVm.ClearImg)
+                        partForWorkVm.PartForWork.PartForWorkImg.ImageBytes = null;
+                        partForWorkVm.PartForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    await _repo.UpdatePartForWork(partForWorkVm.PartForWork);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PartForWorkExists(partForWork.PartForWorkId))
+                    if (!PartForWorkExists(partForWorkVm.PartForWorkId))
                     {
                         return NotFound();
                     }
@@ -289,8 +289,8 @@ namespace EndlasNet.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForWork.StaticPartInfoId);
-            return View(partForWork);
+            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForWorkVm.PartForWork.StaticPartInfoId);
+            return View(partForWorkVm);
         }
 
         // GET: PartForWork/Delete/5

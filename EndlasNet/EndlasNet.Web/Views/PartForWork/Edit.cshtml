@@ -1,4 +1,4 @@
-﻿@model EndlasNet.Data.PartForWork
+﻿@model EndlasNet.Web.Models.PartForWorkViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,49 +13,48 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PartForWorkId" />
-            <input type="hidden" asp-for="WorkId" class="form-control" />
-            <input type="hidden" asp-for="PartForWorkImg.ImageBytes" />
-            <input type="hidden" asp-for="WorkId" />
-            <input type="hidden" asp-for="Work" />
+            <input type="hidden" asp-for="PartForWork.WorkId" class="form-control" />
+            <input type="hidden" asp-for="PartForWork.PartForWorkImg.ImageBytes" />
+            <input type="hidden" asp-for="PartForWork.WorkId" />
+            <input type="hidden" asp-for="PartForWork.Work" />
             <div class="form-group">
-                <label asp-for="StaticPartInfoId" class="control-label"></label>
-                <select asp-for="StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
-                <span asp-validation-for="StaticPartInfoId" class="text-danger"></span>
+                <label asp-for="PartForWork.StaticPartInfoId" class="control-label"></label>
+                <select asp-for="PartForWork.StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
+                <span asp-validation-for="PartForWork.StaticPartInfoId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Suffix" class="control-label"></label>
-                <input asp-for="Suffix" class="form-control" />
-                <span asp-validation-for="Suffix" class="text-danger"></span>
+                <label asp-for="PartForWork.Suffix" class="control-label"></label>
+                <input asp-for="PartForWork.Suffix" class="form-control" />
+                <span asp-validation-for="PartForWork.Suffix" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NumParts" class="control-label"></label>
-                <input asp-for="NumParts" class="form-control" />
-                <span asp-validation-for="NumParts" class="text-danger"></span>
+                <label asp-for="PartForWork.NumParts" class="control-label"></label>
+                <input asp-for="PartForWork.NumParts" class="form-control" />
+                <span asp-validation-for="PartForWork.NumParts" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConditionDescription" class="control-label"></label>
-                <input asp-for="ConditionDescription" class="form-control" />
-                <span asp-validation-for="ConditionDescription" class="text-danger"></span>
+                <label asp-for="PartForWork.ConditionDescription" class="control-label"></label>
+                <input asp-for="PartForWork.ConditionDescription" class="form-control" />
+                <span asp-validation-for="PartForWork.ConditionDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InitWeight" class="control-label"></label>
-                <input asp-for="InitWeight" class="form-control" />
-                <span asp-validation-for="InitWeight" class="text-danger"></span>
+                <label asp-for="PartForWork.InitWeight" class="control-label"></label>
+                <input asp-for="PartForWork.InitWeight" class="form-control" />
+                <span asp-validation-for="PartForWork.InitWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CladdedWeight" class="control-label"></label>
-                <input asp-for="CladdedWeight" class="form-control" />
-                <span asp-validation-for="CladdedWeight" class="text-danger"></span>
+                <label asp-for="PartForWork.CladdedWeight" class="control-label"></label>
+                <input asp-for="PartForWork.CladdedWeight" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="FinishedWeight" class="control-label"></label>
-                <input asp-for="FinishedWeight" class="form-control" />
-                <span asp-validation-for="FinishedWeight" class="text-danger"></span>
+                <label asp-for="PartForWork.FinishedWeight" class="control-label"></label>
+                <input asp-for="PartForWork.FinishedWeight" class="form-control" />
+                <span asp-validation-for="PartForWork.FinishedWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProcessingNotes" class="control-label"></label>
-                <input asp-for="ProcessingNotes" class="form-control" />
-                <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
+                <label asp-for="PartForWork.ProcessingNotes" class="control-label"></label>
+                <input asp-for="PartForWork.ProcessingNotes" class="form-control" />
+                <span asp-validation-for="PartForWork.ProcessingNotes" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ImageName" class="control-label"></label>
@@ -65,10 +64,10 @@
 
             <div class="form-group">
                 <div></div>
-                @if (Model.PartForWorkImg.ImageBytes != null)
+                @if (Model.PartForWork.PartForWorkImg.ImageBytes != null)
                 {
                     <label asp-for="ImageFile" class="control-label">Current image:&nbsp;</label>
-                    <img src="@Html.DisplayFor(model => model.PartForWorkImg.ImageUrl)" alt="Image" style="max-height:50px;max-width:120px" />
+                    <img src="@Html.DisplayFor(model => model.PartForWork.PartForWorkImg.ImageUrl)" alt="Image" style="max-height:50px;max-width:120px" />
                     <br /><br />
                     <span>
                         Clear image
