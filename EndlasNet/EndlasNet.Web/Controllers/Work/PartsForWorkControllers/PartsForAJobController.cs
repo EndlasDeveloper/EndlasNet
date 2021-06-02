@@ -127,9 +127,12 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWork,PartForWorkId,PartForWorkImg,PartForWorkImgId,ImageFile,ClearImg,MachiningImageFile,MachiniingClearImg,CladdingImageFile,ClearCladdingImg,FinishedImageFile,ClearFinishedImg,UsedImageFile,ClearUsedImg")] PartForJob partForJob)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWork,WorkId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,Suffix,StaticPartInfoId,PartForWorkId,PartForWorkImg,PartForWorkImgId,ImageFile,ClearImg,MachiningImageFile,MachiniingClearImg,CladdingImageFile,ClearCladdingImg,FinishedImageFile,ClearFinishedImg,UsedImageFile,NumParts,ClearUsedImg")] PartForJob partForJob)
         {
-          
+          if(id != partForJob.PartForWorkId)
+            {
+                return NotFound();
+            }
 
             if (ModelState.IsValid)
             {
@@ -144,8 +147,9 @@ namespace EndlasNet.Web.Controllers
                     {
                         partForJob.PartForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                     }
-                        
 
+                    partForJob.StaticPartInfo = await _repo.GetStaticPartInfo(partForJob.StaticPartInfoId);
+                    partForJob.Work = await _repo.GetWork(partForJob.PartForWorkId);
                     partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     await _repo.UpdatePartForJobAsync((PartForJob)partForJob);
                 }

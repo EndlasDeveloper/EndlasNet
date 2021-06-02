@@ -15,17 +15,20 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data" >
-            <input type="hidden" asp-for="PartForWorkId" id="partForWorkId" />
-            <input type="hidden" id="workId" asp-for="WorkId" />
-            <input type="hidden" id="work" asp-for="Work" />
-            <input type="hidden" id="imgeFile" asp-for="PartForWorkImg.ImageFile" />
-
-            <input type="hidden" id="staticPartInfoId" asp-for="StaticPartInfoId" />
-            <input type="hidden" id="imageBytes" asp-for="PartForWorkImg.ImageBytes" />
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <input type="hidden" asp-for="PartForWorkId" />
+            <input type="hidden" asp-for="WorkId" />
+            <input type="hidden" asp-for="Work" />
+            <input type="hidden" asp-for="PartForWorkImg.ImageFile" />
+            <input type="hidden" asp-for="StaticPartInfoId" />
+            <input type="hidden" asp-for="PartForWorkImg.ImageBytes" />
+            <input type="hidden" asp-for="MachiningImageBytes" />
+            <input type="hidden" asp-for="CladdingImageBytes" />
+            <input type="hidden" asp-for="FinishedImageBytes" />
+            <input type="hidden" asp-for="UsedImageBytes" />
             <div class="form-group">
                 <label asp-for="ConditionDescription" class="control-label"></label>
-                <input id="conditionDescription" asp-for="ConditionDescription" class="form-control" />
+                <input asp-for="ConditionDescription" class="form-control" />
                 <span asp-validation-for="ConditionDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,7 +43,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="FinishedWeight" class="control-label"></label>
-                <input id="finishedWeight "asp-for="FinishedWeight" class="form-control" />
+                <input id="finishedWeight " asp-for="FinishedWeight" class="form-control" />
                 <span asp-validation-for="FinishedWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -77,10 +80,35 @@
                 }
 
             </div>
+            <div class="form-group">
+                <label asp-for="MachiningImageFile" class="control-label"></label>
+                <div></div>
+                <input asp-for="MachiningImageFile" accept="image/*" />
+                <span asp-validation-for="MachiningImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CladdingImageFile" class="control-label"></label>
+                <div></div>
+                <input asp-for="CladdingImageFile" accept="image/*" />
+                <span asp-validation-for="CladdingImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FinishedImageFile" class="control-label"></label>
+                <div></div>
+                <input asp-for="FinishedImageFile" accept="image/*" />
+                <span asp-validation-for="FinishedImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsedImageFile" class="control-label"></label>
+                <div></div>
+                <input asp-for="UsedImageFile" accept="image/*" />
+                <span asp-validation-for="UsedImageFile" class="text-danger"></span>
+            </div>
+
             <input id="numParts" asp-for="NumParts" class="form-control" hidden readonly />
 
             <div class="form-group">
-                <input onsubmit="onClick()" type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
