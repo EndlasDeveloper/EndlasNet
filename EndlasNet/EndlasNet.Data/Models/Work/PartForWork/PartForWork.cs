@@ -65,20 +65,53 @@ namespace EndlasNet.Data
         public Guid? PartForWorkImgId { get; set; }
         public PartForWorkImg PartForWorkImg{ get; set; }
 
-        /************************* IMG ***************************/
+
+        [NotMapped]
+        [Display(Name = "Part image")]
+        public IFormFile ImageFile { get; set; }
+        [NotMapped]
+        [Display(Name = "Image name")]
+        public string ImageName { get; set; }
+        public bool ClearImg { get; set; } = false;
 
 
-        /***************OPTIONAL IMAGES*******************/
-
+        [NotMapped]
+        [Display(Name = "Machining image")]
+        public IFormFile MachiningImageFile { get; set; }
+        [NotMapped]
+        public string MachiningImageUrl { get; set; }
+        [NotMapped]
+        public bool ClearMachiningImg { get; set; } = false;
         public byte[] MachiningImageBytes { get; set; }
 
-      
+
+        [NotMapped]
+        [Display(Name = "Cladding image")]
+        public IFormFile CladdingImageFile { get; set; }
+        [NotMapped]
+        public string CladdingImageUrl { get; set; }
+        [NotMapped]
+        public bool ClearCladdingImg { get; set; } = false;
         public byte[] CladdingImageBytes { get; set; }
 
-       
+        [NotMapped]
+        [Display(Name = "Finished image")]
+        public IFormFile FinishedImageFile { get; set; }
+        [NotMapped]
+        public string FinishedImageUrl { get; set; }
+        [NotMapped]
+        public bool ClearFinishedImg { get; set; } = false;
         public byte[] FinishedImageBytes { get; set; }
 
-      
+
+        [NotMapped]
+        [Display(Name = "Used image")]
+        public IFormFile UsedImageFile { get; set; }
+        [NotMapped]
+        public string UsedImageUrl { get; set; }
+        [NotMapped]
+        public bool ClearUsedImg { get; set; } = false;
+
         public byte[] UsedImageBytes { get; set; }
 
         public IEnumerable<PowderForPart> PowdersUsed { get; set; }

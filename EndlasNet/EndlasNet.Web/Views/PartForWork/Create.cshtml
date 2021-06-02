@@ -1,4 +1,4 @@
-﻿@model EndlasNet.Web.Models.PartForWorkViewModel
+﻿@model EndlasNet.Data.PartForWork
 
 @{
     ViewData["Title"] = "Create";
@@ -13,47 +13,47 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="PartForWork.WorkId" class="control-label"></label>
-                <select asp-for="PartForWork.WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
+                <label asp-for="WorkId" class="control-label"></label>
+                <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="PartForWork.StaticPartInfoId" class="control-label"></label>
-                <select asp-for="PartForWork.StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
+                <label asp-for="StaticPartInfoId" class="control-label"></label>
+                <select asp-for="StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="PartForWork.Suffix" class="control-label"></label>
-                <input asp-for="PartForWork.Suffix" class="form-control" />
-                <span asp-validation-for="PartForWork.Suffix" class="text-danger"></span>
+                <label asp-for="Suffix" class="control-label"></label>
+                <input asp-for="Suffix" class="form-control" />
+                <span asp-validation-for="Suffix" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PartForWork.NumParts" class="control-label"></label>
-                <input asp-for="PartForWork.NumParts" class="form-control" />
-                <span asp-validation-for="PartForWork.NumParts" class="text-danger"></span>
+                <label asp-for="NumParts" class="control-label"></label>
+                <input asp-for="NumParts" class="form-control" />
+                <span asp-validation-for="NumParts" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PartForWork.ConditionDescription" class="control-label"></label>
-                <input asp-for="PartForWork.ConditionDescription" class="form-control" />
-                <span asp-validation-for="PartForWork.ConditionDescription" class="text-danger"></span>
+                <label asp-for="ConditionDescription" class="control-label"></label>
+                <input asp-for="ConditionDescription" class="form-control" />
+                <span asp-validation-for="ConditionDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PartForWork.InitWeight" class="control-label"></label>
-                <input asp-for="PartForWork.InitWeight" class="form-control" />
-                <span asp-validation-for="PartForWork.InitWeight" class="text-danger"></span>
+                <label asp-for="InitWeight" class="control-label"></label>
+                <input asp-for="InitWeight" class="form-control" />
+                <span asp-validation-for="InitWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PartForWork.CladdedWeight" class="control-label"></label>
-                <input asp-for="PartForWork.CladdedWeight" class="form-control" />
-                <span asp-validation-for="PartForWork.CladdedWeight" class="text-danger"></span>
+                <label asp-for="CladdedWeight" class="control-label"></label>
+                <input asp-for="CladdedWeight" class="form-control" />
+                <span asp-validation-for="CladdedWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PartForWork.FinishedWeight" class="control-label"></label>
-                <input asp-for="PartForWork.FinishedWeight" class="form-control" />
-                <span asp-validation-for="PartForWork.FinishedWeight" class="text-danger"></span>
+                <label asp-for="FinishedWeight" class="control-label"></label>
+                <input asp-for="FinishedWeight" class="form-control" />
+                <span asp-validation-for="FinishedWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PartForWork.ProcessingNotes" class="control-label"></label>
-                <input asp-for="PartForWork.ProcessingNotes" class="form-control" />
-                <span asp-validation-for="PartForWork.ProcessingNotes" class="text-danger"></span>
+                <label asp-for="ProcessingNotes" class="control-label"></label>
+                <input asp-for="ProcessingNotes" class="form-control" />
+                <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ImageName" class="control-label"></label>
