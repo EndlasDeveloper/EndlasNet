@@ -1,11 +1,11 @@
-﻿@model EndlasNet.Data.PartForJob
+﻿@model EndlasNet.Web.Models.PartForAWorkViewModel
 
 @{
     ViewData["Title"] = "Edit";
     var imageUrl = "NA";
-    if(Model.PartForWorkImg != null)
+    if(Model.PartForWork.PartForWorkImg != null)
     {
-        imageUrl = Model.PartForWorkImg.ImageUrl;
+        imageUrl = Model.PartForWork.PartForWorkImg.ImageUrl;
     }
 }
 
@@ -15,44 +15,48 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <input type="hidden" asp-for="PartForWorkId" />
-            <input type="hidden" asp-for="WorkId" />
-            <input type="hidden" asp-for="StaticPartInfoId" />
-            <input type="hidden" asp-for="PartForWorkImg.ImageBytes" />
+        <form asp-action="Edit" enctype="multipart/form-data" >
+            <input type="hidden" asp-for="PartForWorkId" id="partForWorkId" />
+            <input type="hidden" asp-for="PartForWork" id="partForWork" />
+            <input type="hidden" id="workId" asp-for="PartForWork.WorkId" />
+            <input type="hidden" id="work" asp-for="PartForWork.Work" />
+            <input type="hidden" id="imgeFile" asp-for="PartForWork.PartForWorkImg.ImageFile" />
+
+            <input type="hidden" id="staticPartInfoId" asp-for="PartForWork.StaticPartInfoId" />
+            <input type="hidden" id="imageBytes" asp-for="PartForWork.PartForWorkImg.ImageBytes" />
             <div class="form-group">
-                <label asp-for="ConditionDescription" class="control-label"></label>
-                <input asp-for="ConditionDescription" class="form-control" />
-                <span asp-validation-for="ConditionDescription" class="text-danger"></span>
+                <label asp-for="PartForWork.ConditionDescription" class="control-label"></label>
+                <input id="conditionDescription" asp-for="PartForWork.ConditionDescription" class="form-control" />
+                <span asp-validation-for="PartForWork.ConditionDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InitWeight" class="control-label"></label>
-                <input asp-for="InitWeight" class="form-control" />
-                <span asp-validation-for="InitWeight" class="text-danger"></span>
+                <label asp-for="PartForWork.InitWeight" class="control-label"></label>
+                <input id="initWeight" asp-for="PartForWork.InitWeight" class="form-control" />
+                <span asp-validation-for="PartForWork.InitWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CladdedWeight" class="control-label"></label>
-                <input asp-for="CladdedWeight" class="form-control" />
-                <span asp-validation-for="CladdedWeight" class="text-danger"></span>
+                <label asp-for="PartForWork.CladdedWeight" class="control-label"></label>
+                <input id="claddedWeight" asp-for="PartForWork.CladdedWeight" class="form-control" />
+                <span asp-validation-for="PartForWork.CladdedWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FinishedWeight" class="control-label"></label>
-                <input asp-for="FinishedWeight" class="form-control" />
-                <span asp-validation-for="FinishedWeight" class="text-danger"></span>
+                <label asp-for="PartForWork.FinishedWeight" class="control-label"></label>
+                <input id="finishedWeight "asp-for="PartForWork.FinishedWeight" class="form-control" />
+                <span asp-validation-for="PartForWork.FinishedWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProcessingNotes" class="control-label"></label>
-                <input asp-for="ProcessingNotes" class="form-control" />
-                <span asp-validation-for="ProcessingNotes" class="text-danger"></span>
+                <label asp-for="PartForWork.ProcessingNotes" class="control-label"></label>
+                <input id="processingNotes" asp-for="PartForWork.ProcessingNotes" class="form-control" />
+                <span asp-validation-for="PartForWork.ProcessingNotes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Suffix" class="control-label"></label>
-                <input asp-for="Suffix" class="form-control" />
-                <span asp-validation-for="Suffix" class="text-danger"></span>
+                <label asp-for="PartForWork.Suffix" class="control-label"></label>
+                <input id="suffix" asp-for="PartForWork.Suffix" class="form-control" />
+                <span asp-validation-for="PartForWork.Suffix" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PartForWorkImgId" class="control-label"></label>
-                <select asp-for="PartForWorkImgId" class="form-control" asp-items="ViewBag.PartForWorkImgId"></select>
+                <label asp-for="PartForWork.PartForWorkImgId" class="control-label"></label>
+                <select id="partForWorkImgId" asp-for="PartForWorkImgId" class="form-control" asp-items="ViewBag.PartForWorkImgId"></select>
             </div>
             <div class="form-group">
                 <div></div>
@@ -74,10 +78,10 @@
                 }
 
             </div>
-            <input asp-for="NumParts" class="form-control" hidden readonly />
+            <input id="numParts" asp-for="PartForWork.NumParts" class="form-control" hidden readonly />
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input onsubmit="onClick()" type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -90,3 +94,43 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+     function onClick() {
+        @Model.PartForWork = getPartForWork();
+        $.ajax({
+            type: "POST",
+            url: "PartsForAJob/Edit",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: { "vm": @Model },
+            success: function (response) {
+                alert(response.responseText);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+   }
+    function getPartForWork() {
+        return {
+            "partForWorkId": getValue("partForWorkId"),
+            "workId": getValue("workId"),
+            "work": getValue("work"),
+            "staticPartInfoId": getValue("staticPartInfoId"),
+            "staticPartInfo": getValue("staticPartInfo"),
+            "suffix": getValue("suffix"),
+            "numParts": getValue("numParts"),
+            "initWeight": getValue("initWeight"),
+            "claddedWeight": getValue("claddedWeight"),
+            "finishedWeight": getValue("finishedWeight"),
+            "processingNotes": getValue("processingNotes"),
+            "partForWorkImgId": getValue("partForWorkImgId")
+
+        }
+    }
+</script>

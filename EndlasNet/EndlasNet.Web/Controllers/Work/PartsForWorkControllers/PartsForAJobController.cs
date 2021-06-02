@@ -36,7 +36,7 @@ namespace EndlasNet.Web.Controllers
 
                 partForJob.StaticPartInfo = await _repo.GetStaticPartInfo(partForJob.StaticPartInfoId);
                 partForJob.Work = await _repo.GetWork(partForJob.WorkId);
-                vmList.Insert(0, new PartForAWorkViewModel(partForJob));
+                vmList.Insert(0, new PartForAWorkViewModel { PartForWorkId = partForJob.PartForWorkId, PartForWork = partForJob });
             }
             switch (sortOrder)
             {
@@ -121,7 +121,8 @@ namespace EndlasNet.Web.Controllers
             var noneImg = new PartForWorkImg { PartForWorkImgId = NONE_ID, ImageName = "None" };
             list.Insert(0, noneImg);
             ViewData["PartForWorkImgId"] = new SelectList(list, "PartForWorkImgId", "ImageName");
-            return View(partForJob);
+            PartForAWorkViewModel vm = new PartForAWorkViewModel {PartForWorkImg=partForJob.PartForWorkImg, PartForWorkImgId=(Guid)partForJob.PartForWorkImgId, PartForWork = partForJob, PartForWorkId = partForJob.PartForWorkId };
+            return View(vm);
         }
 
         // POST: PartsForAJob/Edit/5
@@ -129,30 +130,31 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkId,StaticPartInfoId,Suffix,NumParts,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,UserId,PartForWorkImgId")] PartForJob partForJob)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWork,PartForWorkId,PartForWorkImg,PartForWorkImgId,ImageFile,ClearImg,MachiningImageFile,MachiniingClearImg,CladdingImageFile,ClearCladdingImg,FinishedImageFile,ClearFinishedImg,UsedImageFile,ClearUsedImg")] PartForAWorkViewModel vm)
         {
-            if (id != partForJob.PartForWorkId)
-            {
-                return NotFound();
-            }
+          
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (partForJob.PartForWorkImgId == NONE_ID)
+                    if (vm.PartForWorkImgId == NONE_ID)
                     {
-                        partForJob.PartForWorkImg = null;
-                        partForJob.PartForWorkImgId = null;
+                        vm.PartForWork.PartForWorkImg = null;
+                        vm.PartForWork.PartForWorkImgId = null;
+                    }
+                    else
+                    {
+                        vm.PartForWork.PartForWorkImg = await _repo.GetPartForWorkImg((Guid)vm.PartForWork.PartForWorkImgId);
                     }
                         
 
-                    partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                    await _repo.UpdatePartForJobAsync(partForJob);
+                    vm.PartForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    await _repo.UpdatePartForJobAsync((PartForJob)vm.PartForWork);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!(await PartForJobExists(partForJob.PartForWorkId)))
+                    if (!(await PartForJobExists(vm.PartForWorkId)))
                     {
                         return NotFound();
                     }
@@ -161,9 +163,9 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "PartsForAJob", new { id = id, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder = "suffix_asc" });
+                return RedirectToAction("Index", "PartsForAJob", new { id = vm.PartForWorkId, workId = vm.PartForWork.WorkId, partInfoId = vm.PartForWork.StaticPartInfoId, sortOrder = "suffix_asc" });
             }
-            return View(partForJob);
+            return View(vm);
         }
 
         // GET: PartsForAJob/Delete/5

@@ -10,18 +10,16 @@ namespace EndlasNet.Web.Models
 {
     public class PartForAWorkViewModel
     {
-        public PartForAWorkViewModel(PartForWork partForWork)
-        {
-            PartForWork = partForWork;
-            PartForWorkId = partForWork.PartForWorkId;
-        }
 
         public PartForWork PartForWork;
         public Guid PartForWorkId { get; set; }
 
+        public PartForWorkImg PartForWorkImg { get; set; }
+        public Guid PartForWorkImgId { get; set; }
 
         [Display(Name = "Part image")]
         public IFormFile ImageFile { get; set; }
+        public string ImageUrl { get; set; }
 
         [Display(Name = "Image name")]
         public string ImageName { get; set; }
@@ -54,5 +52,13 @@ namespace EndlasNet.Web.Models
         public IFormFile UsedImageFile { get; set; }
         public string UsedImageUrl { get; set; }
         public bool ClearUsedImg { get; set; } = false;
+
+        public void InitImageUrls()
+        {
+            MachiningImageUrl = FileURL.GetImageURL(PartForWork.MachiningImageBytes);
+            CladdingImageUrl = FileURL.GetImageURL(PartForWork.CladdingImageBytes);
+            FinishedImageUrl = FileURL.GetImageURL(PartForWork.FinishedImageBytes);
+            UsedImageUrl = FileURL.GetImageURL(PartForWork.UsedImageBytes);
+        }
     }
 }

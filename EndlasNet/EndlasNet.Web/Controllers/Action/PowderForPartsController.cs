@@ -59,8 +59,7 @@ namespace EndlasNet.Web.Controllers
                     powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.Suffix);
                     break;
                 case "suffix_asc":
-                    powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.Suffix);
-                    powderForParts = powderForParts.Reverse();
+                    powderForParts = powderForParts.OrderBy(p => p.PartForWork.Suffix);                   
                     break;
                 case "powder_bottle_desc":
                     powderForParts = powderForParts.OrderByDescending(p => p.PowderBottle.PowderName);
