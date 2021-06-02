@@ -147,6 +147,23 @@ namespace EndlasNet.Web.Controllers
                     {
                         partForJob.PartForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                     }
+                    if(partForJob.MachiningImageFile != null)
+                    {
+                        partForJob.MachiningImageBytes = await FileURL.GetFileBytes(partForJob.MachiningImageFile);
+                    }
+                    if(partForJob.CladdingImageFile != null)
+                    {
+                        partForJob.CladdingImageBytes = await FileURL.GetFileBytes(partForJob.CladdingImageFile);
+                    }
+                    if(partForJob.FinishedImageFile != null)
+                    {
+                        partForJob.FinishedImageBytes = await FileURL.GetFileBytes(partForJob.FinishedImageFile);
+
+                    }
+                    if(partForJob.UsedImageFile != null)
+                    {
+                        partForJob.UsedImageBytes = await FileURL.GetFileBytes(partForJob.UsedImageFile);
+                    }
 
                     partForJob.StaticPartInfo = await _repo.GetStaticPartInfo(partForJob.StaticPartInfoId);
                     partForJob.Work = await _repo.GetWork(partForJob.PartForWorkId);
