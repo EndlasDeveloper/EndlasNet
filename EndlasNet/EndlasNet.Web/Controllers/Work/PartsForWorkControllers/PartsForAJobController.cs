@@ -128,7 +128,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWork,WorkId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,Suffix,StaticPartInfoId,PartForWorkId,PartForWorkImg,PartForWorkImgId,ImageFile,ClearImg,MachiningImageFile,MachiniingClearImg,CladdingImageFile,ClearCladdingImg,FinishedImageFile,ClearFinishedImg,UsedImageFile,NumParts,ClearUsedImg")] PartForJob partForJob)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWork,WorkId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,Suffix,StaticPartInfoId,PartForWorkId,PartForWorkImg,PartForWorkImgId,ImageFile,ClearImg,MachiningImageFile,ClearMachiningImg,CladdingImageFile,ClearCladdingImg,FinishedImageFile,ClearFinishedImg,UsedImageFile,NumParts,ClearUsedImg,MachiningImageBytes,CladdingImageBytes,FinishedImageBytes,UsedImageBytes")] PartForJob partForJob)
         {
           if(id != partForJob.PartForWorkId)
             {
@@ -174,21 +174,67 @@ namespace EndlasNet.Web.Controllers
 
         private async Task<PartForJob> SetImageBytes(PartForJob partForJob)
         {
-            if(partForJob.MachiningImageFile != null)
+            if (!partForJob.ClearMachiningImg)
             {
-                partForJob.MachiningImageBytes = await FileURL.GetFileBytes(partForJob.MachiningImageFile);
+                if (partForJob.MachiningImageFile != null)
+                {
+                    var machiningBytes = await FileURL.GetFileBytes(partForJob.MachiningImageFile);
+                    if (machiningBytes != partForJob.MachiningImageBytes)
+                    {
+                        partForJob.MachiningImageBytes = machiningBytes;
+                    }
+                }
             }
-            if (partForJob.CladdingImageFile != null)
+            else
             {
-                partForJob.CladdingImageBytes = await FileURL.GetFileBytes(partForJob.CladdingImageFile);
+                partForJob.MachiningImageBytes = null;
             }
-            if (partForJob.FinishedImageFile != null)
+            if (!partForJob.ClearCladdingImg)
             {
-                partForJob.FinishedImageBytes = await FileURL.GetFileBytes(partForJob.FinishedImageFile);
+                if (partForJob.CladdingImageFile != null)
+                {
+                    var claddingBytes = await FileURL.GetFileBytes(partForJob.CladdingImageFile);
+                    if (claddingBytes != partForJob.CladdingImageBytes)
+                    {
+                        partForJob.CladdingImageBytes = claddingBytes;
+                    }
+                }
             }
-            if (partForJob.UsedImageFile != null)
+            else
             {
-                partForJob.UsedImageBytes = await FileURL.GetFileBytes(partForJob.UsedImageFile);
+                partForJob.CladdingImageBytes = null;
+            }
+            if (!partForJob.ClearFinishedImg)
+            {
+
+                if (partForJob.FinishedImageFile != null)
+                {
+                    var finishedBytes = await FileURL.GetFileBytes(partForJob.FinishedImageFile);
+                    if (finishedBytes != partForJob.FinishedImageBytes)
+                    {
+                        partForJob.FinishedImageBytes = finishedBytes;
+                    }
+                }
+            }
+            else
+            {
+                partForJob.FinishedImageBytes = null;
+            }
+            if (!partForJob.ClearUsedImg)
+            {
+
+                if (partForJob.UsedImageFile != null)
+                {
+                    var usedBytes = await FileURL.GetFileBytes(partForJob.UsedImageFile);
+                    if (usedBytes != partForJob.UsedImageBytes)
+                    {
+                        partForJob.UsedImageBytes = usedBytes;
+                    }
+                }
+            }
+            else
+            {
+                partForJob.UsedImageBytes = null;
             }
             return partForJob;
         }
