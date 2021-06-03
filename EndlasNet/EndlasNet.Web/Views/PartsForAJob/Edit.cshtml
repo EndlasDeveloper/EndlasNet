@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Edit";
     var imageUrl = "NA";
+    var noImgSet = "No image set";
     if(Model.PartForWorkImg != null)
     {
         imageUrl = Model.PartForWorkImg.ImageUrl;
@@ -76,12 +77,12 @@
                     <br />
                     <br />
                     <img src="@Html.DisplayFor(model => model.PartForWorkImg.ImageUrl)" alt="Image" style="max-height:50px;max-width:120px" />
+
                     <br /><br />
                 }
                 else
                 {
-                    <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
-
+                    <span>@noImgSet</span>
                 }
 
             </div>
@@ -96,18 +97,22 @@
                 @if (Model.MachiningImageBytes != null)
                 {
                     <span>
-                        Machining image:&nbsp;
+                        Current machining image:&nbsp;
                     </span>
                     <br />
                     <br />
-                    <img src="@Html.DisplayFor(model => model.MachiningImageBytes)" alt="Image" style="max-height:50px;max-width:120px" />
+                    <img src="@Html.DisplayFor(model => model.MachiningImageUrl)" alt="Image" style="max-height:50px;max-width:120px" />
+                    <span>
+                        Clear machining image
+                        <input asp-for="ClearMachiningImg" class="form-check-inline" />
+                    </span>
                     <br /><br />
                 }
                 else
                 {
-                    <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
+                    <span>@noImgSet</span>
                 }
-                
+
 
             </div>
             <div class="form-group">
@@ -121,16 +126,20 @@
                 @if (Model.CladdingImageBytes != null)
                 {
                     <span>
-                        Cladding image:&nbsp;
+                        Current cladding image:&nbsp;
                     </span>
                     <br />
                     <br />
-                    <img src="@Html.DisplayFor(model => model.CladdingImageBytes)" alt="Image" style="max-height:50px;max-width:120px" />
+                    <img src="@Html.DisplayFor(model => model.CladdingImageUrl)" alt="Image" style="max-height:50px;max-width:120px" />
+                    <span>
+                        Clear cladding image
+                        <input asp-for="ClearCladdingImg" class="form-check-inline" />
+                    </span>
                     <br /><br />
                 }
                 else
                 {
-                    <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
+                    <span>@noImgSet</span>
                 }
                 <div class="form-group">
                     <label asp-for="FinishedImageFile" class="control-label"></label>
@@ -143,47 +152,56 @@
                     @if (Model.FinishedImageBytes != null)
                     {
                         <span>
-                            Finished image:&nbsp;
+                            Current finished image:&nbsp;
                         </span>
                         <br />
                         <br />
-                        <img src="@Html.DisplayFor(model => model.FinishedImageBytes)" alt="Image" style="max-height:50px;max-width:120px" />
+                        <img src="@Html.DisplayFor(model => model.FinishedImageUrl)" alt="Image" style="max-height:50px;max-width:120px" />
+                        <span>
+                            Clear finished image
+                            <input asp-for="ClearFinishedImg" class="form-check-inline" />
+                        </span>
                         <br /><br />
                     }
                     else
                     {
-                        <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
+                        <span>No image set</span>
                     }
                 </div>
-                    <div class="form-group">
-                        <label asp-for="UsedImageFile" class="control-label"></label>
-                        <div></div>
-                        <input asp-for="UsedImageFile" accept="image/*" />
-                        <span asp-validation-for="UsedImageFile" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <div></div>
-                        @if (Model.UsedImageBytes != null)
-                        {
-                            <span>
-                                Used image:&nbsp;
-                            </span>
-                            <br />
-                            <br />
-                            <img src="@Html.DisplayFor(model => model.UsedImageBytes)" alt="Image" style="max-height:50px;max-width:120px" />
-                            <br /><br />
-                        }
-                        else
-                        {
-                            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
-                        }
-                    </div>
-                        <input id="numParts" asp-for="NumParts" class="form-control" hidden readonly />
+                <div class="form-group">
+                    <label asp-for="UsedImageFile" class="control-label"></label>
+                    <div></div>
+                    <input asp-for="UsedImageFile" accept="image/*" />
+                    <span asp-validation-for="UsedImageFile" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div></div>
+                    @if (Model.UsedImageBytes != null)
+                    {
+                        <span>
+                            Current used image:&nbsp;
+                        </span>
+                        <br />
+                        <br />
+                        <img src="@Html.DisplayFor(model => model.UsedImageUrl)" alt="Image" style="max-height:50px;max-width:120px" />
+                        <span>
+                            Clear used image
+                            <input asp-for="ClearUsedImg" class="form-check-inline" />
+                        </span>
 
-                        <div class="form-group">
-                            <input type="submit" value="Save" class="btn btn-primary" />
-                        </div>
-        </form>
+                        <br /><br />
+                    }
+                    else
+                    {
+                        <span>@noImgSet</span>
+                    }
+                </div>
+                <input id="numParts" asp-for="NumParts" class="form-control" hidden readonly />
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+</form>
     </div>
 </div>
 

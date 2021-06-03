@@ -148,7 +148,7 @@ namespace EndlasNet.Web.Controllers
                     {
                         partForJob.PartForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                     }
-                    SetImageUrls(partForJob);
+                    partForJob = SetImageUrls(partForJob);
 
                     partForJob.StaticPartInfo = await _repo.GetStaticPartInfo(partForJob.StaticPartInfoId);
                     partForJob.Work = await _repo.GetWork(partForJob.PartForWorkId);
