@@ -13,81 +13,10 @@
 </style>
 <h1>Details</h1>
 
+
 <div>
-    <h4>Static part information</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DrawingNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DrawingNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ApproxWeight)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ApproxWeight)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PartDescription)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PartDescription)
-        </dd>
-
-        <dt class="col-sm-2">
-            Blanking PDF
-        </dt>
-        <dd class="col-sm-10">
-            @if (Model.BlankDrawingPdfBytes != null)
-            {
-                <a title="Download blank PDF" asp-action="DownloadBlankPdf" asp-controller="StaticPartInfoes" asp-route-myvar="@Model.StaticPartInfoId">
-                    <span class="form-inline"><img src="~/img/download.png" class="my-custom-img" /></span>
-                </a>
-            }
-            else
-            {
-                <a>No blank PDF</a>
-            }
-        </dd>
-        <dt class="col-sm-2">
-            Finishing PDF
-        </dt>
-        <dd class="col-sm-10">
-            @if (Model.FinishDrawingPdfBytes != null)
-            {
-                <a title="Download finish PDF" asp-action="DownloadFinishPdf" asp-controller="StaticPartInfoes" asp-route-myvar="@Model.StaticPartInfoId">
-                    <span class="form-inline"><img src="~/img/download.png" style="max-width:60px;max-height:60px" /></span>
-                </a>
-            }
-            else
-            {
-                <a>No finish PDF</a>
-            }
-        </dd>
-    </dl>
+    @await Html.PartialAsync("_DetailsAndDelete", Model)
 </div>
-<span>
-
-</span>
-<br />
-<br />
-<h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
-    Title:
-    <em>
-        @Html.DisplayFor(model => model.ImageName)
-    </em>
-</h6>
-
-<div class="col-sm-2">
-    <img src="@Html.DisplayFor(model => model.ImageUrl)" alt="Drawing Image" />
-</div>
-<br />
-
-
-<br />
-<br />
 <div>
     <a asp-action="Edit" asp-route-id="@Model.StaticPartInfoId">Edit</a> |
     <a asp-action="Index">Back to list</a>
