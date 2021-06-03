@@ -109,13 +109,15 @@
     <div class="col-sm-2">
         @if (Model.MachiningImageBytes == null)
         {
-            @imageUrl
+            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
+
         }
         else
         {
-            <img src="@Html.DisplayFor(model => model.MachiningImageUrl)" alt="Machining Image" />
+            <img src="@Html.DisplayFor(model => model.MachiningImageUrl)" style="max-width:450px;max-height:450px" alt="Machining Image" />
         }
     </div>
+    <br />
     <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
         <em>
             Cladding image
@@ -125,13 +127,14 @@
     <div class="col-sm-2">
         @if (Model.CladdingImageBytes == null)
         {
-            @imageUrl;
+            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
         }
         else
         {
-            <img src="@Html.DisplayFor(model => model.CladdingImageUrl)" alt="Cladding Image" />
+            <img src="@Html.DisplayFor(model => model.CladdingImageUrl)" style="max-width:450px;max-height:450px" alt="Cladding Image" />
         }
     </div>
+    <br />
     <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
 
         <em>
@@ -142,13 +145,14 @@
     <div class="col-sm-2">
         @if (Model.FinishedImageBytes == null)
         {
-            @imageUrl;
+            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
         }
         else
         {
-            <img src="@Html.DisplayFor(model => model.FinishedImageUrl)" alt="Finished Image" />
+            <img src="@Html.DisplayFor(model => model.FinishedImageUrl)" style="max-width:450px;max-height:450px" alt="Finished Image" />
         }
     </div>
+    <br />
     <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
         <em>
             Used image
@@ -158,11 +162,10 @@
     <div class="col-sm-2">
         @if (Model.UsedImageBytes == null)
         {
-            @imageUrl;
-        }
+            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />        }
         else
         {
-            <img src="@Html.DisplayFor(model => model.UsedImageUrl)" alt="Used Image" />
+            <img src="@Html.DisplayFor(model => model.UsedImageUrl)" style="max-width:450px;max-height:450px" alt="Used Image" />
         }
     </div>
     <br />
