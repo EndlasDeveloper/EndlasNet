@@ -1,0 +1,161 @@
+﻿@model EndlasNet.Data.PartForJob
+
+
+<div>
+    <h4>Part for a job</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Work)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Work.WorkDescription)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StaticPartInfo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StaticPartInfo.DrawingNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Suffix)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Suffix)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NumParts)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumParts)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ConditionDescription)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ConditionDescription)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InitWeight)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InitWeight)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CladdedWeight)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CladdedWeight)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FinishedWeight)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FinishedWeight)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProcessingNotes)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProcessingNotes)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.EndlasEmail)
+        </dd>
+    </dl>
+    <br />
+    <br />
+    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
+        Title:
+        <em>
+            
+        </em>
+    </h6>
+
+    <div class="col-sm-2">
+        @if (Model.PartForWorkImg.ImageUrl == null)
+        {
+            <div>NA</div>
+        }
+        else
+        {
+            <img src="@Html.DisplayFor(model => model.PartForWorkImg.ImageUrl)" style="max-width:650px;max-height:650px"alt="Drawing Image" />
+        }
+    </div>
+    <br />
+    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
+
+        <em>
+            Machining image
+        </em>
+    </h6>
+
+    <div class="col-sm-2">
+        @if (Model.MachiningImageBytes == null)
+        {
+            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
+
+        }
+        else
+        {
+            <img src="@Html.DisplayFor(model => model.MachiningImageUrl)" style="max-width:450px;max-height:450px" alt="Machining Image" />
+        }
+    </div>
+    <br />
+    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
+        <em>
+            Cladding image
+        </em>
+    </h6>
+
+    <div class="col-sm-2">
+        @if (Model.CladdingImageBytes == null)
+        {
+            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
+        }
+        else
+        {
+            <img src="@Html.DisplayFor(model => model.CladdingImageUrl)" style="max-width:450px;max-height:450px" alt="Cladding Image" />
+        }
+    </div>
+    <br />
+    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
+
+        <em>
+            Finished image
+        </em>
+    </h6>
+
+    <div class="col-sm-2">
+        @if (Model.FinishedImageBytes == null)
+        {
+            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
+        }
+        else
+        {
+            <img src="@Html.DisplayFor(model => model.FinishedImageUrl)" style="max-width:450px;max-height:450px" alt="Finished Image" />
+        }
+    </div>
+    <br />
+    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
+        <em>
+            Used image
+        </em>
+    </h6>
+
+    <div class="col-sm-2">
+        @if (Model.UsedImageBytes == null)
+        {
+            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" /> }
+        else
+        {
+            <img src="@Html.DisplayFor(model => model.UsedImageUrl)" style="max-width:450px;max-height:450px" alt="Used Image" />
+        }
+    </div>
+    
+    <br />
+    <br />
+</div>

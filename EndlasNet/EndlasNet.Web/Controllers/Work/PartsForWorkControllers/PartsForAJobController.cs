@@ -71,7 +71,7 @@ namespace EndlasNet.Web.Controllers
                 FileURL.SetImageURL(partForWorkImg);
                 partForJob.PartForWorkImg = partForWorkImg;
             }
-                
+            SetImageUrls(partForJob);
 
             ViewBag.id = id;
             ViewBag.workId = partForJob.WorkId;
@@ -147,23 +147,7 @@ namespace EndlasNet.Web.Controllers
                     {
                         partForJob.PartForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                     }
-                    if(partForJob.MachiningImageFile != null)
-                    {
-                        partForJob.MachiningImageBytes = await FileURL.GetFileBytes(partForJob.MachiningImageFile);
-                    }
-                    if(partForJob.CladdingImageFile != null)
-                    {
-                        partForJob.CladdingImageBytes = await FileURL.GetFileBytes(partForJob.CladdingImageFile);
-                    }
-                    if(partForJob.FinishedImageFile != null)
-                    {
-                        partForJob.FinishedImageBytes = await FileURL.GetFileBytes(partForJob.FinishedImageFile);
-
-                    }
-                    if(partForJob.UsedImageFile != null)
-                    {
-                        partForJob.UsedImageBytes = await FileURL.GetFileBytes(partForJob.UsedImageFile);
-                    }
+                    SetImageUrls(partForJob);
 
                     partForJob.StaticPartInfo = await _repo.GetStaticPartInfo(partForJob.StaticPartInfoId);
                     partForJob.Work = await _repo.GetWork(partForJob.PartForWorkId);
@@ -205,28 +189,32 @@ namespace EndlasNet.Web.Controllers
                 FileURL.SetImageURL(partForWorkImg);
                 partForJob.PartForWorkImg = partForWorkImg;
             }
-            if(partForJob.MachiningImageBytes != null)
+            SetImageUrls(partForJob);
+
+            return View(partForJob);
+        }
+
+        private void SetImageUrls(PartForJob partForJob)
+        {
+
+            if (partForJob.MachiningImageBytes != null)
             {
                 partForJob.MachiningImageUrl = FileURL.GetImageURL(partForJob.MachiningImageBytes);
             }
-            if(partForJob.CladdingImageBytes != null)
+            if (partForJob.CladdingImageBytes != null)
             {
                 partForJob.CladdingImageUrl = FileURL.GetImageURL(partForJob.CladdingImageBytes);
             }
-            if(partForJob.FinishedImageBytes != null)
+            if (partForJob.FinishedImageBytes != null)
             {
                 partForJob.FinishedImageUrl = FileURL.GetImageURL(partForJob.FinishedImageBytes);
             }
-            if(partForJob.UsedImageBytes != null)
+            if (partForJob.UsedImageBytes != null)
             {
                 partForJob.UsedImageUrl = FileURL.GetImageURL(partForJob.UsedImageBytes);
             }
-
-
-            if(partForJob.PartForWorkImg.ImageBytes != null)
+            if (partForJob.PartForWorkImg.ImageBytes != null)
                 FileURL.SetImageURL(partForJob.PartForWorkImg);
-
-            return View(partForJob);
         }
 
         // POST: PartsForAJob/Delete/5
