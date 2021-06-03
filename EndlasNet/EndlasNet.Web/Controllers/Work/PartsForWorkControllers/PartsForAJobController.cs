@@ -71,11 +71,11 @@ namespace EndlasNet.Web.Controllers
                 FileURL.SetImageURL(partForWorkImg);
                 partForJob.PartForWorkImg = partForWorkImg;
             }
-            SetImageUrls(partForJob);
 
             ViewBag.id = id;
             ViewBag.workId = partForJob.WorkId;
             ViewBag.partInfoId = partForJob.StaticPartInfoId;
+            partForJob = SetImageUrls(partForJob);
 
             return View(partForJob);
         }
@@ -119,6 +119,7 @@ namespace EndlasNet.Web.Controllers
             var noneImg = new PartForWorkImg { PartForWorkImgId = NONE_ID, ImageName = "None" };
             list.Insert(0, noneImg);
             ViewData["PartForWorkImgId"] = new SelectList(list, "PartForWorkImgId", "ImageName");
+            partForJob = SetImageUrls(partForJob);
             return View(partForJob);
         }
 
@@ -152,6 +153,7 @@ namespace EndlasNet.Web.Controllers
                     partForJob.StaticPartInfo = await _repo.GetStaticPartInfo(partForJob.StaticPartInfoId);
                     partForJob.Work = await _repo.GetWork(partForJob.PartForWorkId);
                     partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                    partForJob = await SetImageBytes(partForJob);
                     await _repo.UpdatePartForJobAsync((PartForJob)partForJob);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -168,6 +170,27 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction("Index", "PartsForAJob", new { id = partForJob.PartForWorkId, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder = "suffix_asc" });
             }
             return View(partForJob);
+        }
+
+        private async Task<PartForJob> SetImageBytes(PartForJob partForJob)
+        {
+            if(partForJob.MachiningImageFile != null)
+            {
+                partForJob.MachiningImageBytes = await FileURL.GetFileBytes(partForJob.MachiningImageFile);
+            }
+            if (partForJob.CladdingImageFile != null)
+            {
+                partForJob.CladdingImageBytes = await FileURL.GetFileBytes(partForJob.CladdingImageFile);
+            }
+            if (partForJob.FinishedImageFile != null)
+            {
+                partForJob.FinishedImageBytes = await FileURL.GetFileBytes(partForJob.FinishedImageFile);
+            }
+            if (partForJob.UsedImageFile != null)
+            {
+                partForJob.UsedImageBytes = await FileURL.GetFileBytes(partForJob.UsedImageFile);
+            }
+            return partForJob;
         }
 
         // GET: PartsForAJob/Delete/5
@@ -194,7 +217,7 @@ namespace EndlasNet.Web.Controllers
             return View(partForJob);
         }
 
-        private void SetImageUrls(PartForJob partForJob)
+        private PartForJob SetImageUrls(PartForJob partForJob)
         {
 
             if (partForJob.MachiningImageBytes != null)
@@ -215,6 +238,7 @@ namespace EndlasNet.Web.Controllers
             }
             if (partForJob.PartForWorkImg.ImageBytes != null)
                 FileURL.SetImageURL(partForJob.PartForWorkImg);
+            return partForJob;
         }
 
         // POST: PartsForAJob/Delete/5
