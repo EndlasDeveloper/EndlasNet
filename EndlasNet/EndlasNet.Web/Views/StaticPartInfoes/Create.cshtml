@@ -12,46 +12,27 @@
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DrawingNumber" class="control-label"></label>
-                <input asp-for="DrawingNumber" class="form-control" />
-                <span asp-validation-for="DrawingNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ApproxWeight" class="control-label"></label>
-                <input asp-for="ApproxWeight" class="form-control" />
-                <span asp-validation-for="ApproxWeight" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PartDescription" class="control-label"></label>
-                <input asp-for="PartDescription" class="form-control" />
-                <span asp-validation-for="PartDescription" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ImageName" class="control-label"></label>
-                <input asp-for="ImageName" class="form-control" />
-                <span asp-validation-for="ImageName" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <div></div>
-                <input asp-for="ImageFile" accept="image/*" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
-            <br/>
-            <div class="form-group">
-                <label asp-for="BlankDrawingFile" class="control-label"></label>
-                <div></div>
-                <input asp-for="BlankDrawingFile" accept="application/pdf" />
-                <span asp-validation-for="BlankDrawingFile" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FinishDrawingFile" class="control-label"></label>
-                <div></div>
-                <input asp-for="FinishDrawingFile" accept="application/pdf" />
-                <span asp-validation-for="FinishDrawingFile" class="text-danger"></span>
+            <div>
+                @await Html.PartialAsync("_CreateAndEdit", Model)
+                <div class="form-group">
+                    <label asp-for="ImageFile" class="control-label"></label>
+                    <div></div>
+                    <input asp-for="ImageFile" accept="image/*" />
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label asp-for="BlankDrawingFile" class="control-label"></label>
+                    <div></div>
+                    <input asp-for="BlankDrawingFile" accept="application/pdf" />
+                    <span asp-validation-for="BlankDrawingFile" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FinishDrawingFile" class="control-label"></label>
+                    <div></div>
+                    <input asp-for="FinishDrawingFile" accept="application/pdf" />
+                    <span asp-validation-for="FinishDrawingFile" class="text-danger"></span>
+                </div>
             </div>
             <br />
             <div class="form-group">
