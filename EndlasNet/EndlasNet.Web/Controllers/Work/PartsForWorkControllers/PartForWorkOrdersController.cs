@@ -130,6 +130,7 @@ namespace EndlasNet.Web.Controllers
             // fail, keep tracking referenced entities and return the part for work order back to the create view
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForWorkOrder.StaticPartInfoId);
             ViewData["WorkId"] = new SelectList(await _repo.GetAllWorkOrders(), "WorkId", "EndlasNumber", partForWorkOrder.WorkId);
+
             return View(partForWorkOrder);
         }
 

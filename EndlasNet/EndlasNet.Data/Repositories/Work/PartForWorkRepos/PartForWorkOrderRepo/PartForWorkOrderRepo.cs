@@ -32,7 +32,6 @@ namespace EndlasNet.Data
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .Include(p => p.PartForWorkImg)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
 
@@ -41,6 +40,9 @@ namespace EndlasNet.Data
             return await _db.PartsForWorkOrders
                    .Where(p => p.WorkId == partForWorkOrder.WorkId)
                    .Where(p => p.StaticPartInfoId == partForWorkOrder.StaticPartInfoId)
+                   .Include(p => p.StaticPartInfo)
+                   .Include(p => p.Work)
+                   .Include(p => p.PartForWorkImg)
                    .OrderByDescending(p => p.Suffix)
                    .ToListAsync();
         }
