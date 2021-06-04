@@ -65,7 +65,8 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if(partForJob.PartForWorkImgId != null)
+
+            if(partForJob.PartForWorkImgId != NONE_ID && partForJob.PartForWorkImgId != null)
             {
                 var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                 FileURL.SetImageURL(partForWorkImg);
@@ -108,7 +109,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if (partForJob.PartForWorkImgId != null)
+            if (partForJob.PartForWorkImgId != NONE_ID && partForJob.PartForWorkImgId != null)
             {
                 var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                 FileURL.SetImageURL(partForWorkImg);
@@ -139,7 +140,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    if (partForJob.PartForWorkImgId == NONE_ID)
+                    if (partForJob.PartForWorkImgId == null || partForJob.PartForWorkImgId == NONE_ID)
                     {
                         partForJob.PartForWorkImg = null;
                         partForJob.PartForWorkImgId = null;
@@ -252,7 +253,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if (partForJob.PartForWorkImgId != null)
+            if (partForJob.PartForWorkImgId != null || partForJob.PartForWorkImgId == NONE_ID)
             {
                 var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                 FileURL.SetImageURL(partForWorkImg);
@@ -282,7 +283,7 @@ namespace EndlasNet.Web.Controllers
             {
                 partForJob.UsedImageUrl = FileURL.GetImageURL(partForJob.UsedImageBytes);
             }
-            if (partForJob.PartForWorkImg.ImageBytes != null)
+            if (partForJob.PartForWorkImg != null && partForJob.PartForWorkImg.ImageBytes != null)
                 FileURL.SetImageURL(partForJob.PartForWorkImg);
             return partForJob;
         }
