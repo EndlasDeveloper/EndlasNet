@@ -265,53 +265,17 @@ namespace EndlasNet.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PartsForWork",
+                name: "WorkItem",
                 columns: table => new
                 {
-                    PartForWorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StaticPartInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Suffix = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NumParts = table.Column<int>(type: "int", nullable: false),
-                    ConditionDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InitWeight = table.Column<float>(type: "real", nullable: true),
-                    CladdedWeight = table.Column<float>(type: "real", nullable: true),
-                    FinishedWeight = table.Column<float>(type: "real", nullable: true),
-                    ProcessingNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    PartForWorkImgId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ClearImg = table.Column<bool>(type: "bit", nullable: false),
-                    MachiningImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    CladdingImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    FinishedImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    UsedImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    WorkItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PartsForWork", x => x.PartForWorkId);
+                    table.PrimaryKey("PK_WorkItem", x => x.WorkItemId);
                     table.ForeignKey(
-                        name: "FK_PartsForWork_PartForWorkImages_PartForWorkImgId",
-                        column: x => x.PartForWorkImgId,
-                        principalTable: "PartForWorkImages",
-                        principalColumn: "PartForWorkImgId",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_PartsForWork_StaticPartInfo_StaticPartInfoId",
-                        column: x => x.StaticPartInfoId,
-                        principalTable: "StaticPartInfo",
-                        principalColumn: "StaticPartInfoId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PartsForWork_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_PartsForWork_Work_WorkId",
+                        name: "FK_WorkItem_Work_WorkId",
                         column: x => x.WorkId,
                         principalTable: "Work",
                         principalColumn: "WorkId",
@@ -389,6 +353,67 @@ namespace EndlasNet.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PartsForWork",
+                columns: table => new
+                {
+                    PartForWorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StaticPartInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Suffix = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NumParts = table.Column<int>(type: "int", nullable: false),
+                    ConditionDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InitWeight = table.Column<float>(type: "real", nullable: true),
+                    CladdedWeight = table.Column<float>(type: "real", nullable: true),
+                    FinishedWeight = table.Column<float>(type: "real", nullable: true),
+                    ProcessingNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PartForWorkImgId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ClearImg = table.Column<bool>(type: "bit", nullable: false),
+                    MachiningImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    CladdingImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    FinishedImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    UsedImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WorkItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PartsForWork", x => x.PartForWorkId);
+                    table.ForeignKey(
+                        name: "FK_PartsForWork_PartForWorkImages_PartForWorkImgId",
+                        column: x => x.PartForWorkImgId,
+                        principalTable: "PartForWorkImages",
+                        principalColumn: "PartForWorkImgId",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_PartsForWork_StaticPartInfo_StaticPartInfoId",
+                        column: x => x.StaticPartInfoId,
+                        principalTable: "StaticPartInfo",
+                        principalColumn: "StaticPartInfoId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PartsForWork_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_PartsForWork_Work_WorkId",
+                        column: x => x.WorkId,
+                        principalTable: "Work",
+                        principalColumn: "WorkId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PartsForWork_WorkItem_WorkItemId",
+                        column: x => x.WorkItemId,
+                        principalTable: "WorkItem",
+                        principalColumn: "WorkItemId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PowderBottles",
                 columns: table => new
                 {
@@ -462,23 +487,23 @@ namespace EndlasNet.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "CustomerId", "CustomerAddress", "CustomerName", "CustomerPhone", "PointOfContact" },
-                values: new object[] { new Guid("574ff692-7503-4e22-b148-64827685bb04"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
+                values: new object[] { new Guid("1678a61d-bbc6-4a68-94cb-8faae1a95cd6"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("588960b9-3915-4826-926b-d5060c2321cd"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "sa@endlas.com", "SA", "SA" },
-                    { new Guid("6668517e-427d-4464-8c11-c9e78b750c9a"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
-                    { new Guid("709b29ae-fafd-4563-89b3-464f57ea7248"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("416a6fe1-32fc-4e32-b24e-ca62fa1bca61"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
+                    { new Guid("9e697169-cb1f-4b22-8601-58b42a95f90f"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "sa@endlas.com", "SA", "SA" },
+                    { new Guid("4e005c6d-7944-4fac-845f-7778ce89aeeb"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
+                    { new Guid("d5726e5b-50cd-4876-a5d2-576159e0bce7"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("dd3ecd77-8288-446e-a743-2d7a9a709465"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Vendors",
                 columns: new[] { "VendorId", "PointOfContact", "UserId", "VendorAddress", "VendorName", "VendorPhone" },
-                values: new object[] { new Guid("e907952d-2ee1-4379-b125-a6271dc5486e"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
+                values: new object[] { new Guid("e7e86727-c881-4d2f-b023-b8120c8fc526"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LineItems_PowderOrderId",
@@ -534,6 +559,11 @@ namespace EndlasNet.Data.Migrations
                 name: "IX_PartsForWork_WorkId",
                 table: "PartsForWork",
                 column: "WorkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PartsForWork_WorkItemId",
+                table: "PartsForWork",
+                column: "WorkItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PowderBottles_LineItemId",
@@ -616,6 +646,11 @@ namespace EndlasNet.Data.Migrations
                 name: "IX_Work_UserId",
                 table: "Work",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkItem_WorkId",
+                table: "WorkItem",
+                column: "WorkId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -645,22 +680,25 @@ namespace EndlasNet.Data.Migrations
                 name: "StaticPartInfo");
 
             migrationBuilder.DropTable(
-                name: "Work");
+                name: "WorkItem");
 
             migrationBuilder.DropTable(
                 name: "LineItems");
 
             migrationBuilder.DropTable(
-                name: "Customers");
-
-            migrationBuilder.DropTable(
-                name: "Quotes");
+                name: "Work");
 
             migrationBuilder.DropTable(
                 name: "PowderOrders");
 
             migrationBuilder.DropTable(
                 name: "StaticPowderInfo");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "Quotes");
 
             migrationBuilder.DropTable(
                 name: "Vendors");

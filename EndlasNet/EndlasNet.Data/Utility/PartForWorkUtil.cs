@@ -14,7 +14,7 @@ namespace EndlasNet.Data
             var flag = false;
             foreach (PartForJob part in parts)
             {
-                KeyValuePair<Guid, Guid> temp = new KeyValuePair<Guid, Guid>(part.WorkId, part.StaticPartInfoId);
+                KeyValuePair<Guid, Guid> temp = new KeyValuePair<Guid, Guid>((Guid)part.WorkId, part.StaticPartInfoId);
                 for (int i = 0; i < minimizedPartList.Count; i++)
                 {
                     if (minimizedPartList[i].WorkId.Equals(temp.Key))
@@ -41,7 +41,7 @@ namespace EndlasNet.Data
 
             foreach (PartForWorkOrder part in parts)
             {
-                KeyValuePair<Guid, Guid> temp = new KeyValuePair<Guid, Guid>(part.WorkId, part.StaticPartInfoId);
+                KeyValuePair<Guid, Guid> temp = new KeyValuePair<Guid, Guid>((Guid)part.WorkId, part.StaticPartInfoId);
                 for (int i = 0; i < minimizedPartList.Count; i++)
                 {
                     if (minimizedPartList[i].WorkId.Equals(temp.Key))

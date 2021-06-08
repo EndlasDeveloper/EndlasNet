@@ -195,7 +195,7 @@ namespace EndlasNet.Web.Controllers
 
             foreach (PartForWork partForWork in partsForWork)
             {
-                partForWork.Work = await _repo.GetWork(partForWork.WorkId);
+                partForWork.Work = await _repo.GetWork((Guid)partForWork.WorkId);
 
                 var checkBox = new CheckBoxInfo()
                 {

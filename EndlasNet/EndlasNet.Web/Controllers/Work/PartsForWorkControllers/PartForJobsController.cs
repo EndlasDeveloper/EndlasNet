@@ -107,7 +107,7 @@ namespace EndlasNet.Web.Controllers
                         if (tempPartForJob.PartForWorkImgId == NONE_ID)
                             tempPartForJob.PartForWorkImgId = null;
 
-                        await _repo .AddPartForJobAsync(tempPartForJob);
+                        await _repo.AddPartForJobAsync(tempPartForJob);
                     } catch(Exception ex) { ex.ToString(); continue; }
                 }
                 var partsForJobs = await _repo.GetAllPartsForJobs();

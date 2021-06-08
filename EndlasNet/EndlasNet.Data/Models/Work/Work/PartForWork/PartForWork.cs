@@ -17,8 +17,13 @@ namespace EndlasNet.Data
 
         [ForeignKey("WorkId")]
         [Display(Name ="Work")]
-        public Guid WorkId { get; set; }
-        public Work Work { get; set; }
+        public Guid? WorkId { get; set; }
+        public virtual Work Work { get; set; }
+
+        [ForeignKey("WorkItemId")]
+        [Display(Name ="Work item")]
+        public Guid? WorkItemId { get; set; }
+        public virtual WorkItem WorkItem { get; set; }
 
         [ForeignKey("StaticPartInfoId")]
         [Display(Name ="Part info")]
@@ -115,5 +120,6 @@ namespace EndlasNet.Data
         public byte[] UsedImageBytes { get; set; }
 
         public IEnumerable<PowderForPart> PowdersUsed { get; set; }
+
     }
 }

@@ -33,7 +33,7 @@ namespace EndlasNet.Web.Controllers
             foreach (PartForWorkOrder partForWorkOrder in partBatchList)
             {
                 partForWorkOrder.StaticPartInfo = await _repo.GetStaticPartInfo(partForWorkOrder.StaticPartInfoId);
-                partForWorkOrder.Work = await _repo.GetWork(partForWorkOrder.WorkId);
+                partForWorkOrder.Work = await _repo.GetWork((Guid)partForWorkOrder.WorkId);
             }
             switch (sortOrder)
             {

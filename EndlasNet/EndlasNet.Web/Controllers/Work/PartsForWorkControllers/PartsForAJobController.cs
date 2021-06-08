@@ -34,7 +34,7 @@ namespace EndlasNet.Web.Controllers
             {
 
                 partForJob.StaticPartInfo = await _repo.GetStaticPartInfo(partForJob.StaticPartInfoId);
-                partForJob.Work = await _repo.GetWork(partForJob.WorkId);
+                partForJob.Work = await _repo.GetWork((Guid)partForJob.WorkId);
             }
             switch (sortOrder)
             {
