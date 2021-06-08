@@ -16,38 +16,7 @@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
         <li class="update-notes-li">
-            StaticPowderInfo -> Details, Delete -> changed UI to show Information pdf rather than whatever is there now.
-        </li>
-        <li class="update-notes-li">
-            Process sheet notes were showing on edit. It now references information pdf where composition pdf used to be.
-        </li>
-        <li class="update-notes-li">
-            Job -> Added short description to job quote dropdown display (in addition to EndlasNumber). Added JobViewModel class to handle the dropdown.
-        </li>
-        <li class="update-notes-li">
-            Work -> added StartDate and PoDate as nullable attributes.
-        </li>
-        <li class="update-notes-li">
-            Job -> added StartDate and PoDate in the UI for Create and Edit. In Details, if the date(s) isn't set, the UI indicates such.
-        </li>
-        <li class="update-notes-li">
-            WorkOrder -> added StartDate and PoDate in the UI for Create and Edit. In Details, if the date(s) isn't set, the UI indicates such.
-        </li>
-        <li class="update-notes-li">
-            Job -> edit -> make quote reference persist. The current quote reference is what the dropdown is defaulted to.
-        </li>
-        <li class="update-notes-li">
-            Added 4 more image attributes to PartForWork (optional).
-            names: Machining, Cladding, Finished, Used. Implemented all back-end code needed for these attributes. Added all front-end code
-            for PartsForJobs to handle setting, resetting, and unsetting the image files. Images display in both details and delete views.
-            If an image isn't set, a stock image indicating there is not set image displays.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue in PartForWork where PartForWorkImg wasn't set (because it doesn't have to be) and upon viewing the row details, an
-            exception would throw. Now the PartForJob CRUD work-flow seems to be working as intended.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue: Edit -> part for a job -> have current image then set to none gives error. (Kinda related to the above bulleted item).
+            Added Report tab to front-end with action links for Inventory, Jobs and work orders, and Parts.
         </li>
     </ul>
 
@@ -56,6 +25,7 @@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
  
+
         <li class="update-notes-li">
             Fix all parts for work (it broke because of the last deploy's changes)
         </li>

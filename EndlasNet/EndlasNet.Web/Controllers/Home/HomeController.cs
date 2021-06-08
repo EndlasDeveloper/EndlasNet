@@ -55,6 +55,11 @@ namespace EndlasNet.Web.Controllers
             return View();
         }
 
+        public IActionResult Reports()
+        {
+            return View();
+        }
+
         public IActionResult Help()
         {
             return View();
