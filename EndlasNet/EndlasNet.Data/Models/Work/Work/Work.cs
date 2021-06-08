@@ -71,6 +71,10 @@ namespace EndlasNet.Data
         [NotMapped]
         public string WorkType { get; set; }
 
+        [NotMapped]
+        [Display(Name ="Number of work items")]
+        public int NumWorkItems { get; set; }
+
         public IEnumerable<WorkItem> WorkItems { get; set; }
         public IEnumerable<PartForWork> PartsForWork { get; set; }
         public IEnumerable<MachiningToolForJob> ToolsForJob { get; set; }
