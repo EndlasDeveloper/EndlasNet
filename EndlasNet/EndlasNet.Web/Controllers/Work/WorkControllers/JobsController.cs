@@ -55,7 +55,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
+        public async Task<IActionResult> Create([Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,NumWorkItems,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
         {
             
             if (ModelState.IsValid)
@@ -75,6 +75,11 @@ namespace EndlasNet.Web.Controllers
                 job.EndlasNumber = quote.EndlasNumber;
                 job.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 await _repo.AddRow(job);
+                for(int i = 0; i < job.NumWorkItems; i++)
+                {
+                    WorkItem workItem = new WorkItem { WorkItemId = Guid.NewGuid(), Work = job, WorkId = job.WorkId };
+                    await _repo.AddWorkItem(workItem);
+                }
                 return RedirectToAction(nameof(Index));
             }
             await SetViewData();

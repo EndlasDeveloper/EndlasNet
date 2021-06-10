@@ -23,5 +23,6 @@ namespace EndlasNet.Data
 
         public Task<IEnumerable<Customer>> GetAllCustomers();
         public Task<IEnumerable<Quote>> GetAllQuotesWithoutJob();
+        public Task AddWorkItem(WorkItem workItem);
     }
 }

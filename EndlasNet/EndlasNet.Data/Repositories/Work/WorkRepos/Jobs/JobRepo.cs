@@ -152,5 +152,11 @@ namespace EndlasNet.Data
             return await _db.Quotes
                 .FirstOrDefaultAsync(q => q.QuoteId == id);
         }
+
+        public async Task AddWorkItem(WorkItem workItem)
+        {
+            _db.WorkItems.Add(workItem);
+            await _db.SaveChangesAsync();
+        }
     }
 }
