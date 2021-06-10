@@ -28,7 +28,6 @@ namespace EndlasNet.Data
             modelBuilder.Entity<PartForWorkImg>().HasMany(p => p.PartsForWork).WithOne(p => p.PartForWorkImg).OnDelete(DeleteBehavior.SetNull);
 
             /*** WORK ***/
-            modelBuilder.Entity<Work>().HasMany(j => j.PartsForWork).WithOne(p => p.Work);
 
             modelBuilder.Entity<PartForWork>().HasMany(p => p.PowdersUsed).WithOne(p => p.PartForWork);
 

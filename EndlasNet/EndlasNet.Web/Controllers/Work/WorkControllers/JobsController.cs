@@ -226,5 +226,10 @@ namespace EndlasNet.Web.Controllers
             }
             return File(ms, "application/pdf", fileName);
         }
+
+        public IActionResult ManageWorkItems(Guid? workId)
+        {
+            return RedirectToAction("Index", "WorkItems", new { workId = workId });
+        }
     }
 }
