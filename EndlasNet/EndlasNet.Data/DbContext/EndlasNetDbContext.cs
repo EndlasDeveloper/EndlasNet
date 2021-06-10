@@ -34,6 +34,7 @@ namespace EndlasNet.Data
         public DbSet<Work> Work { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
+        public DbSet<WorkItem> WorkItems { get; set; }
         public DbSet<PartForWork> PartsForWork { get; set; }
         public DbSet<PartForJob> PartsForJobs { get; set; }
         public DbSet<PartForWorkOrder> PartsForWorkOrders { get; set; }
