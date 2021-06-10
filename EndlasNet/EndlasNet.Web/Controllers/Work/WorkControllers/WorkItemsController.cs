@@ -21,5 +21,10 @@ namespace EndlasNet.Web.Controllers
             return View(list);
         }
 
+        public IActionResult Initialize(Guid workId)
+        {
+            return View();
+        }
+
     }
 }
