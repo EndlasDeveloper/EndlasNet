@@ -15,6 +15,7 @@ namespace EndlasNet.Data
         public Guid WorkId { get; set; }
         public Work Work { get; set; }
 
+        public bool IsInitialized { get; set; } = false;
 
         public IEnumerable<PartForWork> PartsForWork { get; set; }
 
