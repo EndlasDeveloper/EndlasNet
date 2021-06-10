@@ -30,7 +30,10 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<WorkItem>> GetAllRows()
         {
-            return await _db.WorkItems.ToListAsync();
+            return await _db.WorkItems
+                .Include(w => w.Work)
+                .Include(w => w.PartsForWork)
+                .ToListAsync();
         }
 
         public async Task<WorkItem> GetRow(Guid? workItemId)
@@ -39,6 +42,11 @@ namespace EndlasNet.Data
                 .Include(l => l.Work)
                 .Include(l => l.PartsForWork)
                 .FirstOrDefaultAsync(l => l.WorkItemId == workItemId);
+        }
+
+        public async Task<Work> GetWork(Guid workId)
+        {
+            return await _db.Work.FirstOrDefaultAsync(w => w.WorkId == workId);
         }
 
         public async Task UpdateRow(WorkItem workItem)

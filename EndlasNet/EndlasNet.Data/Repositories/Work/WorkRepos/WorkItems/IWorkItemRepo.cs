@@ -12,5 +12,6 @@ namespace EndlasNet.Data
         public Task AddRow(WorkItem workItem);
         public Task UpdateRow(WorkItem workItem);
         public Task DeleteRow(Guid? id);
+        public Task<Work> GetWork(Guid workId);
     }
 }

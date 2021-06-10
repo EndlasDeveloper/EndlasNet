@@ -13,10 +13,12 @@ namespace EndlasNet.Web.Controllers
         {
             _repo = repo;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(Guid workId)
         {
-             
-            return View();
+            Work work = await _repo.GetWork(workId);
+            var list = await _repo.GetAllRows();
+            ViewBag.EndlasNumber = work.EndlasNumber;
+            return View(list);
         }
 
     }

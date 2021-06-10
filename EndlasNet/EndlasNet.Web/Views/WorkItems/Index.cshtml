@@ -3,13 +3,7 @@
 
 @{
     ViewData["Title"] = "Work items";
-    WorkItem element = null;
-    var endlasNumber = "No endlas number";
-    if (Model.Any())
-    {
-        element = Model.FirstOrDefault();
-        endlasNumber = element.Work.EndlasNumber;
-    }
+    var endlasNumber = ViewBag.EndlasNumber;
 }
 <a asp-action="Index" asp-controller="Jobs">
     <span>
