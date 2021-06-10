@@ -49,7 +49,7 @@
                 <td>
                     @if (!item.IsInitialized)
                     {
-                        <a asp-action="Initialize" asp-route-id="@item.WorkId">Initialize work item</a>
+                        <a asp-action="Initialize" asp-route-workId="@item.WorkId">Initialize work item</a>
                     }
                     else
                     {

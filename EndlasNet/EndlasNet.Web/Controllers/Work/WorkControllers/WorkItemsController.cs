@@ -23,8 +23,8 @@ namespace EndlasNet.Web.Controllers
 
         public IActionResult Initialize(Guid workId)
         {
+            ViewBag.WorkId = workId;
             return View();
         }
-
     }
 }
