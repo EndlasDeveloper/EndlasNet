@@ -20,5 +20,5 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.WorkItemId">Edit</a> |
-    @Html.ActionLink("Back to list", "Index", new { workId = Model.WorkId })
+    <a asp-action="Index" asp-route-workId="@Model.WorkId">Back to list</a>
 </div>
