@@ -8,7 +8,7 @@ namespace EndlasNet.Web.Controllers
 {
     public class WorkItemsController : Controller
     {
-        private readonly IWorkItemRepo _repo; 
+        private readonly IWorkItemRepo _repo;
         public WorkItemsController(IWorkItemRepo repo)
         {
             _repo = repo;
@@ -38,9 +38,8 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Initialize(Guid id, [Bind("WorkItemId,Work,WorkId")] WorkItem workItem)
         {
-            if(id != workItem.WorkItemId)
+            if (id != workItem.WorkItemId)
             {
-                ViewBag.WorkId = workItem.WorkId;
                 return NotFound();
             }
             if (ModelState.IsValid)
@@ -52,9 +51,35 @@ namespace EndlasNet.Web.Controllers
             return View(workItem);
         }
 
-        public IActionResult Uninitialize()
+        [HttpGet]
+        public async Task<IActionResult> Uninitialize(Guid? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var workItem = await _repo.GetRow(id);
+
+            return View(workItem);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Uninitialize(Guid id, [Bind("WorkItemId,Work,WorkId")] WorkItem workItem)
+        {
+            if (id != workItem.WorkItemId)
+            {
+                return NotFound();
+            }
+          
+            if (ModelState.IsValid)
+            {
+                workItem.IsInitialized = false;
+                await _repo.UpdateRow(workItem);
+                return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
+            }
+            return View(workItem);
         }
 
         public IActionResult Edit()
