@@ -23,7 +23,9 @@
     <input type="hidden" asp-for="@Model.WorkItemId" />
     <input type="hidden" asp-for="@Model.WorkId" />
     <input type="hidden" asp-for="@Model.Work" />
-    <input type="hidden" asp-for="@Model.IsInitialized" />    <input type="submit" value="Uninitialize" asp-route-id="@Model.WorkItemId" class="btn btn-danger" /> |
+    <input type="hidden" asp-for="@Model.IsInitialized" />
+    
+    <input type="submit" value="Uninitialize" asp-route-id="@Model.WorkItemId" class="btn btn-danger" /> |
     <a asp-action="Index" asp-route-workId="@Model.WorkId">Back to list</a>
 </form>
 
