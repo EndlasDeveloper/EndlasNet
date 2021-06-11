@@ -10,13 +10,40 @@
     ViewData["Title"] = "Update notes";
     
 }
-<h1 class="display-4">@ViewData["Title"] - 6/4/2021</h1>
+<h1 class="display-4">@ViewData["Title"] - 6/xx/2021</h1>
 <p>
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
         <li class="update-notes-li">
             Added Report tab to front-end with action links for Inventory, Jobs and work orders, and Parts.
+        </li>
+        <li class="update-notes-li">
+            Redo back-end structure from Work -> PartForWork to Work -> WorkItem -> PartForWork.
+            (This is partly done - just need to remove the old entity relationships after fron-end is complete)
+        </li>
+        <li class="update-notes-li">
+            Redo front-end structure to represent Work -> WorkItem -> PartForWork from Work -> PartForWork
+            <ul>
+                <li>
+                    Work -> Added manage work items action link to jobs index.
+                </li>
+                <li>
+                    Work -> Added number of work items to  the UI for job create. Successfully creates the defined number of child work item entities for 
+                    the parent work (job). 
+                </li>
+                <li>
+                    Work -> manage work items action link forwards user to work items index view. The index shows the work items for the row selected under jobs.
+                    If the work item row is uninitialized, the row information will display starts and the  UI only allows for initializataion under each row. 
+                </li>
+                <li>
+                    WorkItem -> Added initialize view. Currently doesn't have any forms to fill out, but on submit, the row attribute IsInitiazed is set to true and saved.
+                    The UI correctly displays the alternate row display option where Edit, Details, and Unitialize action links are shown.
+                </li>
+                <li>
+                    WorkItem -> Index view -> Added views for Edit, Details, and Unitialize.
+                </li>
+            </ul>
         </li>
     </ul>
 
@@ -42,9 +69,7 @@
         <li class="update-notes-li">
             Action tab -> completed work, upload pdf (PackingSlip), work completed date
         </li>
-        <li class="update-notes-li">
-            Jobs -> add number of line items to define upon work creation. 
-        </li>
+
         <li class="update-notes-li">
             Keep writing Moq tests now that the controllers that are important accept an interface repo as a parameter.
         </li>
