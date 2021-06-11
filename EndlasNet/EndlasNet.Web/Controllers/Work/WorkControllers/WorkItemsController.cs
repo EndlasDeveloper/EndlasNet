@@ -21,9 +21,48 @@ namespace EndlasNet.Web.Controllers
             return View(list);
         }
 
-        public IActionResult Initialize(Guid workId)
+        [HttpGet]
+        public async Task<IActionResult> Initialize(Guid? id)
         {
-            ViewBag.WorkId = workId;
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var workItem = await _repo.GetRow(id);
+
+            return View(workItem);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Initialize(Guid id, [Bind("WorkItemId,Work,WorkId")] WorkItem workItem)
+        {
+            if(id != workItem.WorkItemId)
+            {
+                ViewBag.WorkId = workItem.WorkId;
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                workItem.IsInitialized = true;
+                await _repo.UpdateRow(workItem);
+                return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
+            }
+            return View(workItem);
+        }
+
+        public IActionResult Uninitialize()
+        {
+            return View();
+        }
+
+        public IActionResult Edit()
+        {
+            return View();
+        }
+        public IActionResult Details()
+        {
             return View();
         }
     }

@@ -39,9 +39,9 @@ namespace EndlasNet.Data
         public async Task<WorkItem> GetRow(Guid? workItemId)
         {
             return await _db.WorkItems
-                .Include(l => l.Work)
-                .Include(l => l.PartsForWork)
-                .FirstOrDefaultAsync(l => l.WorkItemId == workItemId);
+                .Include(w => w.Work)
+                .Include(w => w.PartsForWork)
+                .FirstOrDefaultAsync(w => w.WorkItemId == workItemId);
         }
 
         public async Task<Work> GetWork(Guid workId)
