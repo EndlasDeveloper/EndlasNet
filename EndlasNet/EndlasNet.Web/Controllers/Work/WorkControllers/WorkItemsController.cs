@@ -61,9 +61,12 @@ namespace EndlasNet.Web.Controllers
         {
             return View();
         }
-        public IActionResult Details()
+        public async Task<IActionResult> Details(Guid id)
         {
-            return View();
+            var workItem = await _repo.GetRow(id);
+            if (workItem == null)
+                return NotFound();
+            return View(workItem);
         }
     }
 }
