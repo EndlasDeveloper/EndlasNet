@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EndlasNet.Data;
 using EndlasNet.Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EndlasNet.Web.Controllers
 {
@@ -34,7 +35,7 @@ namespace EndlasNet.Web.Controllers
             var workItem = await _repo.GetRow(id);
 
             WorkItemViewModel vm = new WorkItemViewModel { WorkItemId = workItem.WorkItemId, NumPartsForWork = 1, WorkId = workItem.WorkId };
-
+            ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllPartInfo(), "StaticPartInfoId", "PartDescription");
             return View(vm);
         }
 

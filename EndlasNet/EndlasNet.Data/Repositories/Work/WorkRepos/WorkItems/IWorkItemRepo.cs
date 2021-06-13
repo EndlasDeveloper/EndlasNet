@@ -13,5 +13,7 @@ namespace EndlasNet.Data
         public Task UpdateRow(WorkItem workItem);
         public Task DeleteRow(Guid? id);
         public Task<Work> GetWork(Guid workId);
+
+        public Task<IEnumerable<StaticPartInfo>> GetAllPartInfo();
     }
 }

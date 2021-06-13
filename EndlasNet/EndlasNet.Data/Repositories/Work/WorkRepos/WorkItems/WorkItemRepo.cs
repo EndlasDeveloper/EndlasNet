@@ -28,6 +28,11 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<StaticPartInfo>> GetAllPartInfo()
+        {
+            return await _db.StaticPartInfo.ToListAsync();
+        }
+
         public async Task<IEnumerable<WorkItem>> GetAllRows()
         {
             return await _db.WorkItems

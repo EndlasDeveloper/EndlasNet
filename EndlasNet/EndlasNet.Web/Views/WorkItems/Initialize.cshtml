@@ -15,7 +15,11 @@
             <input type="hidden" asp-for="@Model.WorkId" />
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+            <div class="form-group">
+                <label asp-for="StaticPartInfoId" class="control-label"></label>
+                <select asp-for="StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
+                <span asp-validation-for="StaticPartInfoId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="NumPartsForWork" class="control-label"></label>
                 <input asp-for="NumPartsForWork" class="form-control" />
