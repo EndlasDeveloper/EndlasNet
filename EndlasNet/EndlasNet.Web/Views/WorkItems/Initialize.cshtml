@@ -1,4 +1,4 @@
-﻿@model EndlasNet.Data.WorkItem
+﻿@model EndlasNet.Web.Models.WorkItemViewModel
 
 @{
     ViewData["Title"] = "Initialize";
@@ -13,10 +13,14 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <input type="hidden" asp-for="@Model.WorkItemId" />
             <input type="hidden" asp-for="@Model.WorkId" />
-            <input type="hidden" asp-for="@Model.Work" />
-            <input type="hidden" asp-for="@Model.IsInitialized" />
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            <div class="form-group">
+                <label asp-for="NumPartsForWork" class="control-label"></label>
+                <input asp-for="NumPartsForWork" class="form-control" />
+                <span asp-validation-for="NumPartsForWork" class="text-danger"></span>
+            </div>
 
             <div class="form-group">
                 <input type="submit" asp-action="Initialize" asp-route-id="@Model.WorkItemId" class="btn btn-primary" />

@@ -19,5 +19,10 @@ namespace EndlasNet.Data
 
         public IEnumerable<PartForWork> PartsForWork { get; set; }
 
+        [NotMapped]
+        [Range(1, 200)]
+        [Display(Name ="Number of parts")]
+        public int NumPartsForWork { get; set; }
+
     }
 }

@@ -1,1 +1,1 @@
-﻿
+﻿Create view model for work items (number of parts, static part info, not part image (default it to none))
