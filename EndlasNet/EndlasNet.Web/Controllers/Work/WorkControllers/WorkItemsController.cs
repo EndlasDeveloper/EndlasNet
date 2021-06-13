@@ -47,12 +47,26 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+/*            var resultList = await _repo.GetPartsForJobsWithPartInfo(vm.StaticPartInfoId);
+            var count = resultList.Count();
+            int max = -1;
+            foreach (PartForJob pForJob in resultList)
+            {
+                var temp = PartSuffixGenerator.SuffixToIndex(pForJob.Suffix);
+                if (temp > max)
+                    max = temp;
+            }
+*/
             if (ModelState.IsValid)
             {
                 var workItem = await _repo.GetRow(vm.WorkItemId);
                 if(workItem == null)
                 {
                     return NotFound();
+                }
+
+                for(int i = 0; i < vm.NumPartsForWork; i++)
+                {
                 }
 
                 workItem.IsInitialized = true;

@@ -1,1 +1,3 @@
 ﻿Create view model for work items (number of parts, static part info, not part image (default it to none))
+
+Idea: refactor all repositories into 1 large repository... pro-> all methods available to all controllers. con-> repo will get large, probably will become disorganized to a degree (idk how much).
