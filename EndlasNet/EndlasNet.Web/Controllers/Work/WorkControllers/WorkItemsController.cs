@@ -19,7 +19,7 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Index(Guid workId)
         {
             Work work = await _repo.GetWork(workId);
-            var list = await _repo.GetAllRows();
+            var list = await _repo.GetWorkItemsForWork(work.WorkId);
             ViewBag.EndlasNumber = work.EndlasNumber;
             return View(list);
         }

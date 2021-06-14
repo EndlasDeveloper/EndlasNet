@@ -116,7 +116,8 @@ namespace EndlasNet.Data
         {
             return await _db.StaticPartInfo
                 .Include(s => s.PartsForWork)
-                .Where(s => s.PartsForWork.Count() == 0).ToListAsync();
+                .Where(s => s.PartsForWork.Count() == 0)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Job>> GetAllJobs()

@@ -62,6 +62,10 @@ namespace EndlasNet.Data
             return await _db.Work.FirstOrDefaultAsync(w => w.WorkId == workId);
         }
 
+        public async Task<IEnumerable<WorkItem>> GetWorkItemsForWork(Guid workId)
+        {
+            return await _db.WorkItems.Where(w => w.WorkId == workId).ToListAsync();
+        }
         public async Task UpdateRow(WorkItem workItem)
         {
             var entry = _db.Entry(workItem);
