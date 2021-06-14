@@ -62,7 +62,7 @@ namespace EndlasNet.Web.Controllers
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber");
             ViewData["PartForWorkImgId"] = new SelectList(list, "PartForWorkImgId", "ImageName");
             ViewData["WorkId"] = new SelectList(await _repo.GetJobsWithNoParts(), "WorkId", "EndlasNumber");
-            return View();
+            return View();  
         }
 
 

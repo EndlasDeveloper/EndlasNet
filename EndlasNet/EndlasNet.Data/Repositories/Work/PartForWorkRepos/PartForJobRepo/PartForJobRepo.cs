@@ -129,9 +129,33 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<Job>> GetJobsWithNoParts()
         {
-            return await _db.Jobs
-                .Where(j => j.PartsForWork.Count() == 0)
-                .ToListAsync();
+            var list = await _db.Jobs
+                .Include(j => j.WorkItems).ToListAsync();
+ 
+            foreach(Job job in list)
+            {
+                
+                foreach(WorkItem workItem in job.WorkItems)
+                {
+                    workItem.PartsForWork = await _db.PartsForWork.Where(p => p.WorkItemId == workItem.WorkItemId).ToListAsync();
+                }
+            }
+            List<Job> finalJobList = new List<Job>();
+            foreach(Job job in list)
+            {
+                if(job.WorkItems != null)
+                {
+                    var workItems = job.WorkItems;
+
+                    var selectWorkItems = workItems.Where(w => w.PartsForWork.Count() == 0).ToList();
+                    if (selectWorkItems.Count() > 0)
+                    {
+                        finalJobList.Insert(0, job);
+                    }
+                }
+               
+            }
+            return finalJobList;
         }
 
         public async Task<IEnumerable<PartForJob>> GetPartsForJobsWithPartInfo(Guid staticPartInfoId)
