@@ -34,9 +34,8 @@ namespace EndlasNet.Web.Controllers
 
             var workItem = await _repo.GetRow(id);
 
-            WorkItemViewModel vm = new WorkItemViewModel { WorkItemId = workItem.WorkItemId, NumPartsForWork = 1, WorkId = workItem.WorkId };
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllPartInfo(), "StaticPartInfoId", "PartDescription");
-            return View(vm);
+            return View(await CreateWorkItemViewModel(workItem));
         }
 
         [HttpPost]
@@ -85,7 +84,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var workItem = await _repo.GetRow(id);
-            return View(await BuildWorkItemViewModel(workItem));
+            return View(await CreateWorkItemViewModel(workItem));
         }
 
         [HttpPost]
@@ -104,7 +103,7 @@ namespace EndlasNet.Web.Controllers
                 await _repo.UpdateRow(workItem);
                 return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
             }
-            return View(workItem);
+            return View(vm);
         }
 
         public IActionResult Edit()
@@ -120,7 +119,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            return View(await BuildWorkItemViewModel(workItem));
+            return View(await CreateWorkItemViewModel(workItem));
         }
 
         public async Task<IActionResult> ManagePartsForWork(Guid workItemId)
@@ -131,21 +130,11 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction("Index", "PartForJobs", new { workItemId = workItemId });
         }
 
-        private WorkItemViewModel CreateNewWorkItemViewModel(WorkItem workItem)
+        private async Task<WorkItemViewModel> CreateWorkItemViewModel(WorkItem workItem)
         {
-            
-            return new WorkItemViewModel { WorkItem = workItem, WorkItemId = workItem.WorkItemId, NumPartsForWork = 1 };
-        }
-
-        private async Task<WorkItemViewModel> BuildWorkItemViewModel(WorkItem workItem)
-        {
-            var count = 0;
-            PartForWork part = null;
             if(workItem.PartsForWork != null && workItem.PartsForWork.Count() > 0)
             {
-                count = workItem.PartsForWork.Count();
-                part = workItem.PartsForWork.FirstOrDefault();
-
+                var part = workItem.PartsForWork.FirstOrDefault();
                 part.StaticPartInfo = await _repo.GetStaticPartInfo(part.StaticPartInfoId);
                 return new WorkItemViewModel
                 {
@@ -154,10 +143,10 @@ namespace EndlasNet.Web.Controllers
                     WorkItem = workItem,
                     WorkItemId = workItem.WorkItemId,
                     WorkId = workItem.WorkId,
-                    NumPartsForWork = count
-                };
+                    NumPartsForWork = workItem.PartsForWork.Count()
+            };
             }
-            return new WorkItemViewModel { WorkItem = workItem, WorkItemId = workItem.WorkItemId, WorkId = workItem.WorkId, NumPartsForWork = count };
+            return new WorkItemViewModel { WorkItem = workItem, WorkItemId = workItem.WorkItemId, WorkId = workItem.WorkId, NumPartsForWork = 0 };
 
         }
     }
