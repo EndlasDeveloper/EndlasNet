@@ -20,16 +20,16 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: PartsForAJob
-        public async Task<IActionResult> Index(Guid id, Guid workId, Guid partInfoId, string sortOrder)
+        public async Task<IActionResult> Index(Guid id, Guid workItemId, Guid partInfoId, string sortOrder)
         {
             ViewBag.id = id;
-            ViewBag.workId = workId;
+            ViewBag.workId = workItemId;
             ViewBag.partInfoId = partInfoId;
 
             ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
 
-            var endlasNetDbContext = await _repo.GetBatch(workId.ToString(), partInfoId.ToString());
+            var endlasNetDbContext = await _repo.GetBatch(workItemId.ToString(), partInfoId.ToString());
             foreach(PartForJob partForJob in endlasNetDbContext)
             {
 

@@ -147,9 +147,18 @@ namespace EndlasNet.Web.Controllers
 
         private async Task PopulateWorkForCreate()
         {
-            var work = await _repo.GetAllWorkWithBottles();
-            var wl = work.ToList();
-            var workList = wl.Where(w => w.PartsForWork.Count() > 0).ToList();
+            var works = await _repo.GetAllWorkWithBottles();
+            var wl = works.ToList();
+            List<Work> workList = new List<Work>();
+            foreach(Work work in works)
+            {
+                var list = work.WorkItems.ToList();
+                var wList = list.Where(w => w.PartsForWork.Count() == 0).ToList();
+                foreach(WorkItem workItem in wList)
+                {
+                    workList.Insert(0, work);
+                }
+            }
             ViewData["WorkId"] = new SelectList(workList, "WorkId", "WorkDescription");
             ViewBag.Init = "true";
         }

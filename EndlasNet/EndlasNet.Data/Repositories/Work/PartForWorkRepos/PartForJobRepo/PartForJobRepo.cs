@@ -130,16 +130,16 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<Job>> GetJobsWithNoParts()
         {
             var list = await _db.Jobs
-                .Include(j => j.WorkItems).ToListAsync();
+                .Include(j => j.WorkItems).ThenInclude(w => w.PartsForWork).ToListAsync();
  
-            foreach(Job job in list)
+ /*           foreach(Job job in list)
             {
                 
                 foreach(WorkItem workItem in job.WorkItems)
                 {
                     workItem.PartsForWork = await _db.PartsForWork.Where(p => p.WorkItemId == workItem.WorkItemId).ToListAsync();
                 }
-            }
+            }*/
             List<Job> finalJobList = new List<Job>();
             foreach(Job job in list)
             {
@@ -180,16 +180,21 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<Job>> GetJobsWithParts()
         {
             var jobs = await _db.Jobs
-                .Include(j => j.PartsForWork)
+                .Include(j => j.WorkItems)
+                .ThenInclude(w => w.PartsForWork)
                 .ToListAsync();
 
             foreach (Job job in jobs)
             {
-                foreach (PartForWork partForWork in job.PartsForWork)
+                foreach(WorkItem workItem in job.WorkItems)
                 {
-                    partForWork.StaticPartInfo = await _db.StaticPartInfo
-                        .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
+                    foreach (PartForWork partForWork in workItem.PartsForWork)
+                    {
+                        partForWork.StaticPartInfo = await _db.StaticPartInfo
+                            .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
+                    }
                 }
+             
             }
             return jobs;
         }

@@ -29,21 +29,25 @@ namespace EndlasNet.Web.Controllers
             List<PartsForWorkMinimizedViewModel> vmList = new List<PartsForWorkMinimizedViewModel>();
             foreach (var order in workOrders)
             {
-                var partForWork = order.PartsForWork.ToList().FirstOrDefault();
-                if (partForWork != null)
+                foreach(WorkItem workItem in order.WorkItems)
                 {
-                    var vm = new PartsForWorkMinimizedViewModel
+                    var partForWork = workItem.PartsForWork.ToList().FirstOrDefault();
+                    if (partForWork != null)
                     {
-                        WorkId = order.WorkId,
-                        PartForWorkId = partForWork.PartForWorkId,
-                        StaticPartInfo = partForWork.StaticPartInfo,
-                        DrawingNumber = partForWork.StaticPartInfo.DrawingNumber,
-                        JobNumber = order.EndlasNumber,
-                        PartCount = order.PartsForWork.Count()
-                    };
-                    FileURL.SetImageURL(vm.StaticPartInfo);
-                    vmList.Insert(0, vm);
+                        var vm = new PartsForWorkMinimizedViewModel
+                        {
+                            WorkId = order.WorkId,
+                            PartForWorkId = partForWork.PartForWorkId,
+                            StaticPartInfo = partForWork.StaticPartInfo,
+                            DrawingNumber = partForWork.StaticPartInfo.DrawingNumber,
+                            JobNumber = order.EndlasNumber,
+                            PartCount = workItem.PartsForWork.Count()
+                        };
+                        FileURL.SetImageURL(vm.StaticPartInfo);
+                        vmList.Insert(0, vm);
+                    }
                 }
+                
             }
             return View(vmList);
         }

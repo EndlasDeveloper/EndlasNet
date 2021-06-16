@@ -118,5 +118,13 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             return View(workItem);
         }
+
+        public async Task<IActionResult> ManagePartsForWork(Guid workItemId)
+        {
+            var items = await _repo.GetAllPartInfo();
+            var workItem = await _repo.GetRow(workItemId);
+
+            return RedirectToAction("Index", "PartForJobs", new { workItemId = workItemId });
+        }
     }
 }

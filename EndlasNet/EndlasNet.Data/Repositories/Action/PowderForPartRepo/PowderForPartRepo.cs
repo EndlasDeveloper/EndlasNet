@@ -42,7 +42,6 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<Work>> GetAllWorkWithBottles()
         {
             return await _db.Work
-                .Include(w => w.PartsForWork)
                 .ToListAsync();
         }
 

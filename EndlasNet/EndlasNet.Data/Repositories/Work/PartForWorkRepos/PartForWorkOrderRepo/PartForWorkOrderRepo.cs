@@ -50,24 +50,43 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<WorkOrder>> GetWorkOrdersWithParts()
         {
             var workOrders = await _db.WorkOrders
-                .Include(j => j.PartsForWork)
-                .ToListAsync();
+                            .Include(j => j.WorkItems)
+                            .ThenInclude(w => w.PartsForWork)
+                            .ToListAsync();
 
-            foreach (WorkOrder order in workOrders)
+            foreach (WorkOrder workOrder in workOrders)
             {
-                foreach (PartForWork partForWork in order.PartsForWork)
+                foreach (WorkItem workItem in workOrder.WorkItems)
                 {
-                    partForWork.StaticPartInfo = await _db.StaticPartInfo
-                        .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
+                    foreach (PartForWork partForWork in workItem.PartsForWork)
+                    {
+                        partForWork.StaticPartInfo = await _db.StaticPartInfo
+                            .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
+                    }
                 }
+
             }
             return workOrders;
         }
 
         public async Task<IEnumerable<WorkOrder>> GetWorkOrdersWithNoParts()
         {
-            return await _db.WorkOrders
-                .Where(j => j.PartsForWork.Count() == 0)
+            List<WorkOrder> workOrders = new List<WorkOrder>();
+            var list = await _db.WorkOrders.Include(w => w.WorkItems).ThenInclude(w => w.PartsForWork)
+                .Where(j => j.WorkItems.Count() > 0)
+                .ToListAsync();
+            foreach(WorkOrder workOrder in list)
+            {
+                foreach(WorkItem workItem in workOrder.WorkItems)
+                {
+                    if(workItem.PartsForWork != null && workItem.PartsForWork.Count() > 0)
+                    {
+                        workOrders.Insert(0, workOrder);
+                    }
+                }
+            }
+            return await _db.WorkOrders.Include(w => w.WorkItems).ThenInclude(w => w.PartsForWork)
+                .Where(j => j.WorkItems.Count() > 0)
                 .ToListAsync();
         }
         public async Task AddPartForWorkOrderAsync(PartForWorkOrder partForWorkOrder)
