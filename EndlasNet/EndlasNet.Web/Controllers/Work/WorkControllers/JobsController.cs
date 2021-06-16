@@ -15,15 +15,15 @@ namespace EndlasNet.Web.Controllers
     {
         private readonly IJobRepo _repo;
         public JobsController(IJobRepo repo)
-        {
-            
+        {   
             _repo = repo;
         }
 
         // GET: Jobs
         public async Task<IActionResult> Index()
         {
-            return View(await _repo.GetAllRows());
+            var jobsList = await _repo.GetAllJobs();
+            return View(jobsList);
         }
 
         // GET: Jobs/Details/5
@@ -34,7 +34,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = (Job)await _repo.GetRow(id);
+            var job = await _repo.GetJob(id);
             if (job == null)
             {
                 return NotFound();
@@ -74,7 +74,7 @@ namespace EndlasNet.Web.Controllers
                 var quote = await _repo.GetQuote((Guid)job.QuoteId);
                 job.EndlasNumber = quote.EndlasNumber;
                 job.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                await _repo.AddRow(job);
+                await _repo.AddJob(job);
                 for(int i = 0; i < job.NumWorkItems; i++)
                 {
                     WorkItem workItem = new WorkItem { WorkItemId = Guid.NewGuid(), Work = job, WorkId = job.WorkId };
@@ -118,13 +118,13 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _repo.FindRow(id);
+            var job = await _repo.FindJob(id);
             if (job == null)
             {
                 return NotFound();
             }
             await SetViewData(job);
-            var currJob = await _repo.GetRow(id);
+            var currJob = await _repo.GetJob(id);
             var quotes = await _repo.GetAllQuotesWithoutJob();
             var quotesList = quotes.ToList();
             quotesList.Insert(0, currJob.Quote);
@@ -160,7 +160,7 @@ namespace EndlasNet.Web.Controllers
                     job.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     var quote = await _repo.GetQuote((Guid)job.QuoteId);
                     job.EndlasNumber = quote.EndlasNumber;
-                    await _repo.UpdateRow(job);
+                    await _repo.UpdateJob(job);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -188,7 +188,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = (Job)await _repo.GetRow(id);
+            var job = (Job)await _repo.GetJob(id);
             if (job == null)
             {
                 return NotFound();
@@ -202,13 +202,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _repo.DeleteRow(id);
+            await _repo.DeleteJob(id);
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> JobExists(Guid id)
         {
-            return await _repo.RowExists(id);
+            return await _repo.JobExists(id);
         }
 
         [HttpGet]
@@ -219,7 +219,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var job = await _repo.GetRow(myvar);
+            var job = await _repo.GetJob(myvar);
 
             var fileName = job.EndlasNumber + "_process_notes.pdf";
             Response.ContentType = "application/pdf";

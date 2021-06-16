@@ -7,14 +7,14 @@ namespace EndlasNet.Data
 {
     public interface IJobRepo
     {
-        public Task AddRow(Job job);
-        public Task DeleteRow(Guid? id);
-        public Task<IEnumerable<Job>> GetAllRows();
-        public Task<Job> GetRow(Guid? id);
-        public Task<Job> GetRowNoTracking(Guid? id);
-        public Task<bool> RowExists(Guid id);
-        public Task UpdateRow(Job job);
-        public Task<Job> FindRow(Guid? id);
+        public Task AddJob(Job job);
+        public Task DeleteJob(Guid? id);
+        public Task<IEnumerable<Job>> GetAllJobs();
+        public Task<Job> GetJob(Guid? id);
+        public Task<Job> GetJobNoTracking(Guid? id);
+        public Task<bool> JobExists(Guid id);
+        public Task UpdateJob(Job job);
+        public Task<Job> FindJob(Guid? id);
         public Task<IEnumerable<Work>> GetAllWork();
         public Task<Work> GetWork(Guid? id);
         public Task DeleteWork(Guid? id);

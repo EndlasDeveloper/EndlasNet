@@ -15,13 +15,13 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task AddRow(Job job)
+        public async Task AddJob(Job job)
         {
             await _db.Jobs.AddAsync(job);
             await _db.SaveChangesAsync();
         }
 
-        public async Task DeleteRow(Guid? id)
+        public async Task DeleteJob(Guid? id)
         {
             var job = await _db.Jobs
                 .FirstOrDefaultAsync(j => j.WorkId == id);
@@ -29,7 +29,7 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Job>> GetAllRows()
+        public async Task<IEnumerable<Job>> GetAllJobs()
         {
             return await _db.Jobs
                 .Include(j => j.Customer)
@@ -38,7 +38,7 @@ namespace EndlasNet.Data
                 .ToListAsync();
         }
 
-        public async Task<Job> GetRow(Guid? id)
+        public async Task<Job> GetJob(Guid? id)
         {
             return await _db.Jobs
                 .Include(j => j.Customer)
@@ -47,7 +47,7 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(j => j.WorkId == id);
         }
 
-        public async Task<Job> GetRowNoTracking(Guid? id)
+        public async Task<Job> GetJobNoTracking(Guid? id)
         {
             return await _db.Jobs
                 .AsNoTracking()
@@ -62,20 +62,20 @@ namespace EndlasNet.Data
             throw new NotImplementedException();
         }
 
-        public async Task<bool> RowExists(Guid id)
+        public async Task<bool> JobExists(Guid id)
         {
             return await _db.Jobs
                         .AnyAsync(j => j.WorkId == id);
         }
 
-        public async Task UpdateRow(Job job)
+        public async Task UpdateJob(Job job)
         {
             var entry = _db.Entry(job);
             entry.State = EntityState.Modified;
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Job> FindRow(Guid? id)
+        public async Task<Job> FindJob(Guid? id)
         {
             return await _db.Jobs.FindAsync(id);
         }
