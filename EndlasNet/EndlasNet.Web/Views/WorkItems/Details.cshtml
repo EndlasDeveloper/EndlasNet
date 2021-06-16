@@ -1,4 +1,4 @@
-﻿@model EndlasNet.Data.WorkItem
+﻿@model EndlasNet.Web.Models.WorkItemViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -14,8 +14,14 @@
             Work Endlas number
         </dt>
        <dd class="col-sm-10">
-           @Html.DisplayFor(model => model.Work.EndlasNumber)
+           @Html.DisplayFor(model => model.WorkItem.Work.EndlasNumber)
        </dd>
+        <dt class="col-sm-2">
+            Number of parts
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumPartsForWork)
+        </dd>
     </dl>
 </div>
 <div>

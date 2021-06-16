@@ -85,9 +85,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var workItem = await _repo.GetRow(id);
-            
-            WorkItemViewModel vm = new WorkItemViewModel { WorkItem = workItem, WorkItemId = workItem.WorkItemId, NumPartsForWork = workItem.PartsForWork.Count(), WorkId = workItem.WorkId };
-            return View(vm);
+            return View(await BuildWorkItemViewModel(workItem));
         }
 
         [HttpPost]
@@ -116,9 +114,13 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Details(Guid id)
         {
             var workItem = await _repo.GetRow(id);
+
             if (workItem == null)
+            {
                 return NotFound();
-            return View(workItem);
+            }
+
+            return View(await BuildWorkItemViewModel(workItem));
         }
 
         public async Task<IActionResult> ManagePartsForWork(Guid workItemId)
@@ -127,6 +129,36 @@ namespace EndlasNet.Web.Controllers
             var workItem = await _repo.GetRow(workItemId);
 
             return RedirectToAction("Index", "PartForJobs", new { workItemId = workItemId });
+        }
+
+        private WorkItemViewModel CreateNewWorkItemViewModel(WorkItem workItem)
+        {
+            
+            return new WorkItemViewModel { WorkItem = workItem, WorkItemId = workItem.WorkItemId, NumPartsForWork = 1 };
+        }
+
+        private async Task<WorkItemViewModel> BuildWorkItemViewModel(WorkItem workItem)
+        {
+            var count = 0;
+            PartForWork part = null;
+            if(workItem.PartsForWork != null && workItem.PartsForWork.Count() > 0)
+            {
+                count = workItem.PartsForWork.Count();
+                part = workItem.PartsForWork.FirstOrDefault();
+
+                part.StaticPartInfo = await _repo.GetStaticPartInfo(part.StaticPartInfoId);
+                return new WorkItemViewModel
+                {
+                    StaticPartInfo = part.StaticPartInfo,
+                    StaticPartInfoId = part.StaticPartInfoId,
+                    WorkItem = workItem,
+                    WorkItemId = workItem.WorkItemId,
+                    WorkId = workItem.WorkId,
+                    NumPartsForWork = count
+                };
+            }
+            return new WorkItemViewModel { WorkItem = workItem, WorkItemId = workItem.WorkItemId, WorkId = workItem.WorkId, NumPartsForWork = count };
+
         }
     }
 }

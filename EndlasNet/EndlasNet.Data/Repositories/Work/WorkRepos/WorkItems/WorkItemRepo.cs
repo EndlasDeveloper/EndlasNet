@@ -72,5 +72,10 @@ namespace EndlasNet.Data
             entry.State = EntityState.Modified;
             await _db.SaveChangesAsync();
         }
+
+        public async Task<StaticPartInfo> GetStaticPartInfo(Guid id)
+        {
+            return await _db.StaticPartInfo.FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
+        }
     }
 }
