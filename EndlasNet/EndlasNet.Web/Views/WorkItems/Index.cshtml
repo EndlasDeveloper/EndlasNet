@@ -22,9 +22,11 @@
     <thead>
         <tr>
             <th>
-                Work endlas number (temp)
+                Work endlas number
             </th>
-           
+            <th>
+                Number of parts
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -37,6 +39,9 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
                     </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumPartsForWork)
+                    </td>
                    
                 }
                 else
@@ -44,7 +49,9 @@
                     <td>
                         *
                     </td>
-                   
+                   <td>
+                       *
+                   </td>
                 }
                 <td>
                     @if (!item.IsInitialized)

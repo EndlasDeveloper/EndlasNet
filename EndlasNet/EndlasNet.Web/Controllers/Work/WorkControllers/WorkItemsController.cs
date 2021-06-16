@@ -85,19 +85,21 @@ namespace EndlasNet.Web.Controllers
             }
 
             var workItem = await _repo.GetRow(id);
-
-            return View(workItem);
+            
+            WorkItemViewModel vm = new WorkItemViewModel { WorkItem = workItem, WorkItemId = workItem.WorkItemId, NumPartsForWork = workItem.PartsForWork.Count(), WorkId = workItem.WorkId };
+            return View(vm);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Uninitialize(Guid id, [Bind("WorkItemId,Work,WorkId")] WorkItem workItem)
+        public async Task<IActionResult> Uninitialize(Guid id, [Bind("WorkItemId,NumPartsForWork,StaticPartInfoId,WorkId")] WorkItemViewModel vm)
         {
-            if (id != workItem.WorkItemId)
+            if (id != vm.WorkItemId)
             {
                 return NotFound();
             }
-          
+            var workItem = await _repo.GetRow(id);
+
             if (ModelState.IsValid)
             {
                 workItem.IsInitialized = false;

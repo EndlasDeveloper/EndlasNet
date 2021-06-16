@@ -1,4 +1,4 @@
-﻿@model EndlasNet.Data.WorkItem
+﻿@model EndlasNet.Web.Models.WorkItemViewModel
 
 @{
     ViewData["Title"] = "Uninitialize";
@@ -15,16 +15,22 @@
             Work Endlas number
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Work.EndlasNumber)
+            @Html.DisplayFor(model => model.WorkItem.Work.EndlasNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NumPartsForWork)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumPartsForWork)
         </dd>
     </dl>
 </div>
 <form asp-action="Uninitialize">
     <input type="hidden" asp-for="@Model.WorkItemId" />
     <input type="hidden" asp-for="@Model.WorkId" />
-    <input type="hidden" asp-for="@Model.Work" />
-    <input type="hidden" asp-for="@Model.IsInitialized" />
-    
+    <input type="hidden" asp-for="@Model.StaticPartInfoId" />
+    <input type="hidden" asp-for="@Model.WorkItem" />
+    <input type="hidden" asp-for="@Model.StaticPartInfo" />
     <input type="submit" value="Uninitialize" asp-route-id="@Model.WorkItemId" class="btn btn-danger" /> |
     <a asp-action="Index" asp-route-workId="@Model.WorkId">Back to list</a>
 </form>
