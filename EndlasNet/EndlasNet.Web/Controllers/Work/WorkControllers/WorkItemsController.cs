@@ -33,14 +33,14 @@ namespace EndlasNet.Web.Controllers
             }
 
             var workItem = await _repo.GetRow(id);
-
+            WorkItemViewModel vm = new WorkItemViewModel();
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllPartInfo(), "StaticPartInfoId", "PartDescription");
-            return View(await CreateWorkItemViewModel(workItem));
+            return View(CreateWorkItemViewModel(workItem));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Initialize(Guid id, [Bind("WorkItemId,NumPartsForWork,StaticPartInfoId,WorkId")] WorkItemViewModel vm)
+        public async Task<IActionResult> Initialize(Guid id, [Bind("WorkItemId,WorkItem,StaticPartInfoId,StaticPartInfo,NumPartsForWork,StartDate,CompleteDate,WorkId")] WorkItemViewModel vm)
         {
             if (id != vm.WorkItemId)
             {
@@ -64,6 +64,8 @@ namespace EndlasNet.Web.Controllers
                     return NotFound();
                 }
 
+                workItem = vm.CombineWorkItemData(workItem);
+
                 for(int i = 0; i < vm.NumPartsForWork; i++)
                 {
                 }
@@ -84,7 +86,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var workItem = await _repo.GetRow(id);
-            return View(await CreateWorkItemViewModel(workItem));
+            return View(CreateWorkItemViewModel(workItem));
         }
 
         [HttpPost]
@@ -119,7 +121,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            return View(await CreateWorkItemViewModel(workItem));
+            return View(CreateWorkItemViewModel(workItem));
         }
 
         public async Task<IActionResult> ManagePartsForWork(Guid workItemId)
@@ -130,22 +132,30 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction("Index", "PartForJobs", new { workItemId = workItemId });
         }
 
-        private async Task<WorkItemViewModel> CreateWorkItemViewModel(WorkItem workItem)
+        private WorkItemViewModel CreateWorkItemViewModel(WorkItem workItem)
         {
+            WorkItemViewModel vm = new WorkItemViewModel();
+            vm.WorkItemId = workItem.WorkItemId;
+            vm.WorkItem = workItem;
+            vm.WorkId = workItem.Work.WorkId;
             if(workItem.PartsForWork != null && workItem.PartsForWork.Count() > 0)
             {
-                var part = workItem.PartsForWork.FirstOrDefault();
-             
-                return new WorkItemViewModel
-                {
-     
-                    WorkItem = workItem,
-                    WorkItemId = workItem.WorkItemId,
-                    WorkId = workItem.WorkId,
-                    NumPartsForWork = workItem.PartsForWork.Count()
-            };
+                vm.NumPartsForWork = workItem.PartsForWork.Count();
+                return vm;
             }
-            return new WorkItemViewModel { WorkItem = workItem, WorkItemId = workItem.WorkItemId, WorkId = workItem.WorkId, NumPartsForWork = 0 };
+            if(workItem.StaticPartInfoId != null)
+            {
+                vm.StaticPartInfoId = workItem.StaticPartInfoId;
+            }
+            if(workItem.StartDate != null)
+            {
+                vm.StartDate = workItem.StartDate;
+            }
+            if(workItem.CompleteDate != null)
+            {
+                vm.CompleteDate = workItem.CompleteDate;
+            }
+            return vm;
 
         }
     }

@@ -11,8 +11,8 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit" enctype="multipart/form-data">
-            <input type="hidden" asp-for="@Model.WorkItemId" />
-            <input type="hidden" asp-for="@Model.WorkId" />
+            <input type="hidden" asp-for="WorkItemId" />
+            <input type="hidden" asp-for="WorkId" />
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -25,7 +25,16 @@
                 <input asp-for="NumPartsForWork" class="form-control" />
                 <span asp-validation-for="NumPartsForWork" class="text-danger"></span>
             </div>
-
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompleteDate" class="control-label"></label>
+                <input asp-for="CompleteDate" class="form-control" />
+                <span asp-validation-for="CompleteDate" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" asp-action="Initialize" asp-route-id="@Model.WorkItemId" class="btn btn-primary" />
             </div>
