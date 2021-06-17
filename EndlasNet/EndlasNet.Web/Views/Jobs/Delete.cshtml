@@ -47,19 +47,7 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DueDate)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class="col-sm-10">
-            @if (Model.StartDate == null)
-            {
-                <span>Not started</span>
-            }
-            else
-            {
-                @Html.DisplayFor(model => model.StartDate)
-            }
-        </dd>
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PoDate)
         </dt>
@@ -73,19 +61,7 @@
                 @Html.DisplayFor(model => model.PoDate)
             }
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CompleteDate)
-        </dt>
-        <dd class="col-sm-10">
-            @if (Model.CompleteDate == null)
-            {
-                <span>Not completed</span>
-            }
-            else
-            {
-                @Html.DisplayFor(model => model.CompleteDate)
-            }
-        </dd>
+      
         <dt class="col-sm-2">
             Process sheet notes
         </dt>

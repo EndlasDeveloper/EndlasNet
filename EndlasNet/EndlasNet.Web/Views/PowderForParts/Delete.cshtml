@@ -40,11 +40,11 @@
     </dl>
     Title:
     <em>
-        @Html.DisplayFor(model => model.PartForWork.StaticPartInfo.ImageName)
+        @Html.DisplayFor(model => model.PartForWork.WorkItem.StaticPartInfo.ImageName)
     </em>
 
     <div class="col-sm-2">
-        <img src="@Html.DisplayFor(model => model.PartForWork.StaticPartInfo.ImageUrl)" alt="Drawing Image" />
+        <img src="@Html.DisplayFor(model => model.PartForWork.WorkItem.StaticPartInfo.ImageUrl)" alt="Drawing Image" />
     </div>
     <br/>
     <form asp-action="Delete">

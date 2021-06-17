@@ -14,22 +14,7 @@ namespace EndlasNet.Data
             var flag = false;
             foreach (PartForJob part in parts)
             {
-                KeyValuePair<Guid, Guid> temp = new KeyValuePair<Guid, Guid>((Guid)part.WorkId, part.StaticPartInfoId);
-                for (int i = 0; i < minimizedPartList.Count; i++)
-                {
-                    if (minimizedPartList[i].WorkId.Equals(temp.Key))
-                        if (minimizedPartList[i].StaticPartInfoId.Equals(temp.Value))
-                        {
-                            var list = await repo.GetBatch(part.WorkId.ToString(), part.StaticPartInfoId.ToString());
-                            minimizedPartList[i].NumParts = list.Count();
-                            flag = true;
-                        }
-                }
-                if (!flag)
-                {
-                    minimizedPartList.Add(part);
-                    flag = true;
-                }
+                
             }
             return minimizedPartList;
         }
@@ -41,22 +26,7 @@ namespace EndlasNet.Data
 
             foreach (PartForWorkOrder part in parts)
             {
-                KeyValuePair<Guid, Guid> temp = new KeyValuePair<Guid, Guid>((Guid)part.WorkId, part.StaticPartInfoId);
-                for (int i = 0; i < minimizedPartList.Count; i++)
-                {
-                    if (minimizedPartList[i].WorkId.Equals(temp.Key))
-                        if (minimizedPartList[i].StaticPartInfoId.Equals(temp.Value))
-                        {
-                            var list = await repo.GetBatch(part.WorkId.ToString(), part.StaticPartInfoId.ToString());
-                            minimizedPartList[i].NumParts = list.Count();
-                            flag = true;
-                        }
-                }
-                if (!flag)
-                {
-                    minimizedPartList.Add(part);
-                    flag = true;
-                }
+               
             }
             return minimizedPartList;
         }

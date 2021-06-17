@@ -135,11 +135,10 @@ namespace EndlasNet.Web.Controllers
             if(workItem.PartsForWork != null && workItem.PartsForWork.Count() > 0)
             {
                 var part = workItem.PartsForWork.FirstOrDefault();
-                part.StaticPartInfo = await _repo.GetStaticPartInfo(part.StaticPartInfoId);
+             
                 return new WorkItemViewModel
                 {
-                    StaticPartInfo = part.StaticPartInfo,
-                    StaticPartInfoId = part.StaticPartInfoId,
+     
                     WorkItem = workItem,
                     WorkItemId = workItem.WorkItemId,
                     WorkId = workItem.WorkId,

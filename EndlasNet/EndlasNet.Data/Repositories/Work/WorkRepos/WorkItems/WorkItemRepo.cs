@@ -45,8 +45,8 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfoWithoutJob()
         {
             return await _db.StaticPartInfo
-                .Include(s => s.PartsForWork)
-                .Where(s => s.PartsForWork.Count() == 0).ToListAsync();
+                .Include(s => s.WorkItems)
+                .Where(s => s.WorkItems.Count() == 0).ToListAsync();
         }
 
         public async Task<WorkItem> GetRow(Guid? workItemId)

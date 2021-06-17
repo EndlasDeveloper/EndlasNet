@@ -42,15 +42,12 @@ namespace EndlasNet.Web.Controllers
 
             foreach (PowderForPart powderForPart in powderForParts)
             {
-                var staticPartInfo = await _repo.GetStaticPartInfo(powderForPart.PartForWork.StaticPartInfoId);
-
-                powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
+               
 
                 var staticPowderInfo = await _repo.GetStaticPowderInfo((Guid)powderForPart.PowderBottle.StaticPowderInfoId);
 
                 powderForPart.PowderBottle.StaticPowderInfo = staticPowderInfo;
 
-                FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
             }
 
             switch (sortOrder)
@@ -69,10 +66,8 @@ namespace EndlasNet.Web.Controllers
                     powderForParts = powderForParts.Reverse();
                     break;
                 case "part_drawing_desc":
-                    powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.StaticPartInfo.ImageName);
                     break;
                 case "part_drawing_asc":
-                    powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.StaticPartInfo.ImageName);
                     powderForParts = powderForParts.Reverse();
                     break;
                 default:
@@ -97,12 +92,6 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPartInfo = await _repo.GetStaticPartInfo(powderForPart.PartForWork.StaticPartInfoId);
-
-            powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
-
-            FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
-
             return View(powderForPart);
         }
 
@@ -120,9 +109,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var staticPartInfo = await _repo.GetStaticPartInfo(powderForPart.PartForWork.StaticPartInfoId);
-            powderForPart.PartForWork.StaticPartInfo = staticPartInfo;
-            FileURL.SetImageURL(powderForPart.PartForWork.StaticPartInfo);
+
             return View(powderForPart);
         }
 
@@ -283,10 +270,7 @@ namespace EndlasNet.Web.Controllers
 
             foreach (PartForWork partForWork in partsForWork)
             {
-                partForWork.StaticPartInfo = await _repo.GetStaticPartInfo(partForWork.StaticPartInfoId);
-
-                partForWork.DrawingNumberSuffix = partForWork.StaticPartInfo.DrawingNumber
-                    + " - " + partForWork.Suffix;
+               
             }
             return partsForWork.ToList();
         }

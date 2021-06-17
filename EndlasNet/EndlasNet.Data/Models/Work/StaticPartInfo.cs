@@ -51,7 +51,7 @@ namespace EndlasNet.Data
         public byte[] FinishDrawingPdfBytes { get; set; }    
 
         // Static part info has (describes) many PartsForWork
-        public IEnumerable<PartForWork> PartsForWork { get; set; }
+        public IEnumerable<WorkItem> WorkItems { get; set; }
 
         [NotMapped]
         [Display(Name ="Clear current image")]

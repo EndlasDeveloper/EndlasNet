@@ -25,11 +25,6 @@ namespace EndlasNet.Data
         public Guid? WorkItemId { get; set; }
         public virtual WorkItem WorkItem { get; set; }
 
-        [ForeignKey("StaticPartInfoId")]
-        [Display(Name ="Part info")]
-        public Guid StaticPartInfoId { get; set; }
-        public StaticPartInfo StaticPartInfo { get; set; }
-
         public string Suffix { get; set; }
 
         [Range(1,10000)]

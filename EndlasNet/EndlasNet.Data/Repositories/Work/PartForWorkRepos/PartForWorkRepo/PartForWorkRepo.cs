@@ -31,7 +31,6 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForJobs
                 .Include(p => p.Work)
-                .Include(p => p.StaticPartInfo)
                 .OrderByDescending(p => p.Work.DueDate).ThenBy(p => p.Suffix)
                 .ToListAsync();
         }
@@ -40,7 +39,6 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForWorkOrders
                 .Include(p => p.Work)
-                .Include(p => p.StaticPartInfo)
                 .OrderByDescending(p => p.Work.DueDate).ThenBy(p => p.Suffix)
                 .ToListAsync();
         }
@@ -49,7 +47,6 @@ namespace EndlasNet.Data
         {
             var list = await _db.PartsForWork
                 .Include(p => p.Work)
-                .Include(p => p.StaticPartInfo)
                 .OrderByDescending(p => p.Work.DueDate).ThenBy(p => p.Suffix)
                 .ToListAsync();
             foreach(PartForWork partForWork in list)
@@ -74,7 +71,6 @@ namespace EndlasNet.Data
         public async Task<PartForWork> GetPartForWork(Guid? id)
         {
             return await _db.PartsForWork
-               .Include(p => p.StaticPartInfo)
                .Include(p => p.User)
                .Include(p => p.Work)
                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
@@ -83,7 +79,6 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<PartForWorkOrder>> GetPartForWorkOrders()
         {
             return await _db.PartsForWorkOrders
-               .Include(p => p.StaticPartInfo)
                .Include(p => p.User)
                .Include(p => p.Work).ToListAsync();
         }

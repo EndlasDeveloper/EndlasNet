@@ -15,6 +15,20 @@ namespace EndlasNet.Data
         public Guid WorkId { get; set; }
         public Work Work { get; set; }
 
+        [ForeignKey("StaticPartInfoId")]
+        [Display(Name ="Part info")]
+        public Guid? StaticPartInfoId { get; set; }
+        public virtual StaticPartInfo StaticPartInfo { get; set; }
+
+        public Status Status { get; set; } = Status.NotStarted;
+
+        [Display(Name = "Complete date")]
+        public DateTime? StartDate { get; set; }
+
+        [Display(Name = "Complete date")]
+        public DateTime? CompleteDate { get; set; }
+
+
         public bool IsInitialized { get; set; } = false;
 
         public IEnumerable<PartForWork> PartsForWork { get; set; }

@@ -33,7 +33,7 @@ namespace EndlasNet.Web.Controllers
             foreach(PartForJob partForJob in endlasNetDbContext)
             {
 
-                partForJob.StaticPartInfo = await _repo.GetStaticPartInfo(partForJob.StaticPartInfoId);
+                partForJob.WorkItem.StaticPartInfo = await _repo.GetStaticPartInfo((Guid)partForJob.WorkItem.StaticPartInfoId);
                 partForJob.Work = await _repo.GetWork((Guid)partForJob.WorkId);
             }
             switch (sortOrder)
@@ -75,7 +75,7 @@ namespace EndlasNet.Web.Controllers
 
             ViewBag.id = id;
             ViewBag.workId = partForJob.WorkId;
-            ViewBag.partInfoId = partForJob.StaticPartInfoId;
+            ViewBag.partInfoId = partForJob.WorkItem.StaticPartInfoId;
             partForJob = SetImageUrls(partForJob);
 
             return View(partForJob);
@@ -151,7 +151,7 @@ namespace EndlasNet.Web.Controllers
                     }
                     partForJob = SetImageUrls(partForJob);
 
-                    partForJob.StaticPartInfo = await _repo.GetStaticPartInfo(partForJob.StaticPartInfoId);
+                    partForJob.WorkItem.StaticPartInfo = await _repo.GetStaticPartInfo((Guid)partForJob.WorkItem.StaticPartInfoId);
                     partForJob.Work = await _repo.GetWork(partForJob.PartForWorkId);
                     partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     partForJob = await SetImageBytes(partForJob);
@@ -168,7 +168,7 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "PartsForAJob", new { id = partForJob.PartForWorkId, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder = "suffix_asc" });
+                return RedirectToAction("Index", "PartsForAJob", new { id = partForJob.PartForWorkId, workId = partForJob.WorkId, partInfoId = partForJob.WorkItem.StaticPartInfoId, sortOrder = "suffix_asc" });
             }
             return View(partForJob);
         }
@@ -295,7 +295,7 @@ namespace EndlasNet.Web.Controllers
         {
             var partForJob = await _repo.GetPartForJob(id);
             await _repo.DeletePartForJobConfirmedAsync(id);
-            return RedirectToAction("Index","PartsForAJob",new {id = id, workId = partForJob.WorkId, partInfoId = partForJob.StaticPartInfoId, sortOrder="" });
+            return RedirectToAction("Index","PartsForAJob",new {id = id, workId = partForJob.WorkId, partInfoId = partForJob.WorkItem.StaticPartInfoId, sortOrder="" });
         }
 
         public ActionResult RedirectToPartForJob(Guid id)

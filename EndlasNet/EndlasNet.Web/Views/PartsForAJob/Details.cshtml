@@ -20,5 +20,5 @@
 
 <div>
     <a asp-action="Edit" asp-route-id="@Model.PartForWorkId">Edit</a> |
-    @Html.ActionLink("Back to list", "BackToList", new { id = Model.PartForWorkId, workId = Model.WorkId, partInfoId = Model.StaticPartInfoId })
+    @Html.ActionLink("Back to list", "BackToList", new { id = Model.PartForWorkId, workId = Model.WorkId, partInfoId = Model.WorkItem.StaticPartInfoId })
 </div>

@@ -19,7 +19,7 @@ namespace EndlasNet.Data
         public async Task<List<PartForJob>> GetAllPartsForJobs()
         {
            return await _db.PartsForJobs
-               .Include(p => p.StaticPartInfo)
+               
                .Include(p => p.User)
                .Include(p => p.Work)
                .OrderByDescending(p => p.Suffix)
@@ -28,7 +28,6 @@ namespace EndlasNet.Data
         public async Task<PartForJob> GetPartForJobDetailsAsync(Guid? id)
         {
             return await _db.PartsForJobs
-                .Include(p => p.StaticPartInfo)
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .Include(p => p.PartForWorkImg)
@@ -39,7 +38,7 @@ namespace EndlasNet.Data
         public async Task<PartForJob> GetPartForJob(Guid? id)
         {
             return await _db.PartsForJobs
-            .Include(p => p.StaticPartInfo)
+            
             .Include(p => p.User)
             .Include(p => p.Work)
             .Include(p => p.PartForWorkImg)
@@ -50,7 +49,6 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForJobs
                    .Where(p => p.WorkId == partForJob.WorkId)
-                   .Where(p => p.StaticPartInfoId == partForJob.StaticPartInfoId)
                    .OrderByDescending(p => p.Suffix)
                    .ToListAsync();
         }
@@ -76,7 +74,7 @@ namespace EndlasNet.Data
         public async Task<PartForJob> DeletePartForJobAsync(Guid? id)
         {
             return await _db.PartsForJobs
-                .Include(p => p.StaticPartInfo)
+
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .Include(p => p.PartForWorkImg)
@@ -92,7 +90,7 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<PartForJob>> GetBatch(string workId, string partInfoId)
         {
             var batch = await _db.PartsForJobs
-                .Include(p => p.StaticPartInfo)
+
                 .Include(p => p.User)
                 .Include(p => p.Work)
                 .Include(p => p.PartForWorkImg)
@@ -101,7 +99,6 @@ namespace EndlasNet.Data
             batch = (List<PartForJob>)batch.AsEnumerable();
 
             return batch.Where(p => p.WorkId.ToString() == workId)
-                .Where(p => p.StaticPartInfoId.ToString() == partInfoId)
                 .OrderByDescending(p => p.Suffix);
         }
 
@@ -115,8 +112,8 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<StaticPartInfo>> GetAllStaticPartInfoWithoutJob()
         {
             return await _db.StaticPartInfo
-                .Include(s => s.PartsForWork)
-                .Where(s => s.PartsForWork.Count() == 0)
+                .Include(s => s.WorkItems)
+                .Where(s => s.WorkItems.Count() == 0)
                 .ToListAsync();
         }
 
@@ -161,7 +158,6 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<PartForJob>> GetPartsForJobsWithPartInfo(Guid staticPartInfoId)
         {
             return await _db.PartsForJobs
-                .Where(p => p.StaticPartInfoId == staticPartInfoId)
                 .ToListAsync();
         }
 
@@ -190,8 +186,7 @@ namespace EndlasNet.Data
                 {
                     foreach (PartForWork partForWork in workItem.PartsForWork)
                     {
-                        partForWork.StaticPartInfo = await _db.StaticPartInfo
-                            .FirstOrDefaultAsync(s => s.StaticPartInfoId == partForWork.StaticPartInfoId);
+                       
                     }
                 }
              
