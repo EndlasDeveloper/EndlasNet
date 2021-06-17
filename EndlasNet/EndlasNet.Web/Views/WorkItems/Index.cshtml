@@ -36,11 +36,16 @@
             <tr>
                 @if (item.IsInitialized)
                 {
+                    int cnt = 0;
+                    if(item.PartsForWork != null)
+                    {
+                        cnt = item.PartsForWork.Count();
+                    }
                     <td>
                         @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.NumPartsForWork)
+                        @cnt
                     </td>
                    
                 }

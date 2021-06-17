@@ -22,7 +22,7 @@ namespace EndlasNet.Data
 
         public Status Status { get; set; } = Status.NotStarted;
 
-        [Display(Name = "Complete date")]
+        [Display(Name = "Start date")]
         public DateTime? StartDate { get; set; }
 
         [Display(Name = "Complete date")]
@@ -32,11 +32,6 @@ namespace EndlasNet.Data
         public bool IsInitialized { get; set; } = false;
 
         public IEnumerable<PartForWork> PartsForWork { get; set; }
-
-        [NotMapped]
-        [Range(1, 200)]
-        [Display(Name ="Number of parts")]
-        public int NumPartsForWork { get; set; }
 
     }
 }

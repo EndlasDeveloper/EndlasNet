@@ -1,5 +1,46 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model EndlasNet.Data.WorkItem
+
 @{
+    ViewData["Title"] = "Edit";
 }
+
+<h1>Edit</h1>
+
+<h4>Work item</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <input type="hidden" asp-for="WorkItemId" />
+            <input type="hidden" asp-for="WorkId" />
+            <input type="hidden" asp-for="IsInitialized" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StaticPartInfoId" class="control-label"></label>
+                <select asp-for="StaticPartInfoId" class="form-control" asp-items="ViewBag.StaticPartInfoId"></select>
+                <span asp-validation-for="StaticPartInfoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompleteDate" class="control-label"></label>
+                <input asp-for="CompleteDate" class="form-control" />
+                <span asp-validation-for="CompleteDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" asp-action="Edit" asp-route-id="@Model.WorkItemId" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index" asp-route-workId="@Model.WorkId">Back to list</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
