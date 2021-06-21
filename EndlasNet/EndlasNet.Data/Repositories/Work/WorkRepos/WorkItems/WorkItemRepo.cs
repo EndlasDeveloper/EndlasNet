@@ -54,6 +54,7 @@ namespace EndlasNet.Data
             return await _db.WorkItems
                 .Include(w => w.Work)
                 .Include(w => w.PartsForWork)
+                .Include(w => w.StaticPartInfo)
                 .FirstOrDefaultAsync(w => w.WorkItemId == workItemId);
         }
 

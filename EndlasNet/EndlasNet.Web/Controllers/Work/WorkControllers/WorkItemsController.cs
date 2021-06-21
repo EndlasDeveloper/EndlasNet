@@ -85,6 +85,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var workItem = await _repo.GetRow(id);
+            FileURL.SetImageURL(workItem.StaticPartInfo);
             return View(CreateWorkItemViewModel(workItem));
         }
 
@@ -147,6 +148,8 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
+            FileURL.SetImageURL(workItem.StaticPartInfo);
+            
             return View(CreateWorkItemViewModel(workItem));
         }
 
@@ -164,10 +167,9 @@ namespace EndlasNet.Web.Controllers
             vm.WorkItemId = workItem.WorkItemId;
             vm.WorkItem = workItem;
             vm.WorkId = workItem.Work.WorkId;
-            if(workItem.PartsForWork != null && workItem.PartsForWork.Count() > 0)
+            if(workItem.PartsForWork != null || workItem.PartsForWork.Count() > 0)
             {
                 vm.NumPartsForWork = workItem.PartsForWork.Count();
-                return vm;
             }
             if(workItem.StaticPartInfoId != null)
             {
