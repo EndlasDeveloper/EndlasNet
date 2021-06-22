@@ -25,7 +25,7 @@ namespace EndlasNet.Web.Models
 
         public WorkItem CombineWorkItemData(WorkItem workItem)
         {
-
+            workItem.WorkItemId = WorkItemId;
             workItem.StartDate = StartDate;
             workItem.CompleteDate = CompleteDate;
             workItem.StaticPartInfo = StaticPartInfo;

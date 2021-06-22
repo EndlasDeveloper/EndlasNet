@@ -60,9 +60,10 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 var workItem = await _repo.GetRow(vm.WorkItemId);
-
-                workItem = vm.CombineWorkItemData(workItem);
-
+                workItem.StaticPartInfoId = vm.WorkItem.StaticPartInfoId;
+                workItem.StartDate = vm.StartDate;
+                workItem.CompleteDate = vm.CompleteDate;
+               
                 workItem.IsInitialized = true;
       
                 // look to see if this part/job already exists. If so, name suffix from that point
@@ -112,28 +113,27 @@ namespace EndlasNet.Web.Controllers
 
             var workItem = await _repo.GetRow(id);
             FileURL.SetImageURL(workItem.StaticPartInfo);
-            ViewBag.vm = CreateWorkItemViewModel(workItem);
-            return View(workItem);
+            return View(CreateWorkItemViewModel(workItem));
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Uninitialize(Guid id, [Bind("WorkItemId,StaticPartInfoId,StartDate,CompleteDate,WorkId,IsInitialized")] WorkItem workItem)
+        public async Task<IActionResult> Uninitialize(Guid id, [Bind("WorkItemId,WorkItem,StaticPartInfoId,StaticPartInfo,NumPartsForWork,StartDate,CompleteDate,WorkId")] WorkItemViewModel vm)
         {
-            if (id != workItem.WorkItemId)
+            if (id != vm.WorkItemId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                
+                var workItem = await _repo.GetRow(vm.WorkItemId);
                 await _repo.DeletePartBatch(workItem.PartsForWork.ToList());
                 workItem.IsInitialized = false;
                 await _repo.UpdateRow(workItem);
                 return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
             }
-            return View(workItem);
+            return View(vm);
         }
 
         public async Task<IActionResult> Edit(Guid? id)
