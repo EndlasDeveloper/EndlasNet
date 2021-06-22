@@ -61,7 +61,7 @@ namespace EndlasNet.Data
 
         public async Task<Work> GetWork(Guid workId)
         {
-            return await _db.Work.FirstOrDefaultAsync(w => w.WorkId == workId);
+            return await _db.Work.Include(w => w.WorkItems).ThenInclude(w => w.PartsForWork).FirstOrDefaultAsync(w => w.WorkId == workId);
         }
 
         public async Task<IEnumerable<WorkItem>> GetWorkItemsForWork(Guid workId)
@@ -104,6 +104,19 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<PartForWork>> GetPartsForAWork(Guid workItemId)
+        {
+            return await _db.PartsForWork.Include(p => p.WorkItem).Where(p => p.WorkItem.WorkItemId == workItemId).ToListAsync();
+        }
 
+        public async Task DeletePartBatch(List<PartForWork> parts)
+        {
+            for(int i = 0; i < parts.Count(); i++)
+            {
+                _db.PartsForWork.Remove(parts[i]);
+                await _db.SaveChangesAsync();
+            }
+
+        }
     }
 }

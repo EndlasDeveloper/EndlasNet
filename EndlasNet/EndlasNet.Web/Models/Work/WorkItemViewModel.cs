@@ -30,6 +30,8 @@ namespace EndlasNet.Web.Models
             workItem.CompleteDate = CompleteDate;
             workItem.StaticPartInfo = StaticPartInfo;
             workItem.StaticPartInfoId = StaticPartInfoId;
+            workItem.WorkId = WorkId;
+
             return workItem;
         }
 
@@ -52,3 +54,4 @@ namespace EndlasNet.Web.Models
 
     }
 }
+    

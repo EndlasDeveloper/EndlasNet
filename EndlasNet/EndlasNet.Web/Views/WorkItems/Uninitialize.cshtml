@@ -1,6 +1,8 @@
-﻿@model EndlasNet.Web.Models.WorkItemViewModel
+﻿@using EndlasNet.Web.Models;
+@model EndlasNet.Data.WorkItem
 
 @{
+    WorkItemViewModel vm = ViewBag.vm;
     ViewData["Title"] = "Uninitialize";
 }
 
@@ -14,32 +16,32 @@
            Work Endlas number
        </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WorkItem.Work.EndlasNumber)
+            @Html.DisplayFor(model => model.Work.EndlasNumber)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkItem.StaticPartInfo.DrawingNumber)
+            @Html.DisplayNameFor(model => model.StaticPartInfo.DrawingNumber)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WorkItem.StaticPartInfo.DrawingNumber)
+            @Html.DisplayFor(model => model.StaticPartInfo.DrawingNumber)
         </dd>
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkItem.StartDate)
+            @Html.DisplayNameFor(model => model.StartDate)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.StartDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkItem.CompleteDate)
+            @Html.DisplayNameFor(model => model.CompleteDate)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CompleteDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NumPartsForWork)
+            Number of parts for work
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NumPartsForWork)
+            @vm.NumPartsForWork
         </dd>
 
 
@@ -47,20 +49,25 @@
     <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
         Title:
         <em>
-            @Html.DisplayFor(model => model.WorkItem.StaticPartInfo.ImageName)
+            @Html.DisplayFor(model => model.StaticPartInfo.ImageName)
         </em>
     </h6>
     <div class="col-sm-2">
-        <img src="@Html.DisplayFor(model => model.WorkItem.StaticPartInfo.ImageUrl)" style="max-width:650px;max-height:650px" alt="Drawing Image" />
+        <img src="@Html.DisplayFor(model => model.StaticPartInfo.ImageUrl)" style="max-width:650px;max-height:650px" alt="Drawing Image" />
     </div>
 </div>
 <br />
 <form asp-action="Uninitialize">
     <input type="hidden" asp-for="@Model.WorkItemId" />
     <input type="hidden" asp-for="@Model.WorkId" />
-    <input type="hidden" asp-for="@Model.StaticPartInfoId" />
-    <input type="hidden" asp-for="@Model.WorkItem" />
     <input type="hidden" asp-for="@Model.StaticPartInfo" />
+    <input type="hidden" asp-for="@Model.StaticPartInfoId" />
+    <input type="hidden" asp-for="@Model.StartDate" />
+    <input type="hidden" asp-for="@Model.CompleteDate" />
+    <input type="hidden" asp-for="@Model.Status" />
+    <input type="hidden" asp-for="@Model.Work" />
+    <input type="hidden" asp-for="@Model.IsInitialized" />
+    <input type="hidden" asp-for="@Model.PartsForWork" />
     <input type="submit" value="Uninitialize" asp-route-id="@Model.WorkItemId" class="btn btn-danger" /> |
     <a asp-action="Index" asp-route-workId="@Model.WorkId">Back to list</a>
 </form>

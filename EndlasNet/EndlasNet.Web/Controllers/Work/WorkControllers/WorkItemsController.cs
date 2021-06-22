@@ -22,9 +22,8 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Index(Guid workId)
         {
             Work work = await _repo.GetWork(workId);
-            var list = await _repo.GetWorkItemsForWork(work.WorkId);
             ViewBag.EndlasNumber = work.EndlasNumber;
-            return View(list);
+            return View(work.WorkItems);
         }
 
         [HttpGet]
@@ -61,19 +60,11 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 var workItem = await _repo.GetRow(vm.WorkItemId);
-                if(workItem == null)
-                {
-                    return NotFound();
-                }
 
                 workItem = vm.CombineWorkItemData(workItem);
 
-                for(int i = 0; i < vm.NumPartsForWork; i++)
-                {
-                }
-
                 workItem.IsInitialized = true;
-                await _repo.UpdateRow(workItem);
+      
                 // look to see if this part/job already exists. If so, name suffix from that point
                 var existingBatch = await _repo.GetExistingPartBatch((Guid)workItem.WorkId);
                 var initCount = vm.NumPartsForWork;
@@ -85,12 +76,13 @@ namespace EndlasNet.Web.Controllers
                     vm.NumPartsForWork += existingBatch.Count();
                 }
 
+
                 // create each part for the part batch
                 for (int i = count; i < initCount + count; i++)
                 {
                     try
                     {
-                        var tempPartForJob = new PartForJob { PartForWorkId = Guid.NewGuid(), WorkItemId = workItem.WorkItemId };
+                        var tempPartForJob = new PartForJob { PartForWorkId = Guid.NewGuid(), WorkItemId = workItem.WorkItemId,  };
                         tempPartForJob.Suffix = Utility.PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
                         tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
@@ -101,7 +93,9 @@ namespace EndlasNet.Web.Controllers
                     }
                     catch (Exception ex) { ex.ToString(); continue; }
                 }
-
+                workItem.StaticPartInfoId = vm.WorkItem.StaticPartInfoId;
+                workItem.StaticPartInfo = vm.WorkItem.StaticPartInfo;
+                await _repo.UpdateRow(workItem);
 
                 return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
             }
@@ -118,26 +112,28 @@ namespace EndlasNet.Web.Controllers
 
             var workItem = await _repo.GetRow(id);
             FileURL.SetImageURL(workItem.StaticPartInfo);
-            return View(CreateWorkItemViewModel(workItem));
+            ViewBag.vm = CreateWorkItemViewModel(workItem);
+            return View(workItem);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Uninitialize(Guid id, [Bind("WorkItemId,NumPartsForWork,StaticPartInfoId,WorkId")] WorkItemViewModel vm)
+        public async Task<IActionResult> Uninitialize(Guid id, [Bind("WorkItemId,StaticPartInfoId,StartDate,CompleteDate,WorkId,IsInitialized")] WorkItem workItem)
         {
-            if (id != vm.WorkItemId)
+            if (id != workItem.WorkItemId)
             {
                 return NotFound();
             }
-            var workItem = await _repo.GetRow(id);
 
             if (ModelState.IsValid)
             {
+                
+                await _repo.DeletePartBatch(workItem.PartsForWork.ToList());
                 workItem.IsInitialized = false;
                 await _repo.UpdateRow(workItem);
                 return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
             }
-            return View(vm);
+            return View(workItem);
         }
 
         public async Task<IActionResult> Edit(Guid? id)

@@ -13,6 +13,8 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <input type="hidden" asp-for="WorkItemId" />
             <input type="hidden" asp-for="WorkId" />
+            <input type="hidden" asp-for="WorkItem" />
+            <input type="hidden" asp-for="WorkItem.StaticPartInfo" />
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
