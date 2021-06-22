@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using EndlasNet.Data;
 using EndlasNet.Web.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 
 namespace EndlasNet.Web.Controllers
 {
     public class WorkItemsController : Controller
     {
         private readonly IWorkItemRepo _repo;
+        private readonly Guid NONE_ID = Guid.Empty;
+
         public WorkItemsController(IWorkItemRepo repo)
         {
             _repo = repo;
@@ -45,7 +48,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-/*            var resultList = await _repo.GetPartsForJobsWithPartInfo(vm.StaticPartInfoId);
+            var resultList = await _repo.GetPartsForJobsWithPartInfo(vm.StaticPartInfoId);
             var count = resultList.Count();
             int max = -1;
             foreach (PartForJob pForJob in resultList)
@@ -54,7 +57,7 @@ namespace EndlasNet.Web.Controllers
                 if (temp > max)
                     max = temp;
             }
-*/
+
             if (ModelState.IsValid)
             {
                 var workItem = await _repo.GetRow(vm.WorkItemId);
@@ -71,6 +74,35 @@ namespace EndlasNet.Web.Controllers
 
                 workItem.IsInitialized = true;
                 await _repo.UpdateRow(workItem);
+                // look to see if this part/job already exists. If so, name suffix from that point
+                var existingBatch = await _repo.GetExistingPartBatch((Guid)workItem.WorkId);
+                var initCount = vm.NumPartsForWork;
+                vm.NumPartsForWork += existingBatch.Count();
+
+                // update the number of parts in each PartForJob
+                foreach (PartForJob part in existingBatch)
+                {
+                    vm.NumPartsForWork += existingBatch.Count();
+                }
+
+                // create each part for the part batch
+                for (int i = count; i < initCount + count; i++)
+                {
+                    try
+                    {
+                        var tempPartForJob = new PartForJob { PartForWorkId = Guid.NewGuid(), WorkItemId = workItem.WorkItemId };
+                        tempPartForJob.Suffix = Utility.PartSuffixGenerator.IndexToSuffix(i);
+                        tempPartForJob.PartForWorkId = Guid.NewGuid();
+                        tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
+                        if (tempPartForJob.PartForWorkImgId == NONE_ID)
+                            tempPartForJob.PartForWorkImgId = null;
+
+                        await _repo.AddPartForJob(tempPartForJob);
+                    }
+                    catch (Exception ex) { ex.ToString(); continue; }
+                }
+
+
                 return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
             }
             return View(vm);

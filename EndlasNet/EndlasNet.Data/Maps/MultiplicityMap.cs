@@ -31,10 +31,12 @@ namespace EndlasNet.Data
 
             modelBuilder.Entity<PartForWork>().HasMany(p => p.PowdersUsed).WithOne(p => p.PartForWork);
             modelBuilder.Entity<StaticPartInfo>().HasMany(s => s.WorkItems).WithOne(w => w.StaticPartInfo);
-
+            modelBuilder.Entity<Work>().HasMany(w => w.WorkItems).WithOne(w => w.Work);
+            modelBuilder.Entity<WorkItem>().HasMany(w => w.PartsForWork).WithOne(p => p.WorkItem);
             /*** ACTION ***/
             modelBuilder.Entity<Work>().HasMany(j => j.ToolsForJob).WithOne(m => m.Work).OnDelete(DeleteBehavior.SetNull);
             modelBuilder.Entity<Work>().HasMany(j => j.ToolsForWorkOrder).WithOne(m => m.Work).OnDelete(DeleteBehavior.SetNull);
+            
             /*** QUOTE ***/
 
         }

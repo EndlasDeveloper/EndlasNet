@@ -12,8 +12,8 @@ namespace EndlasNet.Data
         public Guid WorkItemId { get; set; }
 
         [ForeignKey("WorkId")]
-        public Guid WorkId { get; set; }
-        public Work Work { get; set; }
+        public Guid? WorkId { get; set; }
+        public virtual Work Work { get; set; }
 
         [ForeignKey("StaticPartInfoId")]
         [Display(Name ="Part info")]

@@ -18,5 +18,8 @@ namespace EndlasNet.Data
         public Task<IEnumerable<WorkItem>> GetWorkItemsForWork(Guid workId);
 
         public Task<StaticPartInfo> GetStaticPartInfo(Guid id);
+        public Task<IEnumerable<PartForWork>> GetPartsForJobsWithPartInfo(Guid? staticPartInfoId);
+        public Task<IEnumerable<PartForWork>> GetExistingPartBatch(Guid workId);
+        public Task AddPartForJob(PartForJob partForJob);
     }
 }

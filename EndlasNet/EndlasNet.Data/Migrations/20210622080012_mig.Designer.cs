@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndlasNet.Data.Migrations
 {
     [DbContext(typeof(EndlasNetDbContext))]
-    [Migration("20210618161541_mig")]
+    [Migration("20210622080012_mig")]
     partial class mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CustomerId = new Guid("22b54bae-99f9-431b-853b-c2ba759352b4"),
+                            CustomerId = new Guid("e3b6da6a-dded-4ca2-9dfe-4fc920ef00c1"),
                             CustomerAddress = "Dummy Customer Address",
                             CustomerName = "Dummy Customer Name",
                             CustomerPhone = "0987654321",
@@ -614,7 +614,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            VendorId = new Guid("20391294-9863-4fbf-8bab-fa8f0181d049"),
+                            VendorId = new Guid("1127239f-bdac-4267-8457-2dd89a995cc3"),
                             PointOfContact = "Dummy Point of Contact",
                             VendorAddress = "Dummy Vendor Address",
                             VendorName = "Dummy Vendor Name",
@@ -707,7 +707,7 @@ namespace EndlasNet.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("WorkId")
+                    b.Property<Guid?>("WorkId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("WorkItemId");
@@ -764,7 +764,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("c63c7377-9660-46d7-9a92-86a63366174b"),
+                            UserId = new Guid("b8a413af-fc6d-4d8c-b304-3d8ca8451fc1"),
                             AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
                             EndlasEmail = "sa@endlas.com",
                             FirstName = "SA",
@@ -772,7 +772,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("230d85f1-487f-4d77-bede-5882597613d0"),
+                            UserId = new Guid("66bdeeef-a3fd-42fe-a492-36c70de05e7a"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "james.tomich@endlas.com",
                             FirstName = "Jimmy",
@@ -780,7 +780,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("f9d461fe-6bf4-48ef-a132-f4866d7121f4"),
+                            UserId = new Guid("81894657-330b-4413-9066-df751555fa14"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "josh.hammell@endlas.com",
                             FirstName = "Josh",
@@ -788,7 +788,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("b17ad1b7-2bf3-40e6-b5ad-6b5fa33b2871"),
+                            UserId = new Guid("a0b6e415-1661-4131-8bc5-b0b5173dad18"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                             EndlasEmail = "blt@endlas.com",
                             FirstName = "Brett",
@@ -1031,9 +1031,7 @@ namespace EndlasNet.Data.Migrations
 
                     b.HasOne("EndlasNet.Data.Work", "Work")
                         .WithMany("WorkItems")
-                        .HasForeignKey("WorkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkId");
 
                     b.Navigation("StaticPartInfo");
 

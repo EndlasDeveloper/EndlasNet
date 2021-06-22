@@ -54,7 +54,7 @@
         <img src="@Html.DisplayFor(model => model.WorkItem.StaticPartInfo.ImageUrl)" style="max-width:650px;max-height:650px" alt="Drawing Image" />
     </div>
 </div>
-
+<br />
 <form asp-action="Uninitialize">
     <input type="hidden" asp-for="@Model.WorkItemId" />
     <input type="hidden" asp-for="@Model.WorkId" />

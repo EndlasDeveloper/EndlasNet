@@ -38,6 +38,7 @@ namespace EndlasNet.Data
         {
             return await _db.WorkItems
                 .Include(w => w.Work)
+                .Include(w => w.StaticPartInfo)
                 .Include(w => w.PartsForWork)
                 .ToListAsync();
         }
@@ -53,8 +54,8 @@ namespace EndlasNet.Data
         {
             return await _db.WorkItems
                 .Include(w => w.Work)
-                .Include(w => w.PartsForWork)
                 .Include(w => w.StaticPartInfo)
+                .Include(w => w.PartsForWork)
                 .FirstOrDefaultAsync(w => w.WorkItemId == workItemId);
         }
 
@@ -65,7 +66,11 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<WorkItem>> GetWorkItemsForWork(Guid workId)
         {
-            return await _db.WorkItems.Where(w => w.WorkId == workId).ToListAsync();
+            return await _db.WorkItems
+                .Include(w => w.PartsForWork)
+                .Include(w => w.StaticPartInfo)
+                .Where(w => w.WorkId == workId)
+                .ToListAsync();
         }
         public async Task UpdateRow(WorkItem workItem)
         {
@@ -78,5 +83,28 @@ namespace EndlasNet.Data
         {
             return await _db.StaticPartInfo.FirstOrDefaultAsync(s => s.StaticPartInfoId == id);
         }
+
+        public async Task<IEnumerable<PartForWork>> GetPartsForJobsWithPartInfo(Guid? staticPartInfoId)
+        {
+            return await _db.PartsForWork
+                .Include(p => p.WorkItem).ThenInclude(w => w.StaticPartInfo)
+                .Where(p => p.WorkItem.StaticPartInfo.StaticPartInfoId == staticPartInfoId)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<PartForWork>> GetExistingPartBatch(Guid workId)
+        {
+            return await _db.PartsForWork
+                .Where(p => p.WorkId == workId)
+                .OrderByDescending(p => p.Suffix)
+                .ToListAsync();
+        }
+        public async Task AddPartForJob(PartForJob partForJob)
+        {
+            _db.Add(partForJob);
+            await _db.SaveChangesAsync();
+        }
+
+
     }
 }
