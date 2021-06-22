@@ -21,7 +21,7 @@ namespace EndlasNet.Data
            return await _db.PartsForJobs
                
                .Include(p => p.User)
-               .Include(p => p.Work)
+               .Include(p => p.WorkItem)
                .OrderByDescending(p => p.Suffix)
                .ToListAsync();
         }
@@ -29,7 +29,7 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForJobs
                 .Include(p => p.User)
-                .Include(p => p.Work)
+                .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
@@ -40,7 +40,7 @@ namespace EndlasNet.Data
             return await _db.PartsForJobs
             
             .Include(p => p.User)
-            .Include(p => p.Work)
+            .Include(p => p.WorkItem)
             .Include(p => p.PartForWorkImg)
             .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
@@ -48,7 +48,6 @@ namespace EndlasNet.Data
         public async Task<List<PartForJob>> GetExistingPartBatch(PartForJob partForJob)
         {
             return await _db.PartsForJobs
-                   .Where(p => p.WorkId == partForJob.WorkId)
                    .OrderByDescending(p => p.Suffix)
                    .ToListAsync();
         }
@@ -76,7 +75,7 @@ namespace EndlasNet.Data
             return await _db.PartsForJobs
 
                 .Include(p => p.User)
-                .Include(p => p.Work)
+                .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
@@ -92,13 +91,13 @@ namespace EndlasNet.Data
             var batch = await _db.PartsForJobs
 
                 .Include(p => p.User)
-                .Include(p => p.Work)
+                .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .ToListAsync();
 
             batch = (List<PartForJob>)batch.AsEnumerable();
 
-            return batch.Where(p => p.WorkId.ToString() == workId)
+            return batch.Where(p => p.WorkItem.WorkId.ToString() == workId)
                 .OrderByDescending(p => p.Suffix);
         }
 

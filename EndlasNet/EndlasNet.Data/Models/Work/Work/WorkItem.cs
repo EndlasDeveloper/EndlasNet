@@ -12,6 +12,7 @@ namespace EndlasNet.Data
         public Guid WorkItemId { get; set; }
 
         [ForeignKey("WorkId")]
+        [Display(Name ="Work Endlas number")]
         public Guid? WorkId { get; set; }
         public virtual Work Work { get; set; }
 
@@ -28,10 +29,8 @@ namespace EndlasNet.Data
         [Display(Name = "Complete date")]
         public DateTime? CompleteDate { get; set; }
 
-
         public bool IsInitialized { get; set; } = false;
 
         public IEnumerable<PartForWork> PartsForWork { get; set; }
-
     }
 }

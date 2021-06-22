@@ -20,7 +20,6 @@ namespace EndlasNet.Data
             return await _db.PartsForWorkOrders
                 
                 .Include(p => p.User)
-                .Include(p => p.Work)
                 .Include(p => p.PartForWorkImg)
                 .OrderByDescending(p => p.Suffix)
                 .ToListAsync();
@@ -30,17 +29,14 @@ namespace EndlasNet.Data
             return await _db.PartsForWorkOrders
                 
                 .Include(p => p.User)
-                .Include(p => p.Work)
+                .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
 
         public async Task<List<PartForWorkOrder>> GetExistingPartBatch(PartForWorkOrder partForWorkOrder)
         {
-            return await _db.PartsForWorkOrders
-                   .Where(p => p.WorkId == partForWorkOrder.WorkId)
-                   
-                   .Include(p => p.Work)
+            return await _db.PartsForWorkOrders                   
                    .Include(p => p.PartForWorkImg)
                    .OrderByDescending(p => p.Suffix)
                    .ToListAsync();
@@ -110,7 +106,7 @@ namespace EndlasNet.Data
             return await _db.PartsForWorkOrders
                 
                 .Include(p => p.User)
-                .Include(p => p.Work)
+                .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
@@ -126,14 +122,14 @@ namespace EndlasNet.Data
             var batch = await _db.PartsForWorkOrders
                 
                 .Include(p => p.User)
-                .Include(p => p.Work)
+                .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .OrderBy(p => p.Suffix)
                 .ToListAsync();
 
             batch = (List<PartForWorkOrder>)batch.AsEnumerable();
 
-            return batch.Where(p => p.WorkId.ToString() == workId)
+            return batch.Where(p => p.WorkItem.WorkId.ToString() == workId)
                 .OrderByDescending(p => p.Suffix);
         }
 
@@ -178,7 +174,7 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForWorkOrders
                 
-                .Include(p => p.Work)
+                .Include(p => p.WorkItem)
                 .Include(p => p.User)
                 .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(p => p.PartForWorkId == id);
@@ -188,7 +184,7 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForWorkOrders
                            .Include(p => p.User)
-                           .Include(p => p.Work)
+                           .Include(p => p.WorkItem)
                            .Include(p => p.PartForWorkImg)
                            .FirstOrDefaultAsync(p => p.PartForWorkId == id);
         }

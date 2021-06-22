@@ -30,28 +30,28 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<PartForJob>> GetAllPartsForJobs()
         {
             return await _db.PartsForJobs
-                .Include(p => p.Work)
-                .OrderByDescending(p => p.Work.DueDate).ThenBy(p => p.Suffix)
+                .Include(p => p.WorkItem)
+                .OrderByDescending(p => p.WorkItem.Work.DueDate).ThenBy(p => p.Suffix)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<PartForWorkOrder>> GetAllPartsForWorkOrders()
         {
             return await _db.PartsForWorkOrders
-                .Include(p => p.Work)
-                .OrderByDescending(p => p.Work.DueDate).ThenBy(p => p.Suffix)
+                .Include(p => p.WorkItem)
+                .OrderByDescending(p => p.WorkItem.Work.DueDate).ThenBy(p => p.Suffix)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<PartForWork>> GetAllPartsForWork()
         {
             var list = await _db.PartsForWork
-                .Include(p => p.Work)
-                .OrderByDescending(p => p.Work.DueDate).ThenBy(p => p.Suffix)
+                .Include(p => p.WorkItem)
+                .OrderByDescending(p => p.WorkItem.Work.DueDate).ThenBy(p => p.Suffix)
                 .ToListAsync();
             foreach(PartForWork partForWork in list)
             {
-                partForWork.Work.Customer = await _db.Customers.FirstOrDefaultAsync(p => p.CustomerId == partForWork.Work.CustomerId);
+                partForWork.WorkItem.Work.Customer = await _db.Customers.FirstOrDefaultAsync(p => p.CustomerId == partForWork.WorkItem.Work.CustomerId);
             }
             return list;
         }
@@ -72,7 +72,7 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForWork
                .Include(p => p.User)
-               .Include(p => p.Work)
+               .Include(p => p.WorkItem)
                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
 
@@ -80,7 +80,7 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForWorkOrders
                .Include(p => p.User)
-               .Include(p => p.Work).ToListAsync();
+               .Include(p => p.WorkItem).ToListAsync();
         }
 
         public string GetWorkType(PartForWork partForWork)

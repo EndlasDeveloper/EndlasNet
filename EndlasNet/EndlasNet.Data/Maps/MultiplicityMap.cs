@@ -25,14 +25,14 @@ namespace EndlasNet.Data
             modelBuilder.Entity<User>().HasMany(u => u.MachiningToolForJobs).WithOne(j => j.User).OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<User>().HasMany(u => u.MachiningToolForWorkOrders).WithOne(j => j.User).OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<PartForWorkImg>().HasMany(p => p.PartsForWork).WithOne(p => p.PartForWorkImg).OnDelete(DeleteBehavior.SetNull);
 
             /*** WORK ***/
+            modelBuilder.Entity<PartForWorkImg>().HasMany(p => p.PartsForWork).WithOne(p => p.PartForWorkImg).OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<PartForWork>().HasMany(p => p.PowdersUsed).WithOne(p => p.PartForWork).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<StaticPartInfo>().HasMany(s => s.WorkItems).WithOne(w => w.StaticPartInfo).OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<Work>().HasMany(w => w.WorkItems).WithOne(w => w.Work).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<WorkItem>().HasMany(w => w.PartsForWork).WithOne(p => p.WorkItem).OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<PartForWork>().HasMany(p => p.PowdersUsed).WithOne(p => p.PartForWork);
-            modelBuilder.Entity<StaticPartInfo>().HasMany(s => s.WorkItems).WithOne(w => w.StaticPartInfo);
-            modelBuilder.Entity<Work>().HasMany(w => w.WorkItems).WithOne(w => w.Work);
-            modelBuilder.Entity<WorkItem>().HasMany(w => w.PartsForWork).WithOne(p => p.WorkItem);
             /*** ACTION ***/
             modelBuilder.Entity<Work>().HasMany(j => j.ToolsForJob).WithOne(m => m.Work).OnDelete(DeleteBehavior.SetNull);
             modelBuilder.Entity<Work>().HasMany(j => j.ToolsForWorkOrder).WithOne(m => m.Work).OnDelete(DeleteBehavior.SetNull);

@@ -123,7 +123,7 @@ namespace EndlasNet.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForJob.WorkItem.StaticPartInfoId);
-            ViewData["WorkId"] = new SelectList(await _repo.GetAllJobs(), "WorkId", "EndlasNumber", partForJob.WorkId);
+            ViewData["WorkId"] = new SelectList(await _repo.GetAllJobs(), "WorkId", "EndlasNumber", partForJob.WorkItem.WorkId);
             return View(partForJob);
         }
 

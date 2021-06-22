@@ -61,8 +61,7 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<PartForWork>> GetPartsForWorkSingle(Guid workId)
         {
-            return await _db.PartsForWork
-                .Where(p => p.WorkId == workId).ToListAsync();
+            return await _db.PartsForWork.ToListAsync();
         }
 
         public async Task<PowderBottle> GetPowderBottle(Guid id)
