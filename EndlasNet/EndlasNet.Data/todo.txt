@@ -1,2 +1,1 @@
-﻿WorkItem -> after initializing, uninitializing, then reinitializing a row, the details and uninitialize views throw exceptions. It looks like the static part info reference is lost
-somewhere is the initialization process, but sometime after the first initialization.
+﻿
