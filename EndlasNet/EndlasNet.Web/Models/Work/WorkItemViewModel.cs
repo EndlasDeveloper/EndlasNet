@@ -12,9 +12,6 @@ namespace EndlasNet.Web.Models
         public Guid WorkItemId { get; set; }
         public WorkItem WorkItem { get; set; }
 
-        [Display(Name ="Static part info")]
-        public Guid? StaticPartInfoId { get; set; }
-        public StaticPartInfo StaticPartInfo { get; set; }
         [Display(Name ="Number of parts")]
         public int NumPartsForWork { get; set; }
         [Display(Name ="Start date")]
@@ -28,8 +25,6 @@ namespace EndlasNet.Web.Models
             workItem.WorkItemId = WorkItemId;
             workItem.StartDate = StartDate;
             workItem.CompleteDate = CompleteDate;
-            workItem.StaticPartInfo = StaticPartInfo;
-            workItem.StaticPartInfoId = StaticPartInfoId;
             workItem.WorkId = WorkId;
 
             return workItem;
@@ -38,7 +33,7 @@ namespace EndlasNet.Web.Models
         public void SetupViewModel(WorkItem workItem)
         {
             WorkItem = workItem;
-            StaticPartInfoId = workItem.StaticPartInfoId;
+            WorkItem.StaticPartInfoId = workItem.StaticPartInfoId;
             if(workItem.PartsForWork != null)
             {
                 NumPartsForWork = workItem.PartsForWork.Count();

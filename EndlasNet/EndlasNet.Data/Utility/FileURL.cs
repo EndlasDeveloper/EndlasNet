@@ -16,6 +16,9 @@ namespace EndlasNet.Data
     {
         public static void SetImageURL(StaticPartInfo staticPartInfo)
         {
+            if (staticPartInfo == null)
+                return;
+
             if (staticPartInfo.DrawingImageBytes != null)
             {
                 string imageUrl = GetImageURL(staticPartInfo.DrawingImageBytes);

@@ -33,21 +33,21 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
-            var workItem = await _repo.GetRow(id);
+            var vm = await CreateWorkItemViewModel(id);
+            
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllPartInfo(), "StaticPartInfoId", "PartDescription");
-            return View(CreateWorkItemViewModel(workItem));
+            return View(vm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Initialize(Guid id, [Bind("WorkItemId,WorkItem,StaticPartInfoId,StaticPartInfo,NumPartsForWork,StartDate,CompleteDate,WorkId")] WorkItemViewModel vm)
+        public async Task<IActionResult> Initialize(Guid id, [Bind("WorkItemId,WorkItem,NumPartsForWork,StartDate,CompleteDate,WorkId")] WorkItemViewModel vm)
         {
             if (id != vm.WorkItemId)
             {
                 return NotFound();
             }
-            var resultList = await _repo.GetPartsForJobsWithPartInfo(vm.StaticPartInfoId);
+            var resultList = await _repo.GetPartsForJobsWithPartInfo(vm.WorkItem.StaticPartInfoId);
             var count = resultList.Count();
             int max = -1;
             foreach (PartForJob pForJob in resultList)
@@ -111,29 +111,22 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var workItem = await _repo.GetRow(id);
-            FileURL.SetImageURL(workItem.StaticPartInfo);
-            return View(CreateWorkItemViewModel(workItem));
+            var vm = await CreateWorkItemViewModel(id);
+            FileURL.SetImageURL(vm.WorkItem.StaticPartInfo);
+            return View(vm);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Uninitialize(Guid id, [Bind("WorkItemId,WorkItem,StaticPartInfoId,StaticPartInfo,NumPartsForWork,StartDate,CompleteDate,WorkId")] WorkItemViewModel vm)
+        public async Task<IActionResult> Uninitialize(Guid id)
         {
-            if (id != vm.WorkItemId)
-            {
-                return NotFound();
-            }
+            var workItem = await _repo.GetRow(id);
+            await _repo.DeletePartBatch(workItem.PartsForWork.ToList());
+            workItem.IsInitialized = false;
+            await _repo.UpdateRow(workItem);
 
-            if (ModelState.IsValid)
-            {
-                var workItem = await _repo.GetRow(vm.WorkItemId);
-                await _repo.DeletePartBatch(workItem.PartsForWork.ToList());
-                workItem.IsInitialized = false;
-                await _repo.UpdateRow(workItem);
-                return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
-            }
-            return View(vm);
+
+            return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
         }
 
         public async Task<IActionResult> Edit(Guid? id)
@@ -175,10 +168,9 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-
-            FileURL.SetImageURL(workItem.StaticPartInfo);
-            
-            return View(CreateWorkItemViewModel(workItem));
+            var vm = await CreateWorkItemViewModel(id);
+            FileURL.SetImageURL(vm.WorkItem.StaticPartInfo);
+            return View(vm);
         }
 
         public async Task<IActionResult> ManagePartsForWork(Guid workItemId)
@@ -189,19 +181,17 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction("Index", "PartForJobs", new { workItemId = workItemId });
         }
 
-        private WorkItemViewModel CreateWorkItemViewModel(WorkItem workItem)
+        private async Task<WorkItemViewModel> CreateWorkItemViewModel(Guid? id)
         {
+            var workItem = await _repo.GetRow(id);
             WorkItemViewModel vm = new WorkItemViewModel();
             vm.WorkItemId = workItem.WorkItemId;
             vm.WorkItem = workItem;
             vm.WorkId = workItem.Work.WorkId;
+
             if(workItem.PartsForWork != null || workItem.PartsForWork.Count() > 0)
             {
                 vm.NumPartsForWork = workItem.PartsForWork.Count();
-            }
-            if(workItem.StaticPartInfoId != null)
-            {
-                vm.StaticPartInfoId = workItem.StaticPartInfoId;
             }
             if(workItem.StartDate != null)
             {

@@ -1,8 +1,7 @@
 ﻿@using EndlasNet.Web.Models;
-@model EndlasNet.Data.WorkItem
+@model EndlasNet.Web.Models.WorkItemViewModel
 
 @{
-    WorkItemViewModel vm = ViewBag.vm;
     ViewData["Title"] = "Uninitialize";
 }
 
@@ -16,13 +15,13 @@
            Work Endlas number
        </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Work.EndlasNumber)
+            @Html.DisplayFor(model => model.WorkItem.Work.EndlasNumber)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StaticPartInfo.DrawingNumber)
+            @Html.DisplayNameFor(model => model.WorkItem.StaticPartInfo.DrawingNumber)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StaticPartInfo.DrawingNumber)
+            @Html.DisplayFor(model => model.WorkItem.StaticPartInfo.DrawingNumber)
         </dd>
 
         <dt class="col-sm-2">
@@ -38,10 +37,10 @@
             @Html.DisplayFor(model => model.CompleteDate)
         </dd>
         <dt class="col-sm-2">
-            Number of parts for work
+            @Html.DisplayNameFor(model =>  model.NumPartsForWork)
         </dt>
         <dd class="col-sm-10">
-            @vm.NumPartsForWork
+            @Html.DisplayFor(model => model.NumPartsForWork)
         </dd>
 
 
@@ -49,16 +48,28 @@
     <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
         Title:
         <em>
-            @Html.DisplayFor(model => model.StaticPartInfo.ImageName)
+            @Html.DisplayFor(model => model.WorkItem.StaticPartInfo.ImageName)
         </em>
     </h6>
     <div class="col-sm-2">
-        <img src="@Html.DisplayFor(model => model.StaticPartInfo.ImageUrl)" style="max-width:650px;max-height:650px" alt="Drawing Image" />
+        <img src="@Html.DisplayFor(model => model.WorkItem.StaticPartInfo.ImageUrl)" style="max-width:650px;max-height:650px" alt="Drawing Image" />
     </div>
 </div>
 <br />
 <form asp-action="Uninitialize">
-    <input type="hidden" asp-for="@Model" />
+    <input type="hidden" asp-for="@Model.WorkItemId" />
+    <input type="hidden" asp-for="@Model.WorkItem" />
+    <input type="hidden" asp-for="@Model.WorkItem.StartDate" />
+    <input type="hidden" asp-for="@Model.WorkItem.CompleteDate" />
+    <input type="hidden" asp-for="@Model.WorkItem.WorkId" />
+    <input type="hidden" asp-for="@Model.WorkItem.StaticPartInfoId" />
+    <input type="hidden" asp-for="@Model.WorkItem.IsInitialized" />
+    <input type="hidden" asp-for="@Model.WorkItem.Status" />
+
+    <input type="hidden" asp-for="@Model.NumPartsForWork" />
+    <input type="hidden" asp-for="@Model.StartDate" />
+    <input type="hidden" asp-for="@Model.CompleteDate" />
+    <input type="hidden" asp-for="@Model.WorkId" />
 
     <input type="submit" value="Uninitialize" asp-route-id="@Model.WorkItemId" class="btn btn-danger" /> |
     <a asp-action="Index" asp-route-workId="@Model.WorkId">Back to list</a>
