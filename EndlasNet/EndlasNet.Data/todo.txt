@@ -1,3 +1,2 @@
-﻿Create view model for work items (number of parts, static part info, not part image (default it to none))
-
-Idea: refactor all repositories into 1 large repository... pro-> all methods available to all controllers. con-> repo will get large, probably will become disorganized to a degree (idk how much).
+﻿WorkItem -> after initializing, uninitializing, then reinitializing a row, the details and uninitialize views throw exceptions. It looks like the static part info reference is lost
+somewhere is the initialization process, but sometime after the first initialization.
