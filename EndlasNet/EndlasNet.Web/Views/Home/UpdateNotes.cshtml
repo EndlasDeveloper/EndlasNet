@@ -29,12 +29,12 @@
                     Work -> Added manage work items action link to jobs index.
                 </li>
                 <li>
-                    Work -> Added number of work items to  the UI for job create. Successfully creates the defined number of child work item entities for 
-                    the parent work (job). 
+                    Work -> Added number of work items to  the UI for job create. Successfully creates the defined number of child work item entities for
+                    the parent work (job).
                 </li>
                 <li>
                     Work -> manage work items action link forwards user to work items index view. The index shows the work items for the row selected under jobs.
-                    If the work item row is uninitialized, the row information will display starts and the  UI only allows for initializataion under each row. 
+                    If the work item row is uninitialized, the row information will display starts and the  UI only allows for initializataion under each row.
                 </li>
                 <li>
                     WorkItem -> Added initialize view. Currently doesn't have any forms to fill out, but on submit, the row attribute IsInitiazed is set to true and saved.
@@ -56,10 +56,10 @@
                     Changed back-end to have start date, complete date, and static part info in work items (moved out of job and part for work).
                 </li>
                 <li>
-                    Changed the initialize functionality to allow user to choose start date, complete date, and and static part info. 
+                    Changed the initialize functionality to allow user to choose start date, complete date, and and static part info.
                 </li>
                 <li>
-                    Added edit functionality to work items. Allows user to change part info and dates. 
+                    Added edit functionality to work items. Allows user to change part info and dates.
                 </li>
             </ul>
         </li>
@@ -85,7 +85,7 @@
             PartsForWork -> want functionality to select columns to display then apply multiple to selected columns.
         </li>
         <li class="update-notes-li">
-            PartsForJob -> Job part batch -> make name action link to apply attribute value to multiple parts for work. 
+            PartsForJob -> Job part batch -> make name action link to apply attribute value to multiple parts for work.
         </li>
         <li class="update-notes-li">
             Remove 'hr:min:sec' portion of the due date in all places possible.
@@ -113,62 +113,71 @@
     </ul>
 
     @* ****** KNOWN ISSUES ****** *@
-    <!--<div style="color:white;font-size:18px;">Bugs and known issues</div>
-        <ul style="font-size:14px;line-height:200%;">
-                <li class="update-notes-li">
-            Make form minimum width a little wider for form pages.
-        </li>
-            <li class="update-notes-li">
-                Some delete views have a UI flaw with the delete button not fitting on one line with action links.
-            </li>
-            <li class="update-notes-li">
-                From LineItem, when the user clicks manage powders, the bottle powder name is correctly set. If the user
-                navigates to a child view, and is forwarded back to index, the bottle powder name is no longer set.
-            </li>
-            <li class="update-notes-li">
-                User isn't set for PowderOrders.
-            </li>
-            <li class="update-notes-li">
-                Not all delete views have an indication whether other db items will be deleted as a result of the delete.
-            </li>
-            <li class="update-notes-li">
-                When a static part info is created (it has a customer fk reference), and then the customer fk entry is deleted,
-                an exception is thrown.
-            </li>
-            <li class="update-notes-li">
-                Some views do not have login protection implemented yet.
-            </li>
-        </ul>-->
-    @* ****** OTHER CONSIDERATIONS ****** *@
-    <!--<div style="color:white;font-size:18px;">Other considerations</div>
+    <div style="color:white;font-size:18px;">Bugs and known issues</div>
     <ul style="font-size:14px;line-height:200%;">
         <li class="update-notes-li">
-            Under create and edit view, mark elements that are optional/required.
+            WorkItems -> Initialize, Uninitialize, Reinitialize, then try to view details or uninitialize a work item -> leads to a loss in the FK reference to static part information.
+            
         </li>
-        <li class="update-notes-li">
-            Implement start suffix for part batch initialization?
-        </li>
-        <li class="update-notes-li">
-            Put a '?' icon on all data access level views (any view that allows user to interact with the db in any way). When clicked,
-            show a description of the view's purpose within the context of data access and work flow.
-        </li>
-        <li class="update-notes-li">
-            Look at activity logging (or just logging) in ASP.NET EF Core.
-        </li>
-        <li class="update-notes-li">
-            Look for a coded UI test library.
-        </li>
-        <li class="update-notes-li">
-            Consider paging and which views to implement paging with.
-        </li>
-        <li class="update-notes-li">
-            Consider search bar on views with many rows to filter.
-        </li>
-        <li class="update-notes-li">
-            Help tab development.
-        </li>
-        <li class="update-notes-li">
-            Style upload buttons and enum referenced dropdowns.
-        </li>
-    </ul>-->
+    </ul>
+
+
+        <!--<div style="color:white;font-size:18px;">Bugs and known issues</div>
+            <ul style="font-size:14px;line-height:200%;">
+                    <li class="update-notes-li">
+                Make form minimum width a little wider for form pages.
+            </li>
+                <li class="update-notes-li">
+                    Some delete views have a UI flaw with the delete button not fitting on one line with action links.
+                </li>
+                <li class="update-notes-li">
+                    From LineItem, when the user clicks manage powders, the bottle powder name is correctly set. If the user
+                    navigates to a child view, and is forwarded back to index, the bottle powder name is no longer set.
+                </li>
+                <li class="update-notes-li">
+                    User isn't set for PowderOrders.
+                </li>
+                <li class="update-notes-li">
+                    Not all delete views have an indication whether other db items will be deleted as a result of the delete.
+                </li>
+                <li class="update-notes-li">
+                    When a static part info is created (it has a customer fk reference), and then the customer fk entry is deleted,
+                    an exception is thrown.
+                </li>
+                <li class="update-notes-li">
+                    Some views do not have login protection implemented yet.
+                </li>
+            </ul>-->
+        @* ****** OTHER CONSIDERATIONS ****** *@
+        <!--<div style="color:white;font-size:18px;">Other considerations</div>
+        <ul style="font-size:14px;line-height:200%;">
+            <li class="update-notes-li">
+                Under create and edit view, mark elements that are optional/required.
+            </li>
+            <li class="update-notes-li">
+                Implement start suffix for part batch initialization?
+            </li>
+            <li class="update-notes-li">
+                Put a '?' icon on all data access level views (any view that allows user to interact with the db in any way). When clicked,
+                show a description of the view's purpose within the context of data access and work flow.
+            </li>
+            <li class="update-notes-li">
+                Look at activity logging (or just logging) in ASP.NET EF Core.
+            </li>
+            <li class="update-notes-li">
+                Look for a coded UI test library.
+            </li>
+            <li class="update-notes-li">
+                Consider paging and which views to implement paging with.
+            </li>
+            <li class="update-notes-li">
+                Consider search bar on views with many rows to filter.
+            </li>
+            <li class="update-notes-li">
+                Help tab development.
+            </li>
+            <li class="update-notes-li">
+                Style upload buttons and enum referenced dropdowns.
+            </li>
+        </ul>-->
 </p>
