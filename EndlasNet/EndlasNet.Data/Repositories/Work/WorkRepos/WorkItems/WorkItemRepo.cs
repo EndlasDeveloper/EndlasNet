@@ -92,9 +92,10 @@ namespace EndlasNet.Data
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<PartForWork>> GetExistingPartBatch(Guid workId)
+        public async Task<IEnumerable<PartForWork>> GetExistingPartBatch(Guid workItemId)
         {
             return await _db.PartsForWork
+                .Where(p => p.WorkItemId == workItemId)
                 .OrderByDescending(p => p.Suffix)
                 .ToListAsync();
         }

@@ -41,15 +41,15 @@ namespace EndlasNet.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Initialize(Guid id, [Bind("WorkItemId,WorkItem,NumPartsForWork,StartDate,CompleteDate,WorkId")] WorkItemViewModel vm)
+        public async Task<IActionResult> Initialize(Guid id, [Bind("WorkItemId,WorkItem,StaticPartInfoId,NumPartsForWork,StartDate,CompleteDate,WorkId")] WorkItemViewModel vm)
         {
             if (id != vm.WorkItemId)
             {
                 return NotFound();
             }
-            var resultList = await _repo.GetPartsForJobsWithPartInfo(vm.WorkItem.StaticPartInfoId);
+            var resultList = await _repo.GetPartsForJobsWithPartInfo(vm.StaticPartInfoId);
             var count = resultList.Count();
-            int max = -1;
+            int max = 0;
             foreach (PartForJob pForJob in resultList)
             {
                 var temp = PartSuffixGenerator.SuffixToIndex(pForJob.Suffix);
@@ -60,7 +60,7 @@ namespace EndlasNet.Web.Controllers
             if (ModelState.IsValid)
             {
                 var workItem = await _repo.GetRow(vm.WorkItemId);
-                workItem.StaticPartInfoId = vm.WorkItem.StaticPartInfoId;
+                workItem.StaticPartInfoId = vm.StaticPartInfoId;
                 workItem.StartDate = vm.StartDate;
                 workItem.CompleteDate = vm.CompleteDate;
                
@@ -94,8 +94,6 @@ namespace EndlasNet.Web.Controllers
                     }
                     catch (Exception ex) { ex.ToString(); continue; }
                 }
-                workItem.StaticPartInfoId = vm.WorkItem.StaticPartInfoId;
-                workItem.StaticPartInfo = vm.WorkItem.StaticPartInfo;
                 await _repo.UpdateRow(workItem);
 
                 return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
@@ -121,11 +119,10 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Uninitialize(Guid id)
         {
             var workItem = await _repo.GetRow(id);
-            await _repo.DeletePartBatch(workItem.PartsForWork.ToList());
             workItem.IsInitialized = false;
-            await _repo.UpdateRow(workItem);
-
-
+            await _repo.DeletePartBatch(workItem.PartsForWork.ToList());
+            await _repo.DeleteRow(id);
+            await _repo.AddRow(workItem);
             return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
         }
 
@@ -173,22 +170,20 @@ namespace EndlasNet.Web.Controllers
             return View(vm);
         }
 
-        public async Task<IActionResult> ManagePartsForWork(Guid workItemId)
+        public IActionResult ManagePartsForWork(Guid workItemId)
         {
-            var items = await _repo.GetAllPartInfo();
-            var workItem = await _repo.GetRow(workItemId);
-
-            return RedirectToAction("Index", "PartForJobs", new { workItemId = workItemId });
+            return RedirectToAction("IndexWorkItemBatch", "PartsForAJob", new {  workItemId = workItemId });
         }
 
         private async Task<WorkItemViewModel> CreateWorkItemViewModel(Guid? id)
         {
             var workItem = await _repo.GetRow(id);
-            WorkItemViewModel vm = new WorkItemViewModel();
-            vm.WorkItemId = workItem.WorkItemId;
-            vm.WorkItem = workItem;
-            vm.WorkId = workItem.Work.WorkId;
-
+            WorkItemViewModel vm = new WorkItemViewModel
+            {
+                WorkItemId = workItem.WorkItemId,
+                WorkItem = workItem,
+                WorkId = workItem.Work.WorkId
+            };
             if(workItem.PartsForWork != null || workItem.PartsForWork.Count() > 0)
             {
                 vm.NumPartsForWork = workItem.PartsForWork.Count();

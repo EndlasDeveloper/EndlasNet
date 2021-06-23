@@ -19,10 +19,16 @@ namespace EndlasNet.Web.Controllers
             _repo = repo;
         }
 
-        // GET: PartsForAJob
-        public async Task<IActionResult> Index(Guid id, Guid workItemId, Guid partInfoId, string sortOrder)
+        public async Task<IActionResult> IndexWorkItemBatch(Guid workItemId)
         {
-            ViewBag.id = id;
+            var list = await _repo.GetWorkItemBatch(workItemId);
+            return View(list.ToList());
+        }
+
+        // GET: PartsForAJob
+        public async Task<IActionResult> Index(Guid partId, Guid workItemId, Guid partInfoId, string sortOrder)
+        {
+            ViewBag.id = partId;
             ViewBag.workId = workItemId;
             ViewBag.partInfoId = partInfoId;
 
@@ -30,7 +36,7 @@ namespace EndlasNet.Web.Controllers
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
 
             var endlasNetDbContext = await _repo.GetBatch(workItemId.ToString(), partInfoId.ToString());
-            foreach(PartForJob partForJob in endlasNetDbContext)
+            foreach (PartForJob partForJob in endlasNetDbContext)
             {
 
                 partForJob.WorkItem.StaticPartInfo = await _repo.GetStaticPartInfo((Guid)partForJob.WorkItem.StaticPartInfoId);

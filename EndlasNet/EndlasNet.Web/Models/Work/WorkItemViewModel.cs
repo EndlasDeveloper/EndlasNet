@@ -11,6 +11,8 @@ namespace EndlasNet.Web.Models
     {
         public Guid WorkItemId { get; set; }
         public WorkItem WorkItem { get; set; }
+        [Display(Name ="Static part info")]
+        public Guid StaticPartInfoId { get; set; }
 
         [Display(Name ="Number of parts")]
         public int NumPartsForWork { get; set; }
