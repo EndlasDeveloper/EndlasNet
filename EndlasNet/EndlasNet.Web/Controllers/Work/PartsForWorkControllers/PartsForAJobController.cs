@@ -95,6 +95,11 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction("Index", new { id = id, workId = workId, partInfoId = partInfoId, sortOrder = "" });
         }
 
+        public IActionResult BackToPartBatch(Guid workItemId)
+        {
+            return RedirectToAction("IndexWorkItemBatch", new { workItemId = workItemId });
+        }
+
         // GET: PartsForAJob/Create
         public IActionResult Create()
         {
