@@ -41,11 +41,6 @@ namespace EndlasNet.Data
         [Display(Name = "Processing notes")]
         public string ProcessingNotes { get; set; }
 
-        [Display(Name = "User")]
-        [ForeignKey("UserId")]
-        public Guid? UserId { get; set; }
-        public virtual User User { get; set; }
-
         [NotMapped]
         [Display(Name ="Starting suffix")]
         [RegularExpression(@"^[A-Z]*$")]

@@ -19,8 +19,6 @@ namespace EndlasNet.Data
         public async Task<List<PartForJob>> GetAllPartsForJobs()
         {
            return await _db.PartsForJobs
-               
-               .Include(p => p.User)
                .Include(p => p.WorkItem)
                .OrderByDescending(p => p.Suffix)
                .ToListAsync();
@@ -28,7 +26,6 @@ namespace EndlasNet.Data
         public async Task<PartForJob> GetPartForJobDetailsAsync(Guid? id)
         {
             return await _db.PartsForJobs
-                .Include(p => p.User)
                 .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .AsNoTracking()
@@ -38,8 +35,6 @@ namespace EndlasNet.Data
         public async Task<PartForJob> GetPartForJob(Guid? id)
         {
             return await _db.PartsForJobs
-            
-            .Include(p => p.User)
             .Include(p => p.WorkItem)
             .Include(p => p.PartForWorkImg)
             .FirstOrDefaultAsync(m => m.PartForWorkId == id);
@@ -73,8 +68,6 @@ namespace EndlasNet.Data
         public async Task<PartForJob> DeletePartForJobAsync(Guid? id)
         {
             return await _db.PartsForJobs
-
-                .Include(p => p.User)
                 .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
@@ -89,7 +82,6 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<PartForJob>> GetBatch(string workItemId, string partInfoId)
         {
             var batch = await _db.PartsForJobs
-                .Include(p => p.User)
                 .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .ToListAsync();

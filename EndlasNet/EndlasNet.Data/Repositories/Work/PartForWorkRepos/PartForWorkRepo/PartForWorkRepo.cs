@@ -71,7 +71,6 @@ namespace EndlasNet.Data
         public async Task<PartForWork> GetPartForWork(Guid? id)
         {
             return await _db.PartsForWork
-               .Include(p => p.User)
                .Include(p => p.WorkItem)
                .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
@@ -79,7 +78,6 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<PartForWorkOrder>> GetPartForWorkOrders()
         {
             return await _db.PartsForWorkOrders
-               .Include(p => p.User)
                .Include(p => p.WorkItem).ToListAsync();
         }
 

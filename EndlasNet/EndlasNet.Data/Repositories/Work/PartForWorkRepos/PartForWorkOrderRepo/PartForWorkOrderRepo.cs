@@ -18,8 +18,6 @@ namespace EndlasNet.Data
         public async Task<List<PartForWorkOrder>> GetAllPartsForWorkOrdersAsync()
         {
             return await _db.PartsForWorkOrders
-                
-                .Include(p => p.User)
                 .Include(p => p.PartForWorkImg)
                 .OrderByDescending(p => p.Suffix)
                 .ToListAsync();
@@ -27,8 +25,6 @@ namespace EndlasNet.Data
         public async Task<PartForWorkOrder> GetPartForWorkOrderDetailsAsync(Guid? id)
         {
             return await _db.PartsForWorkOrders
-                
-                .Include(p => p.User)
                 .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
@@ -104,8 +100,6 @@ namespace EndlasNet.Data
         public async Task<PartForWorkOrder> GetWorkOrderForDeleteAsync(Guid? id)
         {
             return await _db.PartsForWorkOrders
-                
-                .Include(p => p.User)
                 .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
@@ -120,8 +114,6 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<PartForWorkOrder>> GetBatch(string workId, string partInfoId)
         {
             var batch = await _db.PartsForWorkOrders
-                
-                .Include(p => p.User)
                 .Include(p => p.WorkItem)
                 .Include(p => p.PartForWorkImg)
                 .OrderBy(p => p.Suffix)
@@ -173,9 +165,7 @@ namespace EndlasNet.Data
         public async Task<PartForWorkOrder> GetPartForWorkOrder(Guid id)
         {
             return await _db.PartsForWorkOrders
-                
                 .Include(p => p.WorkItem)
-                .Include(p => p.User)
                 .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(p => p.PartForWorkId == id);
         }
@@ -183,7 +173,6 @@ namespace EndlasNet.Data
         public async Task<PartForWorkOrder> GetPartForWorkOrderAsync(Guid? id)
         {
             return await _db.PartsForWorkOrders
-                           .Include(p => p.User)
                            .Include(p => p.WorkItem)
                            .Include(p => p.PartForWorkImg)
                            .FirstOrDefaultAsync(p => p.PartForWorkId == id);

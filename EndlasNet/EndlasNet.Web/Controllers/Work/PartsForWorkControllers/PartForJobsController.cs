@@ -106,7 +106,6 @@ namespace EndlasNet.Web.Controllers
                         var tempPartForJob = partForJob;
                         tempPartForJob.Suffix = Utility.PartSuffixGenerator.IndexToSuffix(i);
                         tempPartForJob.PartForWorkId = Guid.NewGuid();
-                        tempPartForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                         if (tempPartForJob.PartForWorkImgId == NONE_ID)
                             tempPartForJob.PartForWorkImgId = null;
 

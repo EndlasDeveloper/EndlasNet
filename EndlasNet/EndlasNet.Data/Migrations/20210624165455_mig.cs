@@ -272,7 +272,8 @@ namespace EndlasNet.Data.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CompleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsInitialized = table.Column<bool>(type: "bit", nullable: false)
+                    IsInitialized = table.Column<bool>(type: "bit", nullable: false),
+                    WorkItemImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -282,13 +283,13 @@ namespace EndlasNet.Data.Migrations
                         column: x => x.StaticPartInfoId,
                         principalTable: "StaticPartInfo",
                         principalColumn: "StaticPartInfoId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_WorkItems_Work_WorkId",
                         column: x => x.WorkId,
                         principalTable: "Work",
                         principalColumn: "WorkId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -374,7 +375,6 @@ namespace EndlasNet.Data.Migrations
                     CladdedWeight = table.Column<float>(type: "real", nullable: true),
                     FinishedWeight = table.Column<float>(type: "real", nullable: true),
                     ProcessingNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PartForWorkImgId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ClearImg = table.Column<bool>(type: "bit", nullable: false),
                     MachiningImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
@@ -383,7 +383,8 @@ namespace EndlasNet.Data.Migrations
                     UsedImageBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -399,13 +400,13 @@ namespace EndlasNet.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PartsForWork_WorkItems_WorkItemId",
                         column: x => x.WorkItemId,
                         principalTable: "WorkItems",
                         principalColumn: "WorkItemId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -465,7 +466,7 @@ namespace EndlasNet.Data.Migrations
                         column: x => x.PartForWorkId,
                         principalTable: "PartsForWork",
                         principalColumn: "PartForWorkId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PowderForParts_PowderBottles_PowderBottleId",
                         column: x => x.PowderBottleId,
@@ -482,23 +483,23 @@ namespace EndlasNet.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "CustomerId", "CustomerAddress", "CustomerName", "CustomerPhone", "PointOfContact" },
-                values: new object[] { new Guid("6cc6cbc4-19fa-4569-ab0e-fcf5ac9804d0"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
+                values: new object[] { new Guid("ce69ff4f-be23-441a-b17f-2cf81e98140f"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("a27fdc86-6924-4485-b965-b4e1e8a9d3dd"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "sa@endlas.com", "SA", "SA" },
-                    { new Guid("ecad6f4d-0c46-4f70-8378-d3bd83473e92"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
-                    { new Guid("e0b69f7b-f9c7-4227-924e-411096e07a7f"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("08b769b2-80c5-4aec-8456-314b070fcd9c"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
+                    { new Guid("62b730c1-0f4d-4008-b1e4-433ed857f115"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "sa@endlas.com", "SA", "SA" },
+                    { new Guid("8c0d7236-a2bc-48d5-8bf2-c4e967accfe0"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
+                    { new Guid("957ae23c-8515-4efe-8bf9-b9ddd34acfef"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("61e7bcfa-dc19-4668-a88e-1f9b7bd28c54"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Vendors",
                 columns: new[] { "VendorId", "PointOfContact", "UserId", "VendorAddress", "VendorName", "VendorPhone" },
-                values: new object[] { new Guid("82c9acfe-264e-4509-ad9d-7f22b2b66e53"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
+                values: new object[] { new Guid("0fc97656-9021-4266-8541-747d4815333d"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LineItems_PowderOrderId",

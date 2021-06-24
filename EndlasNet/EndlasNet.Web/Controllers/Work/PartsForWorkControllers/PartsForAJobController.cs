@@ -159,7 +159,6 @@ namespace EndlasNet.Web.Controllers
 
                     partForJob.WorkItem.StaticPartInfo = await _repo.GetStaticPartInfo((Guid)partForJob.WorkItem.StaticPartInfoId);
                     partForJob.WorkItem.Work = await _repo.GetWork(partForJob.PartForWorkId);
-                    partForJob.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     partForJob = await SetImageBytes(partForJob);
                     await _repo.UpdatePartForJobAsync((PartForJob)partForJob);
                 }

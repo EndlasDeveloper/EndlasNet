@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,6 +31,15 @@ namespace EndlasNet.Data
         public DateTime? CompleteDate { get; set; }
 
         public bool IsInitialized { get; set; } = false;
+
+        [NotMapped]
+        [Display(Name = "Work item image")]
+        public IFormFile WorkItemImageFile { get; set; }
+        [NotMapped]
+        public string WorkItemImageUrl { get; set; }
+        [NotMapped]
+        public bool ClearWorkItemImg { get; set; } = false;
+        public byte[] WorkItemImageBytes { get; set; }
 
         public IEnumerable<PartForWork> PartsForWork { get; set; }
     }
