@@ -110,6 +110,8 @@ namespace EndlasNet.Web.Controllers
 
             var vm = await CreateWorkItemViewModel(id);
             FileURL.SetImageURL(vm.WorkItem.StaticPartInfo);
+            if (vm.WorkItem.WorkItemImageBytes != null)
+                vm.WorkItem.WorkItemImageUrl = FileURL.GetImageURL(vm.WorkItem.WorkItemImageBytes);
             return View(vm);
         }
 
@@ -166,6 +168,8 @@ namespace EndlasNet.Web.Controllers
             }
             var vm = await CreateWorkItemViewModel(id);
             FileURL.SetImageURL(vm.WorkItem.StaticPartInfo);
+            if(vm.WorkItem.WorkItemImageBytes != null)
+                vm.WorkItem.WorkItemImageUrl = FileURL.GetImageURL(vm.WorkItem.WorkItemImageBytes);
             return View(vm);
         }
 

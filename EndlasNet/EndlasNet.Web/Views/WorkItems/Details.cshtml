@@ -7,52 +7,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Work item</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Work Endlas number
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WorkItem.Work.EndlasNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkItem.StaticPartInfo.DrawingNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WorkItem.StaticPartInfo.DrawingNumber)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkItem.StartDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkItem.CompleteDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CompleteDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NumPartsForWork)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NumPartsForWork)
-        </dd>
-
-
-    </dl>
-    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
-        Title:
-        <em>
-            @Html.DisplayFor(model => model.WorkItem.StaticPartInfo.ImageName)
-        </em>
-    </h6>
-    <div class="col-sm-2">
-        <img src="@Html.DisplayFor(model => model.WorkItem.StaticPartInfo.ImageUrl)" style="max-width:650px;max-height:650px" alt="Drawing Image" />
-    </div>
+    @await Html.PartialAsync("_DetailsAndUninitialize", Model)
 </div>
 <br />
 <div>
