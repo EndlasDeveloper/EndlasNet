@@ -80,16 +80,16 @@
 <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
     Work item image
 </h6>
-@if (Model.WorkItem.WorkItemImageUrl != null)
+@if (Model.WorkItem.WorkItemImageBytes != null)
 {
     <div class="col-sm-2">
-        <img src="@Html.DisplayFor(model => model.WorkItem.WorkItemImageBytes)" style="max-width:650px;max-height:650px" alt="Drawing Image" />
+        <img src="@Html.DisplayFor(model => model.WorkItem.WorkItemImageUrl)" style="max-width:650px;max-height:650px" alt="Drawing Image" />
     </div>
 }
 else
 {
     <div class="col-sm-2">
-        <img src="~/img/no_image.png" style="max-width:650px;max-height:650px" alt="Drawing Image" />
+        <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" alt="Drawing Image" />
     </div>
 }
 

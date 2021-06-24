@@ -14,6 +14,8 @@
             <input type="hidden" asp-for="WorkItemId" />
             <input type="hidden" asp-for="WorkId" />
             <input type="hidden" asp-for="IsInitialized" />
+            <input type="hidden" asp-for="WorkItemImageBytes" />
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="StaticPartInfoId" class="control-label"></label>
@@ -29,6 +31,27 @@
                 <label asp-for="CompleteDate" class="control-label"></label>
                 <input asp-for="CompleteDate" class="form-control" />
                 <span asp-validation-for="CompleteDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div></div>
+                @if (Model.WorkItemImageBytes != null)
+                {
+                    <label asp-for="WorkItemImageFile" class="control-label">Current image:&nbsp;</label>
+                    <img src="@Html.DisplayFor(model => model.WorkItemImageUrl)" alt="Drawing Image" style="max-height:50px;max-width:120px" />
+                    <br /><br />
+                    <span>
+                        Clear image
+                        <input asp-for="ClearWorkItemImg" class="form-check-inline" />
+                    </span>
+                    <br />
+                }
+                else
+                {
+                    <label asp-for="WorkItemImageFile" class="control-label"></label>
+
+                }
+                <input asp-for="WorkItemImageFile" accept="image/*" />
+                <span asp-validation-for="WorkItemImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" asp-action="Edit" asp-route-id="@Model.WorkItemId" class="btn btn-primary" />

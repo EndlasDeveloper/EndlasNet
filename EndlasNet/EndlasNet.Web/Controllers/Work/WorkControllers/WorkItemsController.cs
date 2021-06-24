@@ -135,13 +135,16 @@ namespace EndlasNet.Web.Controllers
             }
 
             var workItem = await _repo.GetRow(id);
+
+            if (workItem.WorkItemImageBytes!= null)
+                workItem.WorkItemImageUrl = FileURL.GetImageURL(workItem.WorkItemImageBytes);
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllPartInfo(), "StaticPartInfoId", "PartDescription");
             return View(workItem);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("WorkItemId,StaticPartInfoId,StartDate,CompleteDate,WorkId,IsInitialized")] WorkItem workItem)
+        public async Task<IActionResult> Edit(Guid id, [Bind("WorkItemId,StaticPartInfoId,StartDate,CompleteDate,WorkId,WorkItemImageFile,WorkItemImageBytes,ClearWorkItemImg,IsInitialized")] WorkItem workItem)
         {
             if (id != workItem.WorkItemId)
             {
@@ -150,6 +153,15 @@ namespace EndlasNet.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                if (workItem.WorkItemImageFile!= null && !workItem.ClearWorkItemImg)
+                {
+                    workItem.WorkItemImageBytes = await FileURL.GetFileBytes(workItem.WorkItemImageFile);
+                }
+                else if (workItem.ClearWorkItemImg)
+                {
+                    workItem.WorkItemImageBytes = null;
+                }
+
                 await _repo.UpdateRow(workItem);
                 return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
             }
