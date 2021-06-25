@@ -25,22 +25,15 @@ namespace EndlasNet.Data
                 staticPartInfo.ImageUrl = imageUrl;
             }
         }
-/*        public static void SetImageURL(PartForWork partForWork)
-        {
-            string imageUrl = GetImageURL(partForWork.PartForWorkImg.ImageBytes);
-            partForWork.PartForWorkImg.ImageUrl = imageUrl;
-        }*/
 
         public static string GetImageURL(byte[] imgBytes)
         {
             string imgBase64Data = Convert.ToBase64String(imgBytes);
             return string.Format("data:image/png;base64,{0}", imgBase64Data);
-
         }
 
         public static string GetPdfUrl(byte[] pdfBytes)
         {
-            
             string imageBase64Data = Convert.ToBase64String(pdfBytes);
             return string.Format("data:image/png;base64,{0}", imageBase64Data);
         }
@@ -53,7 +46,5 @@ namespace EndlasNet.Data
                 return memoryStream.ToArray();
             }
         }
-
-
     }
 }

@@ -1,0 +1,30 @@
+﻿@model EndlasNet.Data.Vendor
+
+<h4>Vendor</h4>
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+        Vendor name
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.VendorName)
+    </dd>
+    <dt class="col-sm-2">
+        Point of contact
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.PointOfContact)
+    </dd>
+    <dt class="col-sm-2">
+        Vendor address
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.VendorAddress)
+    </dd>
+    <dt class="col-sm-2">
+        Vendor phone
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.VendorPhone)
+    </dd>
+</dl>

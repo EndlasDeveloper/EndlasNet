@@ -1,0 +1,40 @@
+﻿@model EndlasNet.Data.PowderForPart
+@{ 
+    var powderWeightUsedStr = string.Format("{0:0.00000}", Model.PowderWeightUsed);
+}
+<h4>Powder for part</h4>
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.PowderBottle)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.PowderBottle.BottleNumber)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.PartForWork.Suffix)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.PartForWork.Suffix)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.PowderWeightUsed)
+    </dt>
+    <dd class="col-sm-10">
+        @powderWeightUsedStr
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.User)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.User.EndlasEmail)
+    </dd>
+</dl>
+    Title:
+<em>
+    @Html.DisplayFor(model => model.PartForWork.WorkItem.StaticPartInfo.ImageName)
+</em>
+
+<div class="col-sm-2">
+    <img src="@Html.DisplayFor(model => model.PartForWork.WorkItem.StaticPartInfo.ImageUrl)" alt="Drawing Image" />
+</div>
