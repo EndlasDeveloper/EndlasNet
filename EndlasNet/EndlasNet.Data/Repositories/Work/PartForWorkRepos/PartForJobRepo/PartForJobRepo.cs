@@ -27,7 +27,6 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForJobs
                 .Include(p => p.WorkItem).ThenInclude(w => w.Work)
-                .Include(p => p.PartForWorkImg)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
@@ -36,7 +35,6 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForJobs
             .Include(p => p.WorkItem)
-            .Include(p => p.PartForWorkImg)
             .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
 
@@ -69,7 +67,6 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForJobs
                 .Include(p => p.WorkItem)
-                .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
 
@@ -83,7 +80,6 @@ namespace EndlasNet.Data
         {
             var batch = await _db.PartsForJobs
                 .Include(p => p.WorkItem)
-                .Include(p => p.PartForWorkImg)
                 .ToListAsync();
 
             batch = (List<PartForJob>)batch.AsEnumerable();

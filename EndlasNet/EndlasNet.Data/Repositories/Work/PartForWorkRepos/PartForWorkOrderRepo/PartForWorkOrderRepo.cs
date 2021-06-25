@@ -18,7 +18,7 @@ namespace EndlasNet.Data
         public async Task<List<PartForWorkOrder>> GetAllPartsForWorkOrdersAsync()
         {
             return await _db.PartsForWorkOrders
-                .Include(p => p.PartForWorkImg)
+                
                 .OrderByDescending(p => p.Suffix)
                 .ToListAsync();
         }
@@ -26,14 +26,14 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForWorkOrders
                 .Include(p => p.WorkItem)
-                .Include(p => p.PartForWorkImg)
+                
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
 
         public async Task<List<PartForWorkOrder>> GetExistingPartBatch(PartForWorkOrder partForWorkOrder)
         {
             return await _db.PartsForWorkOrders                   
-                   .Include(p => p.PartForWorkImg)
+                   
                    .OrderByDescending(p => p.Suffix)
                    .ToListAsync();
         }
@@ -101,7 +101,6 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForWorkOrders
                 .Include(p => p.WorkItem)
-                .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);
         }
 
@@ -115,7 +114,6 @@ namespace EndlasNet.Data
         {
             var batch = await _db.PartsForWorkOrders
                 .Include(p => p.WorkItem)
-                .Include(p => p.PartForWorkImg)
                 .OrderBy(p => p.Suffix)
                 .ToListAsync();
 
@@ -166,7 +164,6 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForWorkOrders
                 .Include(p => p.WorkItem)
-                .Include(p => p.PartForWorkImg)
                 .FirstOrDefaultAsync(p => p.PartForWorkId == id);
         }
 
@@ -174,7 +171,6 @@ namespace EndlasNet.Data
         {
             return await _db.PartsForWorkOrders
                            .Include(p => p.WorkItem)
-                           .Include(p => p.PartForWorkImg)
                            .FirstOrDefaultAsync(p => p.PartForWorkId == id);
         }
         public async Task<IEnumerable<PartForWorkImg>> GetAllPartForWorkImgs()

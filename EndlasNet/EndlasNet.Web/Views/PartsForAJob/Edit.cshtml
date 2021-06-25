@@ -4,10 +4,7 @@
     ViewData["Title"] = "Edit";
     var imageUrl = "NA";
     var noImgSet = "No image set";
-    if(Model.PartForWorkImg != null)
-    {
-        imageUrl = Model.PartForWorkImg.ImageUrl;
-    }
+
 }
 
 <h1>Edit</h1>
@@ -20,8 +17,7 @@
             <input type="hidden" asp-for="PartForWorkId" />
             <input type="hidden" asp-for="WorkItemId" />
             <input type="hidden" asp-for="WorkItem" />
-            <input type="hidden" asp-for="PartForWorkImg.ImageFile" />
-            <input type="hidden" asp-for="PartForWorkImg.ImageBytes" />
+
             <input type="hidden" asp-for="MachiningImageBytes" />
             <input type="hidden" asp-for="MachiningImageFile" />
 

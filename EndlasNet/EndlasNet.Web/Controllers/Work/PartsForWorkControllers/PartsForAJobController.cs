@@ -113,12 +113,12 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if (partForJob.PartForWorkImgId != NONE_ID && partForJob.PartForWorkImgId != null)
+/*            if (partForJob.PartForWorkImgId != NONE_ID && partForJob.PartForWorkImgId != null)
             {
                 var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                 FileURL.SetImageURL(partForWorkImg);
                 partForJob.PartForWorkImg = partForWorkImg;
-            }
+            }*/
 
             partForJob = SetImageUrls(partForJob);
             return View(partForJob);
@@ -140,7 +140,7 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-                    if (partForJob.PartForWorkImgId == null || partForJob.PartForWorkImgId == NONE_ID)
+/*                    if (partForJob.PartForWorkImgId == null || partForJob.PartForWorkImgId == NONE_ID)
                     {
                         partForJob.PartForWorkImg = null;
                         partForJob.PartForWorkImgId = null;
@@ -148,7 +148,7 @@ namespace EndlasNet.Web.Controllers
                     else
                     {
                         partForJob.PartForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
-                    }
+                    }*/
                     partForJob = SetImageUrls(partForJob);
                     partForJob.WorkItem = await _repo.GetWorkItem(partForJob.WorkItemId);
                     partForJob.WorkItem.StaticPartInfo = await _repo.GetStaticPartInfo((Guid)partForJob.WorkItem.StaticPartInfoId);
@@ -252,12 +252,12 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            if (partForJob.PartForWorkImgId != null || partForJob.PartForWorkImgId == NONE_ID)
+          /*  if (partForJob.PartForWorkImgId != null || partForJob.PartForWorkImgId == NONE_ID)
             {
                 var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                 FileURL.SetImageURL(partForWorkImg);
                 partForJob.PartForWorkImg = partForWorkImg;
-            }
+            }*/
             SetImageUrls(partForJob);
 
             return View(partForJob);
