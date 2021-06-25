@@ -69,7 +69,7 @@ namespace EndlasNet.Web.Controllers
         }
 
 
-        // POST: PartForJobs/Create
+/*        // POST: PartForJobs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -124,7 +124,7 @@ namespace EndlasNet.Web.Controllers
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllStaticPartInfo(), "StaticPartInfoId", "DrawingNumber", partForJob.WorkItem.StaticPartInfoId);
             ViewData["WorkId"] = new SelectList(await _repo.GetAllJobs(), "WorkId", "EndlasNumber", partForJob.WorkItem.WorkId);
             return View(partForJob);
-        }
+        }*/
 
 
         public ActionResult ViewList(Guid? id, Guid workId, Guid partInfoId)

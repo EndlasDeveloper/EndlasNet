@@ -140,7 +140,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWork,WorkId,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,Suffix,StaticPartInfoId,PartForWorkId,PartForWorkImg,PartForWorkImgId,ImageFile,ClearImg,MachiningImageFile,ClearMachiningImg,CladdingImageFile,ClearCladdingImg,FinishedImageFile,ClearFinishedImg,UsedImageFile,NumParts,ClearUsedImg,MachiningImageBytes,CladdingImageBytes,FinishedImageBytes,UsedImageBytes")] PartForJob partForJob)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkItemId,WorkItem,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,Suffix,PartForWorkImg,PartForWorkImgId,ImageFile,ClearImg,MachiningImageFile,ClearMachiningImg,CladdingImageFile,ClearCladdingImg,FinishedImageFile,ClearFinishedImg,UsedImageFile,ClearUsedImg,MachiningImageBytes,CladdingImageBytes,FinishedImageBytes,UsedImageBytes")] PartForJob partForJob)
         {
           if(id != partForJob.PartForWorkId)
             {
@@ -161,9 +161,9 @@ namespace EndlasNet.Web.Controllers
                         partForJob.PartForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
                     }
                     partForJob = SetImageUrls(partForJob);
-
+                    partForJob.WorkItem = await _repo.GetWorkItem(partForJob.WorkItemId);
                     partForJob.WorkItem.StaticPartInfo = await _repo.GetStaticPartInfo((Guid)partForJob.WorkItem.StaticPartInfoId);
-                    partForJob.WorkItem.Work = await _repo.GetWork(partForJob.PartForWorkId);
+                    partForJob.WorkItem.Work = await _repo.GetWork((Guid)partForJob.WorkItem.WorkId);
                     partForJob = await SetImageBytes(partForJob);
                     await _repo.UpdatePartForJobAsync((PartForJob)partForJob);
                 }
@@ -178,7 +178,7 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "PartsForAJob", new { id = partForJob.PartForWorkId, workId = partForJob.WorkItem.WorkId, partInfoId = partForJob.WorkItem.StaticPartInfoId, sortOrder = "suffix_asc" });
+                return RedirectToAction("IndexWorkItemBatch", "PartsForAJob", new { workItemId = partForJob.WorkItemId });
             }
             return View(partForJob);
         }

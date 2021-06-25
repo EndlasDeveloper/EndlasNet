@@ -36,6 +36,6 @@ namespace EndlasNet.Data
         public Task UpdatePartForWorkImg(PartForWorkImg partForWorkImg);
         public Task DeletePartForWorkImg(PartForWorkImg partForWorkImg);
         public Task AddPartForWorkImg(PartForWorkImg partForWorkImg);
-
+        public Task<WorkItem> GetWorkItem(Guid? workItemId);
     }
 }

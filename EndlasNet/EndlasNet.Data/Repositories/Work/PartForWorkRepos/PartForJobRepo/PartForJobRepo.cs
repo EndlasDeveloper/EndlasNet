@@ -218,5 +218,10 @@ namespace EndlasNet.Data
                 .Where(p => p.WorkItemId == workItemId)
                 .ToListAsync();
         }
+
+        public async Task<WorkItem> GetWorkItem(Guid? workItemId)
+        {
+            return await _db.WorkItems.FirstOrDefaultAsync(w => w.WorkItemId == workItemId);
+        }
     }
 }
