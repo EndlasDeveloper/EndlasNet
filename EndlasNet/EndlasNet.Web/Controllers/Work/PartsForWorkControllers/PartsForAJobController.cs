@@ -72,13 +72,6 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            if(partForJob.PartForWorkImgId != NONE_ID && partForJob.PartForWorkImgId != null)
-            {
-                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
-                FileURL.SetImageURL(partForWorkImg);
-                partForJob.PartForWorkImg = partForWorkImg;
-            }
-
             ViewBag.id = id;
             ViewBag.workId = partForJob.WorkItem.WorkId;
             ViewBag.partInfoId = partForJob.WorkItem.StaticPartInfoId;
@@ -126,11 +119,7 @@ namespace EndlasNet.Web.Controllers
                 FileURL.SetImageURL(partForWorkImg);
                 partForJob.PartForWorkImg = partForWorkImg;
             }
-            var images = await _repo.GetAllPartForWorkImgs();
-            var list = images.ToList();
-            var noneImg = new PartForWorkImg { PartForWorkImgId = NONE_ID, ImageName = "None" };
-            list.Insert(0, noneImg);
-            ViewData["PartForWorkImgId"] = new SelectList(list, "PartForWorkImgId", "ImageName");
+
             partForJob = SetImageUrls(partForJob);
             return View(partForJob);
         }
@@ -140,7 +129,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkItemId,WorkItem,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,Suffix,PartForWorkImg,PartForWorkImgId,ImageFile,ClearImg,MachiningImageFile,ClearMachiningImg,CladdingImageFile,ClearCladdingImg,FinishedImageFile,ClearFinishedImg,UsedImageFile,ClearUsedImg,MachiningImageBytes,CladdingImageBytes,FinishedImageBytes,UsedImageBytes")] PartForJob partForJob)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PartForWorkId,WorkItemId,WorkItem,ConditionDescription,InitWeight,CladdedWeight,FinishedWeight,ProcessingNotes,Suffix,MachiningImageFile,ClearMachiningFile,ClearMachiningImg,CladdingImageFile,ClearCladdingImg,FinishedImageFile,ClearFinishedImg,UsedImageFile,ClearUsedImg,MachiningImageBytes,CladdingImageBytes,FinishedImageBytes,UsedImageBytes")] PartForJob partForJob)
         {
           if(id != partForJob.PartForWorkId)
             {
@@ -293,8 +282,7 @@ namespace EndlasNet.Web.Controllers
             {
                 partForJob.UsedImageUrl = FileURL.GetImageURL(partForJob.UsedImageBytes);
             }
-            if (partForJob.PartForWorkImg != null && partForJob.PartForWorkImg.ImageBytes != null)
-                FileURL.SetImageURL(partForJob.PartForWorkImg);
+           
             return partForJob;
         }
 

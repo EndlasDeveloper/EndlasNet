@@ -52,33 +52,7 @@
     </dl>
     <br />
     <br />
-    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
-        Title:
-        @if (Model.PartForWorkImg == null || Model.PartForWorkImg.ImageUrl == null)
-        {
-            <em>
-                NA
-            </em>
-        }
-        else
-        {
-            <em>
-                @Html.DisplayFor(model => model.PartForWorkImg.ImageName)
-            </em>
-        }
-        </h6>
 
-    <div class="col-sm-2">
-        @if (Model.PartForWorkImg == null || Model.PartForWorkImg.ImageUrl == null)
-        {
-            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
-        }
-        else
-        {
-            <img src="@Html.DisplayFor(model => model.PartForWorkImg.ImageUrl)" style="max-width:650px;max-height:650px" alt="Drawing Image" />
-        }
-    </div>
-    <br />
     <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
 
         <em>

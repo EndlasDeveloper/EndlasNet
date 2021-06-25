@@ -26,7 +26,7 @@ namespace EndlasNet.Data
         public async Task<PartForJob> GetPartForJobDetailsAsync(Guid? id)
         {
             return await _db.PartsForJobs
-                .Include(p => p.WorkItem)
+                .Include(p => p.WorkItem).ThenInclude(w => w.Work)
                 .Include(p => p.PartForWorkImg)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PartForWorkId == id);

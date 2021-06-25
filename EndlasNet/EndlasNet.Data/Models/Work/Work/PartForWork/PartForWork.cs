@@ -53,15 +53,6 @@ namespace EndlasNet.Data
 
 
         [NotMapped]
-        [Display(Name = "Part image")]
-        public IFormFile ImageFile { get; set; }
-        [NotMapped]
-        [Display(Name = "Image name")]
-        public string ImageName { get; set; }
-        public bool ClearImg { get; set; } = false;
-
-
-        [NotMapped]
         [Display(Name = "Machining image")]
         public IFormFile MachiningImageFile { get; set; }
         [NotMapped]

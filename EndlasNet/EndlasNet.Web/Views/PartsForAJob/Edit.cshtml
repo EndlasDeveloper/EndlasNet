@@ -64,34 +64,12 @@
                 <input id="suffix" asp-for="Suffix" class="form-control" />
                 <span asp-validation-for="Suffix" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PartForWorkImgId" class="control-label"></label>
-                <select id="partForWorkImgId" asp-for="PartForWorkImgId" class="form-control" asp-items="ViewBag.PartForWorkImgId"></select>
-            </div>
-            <div class="form-group">
-                <div></div>
-                @if (imageUrl != "NA")
-                {
-                    <span>Current image:&nbsp;</span>
-                    <br />
-                    <br />
-                    <img src="@Html.DisplayFor(model => model.PartForWorkImg.ImageUrl)" alt="Image" style="max-height:50px;max-width:120px" />
 
-                    <br /><br />
-                }
-                else
-                {
-                    <span>@noImgSet</span>
-                }
-
-            </div>
             <div class="form-group">
                 <div></div>
                 @if (Model.MachiningImageBytes != null)
                 {
-                    <span>
-                        Current machining image:&nbsp;
-                    </span>
+                    <span>Current machining image:&nbsp;</span>
                     <br />
                     <br />
                     <img src="@Html.DisplayFor(model => model.MachiningImageUrl)" alt="Image" style="max-height:50px;max-width:120px" />
@@ -106,8 +84,8 @@
                     <span>@noImgSet</span>
                 }
 
-
             </div>
+            
             <div class="form-group">
                 <label asp-for="MachiningImageFile" class="control-label"></label>
                 <div></div>
