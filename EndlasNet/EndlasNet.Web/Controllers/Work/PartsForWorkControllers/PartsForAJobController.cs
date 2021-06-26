@@ -19,9 +19,23 @@ namespace EndlasNet.Web.Controllers
             _repo = repo;
         }
 
-        public async Task<IActionResult> IndexWorkItemBatch(Guid workItemId)
+        public async Task<IActionResult> IndexWorkItemBatch(Guid workItemId, string sortOrder)
         {
+            ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
+            ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
             var list = await _repo.GetWorkItemBatch(workItemId);
+
+            switch (sortOrder)
+            {
+                case "suffix_desc":
+                    list = list.OrderByDescending(a => a.Suffix).ToList();
+                    break;
+                case "suffix_asc":
+                    list = list.OrderBy(a => a.Suffix).ToList();
+                    break;
+                default:
+                    break;
+            }
             return View(list.ToList());
         }
 
@@ -113,12 +127,6 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-/*            if (partForJob.PartForWorkImgId != NONE_ID && partForJob.PartForWorkImgId != null)
-            {
-                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
-                FileURL.SetImageURL(partForWorkImg);
-                partForJob.PartForWorkImg = partForWorkImg;
-            }*/
 
             partForJob = SetImageUrls(partForJob);
             return View(partForJob);
@@ -140,15 +148,6 @@ namespace EndlasNet.Web.Controllers
             {
                 try
                 {
-/*                    if (partForJob.PartForWorkImgId == null || partForJob.PartForWorkImgId == NONE_ID)
-                    {
-                        partForJob.PartForWorkImg = null;
-                        partForJob.PartForWorkImgId = null;
-                    }
-                    else
-                    {
-                        partForJob.PartForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
-                    }*/
                     partForJob = SetImageUrls(partForJob);
                     partForJob.WorkItem = await _repo.GetWorkItem(partForJob.WorkItemId);
                     partForJob.WorkItem.StaticPartInfo = await _repo.GetStaticPartInfo((Guid)partForJob.WorkItem.StaticPartInfoId);
@@ -252,12 +251,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-          /*  if (partForJob.PartForWorkImgId != null || partForJob.PartForWorkImgId == NONE_ID)
-            {
-                var partForWorkImg = await _repo.GetPartForWorkImg((Guid)partForJob.PartForWorkImgId);
-                FileURL.SetImageURL(partForWorkImg);
-                partForJob.PartForWorkImg = partForWorkImg;
-            }*/
+
             SetImageUrls(partForJob);
 
             return View(partForJob);

@@ -29,10 +29,10 @@
                     Suffix
                 </div>
                 <span style="color:firebrick">
-                    <a href="@Url.Action("Index", "PartsForAJob", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.SuffixAscSortParm })" title="Ascending">
+                    <a href="@Url.Action("IndexWorkItemBatch", "PartsForAJob", new { workItemId = element.WorkItemId, sortOrder = ViewBag.SuffixAscSortParm })" title="Ascending">
                         <img src="~/img/up_arrow.png" style="max-width:14px;max-height:18px;" />
                     </a>
-                    <a href="@Url.Action("Index", "PartsForAJob", new { id = ViewBag.id, workId = ViewBag.workId, partInfoId = ViewBag.partInfoId, sortOrder = ViewBag.SuffixDescSortParm })" title="Descending">
+                    <a href="@Url.Action("IndexWorkItemBatch", "PartsForAJob", new { workItemId = element.WorkItemId, sortOrder = ViewBag.SuffixDescSortParm })" title="Descending">
                         <img src="~/img/down_arrow.png" style="max-width:14px;max-height:18px;" />
                     </a>
                 </span>

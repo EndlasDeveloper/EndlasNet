@@ -212,6 +212,7 @@ namespace EndlasNet.Data
                 .Include(p => p.WorkItem).ThenInclude(w => w.StaticPartInfo)
                 .Include(p => p.WorkItem).ThenInclude(w => w.Work)
                 .Where(p => p.WorkItemId == workItemId)
+                .OrderBy(p => p.Suffix)
                 .ToListAsync();
         }
 
