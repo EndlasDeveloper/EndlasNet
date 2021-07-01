@@ -43,72 +43,88 @@ namespace EndlasNet.Web.Controllers
             return RedirectToAction("Index", "LineItems", new { powderOrderId = lineItem.PowderOrderId });
         }
 
-        public async Task<IActionResult> AllPowderIndex(string sortOrder)
+        private void SetIndexViewData(string sortOrder)
         {
             ViewBag.PowderNameDescSortParm = String.IsNullOrEmpty(sortOrder) ? "powder_name_desc" : "";
             ViewBag.PowderNameAscSortParm = String.IsNullOrEmpty(sortOrder) ? "powder_name_asc" : "";
+
             ViewBag.BottleNumberDescSortParm = String.IsNullOrEmpty(sortOrder) ? "bottle_number_desc" : "";
             ViewBag.BottleNumberAscSortParm = String.IsNullOrEmpty(sortOrder) ? "bottle_number_asc" : "";
+
             ViewBag.LotNumberDescSortParm = String.IsNullOrEmpty(sortOrder) ? "lot_number_desc" : "";
             ViewBag.LotNumberAscSortParm = String.IsNullOrEmpty(sortOrder) ? "lot_number_asc" : "";
+
             ViewBag.WeightDescSortParm = String.IsNullOrEmpty(sortOrder) ? "weight_desc" : "";
             ViewBag.WeightAscSortParm = String.IsNullOrEmpty(sortOrder) ? "weight_asc" : "";
+
             ViewBag.CostPerPoundDescSortParm = String.IsNullOrEmpty(sortOrder) ? "cost_per_lb_desc" : "";
             ViewBag.CostPerPoundAscSortParm = String.IsNullOrEmpty(sortOrder) ? "cost_per_lb_asc" : "";
+        }
 
+        private async Task<IEnumerable<PowderBottle>> InitializePowderViewForIndex()
+        {
             var powderOrders = await _repo.GetAllPowderOrders();
 
             List<List<PowderBottle>> lineItemBottles = await _repo.SetCostPerPound(powderOrders.ToList());
 
             List<PowderBottle> powders = new List<PowderBottle>();
-            foreach(List<PowderBottle> list in lineItemBottles)
+            foreach (List<PowderBottle> list in lineItemBottles)
             {
-                foreach(PowderBottle b in list)
+                foreach (PowderBottle b in list)
                 {
                     powders.Add(b);
                 }
             }
-            
+            // default orderinig to ascending wrt bottle number
+            return powders.OrderBy(p => p.BottleNumber);
+        }
+
+        private IEnumerable<PowderBottle> SortPowderBottlesForIndex(IEnumerable<PowderBottle> powders, string sortOrder)
+        {
             switch (sortOrder)
             {
                 case "powder_name_desc":
                     powders = powders.OrderByDescending(p => p.PowderName).ToList();
                     break;
                 case "powder_name_asc":
-                    powders = powders.OrderByDescending(p => p.PowderName).ToList();
-                    powders.Reverse();
+                    powders = powders.OrderBy(p => p.PowderName).ToList();
                     break;
                 case "bottle_number_desc":
                     powders = powders.OrderByDescending(p => p.BottleNumber).ToList();
                     break;
                 case "bottle_number_asc":
-                    powders = powders.OrderByDescending(p => p.BottleNumber).ToList();
-                    powders.Reverse();
+                    powders = powders.OrderBy(p => p.BottleNumber).ToList();
                     break;
                 case "lot_number_desc":
                     powders = powders.OrderByDescending(p => p.LotNumber).ToList();
                     break;
                 case "lot_number_asc":
-                    powders = powders.OrderByDescending(p => p.LotNumber).ToList();
-                    powders.Reverse();
+                    powders = powders.OrderBy(p => p.LotNumber).ToList();
                     break;
                 case "weight_desc":
-                    powders = powders.OrderByDescending(p => p.LotNumber).ToList();
+                    powders = powders.OrderByDescending(p => p.Weight).ToList();
                     break;
                 case "weight_asc":
-                    powders = powders.OrderByDescending(p => p.LotNumber).ToList();
-                    powders.Reverse();
+                    powders = powders.OrderBy(p => p.Weight).ToList();
                     break;
                 case "cost_per_lb_desc":
                     powders = powders.OrderByDescending(p => p.CostPerPound).ToList();
                     break;
                 case "cost_per_lb_asc":
-                    powders = powders.OrderByDescending(p => p.CostPerPound).ToList();
-                    powders.Reverse();
+                    powders = powders.OrderBy(p => p.CostPerPound).ToList();
                     break;
                 default:
+                    powders = powders.OrderBy(p => p.BottleNumber).ToList();
                     break;
             }
+            return powders;
+        }
+
+        public async Task<IActionResult> AllPowderIndex(string sortOrder)
+        {
+            SetIndexViewData(sortOrder);
+            var powders = await InitializePowderViewForIndex();
+            powders = SortPowderBottlesForIndex(powders, sortOrder);
             return View(powders);
         }
 
