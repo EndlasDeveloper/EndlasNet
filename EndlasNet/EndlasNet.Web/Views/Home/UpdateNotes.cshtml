@@ -23,56 +23,11 @@
             (This is partly done - just need to remove the old entity relationships after fron-end is complete)
         </li>
         <li class="update-notes-li">
-            Redo front-end structure to represent Work -> WorkItem -> PartForWork from Work -> PartForWork
-            <ul>
-                <li>
-                    Work -> Added manage work items action link to jobs index.
-                </li>
-                <li>
-                    Work -> Added number of work items to  the UI for job create. Successfully creates the defined number of child work item entities for
-                    the parent work (job).
-                </li>
-                <li>
-                    Work -> manage work items action link forwards user to work items index view. The index shows the work items for the row selected under jobs.
-                    If the work item row is uninitialized, the row information will display starts and the  UI only allows for initializataion under each row.
-                </li>
-                <li>
-                    WorkItem -> Added initialize view. Currently doesn't have any forms to fill out, but on submit, the row attribute IsInitiazed is set to true and saved.
-                    The UI correctly displays the alternate row display option where Edit, Details, and Unitialize action links are shown.
-                </li>
-                <li>
-                    WorkItem -> Index view -> Added views for Edit, Details, and Unitialize.
-                </li>
-                <li>
-                    WorkItem -> Added viewes for initialize and uninitialize (similar to line items). Added form elements to initialize view for static part info and and number of parts.
-                </li>
-                <li>
-                    WorkItem -> Initialize -> On submit, the work item is initialized (attribute set in db). Index view changes to show attributes after initialization.
-                </li>
-                <li>
-                    Disabled all action links to parts for work. This is to avoid build errors when the back-end is changed.
-                </li>
-                <li>
-                    Changed back-end to have start date, complete date, and static part info in work items (moved out of job and part for work).
-                </li>
-                <li>
-                    Changed the initialize functionality to allow user to choose start date, complete date, and and static part info.
-                </li>
-                <li>
-                    Added edit functionality to work items. Allows user to change part info, dates, and work item part batch image.
-                </li>
-                <li>
-                    Made back-end change to allow an image file to be saved in work items. This serves as a replacement for the part image that was
-                    previously in part for work and referenced an image table.
-                </li>
-                <li>
-                    Added functionality to allow the user to manage part batch (from work item). User is forwarded to an index-like page where only
-                    the parts in the part batch are shown (ie only shows the part for work entities that belong to the work item row).
-                </li>
-                <li>
-                    Added functionality to allow user to see details and edit the part for work.
-                </li>
-            </ul>
+            Redid front-end structure to represent Job -> WorkItem -> PartForWork from Job -> PartForWork. Next step is to implement same workflow for work orders.
+        </li>
+        <li class="update-notes-li">
+            Fixed issue in Inventory -> All powders. Exception was being thrown because of changes in the work - work item - part for work structure.
+            Now works as intended.
         </li>
     </ul>
 
@@ -82,9 +37,6 @@
     <ul style="font-size:14px;line-height:200%;">
         <li class="update-notes-li">
             Decided that the work -> work item -> part for work front-end UI mechanics should function similar to powder order -> line item -> powder bottle work flow.
-        </li>
-        <li class="update-notes-li">
-            Fix issue under inventory -> all powder
         </li>
         <li class="update-notes-li">
             Fix all parts for work (it broke because of the last deploy's changes)
