@@ -31,8 +31,7 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<PowderForPart>> GetAllRows()
         {
             return await _db.PowderForParts
-                .Include(p => p.PowderBottle)
-                .Include(p => p.PowderBottle.StaticPowderInfo)
+                .Include(p => p.PowderBottle).ThenInclude(p => p.StaticPowderInfo)
                 .Include(p => p.PartForWork)
                 .Include(p => p.User)
                 .OrderByDescending(p => p.PowderBottle.StaticPowderInfo.PowderName)
@@ -41,9 +40,26 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<Work>> GetAllWorkWithBottles()
         {
-            return await _db.Work
+            var list = await _db.Work.Include(w => w.WorkItems)
+                .ToListAsync();
+            for(int i = 0; i < list.Count; i++)
+            {
+                foreach(WorkItem workItem in list[i].WorkItems)
+                {
+                    workItem.PartsForWork = await _db.PartsForWork.Where(p => p.WorkItemId == workItem.WorkItemId).ToListAsync();
+                }
+            }
+            return list;
+        }
+
+        public async Task<IEnumerable<WorkItem>> GetWorkItemsFromWork(Guid workId)
+        {
+            return await _db.WorkItems
+                .Include(w => w.StaticPartInfo)
+                .Where(w => w.WorkId == workId)
                 .ToListAsync();
         }
+
 
         public async Task<IEnumerable<PowderBottle>> GetBottlesWithPowder(float threshold)
         {
@@ -61,7 +77,22 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<PartForWork>> GetPartsForWorkSingle(Guid workId)
         {
-            return await _db.PartsForWork.ToListAsync();
+            var work = await _db.Work.Include(w => w.WorkItems).FirstOrDefaultAsync(w => w.WorkId == workId);
+            var workItems = work.WorkItems.ToList();
+            List<PartForWork> list = new List<PartForWork>();
+            for (int i = 0; i < workItems.Count(); i++)
+            {
+                workItems[i] = await _db.WorkItems.Include(w => w.PartsForWork).FirstOrDefaultAsync(w => w.WorkItemId == workItems[i].WorkItemId);
+                
+            }
+            foreach(WorkItem workItem in workItems)
+            {
+                foreach(PartForWork part in workItem.PartsForWork)
+                {
+                    list.Insert(0, part);
+                }
+            }
+            return list;
         }
 
         public async Task<PowderBottle> GetPowderBottle(Guid id)
@@ -112,8 +143,23 @@ namespace EndlasNet.Data
 
         public async Task<Work> GetWork(Guid id)
         {
-            return await _db.Work
+            var work = await _db.Work.Include(w => w.WorkItems)
                 .FirstOrDefaultAsync(w => w.WorkId == id);
+            var workItems = work.WorkItems.ToList();
+            for(int i = 0; i < work.WorkItems.Count(); i++)
+            {
+                workItems[i] = await _db.WorkItems.Include(w => w.PartsForWork).FirstOrDefaultAsync(w => w.WorkItemId == workItems[i].WorkItemId);
+            }
+            work.WorkItems = workItems;
+            return work;
+        }
+
+        public async Task<IEnumerable<PowderBottle>> GetWorkItemBottles(Guid workItemId)
+        {
+            var workItem = await _db.WorkItems.Include(w => w.PartsForWork).FirstOrDefaultAsync(w => w.WorkItemId == workItemId);
+            var list = workItem.PartsForWork.ToList();
+            
+            return (IEnumerable<PowderBottle>)workItem.PartsForWork.ToList();
         }
 
         public bool PowderForPartExists(Guid id)

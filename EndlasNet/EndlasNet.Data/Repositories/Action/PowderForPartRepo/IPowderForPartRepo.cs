@@ -26,5 +26,7 @@ namespace EndlasNet.Data
         public Task<IEnumerable<PartForWork>> GetPartsForWorkSingle(Guid workId);
         public Task<IEnumerable<PartForWork>> GetPartsForWork();
         public Task<IEnumerable<PowderBottle>> GetBottlesWithPowder(float threshold);
+        public Task<IEnumerable<PowderBottle>> GetWorkItemBottles(Guid workItemId);
+        public Task<IEnumerable<WorkItem>> GetWorkItemsFromWork(Guid workId);
     }
 }

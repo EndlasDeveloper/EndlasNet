@@ -15,12 +15,13 @@
 
         <form asp-action="CreateGetWork">
             <input asp-for="Work" hidden />
-            <label asp-for="WorkId" class="control-label">Work</label>
-            <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId" id="workID"></select>
+            <input asp-for="WorkId" hidden />
+            <label asp-for="WorkItemId" class="control-label">Work</label>
+            <select asp-for="WorkItemId" class="form-control" asp-items="ViewBag.WorkItemId" id="workID"></select>
             <br />
-            <input type="submit" value="Get work items" class="btn btn-primary" />
+            <input type="submit" value="Get parts" class="btn btn-primary" />
         </form>
-    <div id="parts"></div>
+        <div id="parts"></div>
     </div>
 </div>
 

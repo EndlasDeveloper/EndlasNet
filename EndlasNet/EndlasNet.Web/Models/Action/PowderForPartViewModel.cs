@@ -23,6 +23,12 @@ namespace EndlasNet.Web.Models
         public Work Work { get; set; }
         [Display(Name = "Work")]
         public Guid WorkId { get; set; }
+
+        [Display(Name ="Work item")]
+        public WorkItem WorkItem { get; set; }
+        [Display(Name = "Work item")]
+        public Guid WorkItemId { get; set; }
+
         [Display(Name = "Powder bottle")]
         public Guid PowderBottleId { get; set; }
 

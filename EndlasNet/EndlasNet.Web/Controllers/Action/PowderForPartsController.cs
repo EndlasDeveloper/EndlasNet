@@ -22,10 +22,8 @@ namespace EndlasNet.Web.Controllers
             _repo = repo;
         }
 
-        // GET: PowderForParts
-        public async Task<IActionResult> Index(string sortOrder)
+        private void SetIndexViewData(string sortOrder)
         {
-
             ViewBag.SuffixDescSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_desc" : "";
             ViewBag.SuffixAscSortParm = String.IsNullOrEmpty(sortOrder) ? "suffix_asc" : "";
 
@@ -34,29 +32,17 @@ namespace EndlasNet.Web.Controllers
 
             ViewBag.PartDrawingDescSortParm = String.IsNullOrEmpty(sortOrder) ? "part_drawing_desc" : "";
             ViewBag.PartDrawingAscSortParm = String.IsNullOrEmpty(sortOrder) ? "part_drawing_asc" : "";
+        }
 
-            var powderBottles = await GetPowderBottleList();
-            var partsForWork = await GetPartsForWorkList();
-
-            var powderForParts = await _repo.GetAllRows();
-
-            foreach (PowderForPart powderForPart in powderForParts)
-            {
-               
-
-                var staticPowderInfo = await _repo.GetStaticPowderInfo((Guid)powderForPart.PowderBottle.StaticPowderInfoId);
-
-                powderForPart.PowderBottle.StaticPowderInfo = staticPowderInfo;
-
-            }
-
+        private IEnumerable<PowderForPart> SortIndexPowderForParts(IEnumerable<PowderForPart> powderForParts, string sortOrder)
+        {
             switch (sortOrder)
             {
                 case "suffix_desc":
                     powderForParts = powderForParts.OrderByDescending(p => p.PartForWork.Suffix);
                     break;
                 case "suffix_asc":
-                    powderForParts = powderForParts.OrderBy(p => p.PartForWork.Suffix);                   
+                    powderForParts = powderForParts.OrderBy(p => p.PartForWork.Suffix);
                     break;
                 case "powder_bottle_desc":
                     powderForParts = powderForParts.OrderByDescending(p => p.PowderBottle.PowderName);
@@ -73,6 +59,18 @@ namespace EndlasNet.Web.Controllers
                 default:
                     break;
             }
+            return powderForParts;
+        }
+        // GET: PowderForParts
+        public async Task<IActionResult> Index(string sortOrder)
+        {
+
+            SetIndexViewData(sortOrder);
+
+
+            var powderForParts = await _repo.GetAllRows();
+
+            powderForParts = SortIndexPowderForParts(powderForParts, sortOrder);
 
             return View(powderForParts);
         }
@@ -146,7 +144,7 @@ namespace EndlasNet.Web.Controllers
                     workList.Insert(0, work);
                 }
             }
-            ViewData["WorkId"] = new SelectList(workList, "WorkId", "WorkDescription");
+            ViewData["WorkId"] = new SelectList(works, "WorkId", "WorkDescription");
             ViewBag.Init = "true";
         }
 
@@ -160,8 +158,33 @@ namespace EndlasNet.Web.Controllers
         [HttpPost]
         public IActionResult CreateGetWork([Bind("WorkId,Work,PowderBottleId,PowderWeightUsed,CheckBoxes")] PowderForPartViewModel vm)
         {
-            return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0,
+            return RedirectToAction("CreateGetWorkItems", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0,
                 selectedCheckboxes = true, powderWeightUsed = 0, dateUsed = DateTime.Now});
+        }
+        [HttpGet]
+        public async Task<IActionResult> CreateGetWorkItems(Guid workId)
+        {
+            await PopulateWorkItemsForCreate(workId);
+            return View();
+        }
+
+        private async Task PopulateWorkItemsForCreate(Guid workId)
+        {
+            var workItems = await _repo.GetWorkItemsFromWork(workId);
+            var works = await _repo.GetAllWorkWithBottles();
+            var wl = works.ToList();
+            List<Work> workList = new List<Work>();
+            foreach (Work work in works)
+            {
+                var list = work.WorkItems.ToList();
+                var wList = list.Where(w => w.PartsForWork.Count() == 0).ToList();
+                foreach (WorkItem workItem in wList)
+                {
+                    workList.Insert(0, work);
+                }
+            }
+            ViewData["WorkItemId"] = new SelectList(workItems, "WorkItemId", "StaticPartInfo.DrawingNumber");
+            ViewBag.Init = "true";
         }
 
 
@@ -177,10 +200,9 @@ namespace EndlasNet.Web.Controllers
                 ViewBag.HasEnoughPowder = "false";
                 ViewBag.PowderLeft = powderLeft;
             }
+
             var work = await _repo.GetWork(workId);
-
-            var partsForWork = await _repo.GetPartsForWorkSingle(workId);
-
+            var workItems = work.WorkItems.ToList();
             var vm = new PowderForPartViewModel
             {
                 Work = work,
@@ -189,18 +211,21 @@ namespace EndlasNet.Web.Controllers
                 CheckBoxes = new List<CheckBoxInfo>()
             };
 
-            foreach (PartForWork partForWork in partsForWork)
+            for(int i = 0; i < workItems.Count(); i++)
             {
-                partForWork.WorkItem.Work = await _repo.GetWork((Guid)partForWork.WorkItem.WorkId);
-
-                var checkBox = new CheckBoxInfo()
+                foreach (PartForWork partForWork in workItems[i].PartsForWork)
                 {
-                    Label = partForWork.Suffix,
-                    PartForWorkId = partForWork.PartForWorkId,
-                };
-                vm.CheckBoxes.Add(checkBox);
+                    partForWork.WorkItem.Work = await _repo.GetWork((Guid)partForWork.WorkItem.WorkId);
 
+                    var checkBox = new CheckBoxInfo()
+                    {
+                        Label = partForWork.Suffix,
+                        PartForWorkId = partForWork.PartForWorkId,
+                    };
+                    vm.CheckBoxes.Add(checkBox);
+                }
             }
+           
             // sort by suffix (aka label)
             vm.CheckBoxes = vm.CheckBoxes
                 .OrderBy(c => c.Label)
