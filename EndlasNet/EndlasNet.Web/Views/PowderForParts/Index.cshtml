@@ -66,6 +66,8 @@
     <tbody>
 @foreach (var item in Model) {
     var powderWeightUsedStr = string.Format("{0:0.0000}", item.PowderWeightUsed);
+    if(item.PartForWork.WorkItem.StaticPartInfo != null)
+        FileURL.SetImageURL(item.PartForWork.WorkItem.StaticPartInfo);
         <tr>
             <td>
                 <img src=@Html.DisplayFor(modelItem => item.PartForWork.WorkItem.StaticPartInfo.ImageUrl) alt="Drawing Image" style="max-width:75px;max-height:60px" />

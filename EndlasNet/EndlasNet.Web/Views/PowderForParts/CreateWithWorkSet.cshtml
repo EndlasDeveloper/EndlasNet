@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Create";
     var workDesc = ViewBag.WorkDescription;
+    var workItemPartInfo = ViewBag.DrawingNumber;
     var now = DateTime.Now.ToString("s");
 }
 
@@ -17,6 +18,9 @@
             <label class="control-label">Work</label>
             <span>
                 <input asp-for="@workDesc" class="form-control" readonly />
+                <br />
+                <input asp-for="@workItemPartInfo" class="form-control" readonly />
+
                 <a href='@Url.Action("CreateGetWork", "PowderForParts")'>
                     <span style="margin-top:5px" class="form-inline">
                         <img style="max-width:20px;max-height:20px;" src="~/img/restart.png" />&nbsp;Restart

@@ -72,6 +72,7 @@ namespace EndlasNet.Web.Controllers
 
             powderForParts = SortIndexPowderForParts(powderForParts, sortOrder);
 
+
             return View(powderForParts);
         }
 
@@ -165,6 +166,8 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> CreateGetWorkItems(Guid workId)
         {
             await PopulateWorkItemsForCreate(workId);
+            var work = await _repo.GetWork(workId);
+            ViewBag.WorkDescription = work.WorkDescription;
             return View();
         }
 
@@ -172,6 +175,7 @@ namespace EndlasNet.Web.Controllers
         [AutoValidateAntiforgeryToken]
         public IActionResult CreateGetWorkItems([Bind("WorkId,Work,WorkItemId,WorkItem,PowderBottleId,PowderWeightUsed,CheckBoxes")] PowderForPartViewModel vm)
         {
+
             return RedirectToAction("CreateGetWorkItems", new
             {
                 workItemId = vm.WorkItemId,
@@ -203,6 +207,21 @@ namespace EndlasNet.Web.Controllers
             ViewBag.Init = "true";
         }
 
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult CreateWithWorkItemSet([Bind("WorkId,Work,WorkItemId,WorkItem,PowderBottleId,PowderWeightUsed,CheckBoxes")] PowderForPartViewModel vm)
+        {
+            return RedirectToAction("CreateWithWorkSet", "PowderForParts", new 
+                {
+                    workItemId = vm.WorkItemId,
+                    workId = vm.WorkId,
+                    hasEnoughPowder = true,
+                    powderLeft = 0,
+                    selectedCheckboxes = true,
+                    powderWeightUsed = 0,
+                    dateUsed = DateTime.Now
+                });
+        }
 
         [HttpGet]
         public async Task<IActionResult> CreateWithWorkSet(Guid workItemId, Guid workId, bool hasEnoughPowder, float powderLeft, bool selectedCheckboxes, float powderWeightUsed, DateTime dateUsed)
@@ -217,8 +236,9 @@ namespace EndlasNet.Web.Controllers
                 ViewBag.PowderLeft = powderLeft;
             }
             var wi = await _repo.GetWorkItemsFromWork(workId);
-            var workItems = wi.Where(w => w.WorkItemId == workItemId).ToList();
+            var workItems = wi.FirstOrDefault(w => w.WorkItemId == workItemId);
             var work = await _repo.GetWork(workId);
+            ViewBag.DrawingNumber = workItems.StaticPartInfo.DrawingNumber;
             var vm = new PowderForPartViewModel
             {
                 Work = work,
@@ -226,21 +246,19 @@ namespace EndlasNet.Web.Controllers
                 DateUsed = dateUsed,
                 CheckBoxes = new List<CheckBoxInfo>()
             };
-
-            for(int i = 0; i < workItems.Count(); i++)
+          
+            foreach (PartForWork partForWork in workItems.PartsForWork)
             {
-                foreach (PartForWork partForWork in workItems[i].PartsForWork)
-                {
-                    partForWork.WorkItem.Work = await _repo.GetWork((Guid)partForWork.WorkItem.WorkId);
+                partForWork.WorkItem.Work = await _repo.GetWork((Guid)partForWork.WorkItem.WorkId);
 
-                    var checkBox = new CheckBoxInfo()
-                    {
-                        Label = partForWork.Suffix,
-                        PartForWorkId = partForWork.PartForWorkId,
-                    };
-                    vm.CheckBoxes.Add(checkBox);
-                }
+                var checkBox = new CheckBoxInfo()
+                {
+                    Label = partForWork.Suffix,
+                    PartForWorkId = partForWork.PartForWorkId,
+                };
+                vm.CheckBoxes.Add(checkBox);
             }
+            
            
             // sort by suffix (aka label)
             vm.CheckBoxes = vm.CheckBoxes

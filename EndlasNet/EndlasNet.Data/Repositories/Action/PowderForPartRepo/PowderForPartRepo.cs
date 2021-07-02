@@ -31,8 +31,8 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<PowderForPart>> GetAllRows()
         {
             return await _db.PowderForParts
-                .Include(p => p.PowderBottle).ThenInclude(p => p.StaticPowderInfo)
-                .Include(p => p.PartForWork)
+                .Include(p => p.PowderBottle)
+                .Include(p => p.PartForWork).ThenInclude(p => p.WorkItem).ThenInclude(w => w.StaticPartInfo)
                 .Include(p => p.User)
                 .OrderByDescending(p => p.PowderBottle.StaticPowderInfo.PowderName)
                 .ToListAsync();
@@ -143,7 +143,7 @@ namespace EndlasNet.Data
 
         public async Task<Work> GetWork(Guid id)
         {
-            var work = await _db.Work.Include(w => w.WorkItems)
+            var work = await _db.Work.Include(w => w.WorkItems).ThenInclude(w => w.StaticPartInfo)
                 .FirstOrDefaultAsync(w => w.WorkId == id);
             var workItems = work.WorkItems.ToList();
             for(int i = 0; i < work.WorkItems.Count(); i++)
