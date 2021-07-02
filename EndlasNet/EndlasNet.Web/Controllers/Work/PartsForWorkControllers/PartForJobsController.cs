@@ -20,12 +20,14 @@ namespace EndlasNet.Web.Controllers
         public PartForJobsController(IPartForJobRepo repo)
         {
             _repo = repo;
+
         }
 
         // GET: PartForJob
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Works workType)
         {
-            var jobs = await _repo.GetJobsWithParts();
+            var factory = new WorkRepoFactory(_repo, workType);
+            var jobs = await factory.GetWorkWithParts();
             List<PartsForWorkMinimizedViewModel> vmList = new List<PartsForWorkMinimizedViewModel>();
             foreach(Job job in jobs)
             {

@@ -24,5 +24,6 @@ namespace EndlasNet.Data
 
         public Task DeletePartForWork(PartForWork partForWork);
         public bool PartForWorkExists(Guid id);
+      
     }
 }

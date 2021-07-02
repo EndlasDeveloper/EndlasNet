@@ -220,5 +220,93 @@ namespace EndlasNet.Data
         {
             return await _db.WorkItems.FirstOrDefaultAsync(w => w.WorkItemId == workItemId);
         }
+
+        public async Task AddPartForWork(PartForWork partForWork)
+        {
+            await _db.PartsForWork.AddAsync(partForWork);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task DeletePartForWork(PartForWork partForWork)
+        {
+            _db.Remove(partForWork);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<PartForWorkOrder>> GetAllPartsForWorkOrders()
+        {
+            return await _db.PartsForWorkOrders
+                .Include(p => p.WorkItem)
+                .OrderByDescending(p => p.WorkItem.Work.DueDate).ThenBy(p => p.Suffix)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<PartForWork>> GetAllPartsForWork()
+        {
+            var list = await _db.PartsForWork
+                .Include(p => p.WorkItem)
+                .OrderByDescending(p => p.WorkItem.Work.DueDate).ThenBy(p => p.Suffix)
+                .ToListAsync();
+            foreach (PartForWork partForWork in list)
+            {
+                partForWork.WorkItem.Work.Customer = await _db.Customers.FirstOrDefaultAsync(p => p.CustomerId == partForWork.WorkItem.Work.CustomerId);
+            }
+            return list;
+        }
+
+        public async Task<Customer> GetCustomer(Guid id)
+        {
+            return await _db.Customers.FirstOrDefaultAsync(c => c.CustomerId == id);
+        }
+
+        public async Task<PartForWork> GetPartForWork(Guid? id)
+        {
+            return await _db.PartsForWork
+               .Include(p => p.WorkItem)
+               .FirstOrDefaultAsync(m => m.PartForWorkId == id);
+        }
+
+        public async Task<IEnumerable<PartForWorkOrder>> GetPartForWorkOrders()
+        {
+            return await _db.PartsForWorkOrders
+               .Include(p => p.WorkItem).ToListAsync();
+        }
+
+        public string GetWorkType(PartForWork partForWork)
+        {
+            return _db.Entry(partForWork)
+                .Property("Discriminator").CurrentValue.ToString();
+        }
+
+        public bool PartForWorkExists(Guid id)
+        {
+            return _db.PartsForWork.Any(e => e.PartForWorkId == id);
+        }
+
+        public async Task UpdatePartForWork(PartForWork partForWork)
+        {
+            _db.Update(partForWork);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<WorkOrder>> GetWorkOrdersWithParts()
+        {
+            var list = await _db.WorkOrders.Include(w => w.WorkItems).ToListAsync();
+            List<WorkOrder> workOrders = new List<WorkOrder>();
+            for(int i = 0; i < list.Count; i++)
+            {
+                var wi = list[i].WorkItems.ToList();
+                for(int j = 0; j < list[i].WorkItems.Count(); j++)
+                {
+                    if (wi[j].PartsForWork.Count() >0)
+                    {
+                        workOrders.Insert(0, list[i]);
+                    }
+                }
+       
+            }
+            return list;
+        }
+
     }
 }

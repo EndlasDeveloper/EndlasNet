@@ -220,19 +220,9 @@ namespace EndlasNet.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateWithWorkSet(Guid workItemId, Guid workId, bool hasEnoughPowder, float powderLeft, bool selectedCheckboxes, float powderWeightUsed, DateTime dateUsed)
         {
-            if (!selectedCheckboxes)
-            {
-                ViewBag.NoCheckboxSelect = "true";
-            }
-            if (!hasEnoughPowder)
-            {
-                ViewBag.HasEnoughPowder = "false";
-                ViewBag.PowderLeft = powderLeft;
-            }
-            var wi = await _repo.GetWorkItemsFromWork(workId);
-            var workItems = wi.FirstOrDefault(w => w.WorkItemId == workItemId);
             var work = await _repo.GetWork(workId);
-            ViewBag.DrawingNumber = workItems.StaticPartInfo.DrawingNumber;
+
+            var workItems = work.WorkItems.FirstOrDefault(w => w.WorkItemId == workItemId);
             var vm = new PowderForPartViewModel
             {
                 Work = work,
@@ -240,30 +230,46 @@ namespace EndlasNet.Web.Controllers
                 DateUsed = dateUsed,
                 CheckBoxes = new List<CheckBoxInfo>()
             };
-          
-            foreach (PartForWork partForWork in workItems.PartsForWork)
+            if (!selectedCheckboxes)
             {
-                partForWork.WorkItem.Work = await _repo.GetWork((Guid)partForWork.WorkItem.WorkId);
-
-                var checkBox = new CheckBoxInfo()
-                {
-                    Label = partForWork.Suffix,
-                    PartForWorkId = partForWork.PartForWorkId,
-                };
-                vm.CheckBoxes.Add(checkBox);
+                ViewBag.NoCheckboxSelect = "true";
+                return View(vm);
             }
-            
-           
-            // sort by suffix (aka label)
-            vm.CheckBoxes = vm.CheckBoxes
-                .OrderBy(c => c.Label)
-                .AsEnumerable()
-                .ToList();
+            else if (!hasEnoughPowder)
+            {
+                ViewBag.HasEnoughPowder = "false";
+                ViewBag.PowderLeft = powderLeft;
+                return View(vm);
+            }
+            else
+            {
+                ViewBag.DrawingNumber = workItems.StaticPartInfo.DrawingNumber;
 
-            ViewBag.WorkDescription = work.WorkDescription;
-            await SetViewData();
-            vm.PowderWeightUsed = powderWeightUsed;
-            return View(vm);
+                foreach (PartForWork partForWork in workItems.PartsForWork)
+                {
+                    partForWork.WorkItem.Work = await _repo.GetWork((Guid)partForWork.WorkItem.WorkId);
+
+                    var checkBox = new CheckBoxInfo()
+                    {
+                        Label = partForWork.Suffix,
+                        PartForWorkId = partForWork.PartForWorkId,
+                    };
+                    vm.CheckBoxes.Add(checkBox);
+                }
+
+
+                // sort by suffix (aka label)
+                vm.CheckBoxes = vm.CheckBoxes
+                    .OrderBy(c => c.Label)
+                    .AsEnumerable()
+                    .ToList();
+
+                ViewBag.WorkDescription = work.WorkDescription;
+                await SetViewData();
+                vm.PowderWeightUsed = powderWeightUsed;
+
+                return View(vm);
+            }
         }
 
   
@@ -317,17 +323,6 @@ namespace EndlasNet.Web.Controllers
            
         }
 
-        public async Task<List<PartForWork>> GetPartsForWorkList()
-        {
-            var partsForWork = await _repo.GetPartsForWork();
-
-            foreach (PartForWork partForWork in partsForWork)
-            {
-               
-            }
-            return partsForWork.ToList();
-        }
-
         public async Task<List<PowderBottle>> GetPowderBottleList()
         {
             var powders = await _repo.GetBottlesWithPowder(WEIGHT_THRESHOLD);
@@ -343,7 +338,7 @@ namespace EndlasNet.Web.Controllers
 
         public async Task SetViewData()
         {
-            var partsForWork = await GetPartsForWorkList();
+            var partsForWork = await _repo.GetPartsForWork();
             var powders = await GetPowderBottleList();
             foreach (PowderBottle powder in powders)
             {
