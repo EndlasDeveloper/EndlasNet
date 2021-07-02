@@ -48,8 +48,7 @@ namespace EndlasNet.Web.Controllers
                     powderForParts = powderForParts.OrderByDescending(p => p.PowderBottle.PowderName);
                     break;
                 case "powder_bottle_asc":
-                    powderForParts = powderForParts.OrderByDescending(p => p.PowderBottle.PowderName);
-                    powderForParts = powderForParts.Reverse();
+                    powderForParts = powderForParts.OrderBy(p => p.PowderBottle.PowderName);
                     break;
                 case "part_drawing_desc":
                     break;
