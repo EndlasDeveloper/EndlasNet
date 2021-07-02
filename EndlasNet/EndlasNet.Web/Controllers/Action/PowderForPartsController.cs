@@ -63,14 +63,9 @@ namespace EndlasNet.Web.Controllers
         // GET: PowderForParts
         public async Task<IActionResult> Index(string sortOrder)
         {
-
             SetIndexViewData(sortOrder);
-
-
             var powderForParts = await _repo.GetAllRows();
-
             powderForParts = SortIndexPowderForParts(powderForParts, sortOrder);
-
 
             return View(powderForParts);
         }
