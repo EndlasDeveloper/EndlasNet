@@ -7,11 +7,11 @@ namespace EndlasNet.Data
 {
     public interface IWorkItemRepo
     {
-        public Task<WorkItem> GetRow(Guid? workItemId);
-        public Task<IEnumerable<WorkItem>> GetAllRows();
-        public Task AddRow(WorkItem workItem);
-        public Task UpdateRow(WorkItem workItem);
-        public Task DeleteRow(Guid? id);
+        public Task<WorkItem> GetWorkItem(Guid? workItemId);
+        public Task<IEnumerable<WorkItem>> GetAllWorkItems();
+        public Task AddWorkItem(WorkItem workItem);
+        public Task UpdateWorkItem(WorkItem workItem);
+        public Task DeleteWorkItem(Guid? id);
         public Task<Work> GetWork(Guid workId);
 
         public Task<IEnumerable<StaticPartInfo>> GetAllPartInfo();

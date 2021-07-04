@@ -25,53 +25,65 @@
                 Work endlas number
             </th>
             <th>
+                Part drawing number
+            </th>
+            <th>
                 Number of parts
             </th>
+
+
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                @if (item.IsInitialized)
+        <tr>
+            @if (item.IsInitialized)
+            {
+                int cnt = 0;
+                if (item.PartsForWork != null)
                 {
-                    int cnt = 0;
-                    if(item.PartsForWork != null)
-                    {
-                        cnt = item.PartsForWork.Count();
-                    }
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
-                    </td>
-                    <td>
-                        @cnt
-                    </td>
-                   
+                    cnt = item.PartsForWork.Count();
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Work.EndlasNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StaticPartInfo.DrawingNumber)
+                </td>
+                <td>
+                    @cnt
+                </td>
+
+
+            }
+            else
+            {
+                <td>
+                    *
+                </td>
+                <td>
+                    *
+                </td>
+                <td>
+                    *
+                </td>
+            }
+            <td>
+                @if (!item.IsInitialized)
+                {
+                    <a asp-action="Initialize" asp-route-id="@item.WorkItemId">Initialize work item</a>
                 }
                 else
                 {
-                    <td>
-                        *
-                    </td>
-                   <td>
-                       *
-                   </td>
+                    <a asp-action="ManagePartsForWork" asp-controller="WorkItems" asp-route-workItemId="@item.WorkItemId">Manage parts for work</a> <span> |</span>
+                    <a asp-action="Edit" asp-route-id="@item.WorkItemId">Edit</a> <span> |</span>
+                    <a asp-action="Details" asp-route-id="@item.WorkItemId">Details</a> <span> |</span>
+                    <a asp-action="Uninitialize" asp-route-id="@item.WorkItemId">Uninitialize</a>
                 }
-                <td>
-                    @if (!item.IsInitialized)
-                    {
-                        <a asp-action="Initialize" asp-route-id="@item.WorkItemId">Initialize work item</a>
-                    }
-                    else
-                    {
-                        <a asp-action="ManagePartsForWork" asp-controller="WorkItems" asp-route-workItemId="@item.WorkItemId">Manage parts for work</a> <span> |</span>
-                        <a asp-action="Edit" asp-route-id="@item.WorkItemId">Edit</a> <span> |</span>
-                        <a asp-action="Details" asp-route-id="@item.WorkItemId">Details</a> <span> |</span>
-                        <a asp-action="Uninitialize" asp-route-id="@item.WorkItemId">Uninitialize</a>
-                    }
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

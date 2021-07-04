@@ -31,6 +31,8 @@
         <form asp-action="CreateWithWorkSet" enctype="multipart/form-data">
             <input asp-for="Work" hidden />
             <input asp-for="WorkId" hidden />
+            <input asp-for="WorkItemId" hidden />
+            <input asp-for="WorkItem" hidden />
             <div class="form-group">
                 <label asp-for="DateUsed" class="control-label"></label>
                 <input asp-for="DateUsed" class="form-control" value="@now"/>

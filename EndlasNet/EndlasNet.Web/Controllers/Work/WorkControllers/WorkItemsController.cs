@@ -59,7 +59,7 @@ namespace EndlasNet.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                var workItem = await _repo.GetRow(vm.WorkItemId);
+                var workItem = await _repo.GetWorkItem(vm.WorkItemId);
                 workItem.StaticPartInfoId = vm.StaticPartInfoId;
                 workItem.StartDate = vm.StartDate;
                 workItem.CompleteDate = vm.CompleteDate;
@@ -91,7 +91,7 @@ namespace EndlasNet.Web.Controllers
                     }
                     catch (Exception ex) { ex.ToString(); continue; }
                 }
-                await _repo.UpdateRow(workItem);
+                await _repo.UpdateWorkItem(workItem);
 
                 return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
             }
@@ -117,11 +117,11 @@ namespace EndlasNet.Web.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Uninitialize(Guid id)
         {
-            var workItem = await _repo.GetRow(id);
+            var workItem = await _repo.GetWorkItem(id);
             workItem.IsInitialized = false;
             await _repo.DeletePartBatch(workItem.PartsForWork.ToList());
-            await _repo.DeleteRow(id);
-            await _repo.AddRow(workItem);
+            await _repo.DeleteWorkItem(id);
+            await _repo.AddWorkItem(workItem);
             return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
         }
 
@@ -132,7 +132,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var workItem = await _repo.GetRow(id);
+            var workItem = await _repo.GetWorkItem(id);
 
             if (workItem.WorkItemImageBytes!= null)
                 workItem.WorkItemImageUrl = FileURL.GetImageURL(workItem.WorkItemImageBytes);
@@ -160,7 +160,7 @@ namespace EndlasNet.Web.Controllers
                     workItem.WorkItemImageBytes = null;
                 }
 
-                await _repo.UpdateRow(workItem);
+                await _repo.UpdateWorkItem(workItem);
                 return RedirectToAction("Index", "WorkItems", new { workId = workItem.WorkId });
             }
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllPartInfo(), "StaticPartInfoId", "PartDescription");
@@ -170,7 +170,7 @@ namespace EndlasNet.Web.Controllers
         }
         public async Task<IActionResult> Details(Guid id)
         {
-            var workItem = await _repo.GetRow(id);
+            var workItem = await _repo.GetWorkItem(id);
 
             if (workItem == null)
             {
@@ -190,7 +190,7 @@ namespace EndlasNet.Web.Controllers
 
         private async Task<WorkItemViewModel> CreateWorkItemViewModel(Guid? id)
         {
-            var workItem = await _repo.GetRow(id);
+            var workItem = await _repo.GetWorkItem(id);
             WorkItemViewModel vm = new WorkItemViewModel
             {
                 WorkItemId = workItem.WorkItemId,

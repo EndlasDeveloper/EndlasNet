@@ -16,13 +16,13 @@ namespace EndlasNet.Data
             _db = db;
         }
 
-        public async Task AddRow(WorkItem workItem)
+        public async Task AddWorkItem(WorkItem workItem)
         {
             await _db.WorkItems.AddAsync(workItem);
             await _db.SaveChangesAsync();
         }
 
-        public async Task DeleteRow(Guid? id)
+        public async Task DeleteWorkItem(Guid? id)
         {
             var workItem = await _db.WorkItems.FirstOrDefaultAsync(w => w.WorkItemId == id);
             _db.WorkItems.Remove(workItem);
@@ -34,7 +34,7 @@ namespace EndlasNet.Data
             return await _db.StaticPartInfo.ToListAsync();
         }
 
-        public async Task<IEnumerable<WorkItem>> GetAllRows()
+        public async Task<IEnumerable<WorkItem>> GetAllWorkItems()
         {
             return await _db.WorkItems
                 .Include(w => w.Work)
@@ -50,7 +50,7 @@ namespace EndlasNet.Data
                 .Where(s => s.WorkItems.Count() == 0).ToListAsync();
         }
 
-        public async Task<WorkItem> GetRow(Guid? workItemId)
+        public async Task<WorkItem> GetWorkItem(Guid? workItemId)
         {
             return await _db.WorkItems
                 .Include(w => w.Work)
@@ -61,7 +61,10 @@ namespace EndlasNet.Data
 
         public async Task<Work> GetWork(Guid workId)
         {
-            return await _db.Work.Include(w => w.WorkItems).ThenInclude(w => w.PartsForWork).FirstOrDefaultAsync(w => w.WorkId == workId);
+            return await _db.Work
+                .Include(w => w.WorkItems).ThenInclude(w => w.PartsForWork)
+                .Include(w => w.WorkItems).ThenInclude(w => w.StaticPartInfo)
+                .FirstOrDefaultAsync(w => w.WorkId == workId);
         }
 
         public async Task<IEnumerable<WorkItem>> GetWorkItemsForWork(Guid workId)
@@ -72,7 +75,7 @@ namespace EndlasNet.Data
                 .Where(w => w.WorkId == workId)
                 .ToListAsync();
         }
-        public async Task UpdateRow(WorkItem workItem)
+        public async Task UpdateWorkItem(WorkItem workItem)
         {
             var entry = _db.Entry(workItem);
             entry.State = EntityState.Modified;

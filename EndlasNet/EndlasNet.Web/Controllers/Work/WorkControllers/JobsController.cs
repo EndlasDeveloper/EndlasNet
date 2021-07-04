@@ -13,8 +13,8 @@ namespace EndlasNet.Web.Controllers
 {
     public class JobsController : Controller
     {
-        private readonly IJobRepo _repo;
-        public JobsController(IJobRepo repo)
+        private readonly IWorkRepo _repo;
+        public JobsController(IWorkRepo repo)
         {   
             _repo = repo;
         }

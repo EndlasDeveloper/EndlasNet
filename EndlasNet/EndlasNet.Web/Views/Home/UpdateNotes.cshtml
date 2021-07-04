@@ -10,34 +10,21 @@
     ViewData["Title"] = "Update notes";
     
 }
-<h1 class="display-4">@ViewData["Title"] - 6/25/2021</h1>
+<h1 class="display-4">@ViewData["Title"] - 7/2/2021</h1>
 <p>
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
-        <li class="update-notes-li">
-            Added Report tab to front-end with action links for Inventory, Jobs and work orders, and Parts.
-        </li>
-        <li class="update-notes-li">
-            Redo back-end structure from Work -> PartForWork to Work -> WorkItem -> PartForWork.
-            (This is partly done - just need to remove the old entity relationships after fron-end is complete)
-        </li>
-        <li class="update-notes-li">
-            Redid front-end structure to represent Job -> WorkItem -> PartForWork from Job -> PartForWork. Next step is to implement same workflow for work orders.
-        </li>
-        <li class="update-notes-li">
-            Fixed issue in Inventory -> All powders. Exception was being thrown because of changes in the work - work item - part for work structure.
-            Now works as intended.
+       <li>
+           Changed work item start date and complete date to display date started and date completed in the UI. If dates aren't set,
+           a NO ENTRY message appears where it used to be blank (this was making the UI look jankey).
         </li>
         <li>
-            Fixed powder to parts functionality. Now, after parts exist in a job, the user can choose a work, then choose a work item, then the user can click
-            get parts. Then the user is shown some forms for setting a date used, which powder bottle is to be used, how much powder to use, and wheich parts
-            to apply the powder weight to. Seems to work as intended.
+            Moved all methods from IJobRepo and IWorkOrderRepo into IWorkRepo. Changed the job controller to use the IWorkRepo instead of the 
+            previously used IJobRepo. This change will make it easier to selectively perform CRUD operations on any work entity
+            (regardless of job or work order). Works as intended.
         </li>
-        <li>
-            Fixed issue in delete and details (under powder for part) where the static part info drawing wasn't rendering and static powder info wasn't being
-            passed along to the view.
-        </li>
+        
     </ul>
 
 
@@ -45,7 +32,7 @@
     <div style="color:white;font-size:18px;">Todo</div>
     <ul style="font-size:14px;line-height:200%;">
         <li class="update-notes-li">
-            Decided that the work -> work item -> part for work front-end UI mechanics should function similar to powder order -> line item -> powder bottle work flow.
+            Implement the same functinality for work orders as for jobs.
         </li>
         <li class="update-notes-li">
             Fix all parts for work (it broke because of the last deploy's changes)

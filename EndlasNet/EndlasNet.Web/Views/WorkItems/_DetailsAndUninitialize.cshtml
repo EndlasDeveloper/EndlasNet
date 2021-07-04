@@ -2,6 +2,7 @@
 
 @{
     string noImageTitleStr = "No image title";
+    string noDateSet = "NO ENTRY";
 }
 
 <div>
@@ -25,13 +26,28 @@
             @Html.DisplayNameFor(model => model.WorkItem.StartDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
+            @if (Model.StartDate != null)
+            {
+                @Html.DisplayFor(model => model.StartDate)
+            }
+            else
+            {
+                <span>@noDateSet</span>
+            }
+
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.WorkItem.CompleteDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CompleteDate)
+            @if (Model.CompleteDate!= null)
+            {
+                @Html.DisplayFor(model => model.CompleteDate)
+            }
+            else
+            {
+                <span>@noDateSet</span>
+            }
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NumPartsForWork)
@@ -42,24 +58,22 @@
 
 
     </dl>
-    @if (Model.WorkItem.StaticPartInfo.ImageName != null)
-    {
-        <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
-            Title:
+  
+    <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
+        Drawing image title:
+        @if (Model.WorkItem.StaticPartInfo.ImageName != null)
+        {
             <em>
                 @Html.DisplayFor(model => model.WorkItem.StaticPartInfo.ImageName)
             </em>
-        </h6>
-    }
-    else
-    {
-        <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
-            Title:
+        }
+        else
+        {
             <em>
                 @noImageTitleStr
             </em>
-        </h6>
-    }
+        }
+    </h6>
 
     @if (Model.WorkItem.StaticPartInfo.DrawingImageBytes != null)
     {

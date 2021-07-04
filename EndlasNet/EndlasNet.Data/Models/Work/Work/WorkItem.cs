@@ -24,10 +24,10 @@ namespace EndlasNet.Data
 
         public Status Status { get; set; } = Status.NotStarted;
 
-        [Display(Name = "Start date")]
+        [Display(Name = "Date started")]
         public DateTime? StartDate { get; set; }
 
-        [Display(Name = "Complete date")]
+        [Display(Name = "Date completed")]
         public DateTime? CompleteDate { get; set; }
 
         public bool IsInitialized { get; set; } = false;

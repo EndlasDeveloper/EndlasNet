@@ -7,14 +7,14 @@ namespace EndlasNet.Data
 {
     public interface IWorkOrderRepo
     {
-        public Task AddRow(WorkOrder workOrder);
-        public Task DeleteRow(Guid? id);
-        public Task<IEnumerable<WorkOrder>> GetAllRows();
-        public Task<WorkOrder> GetRow(Guid? id);
-        public Task<object> GetRowNoTracking(Guid? id);
-        public Task<bool> RowExists(Guid id);
-        public Task UpdateRow(WorkOrder workOrder);
-        public Task<WorkOrder> FindRow(Guid? id);
+        public Task AddWorkOrder(WorkOrder workOrder);
+        public Task DeleteWorkOrder(Guid? id);
+        public Task<IEnumerable<WorkOrder>> GetAllWorkOrders();
+        public Task<WorkOrder> GetWorkOrder(Guid? id);
+        public Task<object> GetWorkOrderNoTracking(Guid? id);
+        public Task<bool> WorkOrderExists(Guid id);
+        public Task UpdateWorkOrder(WorkOrder workOrder);
+        public Task<WorkOrder> FindWorkOrder(Guid? id);
         public Task<Quote> GetQuote(Guid id);
         public Task<Work> GetWork(Guid? id);
         public Task<IEnumerable<Work>> GetWorkWithEndlasNumber(string endlasNumber);

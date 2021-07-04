@@ -233,13 +233,11 @@ namespace EndlasNet.Web.Controllers
             if (!selectedCheckboxes)
             {
                 ViewBag.NoCheckboxSelect = "true";
-                return View(vm);
             }
             else if (!hasEnoughPowder)
             {
                 ViewBag.HasEnoughPowder = "false";
                 ViewBag.PowderLeft = powderLeft;
-                return View(vm);
             }
             else
             {
@@ -268,11 +266,11 @@ namespace EndlasNet.Web.Controllers
                 await SetViewData();
                 vm.PowderWeightUsed = powderWeightUsed;
 
-                return View(vm);
             }
+            return View(vm);
         }
 
-  
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateWithWorkSet(PowderForPartViewModel vm)
@@ -280,8 +278,15 @@ namespace EndlasNet.Web.Controllers
             var checkedBoxes = vm.CheckBoxes.Where(c => c.IsChecked).ToList();
             if(checkedBoxes.Count == 0)
             {
-                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0,
-                    selectedCheckboxes = false, powderWeightUsed = vm.PowderWeightUsed, dateUsed = vm.DateUsed });
+                await SetViewData();
+                ViewBag.NoCheckBoxSelect = "true";
+                return RedirectToAction("CreateWithWorkSet", new { 
+                    workItemId = vm.WorkItemId,
+                    workId = vm.WorkId,
+                    selectedCheckboxes = false,
+                    powderWeightUsed = vm.PowderWeightUsed,
+                    dateUsed = vm.DateUsed
+                });
             }
             // find the bottle of powder associated with powderForParts
             var powder = await _repo.GetPowderBottle(vm.PowderBottleId);
@@ -292,8 +297,15 @@ namespace EndlasNet.Web.Controllers
                 ViewBag.HasEnoughPowder = "false";
                 ViewBag.PowderLeft = string.Format("{0:0.0000}", powder.Weight);
                 await SetViewData();
-                return RedirectToAction("CreateWithWorkSet", new { workId = vm.WorkId, hasEnoughPowder = false,
-                    powderLeft = powder.Weight, selectedCheckboxes = true, powderWeightUsed = vm.PowderWeightUsed, dateUsed = vm.DateUsed });
+                return RedirectToAction("CreateWithWorkSet", new {
+                    workItemId = vm.WorkItemId,
+                    workId = vm.WorkId,
+                    hasEnoughPowder = false,
+                    powderLeft = powder.Weight,
+                    selectedCheckboxes = true,
+                    powderWeightUsed = vm.PowderWeightUsed,
+                    dateUsed = vm.DateUsed
+                });
             }
             powder.Weight -= vm.PowderWeightUsed;
             // if below threshold after subtracting weight, zero out weight

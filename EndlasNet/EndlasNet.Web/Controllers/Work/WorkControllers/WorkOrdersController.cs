@@ -23,7 +23,7 @@ namespace EndlasNet.Web.Controllers
         // GET: WorkOrders
         public async Task<IActionResult> Index()
         {
-            return View(await _workOrderRepo.GetAllRows());
+            return View(await _workOrderRepo.GetAllWorkOrders());
         }
 
         // GET: WorkOrders/Details/5
@@ -34,7 +34,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var workOrder = (WorkOrder)await _workOrderRepo.GetRow(id);
+            var workOrder = (WorkOrder)await _workOrderRepo.GetWorkOrder(id);
             if (workOrder == null)
             {
                 return NotFound();
@@ -74,7 +74,7 @@ namespace EndlasNet.Web.Controllers
                     workOrder.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(workOrder.ProcessSheetNotesFile);
                 }
                 workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                await _workOrderRepo.AddRow(workOrder);
+                await _workOrderRepo.AddWorkOrder(workOrder);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CustomerId"] = new SelectList(await _workOrderRepo.GetAllCustomers(), "CustomerId", "CustomerAddress", workOrder.CustomerId);
@@ -89,7 +89,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var workOrder = await _workOrderRepo.FindRow(id);
+            var workOrder = await _workOrderRepo.FindWorkOrder(id);
             if (workOrder == null)
             {
                 return NotFound();
@@ -134,7 +134,7 @@ namespace EndlasNet.Web.Controllers
                     {
                         workOrder.ProcessSheetNotesPdfBytes = null;
                     }
-                    await _workOrderRepo.UpdateRow(workOrder);
+                    await _workOrderRepo.UpdateWorkOrder(workOrder);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -161,7 +161,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var workOrder = (WorkOrder)await _workOrderRepo.GetRow(id);
+            var workOrder = (WorkOrder)await _workOrderRepo.GetWorkOrder(id);
             if (workOrder == null)
             {
                 return NotFound();
@@ -176,13 +176,13 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _workOrderRepo.DeleteRow(id);
+            await _workOrderRepo.DeleteWorkOrder(id);
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> WorkOrderExists(Guid id)
         {
-            return await _workOrderRepo.RowExists(id);
+            return await _workOrderRepo.WorkOrderExists(id);
         }
 
         [HttpGet]
@@ -193,7 +193,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var workOrder = await _workOrderRepo.GetRow(myvar);
+            var workOrder = await _workOrderRepo.GetWorkOrder(myvar);
 
             var fileName = workOrder.EndlasNumber + "_process_notes.pdf";
             Response.ContentType = "application/pdf";

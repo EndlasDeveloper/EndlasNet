@@ -15,14 +15,14 @@ namespace EndlasNet.Data
         {
             _db = db;
         }
-
-        public async Task AddRow(WorkOrder workOrder)
+        
+        public async Task AddWorkOrder(WorkOrder workOrder)
         {
             await _db.WorkOrders.AddAsync(workOrder);
             await _db.SaveChangesAsync();   
         }
 
-        public async Task DeleteRow(Guid? id)
+        public async Task DeleteWorkOrder(Guid? id)
         {
             var workOrder = await _db.WorkOrders
                 .FirstOrDefaultAsync(w => w.WorkId == id);
@@ -30,7 +30,7 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<WorkOrder>> GetAllRows()
+        public async Task<IEnumerable<WorkOrder>> GetAllWorkOrders()
         {
             return await _db.WorkOrders
                 .Include(w => w.Customer)
@@ -40,7 +40,7 @@ namespace EndlasNet.Data
                 .ToListAsync();
         }
 
-        public async Task<WorkOrder> GetRow(Guid? id)
+        public async Task<WorkOrder> GetWorkOrder(Guid? id)
         {
             return await _db.WorkOrders
                 .Include(w => w.Customer)
@@ -49,7 +49,7 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(w => w.WorkId == id);
         }
 
-        public async Task<object> GetRowNoTracking(Guid? id)
+        public async Task<object> GetWorkOrderNoTracking(Guid? id)
         {
             return await _db.WorkOrders
                 .AsNoTracking()
@@ -64,19 +64,19 @@ namespace EndlasNet.Data
             throw new NotImplementedException();
         }
 
-        public async Task<bool> RowExists(Guid id)
+        public async Task<bool> WorkOrderExists(Guid id)
         {
             return await _db.WorkOrders
                 .AnyAsync(j => j.WorkId == id);
         }
 
-        public async Task UpdateRow(WorkOrder workOrder)
+        public async Task UpdateWorkOrder(WorkOrder workOrder)
         {
             var entry = _db.Entry(workOrder);
             entry.State = EntityState.Modified;
             await _db.SaveChangesAsync();  
         }
-        public async Task<WorkOrder> FindRow(Guid? id)
+        public async Task<WorkOrder> FindWorkOrder(Guid? id)
         {
             return await _db.WorkOrders.FindAsync(id);
         }
