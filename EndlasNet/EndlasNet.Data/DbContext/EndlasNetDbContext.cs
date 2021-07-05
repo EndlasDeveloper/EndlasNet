@@ -42,12 +42,6 @@ namespace EndlasNet.Data
 
         // ACTION
         public DbSet<MachiningToolForWork> MachiningToolsForWork { get; set; }
-        public DbSet<MachiningToolForJob> MachiningToolsForJobs { get; set; }
-        public DbSet<MachiningToolForJobBlanking> MachiningToolsForJobsBlanking { get; set; }
-        public DbSet<MachiningToolForJobFinishing> MachiningToolsForJobsFinishing { get; set; }
-        public DbSet<MachiningToolForWorkOrder> MachiningToolsForWorkOrders { get; set; }
-        public DbSet<MachiningToolForWorkOrderBlanking> MachiningToolsForWorkOrdersBlanking { get; set; }
-        public DbSet<MachiningToolForWorkOrderFinishing> MachiningToolsForWorkOrdersFinishing { get; set; }
         public DbSet<PowderForPart> PowderForParts { get; set; }
 
         // ENVIRONMENT

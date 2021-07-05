@@ -34,7 +34,7 @@ namespace EndlasNet.Data
                         UserId = machiningToolForWork.UserId,
                         User = machiningToolForWork.User
                     };
-                    await _db.MachiningToolsForJobsBlanking.AddAsync(forBlanking);
+                    //await _db.MachiningToolsForJobsBlanking.AddAsync(forBlanking);
                     break;
                 case MachiningTypes.Finishing:
                     MachiningToolForJobFinishing forFinishing = new MachiningToolForJobFinishing
@@ -50,7 +50,7 @@ namespace EndlasNet.Data
                         UserId = machiningToolForWork.UserId,
                         User = machiningToolForWork.User
                     };
-                    await _db.MachiningToolsForJobsFinishing.AddAsync(forFinishing);
+                    //await _db.MachiningToolsForJobsFinishing.AddAsync(forFinishing);
                     break;
                 case MachiningTypes.None:
                     MachiningToolForJob justJob = new MachiningToolForJob
@@ -66,7 +66,7 @@ namespace EndlasNet.Data
                         UserId = machiningToolForWork.UserId,
                         User = machiningToolForWork.User
                     };
-                    await _db.MachiningToolsForJobs.AddAsync(justJob);
+                    //await _db.MachiningToolsForJobs.AddAsync(justJob);
                     break;
                 default:
                     break;
@@ -74,66 +74,16 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
+        public async Task AddMachiningToolForWork(MachiningToolForWork toolForWork)
+        {
+            _db.MachiningToolsForWork.Add(toolForWork);
+            await _db.SaveChangesAsync();
+        }
+
         public async Task AddRow(MachiningToolForWorkOrder machiningToolForWork)
         {
-            try
-            {
-                switch (machiningToolForWork.MachiningType)
-                {
-                    case MachiningTypes.Blanking:
-                        var forBlanking = new MachiningToolForWorkOrderBlanking
-                        {
-                            MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
-                            MachiningTool = machiningToolForWork.MachiningTool,
-                            MachiningToolId = machiningToolForWork.MachiningToolId,
-                            MachiningType = machiningToolForWork.MachiningType,
-                            Comment = machiningToolForWork.Comment,
-                            WorkId = machiningToolForWork.WorkId,
-                            Work = machiningToolForWork.Work,
-                            DateUsed = machiningToolForWork.DateUsed,
-                            UserId = machiningToolForWork.UserId,
-                            User = machiningToolForWork.User
-                        };
-                        await _db.MachiningToolsForWorkOrdersBlanking.AddAsync(forBlanking);
-                        break;
-                    case MachiningTypes.Finishing:
-                        var forFinishing = new MachiningToolForWorkOrderFinishing
-                        {
-                            MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
-                            MachiningTool = machiningToolForWork.MachiningTool,
-                            MachiningToolId = machiningToolForWork.MachiningToolId,
-                            MachiningType = machiningToolForWork.MachiningType,
-                            Comment = machiningToolForWork.Comment,
-                            WorkId = machiningToolForWork.WorkId,
-                            Work = machiningToolForWork.Work,
-                            DateUsed = machiningToolForWork.DateUsed,
-                            UserId = machiningToolForWork.UserId,
-                            User = machiningToolForWork.User
-                        };
-                        await _db.MachiningToolsForWorkOrdersFinishing.AddAsync(forFinishing);
-                        break;
-                    case MachiningTypes.None:
-                        var justWorkOrder = new MachiningToolForWorkOrder
-                        {
-                            MachiningToolForWorkId = machiningToolForWork.MachiningToolForWorkId,
-                            MachiningTool = machiningToolForWork.MachiningTool,
-                            MachiningToolId = machiningToolForWork.MachiningToolId,
-                            MachiningType = machiningToolForWork.MachiningType,
-                            Comment = machiningToolForWork.Comment,
-                            WorkId = machiningToolForWork.WorkId,
-                            Work = machiningToolForWork.Work,
-                            DateUsed = machiningToolForWork.DateUsed,
-                            UserId = machiningToolForWork.UserId,
-                            User = machiningToolForWork.User
-                        };
-                        await _db.MachiningToolsForWorkOrders.AddAsync(justWorkOrder);
-                        break;
-                    default:
-                        break;
-                }
-                await _db.SaveChangesAsync();
-            }
-            catch (InvalidCastException) { }
+            _db.MachiningToolsForWork.Add(machiningToolForWork);
+            await _db.SaveChangesAsync();
         }
 
         public async Task UpdateRow(MachiningToolForWork machiningToolForWork)
@@ -143,14 +93,14 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task DeleteRow(Guid? id)
+        public async Task DeleteMachiningToolForWork(Guid? id)
         {
             var machiningToolForWork = await _db.MachiningToolsForWork.FindAsync(id);
             _db.MachiningToolsForWork.Remove(machiningToolForWork);
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<MachiningToolForWork>> GetAllRows()
+        public async Task<IEnumerable<MachiningToolForWork>> GetAllMachiningToolsForWork()
         {
             var rows = await _db.MachiningToolsForWork
                 .Include(m => m.MachiningTool)
@@ -164,7 +114,7 @@ namespace EndlasNet.Data
             return rows;
         }
 
-        public async Task<MachiningToolForWork> GetRow(Guid? id)
+        public async Task<MachiningToolForWork> GetMachiningToolForWork(Guid? id)
         {
             var row = await _db.MachiningToolsForWork
                 .Include(m => m.MachiningTool)
@@ -174,7 +124,7 @@ namespace EndlasNet.Data
             return row;
         }
 
-        public async Task<MachiningToolForWork> GetRowNoTracking(Guid? id)
+        public async Task<MachiningToolForWork> GetMachiningToolForWorkNoTracking(Guid? id)
         {
             return await _db.MachiningToolsForWork
                 .AsNoTracking()
@@ -186,7 +136,7 @@ namespace EndlasNet.Data
 
 
 
-        public async Task<bool> RowExists(Guid id)
+        public async Task<bool> MachiningToolForWorkExists(Guid id)
         {
             return await _db.MachiningToolsForWork
                           .AnyAsync(m => m.MachiningToolForWorkId == id);
@@ -223,23 +173,12 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(u => u.UserId == id);
         }
 
-        public async Task AddRow(MachiningToolForWork machiningToolForWork)
-        {
-            _db.MachiningToolsForWork.Add(machiningToolForWork);
-            await _db.SaveChangesAsync();
-        }
 
-        public async Task<MachiningToolForJob> GetJob(Guid id)
-        {
-            return await _db.MachiningToolsForJobs
-                .FirstOrDefaultAsync(m => m.MachiningToolForWorkId == id);
-        }
-
-        public async Task<MachiningToolForWorkOrder> GetWorkOrder(Guid id)
+/*        public async Task<MachiningToolForWorkOrder> GetWorkOrder(Guid id)
         {
             return await _db.MachiningToolsForWorkOrders
                 .FirstOrDefaultAsync(m => m.MachiningToolForWorkId == id);
-        }
+        }*/
 
         public async Task<IEnumerable<WorkOrder>> GetAllWorkOrders()
         {
@@ -269,5 +208,7 @@ namespace EndlasNet.Data
             entry.State = EntityState.Modified;
             await _db.SaveChangesAsync();
         }
+
+
     }
 }

@@ -7,13 +7,11 @@ namespace EndlasNet.Data
 {
     public interface IMachiningToolForWorkRepo
     { 
-        public Task AddRow(MachiningToolForWork machiningToolForWork);
-        public Task DeleteRow(Guid? id);
-        public Task<IEnumerable<MachiningToolForWork>> GetAllRows();
-        public Task<MachiningToolForWork> GetRow(Guid? id);
-        public Task<MachiningToolForJob> GetJob(Guid id);
-        public Task<MachiningToolForWorkOrder> GetWorkOrder(Guid id);
-        public Task<bool> RowExists(Guid id);
+        public Task AddMachiningToolForWork(MachiningToolForWork machiningToolForWork);
+        public Task DeleteMachiningToolForWork(Guid? id);
+        public Task<IEnumerable<MachiningToolForWork>> GetAllMachiningToolsForWork();
+        public Task<MachiningToolForWork> GetMachiningToolForWork(Guid? id);
+        public Task<bool> MachiningToolForWorkExists(Guid id);
         public Task UpdateRow(MachiningToolForWork machiningToolForWork);
         public Task UpdateMachiningTool(MachiningTool machiningTool);
         public Task<IEnumerable<Job>> GetAllJobs();

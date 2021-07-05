@@ -21,14 +21,14 @@ namespace EndlasNet.Web.Controllers
         // GET: MachiningToolForWorks
         public async Task<IActionResult> Index()
         {
-            ViewData["WorkId"] = new SelectList(await _repo.GetAllRows(), "WorkId", "EndlasNumber");
+            ViewData["WorkId"] = new SelectList(await _repo.GetAllMachiningToolsForWork(), "WorkId", "EndlasNumber");
             ViewData["MachiningToolId"] = new SelectList(await _repo.GetAllMachiningTools(), "MachiningToolId", "VendorDescription");
 
-            var toolsForWork = await _repo.GetAllRows();
+            var toolsForWork = await _repo.GetAllMachiningToolsForWork();
             List<MachiningToolForWork> machiningToolForWorkList = new List<MachiningToolForWork>();
-            foreach(object obj in toolsForWork)
+            foreach(MachiningToolForWork tool in toolsForWork)
             {
-                machiningToolForWorkList.Add((MachiningToolForWork)obj);
+                machiningToolForWorkList.Add(tool);
             }
 
             foreach(MachiningToolForWork toolForWork in machiningToolForWorkList)
@@ -46,7 +46,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var machiningToolForWork = await _repo.GetRow(id);
+            var machiningToolForWork = await _repo.GetMachiningToolForWork(id);
             if (machiningToolForWork == null)
             {
                 return NotFound();
@@ -93,7 +93,7 @@ namespace EndlasNet.Web.Controllers
                 machiningTool.ToolCount -= 1;
                 machiningToolForWork.MachiningToolForWorkId = Guid.NewGuid();
                 machiningToolForWork.UserId = new Guid(HttpContext.Session.GetString("userId"));
-                await _repo.AddRow(machiningToolForWork);
+                await _repo.AddMachiningToolForWork(machiningToolForWork);
                 return RedirectToAction(nameof(Index));
             }
             return View(machiningToolForWork);
@@ -106,7 +106,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            var machiningToolForWork = await _repo.GetRow(id);
+            var machiningToolForWork = await _repo.GetMachiningToolForWork(id);
             if (machiningToolForWork == null)
             {
                 return NotFound();
@@ -164,7 +164,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            var machiningToolForWork = await _repo.GetRow(id);
+            var machiningToolForWork = await _repo.GetMachiningToolForWork(id);
             if (machiningToolForWork == null)
             {
                 return NotFound();
@@ -180,16 +180,17 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var machiningToolForWork = await _repo.GetRow(id);
+            var machiningToolForWork = await _repo.GetMachiningToolForWork(id);
             machiningToolForWork.MachiningTool = await _repo.GetMachiningTool(machiningToolForWork.MachiningToolId);
             machiningToolForWork.MachiningTool.ToolCount++;
             await _repo.UpdateMachiningTool(machiningToolForWork.MachiningTool);
+            await _repo.DeleteMachiningToolForWork(id);
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> MachiningToolForWorkExists(Guid id)
         {
-            return await _repo.RowExists(id);
+            return await _repo.MachiningToolForWorkExists(id);
         }
     }
 }
