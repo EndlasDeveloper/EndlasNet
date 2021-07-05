@@ -1,6 +1,42 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
+
+function IsImageSet(image) {
+    if (image == null) {
+        return getNoImageAvailable();
+    }
+
+}
+
+
+
+jQueryAjaxNoImageAvailable = form => {
+    try {
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (res) {
+                $('#form-modal .modal-body').html(res);
+                $('#form-modal .modal-title').html(title);
+                $('#form-modal').modal('show');
+                // to make popup draggable
+                $('.modal-dialog').draggable({
+                    handle: ".modal-header"
+                });
+            }
+        })
+        return false;
+    }
+     //to prevent default form submit event   
+     catch (ex) {
+        console.log(ex)
+    }
+}
+
+
+
+
 // Write your JavaScript code.
 function getWorkFromInput() {
     return {
@@ -34,22 +70,6 @@ function getCheckBoxFromInput(id) {
     }
 }
 
-
-       /* public Guid PowderForPartId { get; set; }
-[ForeignKey("PowderBottleId")]
-[Display(Name = "PowderBottle")]
-        public Guid ? PowderBottleId { get; set; }
-        public virtual PowderBottle PowderBottle { get; set; }
-[ForeignKey("PartForWorkId")]
-[Display(Name = "Part")]
-        public Guid ? PartForWorkId { get; set; }
-[Display(Name = "Part")]
-        public virtual PartForWork PartForWork { get; set; }
-
-[Display(Name = "PowderBottle weight used (lbs)")]
-[Range(0.0001, 200.0)]
-        public float PowderWeightUsed { get; set; }
-*/
 
 function getCheckBoxFromInput(id) {
     let fullId = "id " + id;

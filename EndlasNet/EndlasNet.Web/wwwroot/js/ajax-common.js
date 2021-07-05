@@ -6,6 +6,7 @@ function setValue(id, value) {
     document.getElementById(id).value = value;
 }
 
+
 function displayMessage(msg) {
     document.getElementById("message").innerHTML = msg;
 }

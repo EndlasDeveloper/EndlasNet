@@ -221,7 +221,6 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> CreateWithWorkSet(Guid workItemId, Guid workId, bool hasEnoughPowder, float powderLeft, bool selectedCheckboxes, float powderWeightUsed, DateTime dateUsed)
         {
             var work = await _repo.GetWork(workId);
-
             var workItems = work.WorkItems.FirstOrDefault(w => w.WorkItemId == workItemId);
             var vm = new PowderForPartViewModel
             {
@@ -239,8 +238,7 @@ namespace EndlasNet.Web.Controllers
                 ViewBag.HasEnoughPowder = "false";
                 ViewBag.PowderLeft = powderLeft;
             }
-            else
-            {
+          
                 ViewBag.DrawingNumber = workItems.StaticPartInfo.DrawingNumber;
 
                 foreach (PartForWork partForWork in workItems.PartsForWork)
@@ -266,7 +264,8 @@ namespace EndlasNet.Web.Controllers
                 await SetViewData();
                 vm.PowderWeightUsed = powderWeightUsed;
 
-            }
+            
+            
             return View(vm);
         }
 
@@ -276,9 +275,10 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> CreateWithWorkSet(PowderForPartViewModel vm)
         {
             var checkedBoxes = vm.CheckBoxes.Where(c => c.IsChecked).ToList();
-            if(checkedBoxes.Count == 0)
+            await SetViewData();
+
+            if (checkedBoxes.Count == 0)
             {
-                await SetViewData();
                 ViewBag.NoCheckBoxSelect = "true";
                 return RedirectToAction("CreateWithWorkSet", new { 
                     workItemId = vm.WorkItemId,
@@ -296,7 +296,6 @@ namespace EndlasNet.Web.Controllers
             {
                 ViewBag.HasEnoughPowder = "false";
                 ViewBag.PowderLeft = string.Format("{0:0.0000}", powder.Weight);
-                await SetViewData();
                 return RedirectToAction("CreateWithWorkSet", new {
                     workItemId = vm.WorkItemId,
                     workId = vm.WorkId,
@@ -378,5 +377,7 @@ namespace EndlasNet.Web.Controllers
             }
             return ret;
         }
+
+
     }
 }

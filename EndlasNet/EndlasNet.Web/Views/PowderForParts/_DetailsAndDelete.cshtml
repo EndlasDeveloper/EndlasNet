@@ -1,10 +1,10 @@
 ﻿@model EndlasNet.Data.PowderForPart
 @{ 
     var powderWeightUsedStr = string.Format("{0:0.00000}", Model.PowderWeightUsed);
-    if (Model.PartForWork.WorkItem.StaticPartInfo != null)
-        FileURL.SetImageURL(Model.PartForWork.WorkItem.StaticPartInfo);
-    
-        
+    var bytes = Model.PartForWork.WorkItem.StaticPartInfo.DrawingImageBytes;
+    string url = "~/img/no_image.png";
+    if (bytes != null && bytes.Length > 0)
+        url = FileURL.GetImageURL(Model.PartForWork.WorkItem.StaticPartInfo.DrawingImageBytes);
 }
 <h4>Powder for part</h4>
 <hr />
@@ -39,13 +39,6 @@
     @Html.DisplayFor(model => model.PartForWork.WorkItem.StaticPartInfo.ImageName)
 </em>
 
-<div class="col-sm-2">
-    @if (Model.PartForWork.WorkItem.StaticPartInfo.DrawingImageBytes != null)
-    {
-        <img src="@Html.DisplayFor(model => model.PartForWork.WorkItem.StaticPartInfo.ImageUrl)" alt="Drawing Image" />  
-    }
-    else
-    {
-        <img src="~/img/no_image.png" style="max-height:400px;max-width:500px" />
-    }
+<div class="col-sm-2" >
+    <img src="@url" alt="Drawing Image" style="max-height:400px;max-width:500px"/>  
 </div>

@@ -38,7 +38,8 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<Work>> GetAllWorkWithBottles()
         {
-            var list = await _db.Work.Include(w => w.WorkItems)
+            var list = await _db.Work
+                .Include(w => w.WorkItems).ThenInclude(w => w.PartsForWork)
                 .ToListAsync();
             for(int i = 0; i < list.Count; i++)
             {
@@ -57,6 +58,7 @@ namespace EndlasNet.Data
                 .Include(w => w.PartsForWork).ThenInclude(p => p.PowdersUsed)
                 .Include(w => w.StaticPartInfo)
                 .Where(w => w.WorkId == workId)
+                .Where(w => w.IsInitialized)
                 .ToListAsync();
         }
 

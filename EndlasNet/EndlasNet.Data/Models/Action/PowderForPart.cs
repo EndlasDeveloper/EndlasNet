@@ -26,7 +26,7 @@ namespace EndlasNet.Data
         [Display(Name = "Part")]
         public virtual PartForWork PartForWork { get; set; }
 
-        [Display(Name ="Powder bottle weight used (lbs)")]
+        [Display(Name ="Powder weight used (lbs)")]
         [Range(0.0001,200.0)]
         public float PowderWeightUsed { get; set; }
 
