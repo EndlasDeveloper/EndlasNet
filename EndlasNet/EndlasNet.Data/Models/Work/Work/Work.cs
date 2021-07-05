@@ -40,9 +40,6 @@ namespace EndlasNet.Data
         [Display(Name ="PO date")]
         public DateTime? PoDate { get; set; }
 
-        [ForeignKey("UserId")]
-        public Guid? UserId { get; set; }
-        public virtual User User { get; set; }
 
         [ForeignKey("CustomerId")]
         [Display(Name ="Customer")]

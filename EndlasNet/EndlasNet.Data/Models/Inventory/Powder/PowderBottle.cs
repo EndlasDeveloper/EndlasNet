@@ -33,9 +33,6 @@ namespace EndlasNet.Data
         public Guid LineItemId { get; set; }
         public virtual LineItem LineItem { get; set; }
 
-        public Guid? UserId { get; set; }
-        public virtual User User{ get; set; }
-
         [ForeignKey("StaticPowderInfoId")]
         public Guid? StaticPowderInfoId { get; set; }
         public virtual StaticPowderInfo StaticPowderInfo { get; set; }

@@ -164,7 +164,6 @@ namespace EndlasNet.Web.Controllers
                 powder.PowderBottleId = Guid.NewGuid();
                 _repo.SetCreatedDate(powder);
                 _repo.SetUpdatedDate(powder);
-                powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 powder.Weight = powder.InitWeight;
                 await _repo.AddRow(powder);
                 return RedirectToAction(nameof(Index));
@@ -213,7 +212,6 @@ namespace EndlasNet.Web.Controllers
                 {
                     _repo.SetCreatedDate(powder);
                     _repo.SetUpdatedDate(powder);
-                    powder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     await _repo.UpdateRow(powder);
                     _repo.ModifyRow(powder);
                     if(await _repo.BottleNumberLotNumberExists(powder))

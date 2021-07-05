@@ -42,7 +42,6 @@ namespace EndlasNet.Data
         {
             return await _db.Jobs
                 .Include(j => j.Customer)
-                .Include(j => j.User)
                 .Include(j => j.Quote)
                 .FirstOrDefaultAsync(j => j.WorkId == id);
         }
@@ -52,7 +51,6 @@ namespace EndlasNet.Data
             return await _db.Jobs
                 .AsNoTracking()
                 .Include(j => j.Customer)
-                .Include(j => j.User)
                 .Include(j => j.Quote)
                 .FirstOrDefaultAsync(j => j.WorkId == id);
         }
@@ -82,7 +80,6 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<Work>> GetAllWork()
         {
             return await _db.Work
-                .Include(w => w.User)
                 .Include(w => w.Quote)
                 .Include(w => w.Customer)
                 .ToListAsync();
@@ -91,7 +88,6 @@ namespace EndlasNet.Data
         public async Task<Work> GetWork(Guid? id)
         {
             return await _db.Work
-                .Include(w => w.User)
                 .Include(w => w.Quote)
                 .Include(w => w.Customer)
                 .FirstOrDefaultAsync(w => w.WorkId == id);

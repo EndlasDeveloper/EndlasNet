@@ -73,7 +73,6 @@ namespace EndlasNet.Web.Controllers
                 {
                     workOrder.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(workOrder.ProcessSheetNotesFile);
                 }
-                workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 await _workOrderRepo.AddWorkOrder(workOrder);
                 return RedirectToAction(nameof(Index));
             }
@@ -124,7 +123,6 @@ namespace EndlasNet.Web.Controllers
                         ViewData["CustomerId"] = new SelectList(await _workOrderRepo.GetAllCustomers(), "CustomerId", "CustomerName");
                         return View(workOrder);
                     }
-                    workOrder.UserId = new Guid(HttpContext.Session.GetString("userId"));
 
                     if (workOrder.ProcessSheetNotesFile != null)
                     {

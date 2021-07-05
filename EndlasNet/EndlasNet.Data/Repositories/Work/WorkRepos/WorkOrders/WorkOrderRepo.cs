@@ -35,7 +35,6 @@ namespace EndlasNet.Data
             return await _db.WorkOrders
                 .Include(w => w.Customer)
                 .Include(w => w.Quote)
-                .Include(w => w.User)
                 .OrderByDescending(w => w.EndlasNumber)
                 .ToListAsync();
         }
@@ -43,8 +42,7 @@ namespace EndlasNet.Data
         public async Task<WorkOrder> GetWorkOrder(Guid? id)
         {
             return await _db.WorkOrders
-                .Include(w => w.Customer)
-                .Include(w => w.User)
+                .Include(w => w.Customer)               
                 .Include(w => w.Quote)
                 .FirstOrDefaultAsync(w => w.WorkId == id);
         }
@@ -54,7 +52,6 @@ namespace EndlasNet.Data
             return await _db.WorkOrders
                 .AsNoTracking()
                 .Include(w => w.Customer)
-                .Include(w => w.User)
                 .Include(w => w.Quote)
                 .FirstOrDefaultAsync(w => w.WorkId == id);
         }
@@ -84,7 +81,7 @@ namespace EndlasNet.Data
         public async Task<Work> GetWork(Guid? id)
         {
             return await _db.Work
-                .Include(w => w.User)
+                
                 .Include(w => w.Quote)
                 .Include(w => w.Customer)
                 .FirstOrDefaultAsync(w => w.WorkId == id);

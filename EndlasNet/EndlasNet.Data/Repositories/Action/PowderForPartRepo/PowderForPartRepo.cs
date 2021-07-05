@@ -53,7 +53,8 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<WorkItem>> GetWorkItemsFromWork(Guid workId)
         {
             return await _db.WorkItems
-                .Include(w => w.PartsForWork)
+                .Include(w => w.Work).ThenInclude(w => w.Customer)
+                .Include(w => w.PartsForWork).ThenInclude(p => p.PowdersUsed)
                 .Include(w => w.StaticPartInfo)
                 .Where(w => w.WorkId == workId)
                 .ToListAsync();
@@ -141,8 +142,7 @@ namespace EndlasNet.Data
 
         public async Task<Work> GetWork(Guid id)
         {
-            var work = await _db.Work.Include(w => w.WorkItems).ThenInclude(w => w.PartsForWork)
-                .Include(w => w.WorkItems).ThenInclude(w => w.StaticPartInfo)
+            var work = await _db.Work.Include(w => w.WorkItems).ThenInclude(w => w.PartsForWork).Include(w => w.Customer).Include(w => w.WorkItems).ThenInclude(w => w.StaticPartInfo)
                 .FirstOrDefaultAsync(w => w.WorkId == id);
           
             return work;

@@ -73,7 +73,6 @@ namespace EndlasNet.Web.Controllers
                 }
                 var quote = await _repo.GetQuote((Guid)job.QuoteId);
                 job.EndlasNumber = quote.EndlasNumber;
-                job.UserId = new Guid(HttpContext.Session.GetString("userId"));
                 await _repo.AddJob(job);
                 for(int i = 0; i < job.NumWorkItems; i++)
                 {
@@ -157,7 +156,6 @@ namespace EndlasNet.Web.Controllers
                     {
                         job.ProcessSheetNotesPdfBytes = null;
                     }
-                    job.UserId = new Guid(HttpContext.Session.GetString("userId"));
                     var quote = await _repo.GetQuote((Guid)job.QuoteId);
                     job.EndlasNumber = quote.EndlasNumber;
                     await _repo.UpdateJob(job);

@@ -151,7 +151,7 @@ namespace EndlasNet.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateGetWork([Bind("WorkId,Work,PowderBottleId,PowderWeightUsed,CheckBoxes")] PowderForPartViewModel vm)
+        public IActionResult CreateGetWork([Bind("WorkId,Work,WorkItemId,WorkItem,PowderBottleId,PowderWeightUsed,CheckBoxes")] PowderForPartViewModel vm)
         {
             return RedirectToAction("CreateGetWorkItems", new { workId = vm.WorkId, hasEnoughPowder = true, powderLeft = 0,
                 selectedCheckboxes = true, powderWeightUsed = 0, dateUsed = DateTime.Now});
