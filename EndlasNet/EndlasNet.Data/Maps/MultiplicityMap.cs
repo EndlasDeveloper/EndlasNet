@@ -19,8 +19,7 @@ namespace EndlasNet.Data
 
             /*** USER ***/
             modelBuilder.Entity<User>().HasMany(u => u.PowderForParts).WithOne(j => j.User).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<User>().HasMany(u => u.MachiningToolForJobs).WithOne(j => j.User).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<User>().HasMany(u => u.MachiningToolForWorkOrders).WithOne(j => j.User).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<User>().HasMany(u => u.MachiningToolForWork).WithOne(j => j.User).OnDelete(DeleteBehavior.NoAction);
 
 
             /*** WORK ***/
@@ -30,9 +29,7 @@ namespace EndlasNet.Data
             modelBuilder.Entity<WorkItem>().HasMany(w => w.PartsForWork).WithOne(p => p.WorkItem).OnDelete(DeleteBehavior.Cascade);
 
             /*** ACTION ***/
-            modelBuilder.Entity<Work>().HasMany(j => j.ToolsForJob).WithOne(m => m.Work).OnDelete(DeleteBehavior.SetNull);
-            modelBuilder.Entity<Work>().HasMany(j => j.ToolsForWorkOrder).WithOne(m => m.Work).OnDelete(DeleteBehavior.SetNull);
-            
+            modelBuilder.Entity<WorkItem>().HasMany(w => w.MachiningToolsForWork).WithOne(m => m.WorkItem).OnDelete(DeleteBehavior.SetNull);
             /*** QUOTE ***/
 
         }

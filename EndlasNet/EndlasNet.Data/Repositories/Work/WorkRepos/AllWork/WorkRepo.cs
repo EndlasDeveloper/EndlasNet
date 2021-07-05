@@ -156,8 +156,7 @@ namespace EndlasNet.Data
            return await _db.Jobs.Include(j => j.Customer)
                 .Include(j => j.Quote)
                 .Include(j => j.WorkItems)
-                .Include(j => j.ToolsForWorkOrder)
-                .Include(j => j.ToolsForJob)
+                .Include(j => j.MachiningToolsForWork)
                 .ToListAsync();
         }
 

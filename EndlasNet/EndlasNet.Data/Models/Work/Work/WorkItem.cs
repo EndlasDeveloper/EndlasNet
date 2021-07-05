@@ -42,5 +42,6 @@ namespace EndlasNet.Data
         public byte[] WorkItemImageBytes { get; set; }
 
         public IEnumerable<PartForWork> PartsForWork { get; set; }
+        public IEnumerable<MachiningToolForWork> MachiningToolsForWork { get; set; }
     }
 }

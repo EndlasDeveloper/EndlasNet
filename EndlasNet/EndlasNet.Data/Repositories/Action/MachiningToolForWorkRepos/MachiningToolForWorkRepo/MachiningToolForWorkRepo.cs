@@ -80,7 +80,7 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task AddRow(MachiningToolForWorkOrder machiningToolForWork)
+        public async Task AddRow(MachiningToolForWork machiningToolForWork)
         {
             _db.MachiningToolsForWork.Add(machiningToolForWork);
             await _db.SaveChangesAsync();

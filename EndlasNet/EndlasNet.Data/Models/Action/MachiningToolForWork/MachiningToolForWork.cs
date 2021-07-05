@@ -19,6 +19,11 @@ namespace EndlasNet.Data
         [Display(Name = "Work")]
         public Guid? WorkId { get; set; }
         public virtual Work Work { get; set; }
+
+        [ForeignKey("WorkItemId")]
+        [Display(Name ="Work item")]
+        public Guid? WorkItemId { get; set; }
+        public virtual WorkItem WorkItem { get; set; }
         [Required]
         [ForeignKey("MachiningToolId")]
         [Display(Name = "Machining tool")]
