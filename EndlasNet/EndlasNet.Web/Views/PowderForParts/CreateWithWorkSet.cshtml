@@ -18,7 +18,10 @@
             <label class="control-label">Work</label>
             <span>
                 <input asp-for="@workDesc" class="form-control" readonly />
-                <br />
+            </span>
+            <br />
+            <span>
+                <label class="control-label">Work item</label>
                 <input asp-for="@workItemPartInfo" class="form-control" readonly />
 
                 <a href='@Url.Action("CreateGetWork", "PowderForParts")'>
