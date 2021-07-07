@@ -31,7 +31,7 @@ namespace EndlasNet.Web
             services.AddControllersWithViews();
             // Add the application context for database managment using ef core
             services.AddDbContext<EndlasNetDbContext>(options => options
-            .UseSqlServer(Configuration.GetConnectionString("endlas_db"))); // db ref in appsettings.json
+            .UseSqlServer(Configuration.GetConnectionString("endlas_web"))); // db ref in appsettings.json
             services.AddRazorPages();
             services.AddSession();
             services.AddMvcCore(); 

@@ -547,11 +547,6 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net5.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\bin\Release\net5.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Home\Quotes.cshtml.g.cs
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\Create.cshtml.g.cs
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\Delete.cshtml.g.cs
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\Details.cshtml.g.cs
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\Edit.cshtml.g.cs
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\Index.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\AllWork\Delete.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\AllWork\Details.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\AllWork\Index.cshtml.g.cs
@@ -580,9 +575,14 @@ C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PowderBottles\_DetailsAndDelete.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PowderForParts\_DetailsAndDelete.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PowderOrders\_DetailsAndDelete.cshtml.g.cs
-C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\_DetailsAndDelete.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\StaticPowderInfoes\_DetailsAndDelete.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Vendors\_DetailsAndDelete.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\WorkItems\_DetailsAndUninitialize.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\WorkOrders\_DetailsAndDelete.cshtml.g.cs
 C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\PowderForParts\CreateGetWorkItems.cshtml.g.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\Create.cshtml.g.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\Delete.cshtml.g.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\Details.cshtml.g.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\Edit.cshtml.g.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\Index.cshtml.g.cs
+C:\Users\EndlasLaptop2\Desktop\EndlasNet\EndlasNet\EndlasNet.Web\obj\Release\net5.0\Razor\Views\Quotes\_DetailsAndDelete.cshtml.g.cs

@@ -98,6 +98,56 @@ namespace EndlasNet.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Vendors",
+                columns: table => new
+                {
+                    VendorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VendorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PointOfContact = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VendorAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VendorPhone = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vendors", x => x.VendorId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Work",
+                columns: table => new
+                {
+                    WorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EndlasNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    QuoteId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    WorkDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    PurchaseOrderNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PoDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProcessSheetNotesPdfBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Work", x => x.WorkId);
+                    table.ForeignKey(
+                        name: "FK_Work_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerId",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Work_Quotes_QuoteId",
+                        column: x => x.QuoteId,
+                        principalTable: "Quotes",
+                        principalColumn: "QuoteId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StaticPartInfo",
                 columns: table => new
                 {
@@ -123,70 +173,6 @@ namespace EndlasNet.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_StaticPartInfo_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Vendors",
-                columns: table => new
-                {
-                    VendorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VendorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PointOfContact = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VendorAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VendorPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vendors", x => x.VendorId);
-                    table.ForeignKey(
-                        name: "FK_Vendors_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Work",
-                columns: table => new
-                {
-                    WorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EndlasNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    QuoteId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    WorkDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    PurchaseOrderNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PoDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProcessSheetNotesPdfBytes = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Work", x => x.WorkId);
-                    table.ForeignKey(
-                        name: "FK_Work_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_Work_Quotes_QuoteId",
-                        column: x => x.QuoteId,
-                        principalTable: "Quotes",
-                        principalColumn: "QuoteId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Work_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
@@ -293,43 +279,6 @@ namespace EndlasNet.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MachiningToolsForWork",
-                columns: table => new
-                {
-                    MachiningToolForWorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DateUsed = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    WorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    MachiningToolId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    MachiningType = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MachiningToolsForWork", x => x.MachiningToolForWorkId);
-                    table.ForeignKey(
-                        name: "FK_MachiningToolsForWork_MachiningTools_MachiningToolId",
-                        column: x => x.MachiningToolId,
-                        principalTable: "MachiningTools",
-                        principalColumn: "MachiningToolId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MachiningToolsForWork_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
-                    table.ForeignKey(
-                        name: "FK_MachiningToolsForWork_Work_WorkId",
-                        column: x => x.WorkId,
-                        principalTable: "Work",
-                        principalColumn: "WorkId",
-                        onDelete: ReferentialAction.SetNull);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LineItems",
                 columns: table => new
                 {
@@ -363,6 +312,49 @@ namespace EndlasNet.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MachiningToolsForWork",
+                columns: table => new
+                {
+                    MachiningToolForWorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DateUsed = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    WorkItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MachiningToolId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MachiningType = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MachiningToolsForWork", x => x.MachiningToolForWorkId);
+                    table.ForeignKey(
+                        name: "FK_MachiningToolsForWork_MachiningTools_MachiningToolId",
+                        column: x => x.MachiningToolId,
+                        principalTable: "MachiningTools",
+                        principalColumn: "MachiningToolId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MachiningToolsForWork_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
+                    table.ForeignKey(
+                        name: "FK_MachiningToolsForWork_Work_WorkId",
+                        column: x => x.WorkId,
+                        principalTable: "Work",
+                        principalColumn: "WorkId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MachiningToolsForWork_WorkItems_WorkItemId",
+                        column: x => x.WorkItemId,
+                        principalTable: "WorkItems",
+                        principalColumn: "WorkItemId",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PartsForWork",
                 columns: table => new
                 {
@@ -381,8 +373,7 @@ namespace EndlasNet.Data.Migrations
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PartForWorkImgId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -392,12 +383,6 @@ namespace EndlasNet.Data.Migrations
                         column: x => x.PartForWorkImgId,
                         principalTable: "PartForWorkImages",
                         principalColumn: "PartForWorkImgId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PartsForWork_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PartsForWork_WorkItems_WorkItemId",
@@ -481,23 +466,23 @@ namespace EndlasNet.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "CustomerId", "CustomerAddress", "CustomerName", "CustomerPhone", "PointOfContact" },
-                values: new object[] { new Guid("af5c56e2-4295-4f1f-b7c2-2e2175756dc8"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
+                values: new object[] { new Guid("ff2aee2d-01a4-426a-93ea-7570bb466292"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("72b0c8a4-437d-4642-b3fd-a0ade598d375"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "sa@endlas.com", "SA", "SA" },
-                    { new Guid("e188e8de-e4bd-4c46-a176-49ead0025648"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
-                    { new Guid("d4059044-30e6-4569-b41a-d9ffa2350bba"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("48cd3b4d-6a47-451c-8478-f24a70065279"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
+                    { new Guid("c544ed62-402a-4b0f-9a1d-2e81a48420aa"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "sa@endlas.com", "SA", "SA" },
+                    { new Guid("12cc046a-1c28-4ef1-9f00-dbbe4b3a003b"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
+                    { new Guid("d042b8a1-0193-484a-a866-741d2292f547"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("014585da-8e26-4aec-80d8-e5e8833f455d"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Vendors",
-                columns: new[] { "VendorId", "PointOfContact", "UserId", "VendorAddress", "VendorName", "VendorPhone" },
-                values: new object[] { new Guid("260e106b-bdc9-4af2-92e6-f4edf8adda46"), "Dummy Point of Contact", null, "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
+                columns: new[] { "VendorId", "PointOfContact", "VendorAddress", "VendorName", "VendorPhone" },
+                values: new object[] { new Guid("6a549bc5-071c-4c1b-b9d9-4ad9220e9d25"), "Dummy Point of Contact", "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LineItems_PowderOrderId",
@@ -535,14 +520,14 @@ namespace EndlasNet.Data.Migrations
                 column: "WorkId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MachiningToolsForWork_WorkItemId",
+                table: "MachiningToolsForWork",
+                column: "WorkItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PartsForWork_PartForWorkImgId",
                 table: "PartsForWork",
                 column: "PartForWorkImgId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PartsForWork_UserId",
-                table: "PartsForWork",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PartsForWork_WorkItemId",
@@ -606,11 +591,6 @@ namespace EndlasNet.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vendors_UserId",
-                table: "Vendors",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Work_CustomerId",
                 table: "Work",
                 column: "CustomerId");
@@ -625,11 +605,6 @@ namespace EndlasNet.Data.Migrations
                 name: "IX_Work_QuoteId",
                 table: "Work",
                 column: "QuoteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Work_UserId",
-                table: "Work",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkItems_StaticPartInfoId",
@@ -690,10 +665,10 @@ namespace EndlasNet.Data.Migrations
                 name: "Quotes");
 
             migrationBuilder.DropTable(
-                name: "Vendors");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Vendors");
         }
     }
 }
