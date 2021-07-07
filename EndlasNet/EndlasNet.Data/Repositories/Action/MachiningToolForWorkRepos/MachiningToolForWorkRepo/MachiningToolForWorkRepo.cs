@@ -209,6 +209,9 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-
+        public async Task<IEnumerable<WorkItem>> GetWorkItemsForWork(Guid id)
+        {
+            return await _db.WorkItems.Where(w => w.WorkId == id).ToListAsync();
+        }
     }
 }
