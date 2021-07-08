@@ -5,7 +5,7 @@
 
 @{
     ViewData["Title"] = "Create";
-    var workDesc = ViewBag.WorkStr;
+    var workStr = ViewBag.WorkStr;
 
 }
 
@@ -18,7 +18,7 @@
 
         <form asp-action="CreateGetWorkItems" enctype="multipart/form-data">
             <label class="control-label">Work</label>
-            <input asp-for="@workDesc" class="form-control" readonly />
+            <input asp-for="@workStr" class="form-control" readonly />
             <br />
 
             <label asp-for="WorkItemId" class="control-label"></label>
