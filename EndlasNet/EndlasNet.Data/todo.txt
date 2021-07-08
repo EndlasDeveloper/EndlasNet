@@ -1,1 +1,1 @@
-﻿
+﻿Just removed Work and WorkId from MachiningToolForWork. Removed all errors to get it to compile. Next step, add get work item method to repository.

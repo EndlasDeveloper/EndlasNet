@@ -27,7 +27,7 @@
                 @Html.DisplayNameFor(model => model.MachiningTool.VendorDescription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Work.WorkDescription)
+                @Html.DisplayNameFor(model => model.WorkItem.Work.WorkDescription)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment)
@@ -47,7 +47,7 @@
                 @Html.DisplayFor(modelItem => item.MachiningTool.VendorDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Work.WorkDescription)
+                @Html.DisplayFor(modelItem => item.WorkItem.Work.WorkDescription)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comment)

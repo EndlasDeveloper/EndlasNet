@@ -33,7 +33,7 @@ namespace EndlasNet.Web.Controllers
 
             foreach(MachiningToolForWork toolForWork in machiningToolForWorkList)
             {
-                toolForWork.Work = await _repo.GetWork((Guid)toolForWork.WorkId);
+                //toolForWork.Work = await _repo.GetWork((Guid)toolForWork.WorkId);
             }
             return View(toolsForWork);
         }
@@ -55,13 +55,7 @@ namespace EndlasNet.Web.Controllers
             return View(machiningToolForWork);
         }
 
-        // GET: MachiningToolForWorks/Create
-        public async Task<IActionResult> Create()
-        {
-            await SetCreateViewData();
-            return View();
-        }
-
+       
         [HttpGet]
         public async Task<IActionResult> CreateGetWork()
         {
@@ -100,10 +94,15 @@ namespace EndlasNet.Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult CreateGetWorkItems([Bind("WorkItemId,StaticPartInfoId,StartDate,CompleteDate,WorkId,WorkItemImageFile,WorkItemImageBytes,ClearWorkItemImg,IsInitialized")] WorkItem workItem)
+        {
+            return RedirectToAction("Create", new { workItemId = workItem.WorkItemId });
+        }
         private async Task SetCreateViewData()
         {
 
-            ViewData["WorkId"] = new SelectList(await _repo.GetAllWork(), "WorkId", "EndlasNumber");
             var availableTools = await _repo.GetAvailableTools();
             
             foreach(MachiningTool machiningTool in availableTools)
@@ -118,12 +117,21 @@ namespace EndlasNet.Web.Controllers
             ViewData["MachiningToolId"] = new SelectList(availableTools, "MachiningToolId", "DropDownDisplayReference");            
         }
 
+        // GET: MachiningToolForWorks/Create
+        public async Task<IActionResult> Create(Guid workItemId)
+        {
+            var tool = new MachiningToolForWork { WorkItemId = workItemId };
+            await SetCreateViewData();
+            return View(tool);
+        }
+
+
         // POST: MachiningToolForWorks/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MachiningToolForWorkId,DateUsed,WorkId,UserId,MachiningType,Comment,MachiningToolId")] MachiningToolForWork machiningToolForWork)
+        public async Task<IActionResult> Create([Bind("MachiningToolForWorkId,DateUsed,WorkItemId,WorkItem,UserId,MachiningType,Comment,MachiningToolId")] MachiningToolForWork machiningToolForWork)
         {
             if (ModelState.IsValid)
             {
@@ -150,7 +158,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            machiningToolForWork.Work = await _repo.GetWork(machiningToolForWork.Work.WorkId);
+           // machiningToolForWork.Work = await _repo.GetWork(machiningToolForWork.Work.WorkId);
             machiningToolForWork.MachiningTool = await _repo.GetMachiningTool(machiningToolForWork.MachiningToolId);
 
             ViewData["WorkId"] = new SelectList(await _repo.GetAllWork(), "WorkId", "EndlasNumber");
@@ -207,7 +215,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            machiningToolForWork.Work = await _repo.GetWork(machiningToolForWork.Work.WorkId);
+            //machiningToolForWork.Work = await _repo.GetWork(machiningToolForWork.Work.WorkId);
             machiningToolForWork.MachiningTool = await _repo.GetMachiningTool(machiningToolForWork.MachiningToolId);
             machiningToolForWork.User = await _repo.GetUser((Guid)machiningToolForWork.UserId);
             return View(machiningToolForWork);

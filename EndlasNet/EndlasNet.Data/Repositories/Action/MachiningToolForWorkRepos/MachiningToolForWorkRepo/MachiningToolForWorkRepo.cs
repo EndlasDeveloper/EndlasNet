@@ -28,8 +28,7 @@ namespace EndlasNet.Data
                         MachiningToolId = machiningToolForWork.MachiningToolId,
                         MachiningType = machiningToolForWork.MachiningType,
                         Comment = machiningToolForWork.Comment,
-                        WorkId = machiningToolForWork.WorkId,
-                        Work = machiningToolForWork.Work,
+               
                         DateUsed = machiningToolForWork.DateUsed,
                         UserId = machiningToolForWork.UserId,
                         User = machiningToolForWork.User
@@ -44,8 +43,8 @@ namespace EndlasNet.Data
                         MachiningToolId = machiningToolForWork.MachiningToolId,
                         MachiningType = machiningToolForWork.MachiningType,
                         Comment = machiningToolForWork.Comment,
-                        WorkId = machiningToolForWork.WorkId,
-                        Work = machiningToolForWork.Work,
+                        WorkItemId = machiningToolForWork.WorkItemId,
+                        WorkItem = machiningToolForWork.WorkItem,
                         DateUsed = machiningToolForWork.DateUsed,
                         UserId = machiningToolForWork.UserId,
                         User = machiningToolForWork.User
@@ -60,8 +59,8 @@ namespace EndlasNet.Data
                         MachiningToolId = machiningToolForWork.MachiningToolId,
                         MachiningType = machiningToolForWork.MachiningType,
                         Comment = machiningToolForWork.Comment,
-                        WorkId = machiningToolForWork.WorkId,
-                        Work = machiningToolForWork.Work,
+                        WorkItemId = machiningToolForWork.WorkItemId,
+                        WorkItem = machiningToolForWork.WorkItem,
                         DateUsed = machiningToolForWork.DateUsed,
                         UserId = machiningToolForWork.UserId,
                         User = machiningToolForWork.User
@@ -104,12 +103,14 @@ namespace EndlasNet.Data
         {
             var rows = await _db.MachiningToolsForWork
                 .Include(m => m.MachiningTool)
+                .Include(m => m.WorkItem)
+                .Include(m => m.User)
                 .OrderByDescending(m => m.DateUsed)
                 .ToListAsync();
             foreach(MachiningToolForWork machiningToolForWork in rows)
             {
                 machiningToolForWork.User = await _db.Users.FirstOrDefaultAsync(u => u.UserId == machiningToolForWork.UserId);
-                machiningToolForWork.Work = await _db.Work.FirstOrDefaultAsync(w => w.WorkId == machiningToolForWork.WorkId);
+                machiningToolForWork.WorkItem = await _db.WorkItems.FirstOrDefaultAsync(w => w.WorkItemId == machiningToolForWork.WorkItemId);
             }
             return rows;
         }
@@ -119,7 +120,7 @@ namespace EndlasNet.Data
             var row = await _db.MachiningToolsForWork
                 .Include(m => m.MachiningTool)
                 .FirstOrDefaultAsync(m => m.MachiningToolForWorkId == id);
-            row.Work = await _db.Work.FirstOrDefaultAsync(w => w.WorkId == row.WorkId);
+            row.WorkItem = await _db.WorkItems.FirstOrDefaultAsync(w => w.WorkItemId == row.WorkItemId);
             row.User = await _db.Users.FirstOrDefaultAsync(u => u.UserId == row.UserId);
             return row;
         }
@@ -129,7 +130,7 @@ namespace EndlasNet.Data
             return await _db.MachiningToolsForWork
                 .AsNoTracking()
                 .Include(m => m.MachiningTool)
-                .Include(m => m.Work)
+                .Include(m => m.WorkItem)
                 .Include(m => m.User)
                 .FirstOrDefaultAsync(m => m.MachiningToolForWorkId == id);
         }

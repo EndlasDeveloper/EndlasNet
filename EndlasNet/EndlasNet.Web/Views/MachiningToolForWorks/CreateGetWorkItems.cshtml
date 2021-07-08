@@ -15,18 +15,21 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-
         <form asp-action="CreateGetWorkItems" enctype="multipart/form-data">
+
             <label class="control-label">Work</label>
             <input asp-for="@workStr" class="form-control" readonly />
+
             <br />
 
             <label asp-for="WorkItemId" class="control-label"></label>
             <select asp-for="WorkItemId" class="form-control" asp-items="ViewBag.WorkItemId"></select>
+
             <br />
+
             <input type="submit" value="Use a machining tool" class="btn btn-primary" />
+
         </form>
-        <div id="parts"></div>
     </div>
 </div>
 

@@ -12,14 +12,16 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-
         <form asp-action="CreateGetWork" enctype="multipart/form-data">
+
             <label asp-for="WorkId" class="control-label">Work</label>
             <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
+
             <br />
+
             <input type="submit" value="Get work items" class="btn btn-primary" />
+
         </form>
-        <div id="parts"></div>
     </div>
 </div>
 

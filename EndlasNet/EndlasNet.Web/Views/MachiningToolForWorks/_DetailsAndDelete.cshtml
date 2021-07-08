@@ -17,10 +17,10 @@
         @Html.DisplayFor(model => model.MachiningTool.VendorDescription)
     </dd>
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Work)
+        @Html.DisplayNameFor(model => model.WorkItem.Work)
     </dt>
     <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Work.WorkDescription)
+        @Html.DisplayFor(model => model.WorkItem.Work.EndlasNumber)&nbsp;-&nbsp;@Html.DisplayFor(model => model.WorkItem.Work.WorkDescription)
     </dd>
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.MachiningType)
