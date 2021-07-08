@@ -12,10 +12,10 @@ namespace EndlasNet.Web.Models.DropDownViewModels
         public WorkDropDownViewModel(Work work)
         {
             WorkId = work.WorkId;
-            DropDownWorkItemDisplayStr = work.EndlasNumber + " - " + work.WorkDescription;
+            DropDownWorkDisplayStr = work.EndlasNumber + " - " + work.WorkDescription;
         }
         [Display(Name = "Work")]
         public Guid WorkId { get; set; }
-        public string DropDownWorkItemDisplayStr { get; set; }
+        public string DropDownWorkDisplayStr { get; set; }
     }
 }

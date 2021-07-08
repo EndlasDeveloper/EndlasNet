@@ -65,7 +65,15 @@ namespace EndlasNet.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateGetWork()
         {
-            ViewData["WorkId"] = new SelectList(await _repo.GetAllWork(), "WorkId", "WorkDescription");
+           
+            List<WorkDropDownViewModel> list = new List<WorkDropDownViewModel>();
+            foreach (Work work in await _repo.GetAllWork())
+            {
+                var vm = new WorkDropDownViewModel(work);
+                list.Insert(0, vm);
+            }
+
+            ViewData["WorkId"] = new SelectList(list, "WorkId", "DropDownWorkDisplayStr");
             return View();
         }
 
@@ -80,7 +88,7 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> CreateGetWorkItems(Guid workId)
         {
             var work = await _repo.GetWork(workId);
-            ViewBag.WorkDescription = work.WorkDescription;
+            ViewBag.WorkStr = work.EndlasNumber + " - " + work.WorkDescription;
             var workItems = await _repo.GetWorkItemsForWork(workId);
             List<WorkItemDropDownViewModel> list = new List<WorkItemDropDownViewModel>();
             foreach(WorkItem workItem in workItems)

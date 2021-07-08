@@ -5,7 +5,7 @@
 
 @{
     ViewData["Title"] = "Create";
-    var workDesc = ViewBag.WorkDescription;
+    var workDesc = ViewBag.WorkStr;
 
 }
 
@@ -20,10 +20,11 @@
             <label class="control-label">Work</label>
             <input asp-for="@workDesc" class="form-control" readonly />
             <br />
+
             <label asp-for="WorkItemId" class="control-label"></label>
             <select asp-for="WorkItemId" class="form-control" asp-items="ViewBag.WorkItemId"></select>
             <br />
-            <input type="submit" value="Get parts" class="btn btn-primary" />
+            <input type="submit" value="Use a machining tool" class="btn btn-primary" />
         </form>
         <div id="parts"></div>
     </div>
