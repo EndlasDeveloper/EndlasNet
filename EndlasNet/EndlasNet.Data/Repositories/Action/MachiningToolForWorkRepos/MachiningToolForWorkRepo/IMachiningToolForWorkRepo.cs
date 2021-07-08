@@ -22,6 +22,6 @@ namespace EndlasNet.Data
         public Task<MachiningTool> GetMachiningTool(Guid id);
         public Task<User> GetUser(Guid id);
         public Task<IEnumerable<MachiningTool>> GetAvailableTools();
-        public Task<IEnumerable<WorkItem>> GetWorkItemsForWork(Guid id);
+        public Task<IEnumerable<WorkItem>> GetWorkItemsForWork(Guid workId);
     }
 }

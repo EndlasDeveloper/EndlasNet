@@ -1,6 +1,7 @@
 ﻿@using EndlasNet.Data;
 @using EndlasNet.Web.Models;
-@model EndlasNet.Web.Models.PowderForPartViewModel
+
+@model EndlasNet.Web.Models.DropDownViewModels.WorkItemDropDownViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -10,14 +11,12 @@
 
 <h1>Create</h1>
 
-<h4>Powder for parts</h4>
+<h4>Machining tool for work</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
 
-        <form asp-action="CreateWithWorkItemSet" enctype="multipart/form-data">
-            <input asp-for="WorkId" hidden />
-            <input asp-for="Work" hidden />
+        <form asp-action="CreateGetWorkItems" enctype="multipart/form-data">
             <label class="control-label">Work</label>
             <input asp-for="@workDesc" class="form-control" readonly />
             <br />

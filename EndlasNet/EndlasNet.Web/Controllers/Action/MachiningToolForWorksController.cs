@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EndlasNet.Data;
 using Microsoft.AspNetCore.Http;
-
+using EndlasNet.Web.Models.DropDownViewModels;
 namespace EndlasNet.Web.Controllers
 {
     public class MachiningToolForWorksController : Controller
@@ -59,6 +59,36 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Create()
         {
             await SetCreateViewData();
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateGetWork()
+        {
+            ViewData["WorkId"] = new SelectList(await _repo.GetAllWork(), "WorkId", "WorkDescription");
+            return View();
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult CreateGetWork([Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,NumWorkItems,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Work work)
+        {
+            return RedirectToAction("CreateGetWorkItems", "MachiningToolForWorks", new { workId = work.WorkId });
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> CreateGetWorkItems(Guid workId)
+        {
+            var work = await _repo.GetWork(workId);
+            ViewBag.WorkDescription = work.WorkDescription;
+            var workItems = await _repo.GetWorkItemsForWork(workId);
+            List<WorkItemDropDownViewModel> list = new List<WorkItemDropDownViewModel>();
+            foreach(WorkItem workItem in workItems)
+            {
+                var vm = new WorkItemDropDownViewModel(workItem);
+                list.Insert(0, vm);
+            }
+            ViewData["WorkItemId"] = new SelectList(list, "WorkItemId", "DropDownWorkItemDisplayStr");
             return View();
         }
 

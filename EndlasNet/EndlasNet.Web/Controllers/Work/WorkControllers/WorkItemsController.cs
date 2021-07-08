@@ -61,6 +61,7 @@ namespace EndlasNet.Web.Controllers
             {
                 var workItem = await _repo.GetWorkItem(vm.WorkItemId);
                 workItem.StaticPartInfoId = vm.StaticPartInfoId;
+                
                 workItem.StartDate = vm.StartDate;
                 workItem.CompleteDate = vm.CompleteDate;
                

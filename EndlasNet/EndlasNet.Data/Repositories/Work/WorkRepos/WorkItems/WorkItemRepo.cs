@@ -52,11 +52,13 @@ namespace EndlasNet.Data
 
         public async Task<WorkItem> GetWorkItem(Guid? workItemId)
         {
-            return await _db.WorkItems
+
+            var workItems = await _db.WorkItems
                 .Include(w => w.Work)
                 .Include(w => w.StaticPartInfo)
                 .Include(w => w.PartsForWork)
-                .FirstOrDefaultAsync(w => w.WorkItemId == workItemId);
+                .Where(w => w.IsInitialized).ToListAsync();
+            return workItems.FirstOrDefault(w => w.WorkItemId == workItemId);
         }
 
         public async Task<Work> GetWork(Guid workId)

@@ -209,9 +209,9 @@ namespace EndlasNet.Data
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<WorkItem>> GetWorkItemsForWork(Guid id)
+        public async Task<IEnumerable<WorkItem>> GetWorkItemsForWork(Guid workId)
         {
-            return await _db.WorkItems.Where(w => w.WorkId == id).ToListAsync();
+            return await _db.WorkItems.Include(w => w.StaticPartInfo).Include(w => w.Work).Where(w => w.WorkId == workId).ToListAsync();
         }
     }
 }
