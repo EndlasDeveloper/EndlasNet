@@ -214,5 +214,18 @@ namespace EndlasNet.Data
         {
             return await _db.WorkItems.Include(w => w.StaticPartInfo).Include(w => w.Work).Where(w => w.WorkId == workId).ToListAsync();
         }
+
+        public async Task<WorkItem> GetWorkItem(Guid workItemId)
+        {
+            return await _db.WorkItems
+                .Include(w => w.StaticPartInfo)
+                .Include(w => w.Work)
+                .FirstOrDefaultAsync(w => w.WorkItemId == workItemId);
+        }
+
+        public async Task<StaticPartInfo> GetStaticPartInfo(Guid staticPartInfoId)
+        {
+            return await _db.StaticPartInfo.FirstOrDefaultAsync(s => s.StaticPartInfoId == staticPartInfoId); 
+        }
     }
 }

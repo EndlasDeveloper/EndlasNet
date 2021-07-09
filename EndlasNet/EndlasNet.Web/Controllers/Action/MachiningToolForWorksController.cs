@@ -33,7 +33,7 @@ namespace EndlasNet.Web.Controllers
 
             foreach(MachiningToolForWork toolForWork in machiningToolForWorkList)
             {
-                //toolForWork.Work = await _repo.GetWork((Guid)toolForWork.WorkId);
+                toolForWork.WorkItem = await _repo.GetWorkItem((Guid)toolForWork.WorkItemId);
             }
             return View(toolsForWork);
         }
@@ -102,7 +102,6 @@ namespace EndlasNet.Web.Controllers
         }
         private async Task SetCreateViewData()
         {
-
             var availableTools = await _repo.GetAvailableTools();
             
             foreach(MachiningTool machiningTool in availableTools)
@@ -121,7 +120,12 @@ namespace EndlasNet.Web.Controllers
         public async Task<IActionResult> Create(Guid workItemId)
         {
             var tool = new MachiningToolForWork { WorkItemId = workItemId };
+            var workItem = await _repo.GetWorkItem(workItemId);
+
+            tool.WorkItem = workItem;
             await SetCreateViewData();
+            ViewBag.WorkStr = workItem.Work.EndlasNumber + " - " + workItem.Work.WorkDescription;
+            ViewBag.WorkItemStr = workItem.StaticPartInfo.DrawingNumber + " - " + workItem.StaticPartInfo.PartDescription;
             return View(tool);
         }
 
@@ -131,7 +135,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MachiningToolForWorkId,DateUsed,WorkItemId,WorkItem,UserId,MachiningType,Comment,MachiningToolId")] MachiningToolForWork machiningToolForWork)
+        public async Task<IActionResult> Create([Bind("MachiningToolForWorkId,DateUsed,WorkItemId,WorkItem,MachiningToolId,MachiningTool,Comment,UserId,MachiningType")] MachiningToolForWork machiningToolForWork)
         {
             if (ModelState.IsValid)
             {
@@ -158,7 +162,7 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-           // machiningToolForWork.Work = await _repo.GetWork(machiningToolForWork.Work.WorkId);
+            machiningToolForWork.WorkItem = await _repo.GetWorkItem((Guid)id);
             machiningToolForWork.MachiningTool = await _repo.GetMachiningTool(machiningToolForWork.MachiningToolId);
 
             ViewData["WorkId"] = new SelectList(await _repo.GetAllWork(), "WorkId", "EndlasNumber");
@@ -215,7 +219,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            //machiningToolForWork.Work = await _repo.GetWork(machiningToolForWork.Work.WorkId);
+            machiningToolForWork.WorkItem = await _repo.GetWorkItem((Guid)id);
             machiningToolForWork.MachiningTool = await _repo.GetMachiningTool(machiningToolForWork.MachiningToolId);
             machiningToolForWork.User = await _repo.GetUser((Guid)machiningToolForWork.UserId);
             return View(machiningToolForWork);
