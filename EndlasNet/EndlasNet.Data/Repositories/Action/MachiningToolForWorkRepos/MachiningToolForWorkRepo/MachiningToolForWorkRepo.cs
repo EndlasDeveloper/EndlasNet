@@ -103,7 +103,7 @@ namespace EndlasNet.Data
         {
             var rows = await _db.MachiningToolsForWork
                 .Include(m => m.MachiningTool)
-                .Include(m => m.WorkItem)
+                .Include(m => m.WorkItem).ThenInclude(w => w.Work)
                 .Include(m => m.User)
                 .OrderByDescending(m => m.DateUsed)
                 .ToListAsync();
@@ -119,6 +119,7 @@ namespace EndlasNet.Data
         {
             var row = await _db.MachiningToolsForWork
                 .Include(m => m.MachiningTool)
+                .Include(m => m.WorkItem).ThenInclude(w => w.Work)
                 .FirstOrDefaultAsync(m => m.MachiningToolForWorkId == id);
             row.WorkItem = await _db.WorkItems.FirstOrDefaultAsync(w => w.WorkItemId == row.WorkItemId);
             row.User = await _db.Users.FirstOrDefaultAsync(u => u.UserId == row.UserId);

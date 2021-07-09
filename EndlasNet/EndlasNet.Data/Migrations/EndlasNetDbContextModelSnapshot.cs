@@ -16,7 +16,7 @@ namespace EndlasNet.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.6")
+                .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("EndlasNet.Data.Customer", b =>
@@ -48,7 +48,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CustomerId = new Guid("ff2aee2d-01a4-426a-93ea-7570bb466292"),
+                            CustomerId = new Guid("2478421a-8f25-4ba8-92e0-f72f8723280b"),
                             CustomerAddress = "Dummy Customer Address",
                             CustomerName = "Dummy Customer Name",
                             CustomerPhone = "0987654321",
@@ -594,7 +594,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            VendorId = new Guid("6a549bc5-071c-4c1b-b9d9-4ad9220e9d25"),
+                            VendorId = new Guid("59e0ffb2-e604-4ea0-a47b-492f869f1f54"),
                             PointOfContact = "Dummy Point of Contact",
                             VendorAddress = "Dummy Vendor Address",
                             VendorName = "Dummy Vendor Name",
@@ -720,7 +720,7 @@ namespace EndlasNet.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("c544ed62-402a-4b0f-9a1d-2e81a48420aa"),
+                            UserId = new Guid("73f0cb42-e46d-41e1-8bc2-05a72506838a"),
                             AuthString = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
                             EndlasEmail = "sa@endlas.com",
                             FirstName = "SA",
@@ -728,7 +728,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("12cc046a-1c28-4ef1-9f00-dbbe4b3a003b"),
+                            UserId = new Guid("d8b94090-086d-4fbb-8890-e584ca8cb024"),
                             AuthString = "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c",
                             EndlasEmail = "james.tomich@endlas.com",
                             FirstName = "Jimmy",
@@ -736,7 +736,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("d042b8a1-0193-484a-a866-741d2292f547"),
+                            UserId = new Guid("07390b06-9a85-4f8e-9744-a93f204be9ce"),
                             AuthString = "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7",
                             EndlasEmail = "josh.hammell@endlas.com",
                             FirstName = "Josh",
@@ -744,7 +744,7 @@ namespace EndlasNet.Data.Migrations
                         },
                         new
                         {
-                            UserId = new Guid("014585da-8e26-4aec-80d8-e5e8833f455d"),
+                            UserId = new Guid("0462d211-fc0c-464b-a26c-53aa9a50ce2e"),
                             AuthString = "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82",
                             EndlasEmail = "blt@endlas.com",
                             FirstName = "Brett",
@@ -818,7 +818,7 @@ namespace EndlasNet.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("EndlasNet.Data.Work", "Work")
+                    b.HasOne("EndlasNet.Data.Work", null)
                         .WithMany("MachiningToolsForWork")
                         .HasForeignKey("WorkId");
 
@@ -830,8 +830,6 @@ namespace EndlasNet.Data.Migrations
                     b.Navigation("MachiningTool");
 
                     b.Navigation("User");
-
-                    b.Navigation("Work");
 
                     b.Navigation("WorkItem");
                 });

@@ -1,0 +1,39 @@
+﻿@using EndlasNet.Data;
+@using EndlasNet.Web.Models;
+@model EndlasNet.Web.Models.PowderForPartViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    var workDesc = ViewBag.WorkDescription;
+
+}
+
+<h1>Create</h1>
+
+<h4>Powder for parts</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="CreateWithWorkItemSet" enctype="multipart/form-data">
+            <input asp-for="WorkId" hidden />
+            <input asp-for="Work" hidden />
+            <label class="control-label">Work</label>
+            <input asp-for="@workDesc" class="form-control" readonly />
+            <br />
+            <label asp-for="WorkItemId" class="control-label"></label>
+            <select asp-for="WorkItemId" class="form-control" asp-items="ViewBag.WorkItemId"></select>
+            <br />
+            <input type="submit" value="Get parts" class="btn btn-primary" />
+        </form>
+        <div id="parts"></div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to list</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -33,6 +33,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+          
             var vm = await CreateWorkItemViewModel(id);
             
             ViewData["StaticPartInfoId"] = new SelectList(await _repo.GetAllPartInfo(), "StaticPartInfoId", "PartDescription");

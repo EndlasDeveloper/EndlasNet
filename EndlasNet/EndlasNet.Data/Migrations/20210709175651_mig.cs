@@ -317,14 +317,14 @@ namespace EndlasNet.Data.Migrations
                 {
                     MachiningToolForWorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DateUsed = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    WorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     WorkItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     MachiningToolId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     MachiningType = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -466,23 +466,23 @@ namespace EndlasNet.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "CustomerId", "CustomerAddress", "CustomerName", "CustomerPhone", "PointOfContact" },
-                values: new object[] { new Guid("ff2aee2d-01a4-426a-93ea-7570bb466292"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
+                values: new object[] { new Guid("2478421a-8f25-4ba8-92e0-f72f8723280b"), "Dummy Customer Address", "Dummy Customer Name", "0987654321", "Dummy Point of Contact" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "AuthString", "Discriminator", "EndlasEmail", "FirstName", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("c544ed62-402a-4b0f-9a1d-2e81a48420aa"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "sa@endlas.com", "SA", "SA" },
-                    { new Guid("12cc046a-1c28-4ef1-9f00-dbbe4b3a003b"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
-                    { new Guid("d042b8a1-0193-484a-a866-741d2292f547"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
-                    { new Guid("014585da-8e26-4aec-80d8-e5e8833f455d"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
+                    { new Guid("73f0cb42-e46d-41e1-8bc2-05a72506838a"), "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "Admin", "sa@endlas.com", "SA", "SA" },
+                    { new Guid("d8b94090-086d-4fbb-8890-e584ca8cb024"), "10e4be5b8934f5279b7a10a0ed3988043561d2eccde97bc6ac9eb6062aa6221c", "Admin", "james.tomich@endlas.com", "Jimmy", "Tomich" },
+                    { new Guid("07390b06-9a85-4f8e-9744-a93f204be9ce"), "4c2a671ebe8c3cd38f3e080470701b7bf2d2a4616d986475507c5153888b63f7", "Admin", "josh.hammell@endlas.com", "Josh", "Hammell" },
+                    { new Guid("0462d211-fc0c-464b-a26c-53aa9a50ce2e"), "2209cf9aaea01490c254f7a0885fa6afc2ba6807cd27dcbc28e802f613e05c82", "Admin", "blt@endlas.com", "Brett", "Trotter" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Vendors",
                 columns: new[] { "VendorId", "PointOfContact", "VendorAddress", "VendorName", "VendorPhone" },
-                values: new object[] { new Guid("6a549bc5-071c-4c1b-b9d9-4ad9220e9d25"), "Dummy Point of Contact", "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
+                values: new object[] { new Guid("59e0ffb2-e604-4ea0-a47b-492f869f1f54"), "Dummy Point of Contact", "Dummy Vendor Address", "Dummy Vendor Name", "1234567890" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LineItems_PowderOrderId",

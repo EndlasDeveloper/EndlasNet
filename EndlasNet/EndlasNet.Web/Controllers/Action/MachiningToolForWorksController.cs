@@ -25,16 +25,7 @@ namespace EndlasNet.Web.Controllers
             ViewData["MachiningToolId"] = new SelectList(await _repo.GetAllMachiningTools(), "MachiningToolId", "VendorDescription");
 
             var toolsForWork = await _repo.GetAllMachiningToolsForWork();
-            List<MachiningToolForWork> machiningToolForWorkList = new List<MachiningToolForWork>();
-            foreach(MachiningToolForWork tool in toolsForWork)
-            {
-                machiningToolForWorkList.Add(tool);
-            }
 
-            foreach(MachiningToolForWork toolForWork in machiningToolForWorkList)
-            {
-                toolForWork.WorkItem = await _repo.GetWorkItem((Guid)toolForWork.WorkItemId);
-            }
             return View(toolsForWork);
         }
 
@@ -219,9 +210,7 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
-            machiningToolForWork.WorkItem = await _repo.GetWorkItem((Guid)id);
-            machiningToolForWork.MachiningTool = await _repo.GetMachiningTool(machiningToolForWork.MachiningToolId);
-            machiningToolForWork.User = await _repo.GetUser((Guid)machiningToolForWork.UserId);
+            
             return View(machiningToolForWork);
         }
 
