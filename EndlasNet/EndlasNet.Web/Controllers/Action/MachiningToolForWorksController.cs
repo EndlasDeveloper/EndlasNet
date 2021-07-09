@@ -206,11 +206,7 @@ namespace EndlasNet.Web.Controllers
             }
 
             var machiningToolForWork = await _repo.GetMachiningToolForWork(id);
-            if (machiningToolForWork == null)
-            {
-                return NotFound();
-            }
-            
+
             return View(machiningToolForWork);
         }
 
