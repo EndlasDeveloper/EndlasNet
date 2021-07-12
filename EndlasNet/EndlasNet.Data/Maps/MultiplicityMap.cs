@@ -18,8 +18,8 @@ namespace EndlasNet.Data
             modelBuilder.Entity<PowderBottle>().HasMany(p => p.PowderForParts).WithOne(p => p.PowderBottle).OnDelete(DeleteBehavior.SetNull);
 
             /*** USER ***/
-            modelBuilder.Entity<User>().HasMany(u => u.PowderForParts).WithOne(j => j.User).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<User>().HasMany(u => u.MachiningToolForWork).WithOne(j => j.User).OnDelete(DeleteBehavior.NoAction);
+           /* modelBuilder.Entity<User>().HasMany(u => u.PowderForParts).WithOne(j => j.User).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<User>().HasMany(u => u.MachiningToolForWork).WithOne(j => j.User).OnDelete(DeleteBehavior.NoAction);*/
 
 
             /*** WORK ***/

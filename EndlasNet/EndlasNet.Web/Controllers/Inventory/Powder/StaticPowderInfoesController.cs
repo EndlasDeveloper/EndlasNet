@@ -53,7 +53,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaticPowderInfoId,PowderName,Density,Description,EstCostPerLb,Composition,FlowRateSlope,FlowRateYIntercept,InformationFile")] StaticPowderInfo staticPowderInfo)
+        public async Task<IActionResult> Create([Bind("StaticPowderInfoId,EndlasDescription,Density,Description,EstCostPerLb,Composition,FlowRateSlope,FlowRateYIntercept,InformationFile")] StaticPowderInfo staticPowderInfo)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPowderInfoId,PowderName,Density,Description,EstCostPerLb,Composition,ClearInformation,FlowRateSlope,FlowRateYIntercept,InformationFile")] StaticPowderInfo staticPowderInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("StaticPowderInfoId,EndlasDescription,Density,Description,EstCostPerLb,Composition,ClearInformation,FlowRateSlope,FlowRateYIntercept,InformationFile")] StaticPowderInfo staticPowderInfo)
         {
             if (id != staticPowderInfo.StaticPowderInfoId)
             {
@@ -162,7 +162,7 @@ namespace EndlasNet.Web.Controllers
 
             var staticPowderInfo = await _repo.GetRow(myvar);
 
-            var fileName = staticPowderInfo.PowderName + "_composition.pdf";
+            var fileName = staticPowderInfo.EndlasDescription + "_composition.pdf";
             Response.ContentType = "application/pdf";
             Response.Headers.Add("content-disposition", "attachment;filename=" + fileName);
             MemoryStream ms = new MemoryStream(staticPowderInfo.InformationFilePdfBytes);

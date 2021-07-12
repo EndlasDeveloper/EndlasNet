@@ -69,7 +69,7 @@ namespace EndlasNet.Web.Controllers
 
             var lineItem = await _repo.GetLineItemInclude(id);
 
-            ViewData["StaticPowderInfoId"] = new SelectList(await _repo.GetAllStaticPowderInfo(), "StaticPowderInfoId", "PowderName");
+            ViewData["StaticPowderInfoId"] = new SelectList(await _repo.GetAllStaticPowderInfo(), "StaticPowderInfoId", "EndlasDescription");
             return View(lineItem);
         }
 

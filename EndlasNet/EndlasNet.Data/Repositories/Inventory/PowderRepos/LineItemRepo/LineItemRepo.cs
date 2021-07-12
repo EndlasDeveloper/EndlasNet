@@ -110,7 +110,7 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<StaticPowderInfo>> GetAllStaticPowderInfo()
         {
             return await _db.StaticPowderInfo
-                .OrderByDescending(s => s.PowderName)
+                .OrderByDescending(s => s.EndlasDescription)
                 .ToListAsync();
         }
 
@@ -143,7 +143,7 @@ namespace EndlasNet.Data
                 .Include(l => l.StaticPowderInfo)
                 .Include(l => l.LineItem)
                 .Where(p => p.LineItemId == lineItem.LineItemId)
-                .OrderByDescending(p => p.StaticPowderInfo.PowderName)
+                .OrderByDescending(p => p.StaticPowderInfo.EndlasDescription)
                 .ToListAsync();
         }
     }

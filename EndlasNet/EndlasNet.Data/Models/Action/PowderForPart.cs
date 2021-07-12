@@ -26,11 +26,10 @@ namespace EndlasNet.Data
         [Display(Name = "Part")]
         public virtual PartForWork PartForWork { get; set; }
 
-        [Display(Name ="Powder weight used (lbs)")]
+        [Display(Name ="Weight used (lbs)")]
         [Range(0.0001,200.0)]
         public float PowderWeightUsed { get; set; }
 
-        [ForeignKey("UserId")]
         [Display(Name = "User")]
         public Guid? UserId { get; set; }
         public virtual User User { get; set; }

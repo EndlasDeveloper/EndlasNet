@@ -25,7 +25,7 @@ namespace EndlasNet.Data
         public async Task<List<PowderBottle>> GetNamedPowders(string powderName)
         {
             return await _db.PowderBottles
-                .Where(p => p.StaticPowderInfo.PowderName == powderName)
+                .Where(p => p.StaticPowderInfo.EndlasDescription == powderName)
                 .OrderByDescending(p => p.Weight)
                 .ToListAsync();
         }
@@ -36,7 +36,7 @@ namespace EndlasNet.Data
                 .Include(l => l.StaticPowderInfo)
                 .Include(l => l.LineItem)
                 .Where(p => p.LineItemId == lineItemId)
-                .OrderByDescending(p => p.StaticPowderInfo.PowderName)
+                .OrderByDescending(p => p.StaticPowderInfo.EndlasDescription)
                 .ToListAsync();
         }
 
@@ -52,7 +52,7 @@ namespace EndlasNet.Data
                .Include(p => p.StaticPowderInfo)
                .Include(p => p.LineItem)
                .Include(p => p.LineItem.PowderOrder)
-               .OrderByDescending(p => p.StaticPowderInfo.PowderName)
+               .OrderByDescending(p => p.StaticPowderInfo.EndlasDescription)
                .ToListAsync();
         }
 

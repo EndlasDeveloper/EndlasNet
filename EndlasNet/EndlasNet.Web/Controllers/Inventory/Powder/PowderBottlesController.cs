@@ -28,7 +28,7 @@ namespace EndlasNet.Web.Controllers
 
             ViewBag.LineItemVendorDescription = lineItem.VendorDescription;
             ViewBag.PowderOrderNum = powOrder.PurchaseOrderNum;
-            ViewBag.PowderName = staticPow.PowderName;
+            ViewBag.PowderName = staticPow.EndlasDescription;
             ViewBag.LineItemId = lineItemId.ToString();
 
             var powders = await _repo.GetLineItemPowders(lineItemId);
@@ -274,7 +274,7 @@ namespace EndlasNet.Web.Controllers
         private async Task<string> GetPowderName(Guid? staticInfoId)
         {
             var staticPowInfo = await _repo.GetStaticPowderInfo((Guid)staticInfoId);
-            return staticPowInfo.PowderName;
+            return staticPowInfo.EndlasDescription;
         }
     }
 }

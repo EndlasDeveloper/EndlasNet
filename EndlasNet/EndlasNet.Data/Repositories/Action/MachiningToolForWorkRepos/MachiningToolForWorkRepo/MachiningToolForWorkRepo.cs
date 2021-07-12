@@ -160,7 +160,9 @@ namespace EndlasNet.Data
 
         public async Task<Work> GetWork(Guid id)
         {
-            return await _db.Work.FirstOrDefaultAsync(w => w.WorkId == id);
+            return await _db.Work
+                .Include(w => w.WorkItems).ThenInclude(w => w.StaticPartInfo)
+                .FirstOrDefaultAsync(w => w.WorkId == id);
         }
 
         public async Task<MachiningTool> GetMachiningTool(Guid id)
@@ -213,7 +215,11 @@ namespace EndlasNet.Data
 
         public async Task<IEnumerable<WorkItem>> GetWorkItemsForWork(Guid workId)
         {
-            return await _db.WorkItems.Include(w => w.StaticPartInfo).Include(w => w.Work).Where(w => w.WorkId == workId).ToListAsync();
+            return await _db.WorkItems
+                .Include(w => w.StaticPartInfo)
+                .Include(w => w.Work)
+                .Where(w => w.WorkId == workId)
+                .ToListAsync();
         }
 
         public async Task<WorkItem> GetWorkItem(Guid workItemId)

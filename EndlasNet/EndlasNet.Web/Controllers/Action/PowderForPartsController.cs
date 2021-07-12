@@ -342,7 +342,7 @@ namespace EndlasNet.Web.Controllers
             {
                 powder.StaticPowderInfo = await _repo.GetStaticPowderInfo((Guid)powder.StaticPowderInfoId);
 
-                powder.PowderName = powder.StaticPowderInfo.PowderName + " - " + powder.BottleNumber;
+                powder.PowderName = powder.StaticPowderInfo.EndlasDescription + " - " + powder.BottleNumber;
             }
             return powders.ToList();
         }

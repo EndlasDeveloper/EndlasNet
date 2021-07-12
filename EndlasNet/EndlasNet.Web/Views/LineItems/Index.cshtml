@@ -19,7 +19,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StaticPowderInfo.PowderName)
+                @Html.DisplayNameFor(model => model.StaticPowderInfo.EndlasDescription)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.VendorDescription)
@@ -43,7 +43,7 @@
             @if (item.IsInitialized)
             {
                 <td>
-                    @Html.DisplayFor(modelItem => item.StaticPowderInfo.PowderName)
+                    @Html.DisplayFor(modelItem => item.StaticPowderInfo.EndlasDescription)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.VendorDescription)
@@ -92,7 +92,7 @@
                 }
                 else
                 {
-                    @Html.ActionLink("Manage powders", "ManagePowders", "LineItems", new { lineItemId = item.LineItemId, powderName = item.StaticPowderInfo.PowderName }); <span> |</span>
+                    @Html.ActionLink("Manage powders", "ManagePowders", "LineItems", new { lineItemId = item.LineItemId, powderName = item.StaticPowderInfo.EndlasDescription }); <span> |</span>
                     <a asp-action="Edit" asp-route-id="@item.LineItemId">Edit</a> <span> |</span>
                     <a asp-action="Details" asp-route-id="@item.LineItemId">Details</a> <span> |</span>
                     <a asp-action="Uninitialize" asp-route-id="@item.LineItemId">Uninitialize</a>

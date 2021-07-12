@@ -10,14 +10,41 @@
     ViewData["Title"] = "Update notes";
     
 }
-<h1 class="display-4">@ViewData["Title"] - 7/6/2021</h1>
+<h1 class="display-4">@ViewData["Title"] - 7/12/2021</h1>
 <p>
     @* ****** FINISHED TASKS ****** *@
     <div style="color:white;font-size:18px;">Finished tasks</div>
     <ul style="font-size:14px;line-height:200%;">
-      <li class="update-notes-li">
-
-      </li>
+        <li class="update-notes-li">
+            StaticPowderInfo -> changed powder name to endlas description. Changed in places I could see needed changing on the front-end.
+        </li>
+        <li class="update-notes-li">
+            Redesigned using a machining tool for work to use the work - work item - part for work schema (from work - part for work).
+            <ul>
+                <li>
+                    Updated ERD to reflect db schema changes made to allow user to save a log of machining tools being used for work.
+                </li>
+                <li>
+                    User can use a machining tool for a job/work order by first selecting a work, then the user selects a work item from
+                    the work's item list. After the user selects the work item, selection for which machining tool to use, date used,
+                    comment, etc.
+                </li>
+                <li>
+                    When machining tools have been used, they successfully display on the index view (parent information as well).
+                </li>
+                <li>
+                    User can edit an existing machining tool for work log by clicking edit from index. User can change any number
+                    of attributes associated with the action of using a machining tool for work, and all attributes save and persist
+                    as they should.
+                </li>
+                <li>
+                    Details and delete view shows all parent table information.
+                </li>
+                <li>
+                    User can successfully delete unwanted machining tool for work logs.
+                </li>
+            </ul>
+        </li>
     </ul>
 
 
@@ -39,9 +66,7 @@
         <li class="update-notes-li">
             LineItem -> change vendor description to endlas description
         </li>
-        <li class="update-notes-li">
-            PowderBottle -> change powder name to endlas description
-        </li>
+        
         <li class="update-notes-li">
             Powder for parts -> add in index, both work and work item like in create.
         </li>

@@ -27,7 +27,7 @@ namespace EndlasNet.SystemTest
                 powderInfo = new StaticPowderInfo
                 {
                     StaticPowderInfoId = Guid.NewGuid(),
-                    PowderName = "TestPowder",
+                    EndlasDescription = "TestPowder",
                     Density = 1f,
                 };
                 _db.StaticPowderInfo.Add(powderInfo);

@@ -13,12 +13,16 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <input type="hidden" asp-for="MachiningToolForWorkId" />
+            <input type="hidden" asp-for="WorkItemId" />
+
             <div class="form-group">
                 <label asp-for="DateUsed" class="control-label"></label>
                 <input asp-for="DateUsed" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" value="@Model.DateUsed.ToString("s")" />
                 <span asp-validation-for="DateUsed" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="MachiningToolId" class="control-label"></label>
                 <select asp-for="MachiningToolId" class="form-control" asp-items="ViewBag.MachiningToolId"></select>
@@ -26,9 +30,8 @@
 
             <div class="form-group">
                 <label asp-for="MachiningType" class="control-label"></label>
-                <div class="form-group">
-                    @Html.DropDownListFor(m => m.MachiningType, new SelectList(Enum.GetValues(typeof(MachiningTypes)), new { @class = "form-control" }))
-                </div>                <span asp-validation-for="MachiningType" class="text-danger"></span>
+                @Html.DropDownListFor(m => m.MachiningType, new SelectList(Enum.GetValues(typeof(MachiningTypes)), new { @class = "form-control" }))
+                <span asp-validation-for="MachiningType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Comment" class="control-label"></label>

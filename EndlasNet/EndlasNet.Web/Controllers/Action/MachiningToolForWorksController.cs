@@ -74,9 +74,9 @@ namespace EndlasNet.Web.Controllers
         {
             var work = await _repo.GetWork(workId);
             ViewBag.WorkStr = work.EndlasNumber + " - " + work.WorkDescription;
-            var workItems = await _repo.GetWorkItemsForWork(workId);
+            
             List<WorkItemDropDownViewModel> list = new List<WorkItemDropDownViewModel>();
-            foreach(WorkItem workItem in workItems)
+            foreach(WorkItem workItem in work.WorkItems)
             {
                 var vm = new WorkItemDropDownViewModel(workItem);
                 list.Insert(0, vm);
@@ -167,7 +167,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolForWorkId,DateUsed,WorkId,UserId,MachiningType,Comment,MachiningToolId")] MachiningToolForWork machiningToolForWork)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MachiningToolForWorkId,DateUsed,WorkItemId,WorkItem,MachiningToolId,MachiningTool,Comment,UserId,MachiningType")] MachiningToolForWork machiningToolForWork)
         {
             if (id != machiningToolForWork.MachiningToolForWorkId)
             {

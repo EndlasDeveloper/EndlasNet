@@ -35,7 +35,7 @@
         <tr>
             <th>
                 <div>
-                    @Html.DisplayNameFor(model => model.StaticPowderInfo.PowderName)
+                    @Html.DisplayNameFor(model => model.StaticPowderInfo.EndlasDescription)
                 </div>
                 <span style="color:darkred">
                     <a href="@Url.Action("AllPowderIndex", "PowderBottles", new { sortOrder = ViewBag.PowderNameAscSortParm })" title="Ascending">
@@ -113,7 +113,7 @@
                 var costPerPound = item.CostPerPound.ToString("C");
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.StaticPowderInfo.PowderName)
+                @Html.DisplayFor(modelItem => item.StaticPowderInfo.EndlasDescription)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BottleNumber)

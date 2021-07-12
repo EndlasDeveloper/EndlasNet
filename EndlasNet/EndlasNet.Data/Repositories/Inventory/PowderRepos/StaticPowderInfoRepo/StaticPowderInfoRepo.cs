@@ -31,7 +31,7 @@ namespace EndlasNet.Data
         public async Task<IEnumerable<StaticPowderInfo>> GetAllRows()
         {
             return await _db.StaticPowderInfo
-                .OrderByDescending(s => s.PowderName)
+                .OrderByDescending(s => s.EndlasDescription)
                 .ToListAsync();
         }
 

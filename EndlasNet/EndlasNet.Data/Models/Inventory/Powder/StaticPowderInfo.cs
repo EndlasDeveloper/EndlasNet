@@ -13,8 +13,8 @@ namespace EndlasNet.Data
         public Guid StaticPowderInfoId { get; set; }
 
         [Required]
-        [Display(Name ="Powder name")]
-        public string PowderName { get; set; }
+        [Display(Name ="Endlas description")]
+        public string EndlasDescription { get; set; }
 
 
         [Display(Name = "Powder description")]
