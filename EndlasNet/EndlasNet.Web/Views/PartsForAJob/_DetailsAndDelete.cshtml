@@ -1,4 +1,17 @@
 ﻿@model EndlasNet.Data.PartForJob
+<link rel="stylesheet" href="~/css/custom-style.css" type="text/css" />
+<style type="text/css" media="screen">
+
+    div.col-sm-2 > span.no-image-span > img {
+        max-width: 500px;
+        max-height: 350px;
+    }
+    div.col-sm-2 > img {
+        max-height: 450px;
+        max-width: 450px;
+    }
+       
+</style>
 
 
 <div>
@@ -48,13 +61,12 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ProcessingNotes)
         </dd>
-        
     </dl>
+
     <br />
     <br />
 
     <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
-
         <em>
             Machining image
         </em>
@@ -63,12 +75,13 @@
     <div class="col-sm-2">
         @if (Model.MachiningImageBytes == null)
         {
-            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
-
+            <span class="no-image-span">
+                <img src="~/img/no_image.png" />
+            </span>
         }
         else
         {
-            <img src="@Html.DisplayFor(model => model.MachiningImageUrl)" style="max-width:450px;max-height:450px" alt="Machining Image" />
+            <img src="@Html.DisplayFor(model => model.MachiningImageUrl)"  alt="Machining Image" />
         }
     </div>
     <br />
@@ -81,13 +94,15 @@
     <div class="col-sm-2">
         @if (Model.CladdingImageBytes == null)
         {
-            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
+            <span class="no-image-span">
+                <img src="~/img/no_image.png" />
+            </span>
         }
         else
         {
-            <img src="@Html.DisplayFor(model => model.CladdingImageUrl)" style="max-width:450px;max-height:450px" alt="Cladding Image" />
+            <img src="@Html.DisplayFor(model => model.CladdingImageUrl)"  alt="Cladding Image" />
         }
-    </div>
+        </div>
     <br />
     <h6 style="color:lightgray" class="col-md-10 col-sm-10 col-lg-10">
 
@@ -99,11 +114,13 @@
     <div class="col-sm-2">
         @if (Model.FinishedImageBytes == null)
         {
-            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" />
+            <span class="no-image-span">
+                <img src="~/img/no_image.png" />
+            </span>
         }
         else
         {
-            <img src="@Html.DisplayFor(model => model.FinishedImageUrl)" style="max-width:450px;max-height:450px" alt="Finished Image" />
+            <img src="@Html.DisplayFor(model => model.FinishedImageUrl)"  alt="Finished Image" />
         }
     </div>
     <br />
@@ -116,13 +133,16 @@
     <div class="col-sm-2">
         @if (Model.UsedImageBytes == null)
         {
-            <img src="~/img/no_image.png" style="max-width:450px;max-height:450px" /> }
+            <span class="no-image-span">
+                <img src="~/img/no_image.png" />
+            </span>
+        }
         else
         {
-            <img src="@Html.DisplayFor(model => model.UsedImageUrl)" style="max-width:450px;max-height:450px" alt="Used Image" />
+            <img src="@Html.DisplayFor(model => model.UsedImageUrl)"  alt="Used Image" />
         }
-    </div>
-    
+        </div>
+
     <br />
     <br />
 </div>
