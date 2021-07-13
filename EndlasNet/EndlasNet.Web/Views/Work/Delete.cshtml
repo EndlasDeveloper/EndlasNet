@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete";
+    WorkType workType = ViewBag.WorkType;
 }
 <style type="text/css" media="screen">
 
@@ -20,7 +21,7 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="WorkId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to list</a>
+        <input type="submit" asp-route-id="@Model.WorkId" asp-route-workType="@workType" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index" asp-route-workType="@workType">Back to list</a>
     </form>
 </div>

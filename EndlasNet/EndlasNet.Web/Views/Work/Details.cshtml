@@ -1,7 +1,8 @@
-﻿@model EndlasNet.Data.Job
+﻿@model EndlasNet.Data.Work
 
 @{
     ViewData["Title"] = "Details";
+    WorkType workType = ViewBag.WorkType; 
 }
 <style type="text/css" media="screen">
 
@@ -18,5 +19,5 @@
 <div>
 
     <a asp-action="Edit" asp-route-id="@Model.WorkId">Edit</a> |
-    <a asp-action="Index">Back to list</a>
+    <a asp-action="Index" asp-route-workType="@workType">Back to list</a>
 </div>

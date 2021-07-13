@@ -36,13 +36,13 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Jobs/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid? id, WorkType workType)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
+            ViewBag.WorkType = workType;
             var job = await _repo.GetJob(id);
             if (job == null)
             {
@@ -89,7 +89,7 @@ namespace EndlasNet.Web.Controllers
                     WorkItem workItem = new WorkItem { WorkItemId = Guid.NewGuid(), Work = job, WorkId = job.WorkId };
                     await _repo.AddWorkItem(workItem);
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { workType = WorkType.Job });
             }
             await SetViewData();
             return View(job);
@@ -120,26 +120,35 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Jobs/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid? id, WorkType workType)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var job = await _repo.FindJob(id);
-            if (job == null)
+            ViewBag.WorkType = workType;
+            Work work = new Work();
+            if(workType == WorkType.Job)
             {
-                return NotFound();
-            }
-            await SetViewData(job);
-            var currJob = await _repo.GetJob(id);
-            var quotes = await _repo.GetAllQuotesWithoutJob();
-            var quotesList = quotes.ToList();
-            quotesList.Insert(0, currJob.Quote);
-            ViewData["QuoteId"] = new SelectList(GetQuoteViewModelDropDownList(quotesList), "QuoteId", "DropDownQuoteDisplayStr");
+                var job = await _repo.GetJob(id);
+                await SetViewData((Job)job);
+                var currJob = await _repo.GetJob(id);
+                var quotes = await _repo.GetAllQuotesWithoutJob();
+                var quotesList = quotes.ToList();
+                quotesList.Insert(0, currJob.Quote);
+                
+                ViewData["QuoteId"] = new SelectList(GetQuoteViewModelDropDownList(quotesList), "QuoteId", "DropDownQuoteDisplayStr");
+                return View(job);
 
-            return View(job);
+            }
+            else if (workType == WorkType.WorkOrder)
+            {
+                var workOrder = await _repo.GetWork(id);
+                await SetViewData((Job)workOrder);
+                return View(workOrder);
+            }
+
+            return View(work);
         }
 
         // POST: Jobs/Edit/5
@@ -147,7 +156,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
+        public async Task<IActionResult> Edit(Guid id, WorkType workType, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
         {
             if (id != job.WorkId)
             {
@@ -181,7 +190,7 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { workType = workType });
             }
             await SetViewData(job);
 
@@ -189,12 +198,13 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Jobs/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid? id, WorkType workType)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            ViewBag.WorkType = workType;
 
             var job = (Job)await _repo.GetJob(id);
             if (job == null)
@@ -208,10 +218,11 @@ namespace EndlasNet.Web.Controllers
         // POST: Jobs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id, WorkType workType)
         {
+
             await _repo.DeleteJob(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { workType = workType });
         }
 
         private async Task<bool> JobExists(Guid id)

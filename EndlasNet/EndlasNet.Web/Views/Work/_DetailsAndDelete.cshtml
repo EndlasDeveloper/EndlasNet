@@ -1,5 +1,7 @@
-﻿@model EndlasNet.Data.Job
-
+﻿@model EndlasNet.Data.Work
+@{ 
+    WorkType workType = ViewBag.WorkType;
+}
 <h4>Job</h4>
 <hr />
 <dl class="row">
@@ -21,32 +23,38 @@
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.Status)
     </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.PurchaseOrderNum)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.PurchaseOrderNum)
-    </dd>
+    @if (workType == WorkType.Job)
+    {
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PurchaseOrderNum)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PurchaseOrderNum)
+        </dd>
+    }
+
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.DueDate)
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.DueDate)
     </dd>
-
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.PoDate)
-    </dt>
-    <dd class="col-sm-10">
-        @if (Model.PoDate == null)
-        {
-            <span>No PO date</span>
-        }
-        else
-        {
-            @Html.DisplayFor(model => model.PoDate)
-        }
-    </dd>
+    @if (workType == WorkType.Job)
+    {
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PoDate)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.PoDate == null)
+            {
+                <span>No PO date</span>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.PoDate)
+            }
+        </dd>
+    }
 
     <dt class="col-sm-2">
         Process sheet notes
@@ -63,10 +71,13 @@
             <a>No process sheet PDF</a>
         }
     </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Customer)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Customer.CustomerName)
-    </dd>
+    @if (workType == WorkType.Job)
+    {
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Customer.CustomerName)
+        </dd>
+    }
 </dl>
