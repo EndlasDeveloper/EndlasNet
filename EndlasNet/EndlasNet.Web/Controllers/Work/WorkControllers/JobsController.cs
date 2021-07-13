@@ -11,6 +11,7 @@ using System.IO;
 using EndlasNet.Web.Models;
 namespace EndlasNet.Web.Controllers
 {
+
     public class JobsController : Controller
     {
         private readonly IWorkRepo _repo;
@@ -20,10 +21,20 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Jobs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(WorkType workType)
         {
-            var jobsList = await _repo.GetAllJobs();
-            return View(jobsList);
+            switch (workType)
+            {
+                case WorkType.Job:
+                    ViewBag.WorkType = "Jobs";
+                    return View(await _repo.GetAllJobs());
+                case WorkType.WorkOrder:
+                    ViewBag.WorkType = "Work orders";
+                    return View(await _repo.GetAllWorkOrders());
+                default:
+                    ViewBag.WorkType = "Work";
+                    return View(await _repo.GetAllWork());
+            }    
         }
 
         // GET: Jobs/Details/5

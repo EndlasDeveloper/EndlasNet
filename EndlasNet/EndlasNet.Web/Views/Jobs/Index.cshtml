@@ -1,7 +1,8 @@
-﻿@model IEnumerable<EndlasNet.Data.Job>
+﻿@model IEnumerable<EndlasNet.Data.Work>
 
 @{
     ViewData["Title"] = "Jobs";
+    string workTypeHeading = ViewBag.WorkType;
 }
 <a asp-action="Work" asp-controller="Home">
     <span>
@@ -9,7 +10,8 @@
         Work
     </span>
 </a>
-<h1>Jobs</h1>
+
+<h1>@workTypeHeading</h1>
 
 <p>
     <a asp-action="Create">Create new</a>
