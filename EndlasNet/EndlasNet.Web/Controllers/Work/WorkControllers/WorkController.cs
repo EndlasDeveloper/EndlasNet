@@ -12,10 +12,10 @@ using EndlasNet.Web.Models;
 namespace EndlasNet.Web.Controllers
 {
 
-    public class JobsController : Controller
+    public class WorkController : Controller
     {
         private readonly IWorkRepo _repo;
-        public JobsController(IWorkRepo repo)
+        public WorkController(IWorkRepo repo)
         {   
             _repo = repo;
         }
