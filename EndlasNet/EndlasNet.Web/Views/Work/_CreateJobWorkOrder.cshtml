@@ -1,0 +1,42 @@
+﻿@model EndlasNet.Data.Work
+
+@{
+    ViewData["Title"] = "Create";
+    WorkType workType = ViewBag.WorkType;
+}
+
+<div class="form-group">
+    <div class="form-group">
+        <label asp-for="QuoteId" class="control-label"></label>
+        <select asp-for="QuoteId" class="form-control" asp-items="ViewBag.QuoteId"></select>
+        @if (ViewBag.NoQuoteWarning == true)
+        {
+            <span class="text-danger">No quote selected. Make sure there is an unreferenced quote available.</span>
+        }
+    </div>
+</div>
+<input asp-for="EndlasNumber" value="temp" hidden />
+<div class="form-group">
+    <label asp-for="WorkDescription" class="control-label"></label>
+    <input asp-for="WorkDescription" class="form-control" />
+    <span asp-validation-for="WorkDescription" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="NumWorkItems" class="control-label"></label>
+    <input asp-for="NumWorkItems" class="form-control" />
+    <span asp-validation-for="NumWorkItems" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="DueDate" class="control-label"></label>
+    <input asp-for="DueDate" class="form-control" />
+    <span asp-validation-for="DueDate" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ProcessSheetNotesFile" class="control-label"></label>
+    <div></div>
+    <input asp-for="ProcessSheetNotesFile" accept="application/pdf" />
+    <span asp-validation-for="ProcessSheetNotesFile" class="text-danger"></span>
+</div>
+

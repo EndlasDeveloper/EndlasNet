@@ -2,64 +2,46 @@
 
 @{
     ViewData["Title"] = "Create";
+    WorkType workType = ViewBag.WorkType;
+    string workTypeHeading = "something went wrong";
+    if(workType == WorkType.Job)
+    {
+        workTypeHeading = "Job";
+    }
+    else if(workType == WorkType.WorkOrder)
+    {
+        workTypeHeading = "Work order";
+    }
 }
 
 <h1>Create</h1>
 
-<h4>Job</h4>
+<h4>@workTypeHeading</h4>
 
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+
+            @await Html.PartialAsync("_CreateJobWorkOrder", Model)
+
+            @if (workType == WorkType.Job)
+            {
                 <div class="form-group">
-                    <label asp-for="QuoteId" class="control-label"></label>
-                    <select asp-for="QuoteId" class="form-control" asp-items="ViewBag.QuoteId"></select>
-                    @if (ViewBag.NoQuoteWarning == true)
-                    {
-                        <span class="text-danger">No quote selected. Make sure there is an unreferenced quote available.</span>
-                    }
+                    <label asp-for="PurchaseOrderNum" class="control-label"></label>
+                    <input asp-for="PurchaseOrderNum" class="form-control" />
+                    <span asp-validation-for="PurchaseOrderNum" class="text-danger"></span>
                 </div>
-            </div>
-            <input asp-for="EndlasNumber" value="temp" hidden />
-            <div class="form-group">
-                <label asp-for="WorkDescription" class="control-label"></label>
-                <input asp-for="WorkDescription" class="form-control" />
-                <span asp-validation-for="WorkDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PurchaseOrderNum" class="control-label"></label>
-                <input asp-for="PurchaseOrderNum" class="form-control" />
-                <span asp-validation-for="PurchaseOrderNum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumWorkItems" class="control-label"></label>
-                <input asp-for="NumWorkItems" class="form-control" />
-                <span asp-validation-for="NumWorkItems" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DueDate" class="control-label"></label>
-                <input asp-for="DueDate" class="form-control" />
-                <span asp-validation-for="DueDate" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PoDate" class="control-label"></label>
-                <input asp-for="PoDate" class="form-control" />
-                <span asp-validation-for="PoDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProcessSheetNotesFile" class="control-label"></label>
-                <div></div>
-                <input asp-for="ProcessSheetNotesFile" accept="application/pdf" />
-                <span asp-validation-for="ProcessSheetNotesFile" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
-            </div>
+                <div class="form-group">
+                    <label asp-for="PoDate" class="control-label"></label>
+                    <input asp-for="PoDate" class="form-control" />
+                    <span asp-validation-for="PoDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CustomerId" class="control-label"></label>
+                    <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                </div>
+            }
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

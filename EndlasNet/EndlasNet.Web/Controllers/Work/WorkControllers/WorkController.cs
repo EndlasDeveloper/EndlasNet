@@ -53,8 +53,9 @@ namespace EndlasNet.Web.Controllers
         }
 
         // GET: Jobs/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(WorkType workType)
         {
+            ViewBag.WorkType = workType;
             await SetViewData();
             return View();
         }

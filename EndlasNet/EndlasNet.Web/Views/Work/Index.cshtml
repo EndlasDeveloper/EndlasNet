@@ -29,7 +29,7 @@
 <p>
     @if (workType != WorkType.Work)
     {
-        <a asp-action="Create">Create new</a>
+        <a asp-action="Create" asp-route-workType="@workType">Create new</a>
     }
     else
     {
