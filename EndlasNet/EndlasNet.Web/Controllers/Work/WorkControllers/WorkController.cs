@@ -49,13 +49,14 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
 
-            return View(job);
+            return View(new WorkViewModel(job, workType));
         }
 
         // GET: Jobs/Create
         public async Task<IActionResult> Create(WorkType workType)
         {
             ViewBag.WorkType = workType;
+            
             await SetViewData();
             return View();
         }
@@ -65,34 +66,46 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,NumWorkItems,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
+        public async Task<IActionResult> Create(WorkType workType, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Work work)
         {
-            
+            var vm = new WorkViewModel();
+
             if (ModelState.IsValid)
             {
-                if(job.QuoteId == null)
+                if(work.QuoteId == null)
                 {
                     ViewBag.NoQuoteWarning = true;
-                    return View(job);
+                    vm = new WorkViewModel(work, workType);
+                    return View(vm);
                 }
-                job.WorkId = Guid.NewGuid();
+                work.WorkId = Guid.NewGuid();
 
-                if (job.ProcessSheetNotesFile != null)
+                if (work.ProcessSheetNotesFile != null)
                 {
-                    job.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(job.ProcessSheetNotesFile);
+                    work.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(work.ProcessSheetNotesFile);
                 }
-                var quote = await _repo.GetQuote((Guid)job.QuoteId);
-                job.EndlasNumber = quote.EndlasNumber;
-                await _repo.AddJob(job);
-                for(int i = 0; i < job.NumWorkItems; i++)
+                var quote = await _repo.GetQuote((Guid)work.QuoteId);
+                work.EndlasNumber = quote.EndlasNumber;
+
+                if(workType == WorkType.Job)
                 {
-                    WorkItem workItem = new WorkItem { WorkItemId = Guid.NewGuid(), Work = job, WorkId = job.WorkId };
+                    await _repo.AddJob(Job.CastWorkToJob(work));
+                }
+                else if(workType == WorkType.WorkOrder)
+                {
+                    await _repo.AddWorkOrder((WorkOrder)work);
+                }
+
+                for (int i = 0; i < work.NumWorkItems; i++)
+                {
+                    WorkItem workItem = new WorkItem { WorkItemId = Guid.NewGuid(), Work = work, WorkId = work.WorkId };
                     await _repo.AddWorkItem(workItem);
                 }
-                return RedirectToAction(nameof(Index), new { workType = WorkType.Job });
+                return RedirectToAction(nameof(Index), new { workType =  workType});
             }
             await SetViewData();
-            return View(job);
+            vm = new WorkViewModel(work, workType);
+            return View(vm);
         }
 
         private async Task SetViewData(Job job)
@@ -126,29 +139,31 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            
             ViewBag.WorkType = workType;
             Work work = new Work();
-            if(workType == WorkType.Job)
+            var vm = new WorkViewModel(work,workType);
+            if (workType == WorkType.Job)
             {
-                var job = await _repo.GetJob(id);
-                await SetViewData((Job)job);
+                vm.Work = await _repo.GetJob(id);
+                await SetViewData((Job)vm.Work);
                 var currJob = await _repo.GetJob(id);
                 var quotes = await _repo.GetAllQuotesWithoutJob();
                 var quotesList = quotes.ToList();
                 quotesList.Insert(0, currJob.Quote);
                 
                 ViewData["QuoteId"] = new SelectList(GetQuoteViewModelDropDownList(quotesList), "QuoteId", "DropDownQuoteDisplayStr");
-                return View(job);
+                return View(vm);
 
             }
             else if (workType == WorkType.WorkOrder)
             {
-                var workOrder = await _repo.GetWork(id);
-                await SetViewData((Job)workOrder);
-                return View(workOrder);
+                vm.Work = await _repo.GetWork(id);
+                await SetViewData((Job)vm.Work);
+                return View(vm);
             }
 
-            return View(work);
+            return View(vm);
         }
 
         // POST: Jobs/Edit/5
@@ -194,7 +209,7 @@ namespace EndlasNet.Web.Controllers
             }
             await SetViewData(job);
 
-            return View(job);
+            return View(new WorkViewModel(job, workType));
         }
 
         // GET: Jobs/Delete/5
@@ -205,14 +220,15 @@ namespace EndlasNet.Web.Controllers
                 return NotFound();
             }
             ViewBag.WorkType = workType;
-
+            
             var job = (Job)await _repo.GetJob(id);
+            WorkViewModel vm = new WorkViewModel(job, workType);
             if (job == null)
             {
                 return NotFound();
             }
 
-            return View(job);
+            return View(vm);
         }
 
         // POST: Jobs/Delete/5

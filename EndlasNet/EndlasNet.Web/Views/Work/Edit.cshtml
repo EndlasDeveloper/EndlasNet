@@ -1,6 +1,6 @@
 ﻿@using EndlasNet.Data;
 
-@model EndlasNet.Data.Work
+@model EndlasNet.Web.Models.WorkViewModel;
 
 @{
     ViewData["Title"] = "Edit";
@@ -26,50 +26,51 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="WorkId" />
-            <input type="hidden" asp-for="ProcessSheetNotesPdfBytes" />
+            <input type="hidden" asp-for="Work.ProcessSheetNotesPdfBytes" />
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
+                <label asp-for="Work.Status" class="control-label"></label>
                 <div class="form-group">
-                    @Html.DropDownListFor(m => m.Status, new SelectList(Enum.GetValues(typeof(Status)), new { @class = "form-control" }))
-                </div>                <span asp-validation-for="Status" class="text-danger"></span>
+                    @Html.DropDownListFor(m => m.Work.Status, new SelectList(Enum.GetValues(typeof(Status)), new { @class = "form-control" }))
+                </div>                
+                <span asp-validation-for="Work.Status" class="text-danger"></span>
             </div>
-            <input asp-for="EndlasNumber" value="temp" hidden />
+            <input asp-for="Work.EndlasNumber" value="temp" hidden />
             <div class="form-group">
-                <label asp-for="QuoteId" class="control-label"></label>
-                <select asp-for="QuoteId" class="form-control" asp-items="ViewBag.QuoteId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="WorkDescription" class="control-label"></label>
-                <input asp-for="WorkDescription" class="form-control" />
-                <span asp-validation-for="WorkDescription" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PurchaseOrderNum" class="control-label"></label>
-                <input asp-for="PurchaseOrderNum" class="form-control" />
-                <span asp-validation-for="PurchaseOrderNum" class="text-danger"></span>
+                <label asp-for="Work.QuoteId" class="control-label"></label>
+                <select asp-for="Work.QuoteId" class="form-control" asp-items="ViewBag.QuoteId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="DueDate" class="control-label"></label>
-                <input asp-for="DueDate" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" value="@Model.DueDate.ToString("s")" />
-                <span asp-validation-for="DueDate" class="text-danger"></span>
+                <label asp-for="Work.WorkDescription" class="control-label"></label>
+                <input asp-for="Work.WorkDescription" class="form-control" />
+                <span asp-validation-for="Work.WorkDescription" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="PoDate" class="control-label"></label>
-                <input asp-for="PoDate" class="form-control" />
-                <span asp-validation-for="PoDate" class="text-danger"></span>
+                <label asp-for="Work.PurchaseOrderNum" class="control-label"></label>
+                <input asp-for="Work.PurchaseOrderNum" class="form-control" />
+                <span asp-validation-for="Work.PurchaseOrderNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Work.DueDate" class="control-label"></label>
+                <input asp-for="Work.DueDate" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" value="@Model.Work.DueDate.ToString("s")" />
+                <span asp-validation-for="Work.DueDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Work.PoDate" class="control-label"></label>
+                <input asp-for="Work.PoDate" class="form-control" />
+                <span asp-validation-for="Work.PoDate" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <div></div>
-                <label asp-for="ProcessSheetNotesFile" class="control-label"></label>
-                <input asp-for="ProcessSheetNotesFile" accept="application/pdf" />
-                <span asp-validation-for="ProcessSheetNotesFile" class="text-danger"></span>
+                <label asp-for="Work.ProcessSheetNotesFile" class="control-label"></label>
+                <input asp-for="Work.ProcessSheetNotesFile" accept="application/pdf" />
+                <span asp-validation-for="Work.ProcessSheetNotesFile" class="text-danger"></span>
             </div>
-            @if (Model.ProcessSheetNotesPdfBytes != null)
+            @if (Model.Work.ProcessSheetNotesPdfBytes != null)
             {
-                <label asp-for="ProcessSheetNotesFile" class="control-label"></label>
+                <label asp-for="Work.ProcessSheetNotesFile" class="control-label"></label>
 
                 @Html.ActionLink(
                     linkText: "Download process notes PDF",
@@ -80,26 +81,26 @@
                 <br />
                 <span>
                     Clear process notes file
-                    <input asp-for="ClearPdf" class="form-check-inline" />
+                    <input asp-for="Work.ClearPdf" class="form-check-inline" />
                 </span>
 
             }
 
 
             <div class="form-group">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
+                <label asp-for="Work.CustomerId" class="control-label"></label>
+                <select asp-for="Work.CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                <span asp-validation-for="Work.CustomerId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" asp-route-id="@Model.WorkId" asp-route-workType="@workType" value="Save" class="btn btn-primary" />
+                <input type="submit" asp-route-id="@Model.WorkId" asp-route-workType="@Model.WorkType" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index" asp-route-workType="@workType">Back to list</a>
+    <a asp-action="Index" asp-route-Model.WorkType="@Model.WorkType">Back to list</a>
 </div>
 
 @section Scripts {

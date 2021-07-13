@@ -1,4 +1,4 @@
-﻿@model EndlasNet.Data.Job
+﻿@model EndlasNet.Data.Work
 
 @{
     ViewData["Title"] = "Create";
@@ -20,28 +20,9 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create" asp-route-workType="@workType" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             @await Html.PartialAsync("_CreateJobWorkOrder", Model)
-
-            @if (workType == WorkType.Job)
-            {
-                <div class="form-group">
-                    <label asp-for="PurchaseOrderNum" class="control-label"></label>
-                    <input asp-for="PurchaseOrderNum" class="form-control" />
-                    <span asp-validation-for="PurchaseOrderNum" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PoDate" class="control-label"></label>
-                    <input asp-for="PoDate" class="form-control" />
-                    <span asp-validation-for="PoDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CustomerId" class="control-label"></label>
-                    <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
-                </div>
-            }
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
