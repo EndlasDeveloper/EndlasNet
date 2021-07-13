@@ -2,7 +2,20 @@
 
 @{
     ViewData["Title"] = "Jobs";
-    string workTypeHeading = ViewBag.WorkType;
+    WorkType workType = ViewBag.WorkType;
+    string workTypeHeading = "";
+    if(workType == WorkType.Job)
+    {
+        workTypeHeading = "Jobs";
+    }
+    else if(workType == WorkType.WorkOrder)
+    {
+        workTypeHeading = "Work orders";
+    }
+    else
+    {
+        workTypeHeading = "All work";
+    }
 }
 <a asp-action="Work" asp-controller="Home">
     <span>
@@ -14,7 +27,14 @@
 <h1>@workTypeHeading</h1>
 
 <p>
-    <a asp-action="Create">Create new</a>
+    @if (workType != WorkType.Work)
+    {
+        <a asp-action="Create">Create new</a>
+    }
+    else
+    {
+        <a>Create new</a>
+    }
 </p>
 <table class="table">
     <thead>

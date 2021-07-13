@@ -23,16 +23,14 @@ namespace EndlasNet.Web.Controllers
         // GET: Jobs
         public async Task<IActionResult> Index(WorkType workType)
         {
+            ViewBag.WorkType = workType;
             switch (workType)
             {
                 case WorkType.Job:
-                    ViewBag.WorkType = "Jobs";
                     return View(await _repo.GetAllJobs());
                 case WorkType.WorkOrder:
-                    ViewBag.WorkType = "Work orders";
                     return View(await _repo.GetAllWorkOrders());
                 default:
-                    ViewBag.WorkType = "Work";
                     return View(await _repo.GetAllWork());
             }    
         }
