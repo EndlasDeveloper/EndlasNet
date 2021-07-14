@@ -66,7 +66,7 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(WorkType workType, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Work work)
+        public async Task<IActionResult> Create(WorkType workType, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,NumWorkItems,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Work work)
         {
             var vm = new WorkViewModel();
 
@@ -98,7 +98,7 @@ namespace EndlasNet.Web.Controllers
 
                 for (int i = 0; i < work.NumWorkItems; i++)
                 {
-                    WorkItem workItem = new WorkItem { WorkItemId = Guid.NewGuid(), Work = work, WorkId = work.WorkId };
+                    WorkItem workItem = new WorkItem { WorkItemId = Guid.NewGuid(), WorkId = work.WorkId };
                     await _repo.AddWorkItem(workItem);
                 }
                 return RedirectToAction(nameof(Index), new { workType =  workType});

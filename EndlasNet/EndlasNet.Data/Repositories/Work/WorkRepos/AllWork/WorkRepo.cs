@@ -257,8 +257,7 @@ namespace EndlasNet.Data
         public async Task AddWorkItem(WorkItem workItem)
         {
             _db.WorkItems.Add(workItem);
-            var entry = _db.Entry(workItem);
-            entry.State = EntityState.Added;
+
             await _db.SaveChangesAsync();
         }
 
