@@ -122,9 +122,11 @@ namespace EndlasNet.Data
             return await _db.Customers.FirstOrDefaultAsync(c => c.CustomerId == id);
         }
 
-        public Task<IEnumerable<Work>> GetWorkWithEndlasNumber(string endlasNumber)
+        public async Task<IEnumerable<Work>> GetWorkWithEndlasNumber(string endlasNumber)
         {
-            throw new NotImplementedException();
+            return await _db.Work
+                .Where(w => w.EndlasNumber == endlasNumber)
+                .ToListAsync();
         }
 
         public Task<IEnumerable<Work>> FindDuplicateWork(Work work)

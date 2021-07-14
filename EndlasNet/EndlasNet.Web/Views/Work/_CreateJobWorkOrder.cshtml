@@ -5,17 +5,33 @@
     WorkType workType = ViewBag.WorkType;
 }
 
-<div class="form-group">
+@if (workType == WorkType.Job)
+{
     <div class="form-group">
-        <label asp-for="QuoteId" class="control-label"></label>
-        <select asp-for="QuoteId" class="form-control" asp-items="ViewBag.QuoteId"></select>
-        @if (ViewBag.NoQuoteWarning == true)
+        <div class="form-group">
+            <label asp-for="QuoteId" class="control-label"></label>
+            <select asp-for="QuoteId" class="form-control" asp-items="ViewBag.QuoteId"></select>
+            @if (ViewBag.NoQuoteWarning == true)
+            {
+                <span class="text-danger">No quote selected. Make sure there is an unreferenced quote available.</span>
+            }
+        </div>
+    </div>
+    <input asp-for="EndlasNumber" value="temp" hidden />
+}
+else if (workType == WorkType.WorkOrder)
+{
+    <div class="form-group">
+        <label asp-for="EndlasNumber" class="control-label"></label>
+        <input asp-for="EndlasNumber" class="form-control" />
+        <span asp-validation-for="EndlasNumber" class="text-danger"></span>
+        @if (ViewBag.EndlasNumberConflict == "true")
         {
-            <span class="text-danger">No quote selected. Make sure there is an unreferenced quote available.</span>
+            <span class="text-danger">Endlas number @Model.EndlasNumber already exists.</span>
         }
     </div>
-</div>
-<input asp-for="EndlasNumber" value="temp" hidden />
+}
+
 <div class="form-group">
     <label asp-for="WorkDescription" class="control-label"></label>
     <input asp-for="WorkDescription" class="form-control" />

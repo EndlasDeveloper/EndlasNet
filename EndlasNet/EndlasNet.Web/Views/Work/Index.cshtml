@@ -51,6 +51,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.DueDate)
             </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Customer)
             </th>
@@ -72,9 +73,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DueDate)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerName)
-            </td>
+            @if (workType == WorkType.Job)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+                </td>
+            }
+            else if(workType == WorkType.WorkOrder)
+            {
+                <td>
+                    NA
+                </td>
+            }
             <td>
                 <a asp-action="ManageWorkItems" asp-route-workId="@item.WorkId">Manage work items</a> |
                 <a asp-action="Edit" asp-route-id="@item.WorkId" asp-route-workType="@workType">Edit</a> |

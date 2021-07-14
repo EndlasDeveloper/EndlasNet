@@ -12,5 +12,25 @@ namespace EndlasNet.Data
         {
             PurchaseOrderNum = null;
         }
+        public static WorkOrder CastWorkToWorkOrder(Work work)
+        {
+            return new WorkOrder
+            {
+                WorkId = work.WorkId,
+                Customer = work.Customer,
+                CustomerId = work.CustomerId,
+                DueDate = work.DueDate,
+                WorkDescription = work.WorkDescription,
+                ClearPdf = work.ClearPdf,
+                EndlasNumber = work.EndlasNumber,
+                MachiningToolsForWork = work.MachiningToolsForWork,
+                NumWorkItems = work.NumWorkItems,
+                ProcessSheetNotesFile = work.ProcessSheetNotesFile,
+                ProcessSheetNotesPdfBytes = work.ProcessSheetNotesPdfBytes,
+                Status = work.Status,
+                WorkItems = work.WorkItems,
+                WorkType = work.WorkType
+            };
+        }
     }
 }
