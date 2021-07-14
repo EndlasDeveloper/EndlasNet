@@ -164,7 +164,8 @@ namespace EndlasNet.Web.Controllers
             }
             else if (workType == WorkType.WorkOrder)
             {
-                vm.Work = await _repo.GetWork(id);
+                vm.Work = await _repo.GetWorkOrder(id);
+                await SetViewData(Job.CastWorkToJob(vm.Work));
                 await SetViewData(Job.CastWorkToJob(vm.Work));
                 return View(vm);
             }
@@ -211,6 +212,7 @@ namespace EndlasNet.Web.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index), new { workType = workType });
             }
             await SetViewData(job);
