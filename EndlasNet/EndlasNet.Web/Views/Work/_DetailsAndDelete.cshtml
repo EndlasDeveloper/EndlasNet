@@ -17,9 +17,19 @@
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.Work.Quote.EndlasNumber)
     </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Work.Quote.EndlasNumber)
-    </dd>
+    @if (Model.WorkType == WorkType.Job)
+    {
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Work.Quote.EndlasNumber)
+        </dd>
+    }
+    else if(Model.WorkType == WorkType.WorkOrder)
+    {
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Work.EndlasNumber)
+        </dd>
+    }
+
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.Work.WorkDescription)
     </dt>

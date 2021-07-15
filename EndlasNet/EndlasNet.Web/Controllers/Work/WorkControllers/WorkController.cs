@@ -42,14 +42,24 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            Work work = null;
             ViewBag.WorkType = workType;
-            var job = await _repo.GetJob(id);
-            if (job == null)
-            {
-                return NotFound();
-            }
 
-            return View(new WorkViewModel(job, workType));
+            switch (workType)
+            {
+                case WorkType.Job:
+                    work = await _repo.GetJob(id);
+                    break;
+                case WorkType.WorkOrder:
+                    work = await _repo.GetWorkOrder(id);
+                    break;
+                case WorkType.Work:
+                    return NotFound();
+                default:
+                    break;
+            }
+         
+            return View(new WorkViewModel(work, workType));
         }
 
         // GET: Jobs/Create
@@ -237,13 +247,28 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            WorkViewModel vm = null;
             ViewBag.WorkType = workType;
-            
-            var job = await _repo.GetJob(id);
-            WorkViewModel vm = new WorkViewModel(job, workType);
-            if (job == null)
+            switch (workType)
             {
-                return NotFound();
+                case WorkType.Job:
+                    if(await _repo.JobExists((Guid)id))
+                    {
+                        var job = await _repo.GetJob(id);
+                        vm = new WorkViewModel(job, workType);
+                    }
+                    break;
+                case WorkType.WorkOrder:
+                    if (await _repo.WorkOrderExists((Guid)id))
+                    {
+                        var workOrder = await _repo.GetWorkOrder(id);
+                        vm = new WorkViewModel(workOrder, workType);
+                    }
+                    break;
+                case WorkType.Work:
+                    return NotFound();
+                default:
+                    break;
             }
 
             return View(vm);
@@ -254,8 +279,19 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id, WorkType workType)
         {
-
-            await _repo.DeleteJob(id);
+            switch (workType)
+            {
+                case WorkType.Job:
+                    await _repo.DeleteJob(id);
+                    break;
+                case WorkType.WorkOrder:
+                    await _repo.DeleteWorkOrder(id);
+                    break;
+                case WorkType.Work:
+                    break;
+                default:
+                    break;
+            }
             return RedirectToAction(nameof(Index), new { workType = workType });
         }
 
