@@ -180,16 +180,30 @@ namespace EndlasNet.Data
                 .FirstOrDefaultAsync(j => j.WorkId == id);
         }
 
-        public Task<bool> JobExists(Guid id)
+        public async Task<bool> JobExists(Guid id)
         {
-            return _db.Jobs.AnyAsync(j => j.WorkId == id);
+            return await _db.Jobs.AnyAsync(j => j.WorkId == id);
         }
+
+        public async Task<bool> WorkExists(Guid id)
+        {
+            return await _db.Work.AnyAsync(w => w.WorkId == id);
+        }
+
 
         public async Task UpdateJob(Job job)
         {
             var entry = _db.Entry(job);
             entry.State = EntityState.Modified;
             _db.Jobs.Update(job);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task UpdateWork(Work work)
+        {
+            var entry = _db.Entry(work);
+            entry.State = EntityState.Modified;
+            _db.Work.Update(work);
             await _db.SaveChangesAsync();
         }
 

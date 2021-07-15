@@ -27,6 +27,7 @@ namespace EndlasNet.Data
         public Task<IEnumerable<Work>> GetAllWork();
         public Task<Work> GetWork(Guid? id);
         public Task DeleteWork(Guid? id);
+        public Task UpdateWork(Work work);
         public string GetWorkType(Work work);
         public Task<IEnumerable<Work>> GetWorkWithEndlasNumber(string endlasNumber);
         public Task<IEnumerable<Work>> FindDuplicateWork(Work work);
@@ -52,8 +53,7 @@ namespace EndlasNet.Data
         public Task UpdateWorkOrder(WorkOrder workOrder);
         public Task<WorkOrder> FindWorkOrder(Guid? id);
 
-
-        // WORK ITEM
+        public Task<bool> WorkExists(Guid id);        // WORK ITEM
         public Task AddWorkItem(WorkItem workItem);
         public Task<WorkItem> GetWorkItem(Guid? workItemId);
         public Task<IEnumerable<WorkItem>> GetAllWorkItems();

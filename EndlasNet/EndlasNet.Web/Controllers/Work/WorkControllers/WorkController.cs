@@ -147,30 +147,24 @@ namespace EndlasNet.Web.Controllers
             }
             
             ViewBag.WorkType = workType;
-            Work work = new Work();
-            var vm = new WorkViewModel(work,workType);
             if (workType == WorkType.Job)
             {
-                vm.Work = await _repo.GetJob(id);
-                await SetViewData(Job.CastWorkToJob(vm.Work));
+                Job job = await _repo.GetJob(id);
+                await SetViewData(job);
                 var currJob = await _repo.GetJob(id);
                 var quotes = await _repo.GetAllQuotesWithoutJob();
                 var quotesList = quotes.ToList();
                 quotesList.Insert(0, currJob.Quote);
                 
                 ViewData["QuoteId"] = new SelectList(GetQuoteViewModelDropDownList(quotesList), "QuoteId", "DropDownQuoteDisplayStr");
-                return View(vm);
-
+                return View(job);
             }
             else if (workType == WorkType.WorkOrder)
             {
-                vm.Work = await _repo.GetWorkOrder(id);
-                await SetViewData(Job.CastWorkToJob(vm.Work));
-                await SetViewData(Job.CastWorkToJob(vm.Work));
-                return View(vm);
+                WorkOrder workOrder = await _repo.GetWorkOrder(id);
+                return View(workOrder);
             }
-
-            return View(vm);
+            return View(new Work());
         }
 
         // POST: Jobs/Edit/5
@@ -178,32 +172,48 @@ namespace EndlasNet.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, WorkType workType, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Job job)
+        public async Task<IActionResult> Edit(Guid id, WorkType workType, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Work work)
         {
-            if (id != job.WorkId)
+            if (id != work.WorkId)
             {
                 return NotFound();
             }
-
+            var workList = await _repo.GetWorkWithEndlasNumber(work.EndlasNumber);
+            var quotes = await _repo.GetQuotesWithEndlasNumber(work.EndlasNumber);
+            if (workList.Any() || quotes.Count() > 0)
+            {
+                ViewBag.EndlasNumberConflict = "true";
+                if (workType == WorkType.Job)
+                    await SetViewData();
+                return View(work);
+            }
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (job.ProcessSheetNotesFile != null)
+                    if (work.ProcessSheetNotesFile != null)
                     {
-                        job.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(job.ProcessSheetNotesFile);
+                        work.ProcessSheetNotesPdfBytes = await FileURL.GetFileBytes(work.ProcessSheetNotesFile);
                     }
-                    if (job.ClearPdf)
+                    if (work.ClearPdf)
                     {
-                        job.ProcessSheetNotesPdfBytes = null;
+                        work.ProcessSheetNotesPdfBytes = null;
                     }
-                    var quote = await _repo.GetQuote((Guid)job.QuoteId);
-                    job.EndlasNumber = quote.EndlasNumber;
-                    await _repo.UpdateJob(job);
+                    if(workType == WorkType.Job)
+                    {
+                        var quote = await _repo.GetQuote((Guid)work.QuoteId);
+                        work.EndlasNumber = quote.EndlasNumber;
+                        await _repo.UpdateJob(Job.CastWorkToJob(work));
+                    }
+                    else if(workType == WorkType.WorkOrder)
+                    {
+                        await _repo.UpdateWorkOrder(WorkOrder.CastWorkToWorkOrder(work));
+                    }
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!(await JobExists(job.WorkId)))
+                    if (!(await JobExists(work.WorkId)))
                     {
                         return NotFound();
                     }
@@ -215,9 +225,9 @@ namespace EndlasNet.Web.Controllers
 
                 return RedirectToAction(nameof(Index), new { workType = workType });
             }
-            await SetViewData(job);
-
-            return View(new WorkViewModel(job, workType));
+            await SetViewData(Job.CastWorkToJob(work));
+            ViewBag.WorkType = workType;
+            return View(work);
         }
 
         // GET: Jobs/Delete/5
@@ -252,6 +262,11 @@ namespace EndlasNet.Web.Controllers
         private async Task<bool> JobExists(Guid id)
         {
             return await _repo.JobExists(id);
+        }
+
+        private async Task<bool> WorkExist(Guid id)
+        {
+            return await _repo.WorkOrderExists(id);
         }
 
         [HttpGet]
