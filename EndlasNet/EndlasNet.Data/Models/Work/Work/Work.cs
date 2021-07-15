@@ -27,7 +27,7 @@ namespace EndlasNet.Data
         public string WorkDescription { get; set; }
         [Required]
         [Display(Name = "Status")]
-        public Status Status { get; set; }
+        public WorkStatus Status { get; set; }
 
         [Display(Name = "Purchase order number")]
         public string PurchaseOrderNum { get; set; }

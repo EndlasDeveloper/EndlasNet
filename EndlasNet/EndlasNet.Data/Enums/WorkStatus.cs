@@ -1,6 +1,6 @@
 ﻿namespace EndlasNet.Data
 {
-    public enum Status
+    public enum WorkStatus
     {
         NotStarted,
         InProgress,

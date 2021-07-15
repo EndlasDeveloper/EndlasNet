@@ -22,7 +22,7 @@ namespace EndlasNet.Data
         public Guid? StaticPartInfoId { get; set; }
         public virtual StaticPartInfo StaticPartInfo { get; set; }
 
-        public Status Status { get; set; } = Status.NotStarted;
+        public WorkStatus Status { get; set; } = WorkStatus.NotStarted;
 
         [Display(Name = "Date started")]
         public DateTime? StartDate { get; set; }

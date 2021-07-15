@@ -78,10 +78,11 @@ namespace EndlasNet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(WorkType workType, [Bind("WorkId,QuoteId,EndlasNumber,WorkDescription,Status,PurchaseOrderNum,NumWorkItems,DueDate,StartDate,PoDate,CompleteDate,UserId,CustomerId,ProcessSheetNotesFile")] Work work)
         {
+            ViewBag.WorkType = workType;
             var vm = new WorkViewModel();
             var workList = await _repo.GetWorkWithEndlasNumber(work.EndlasNumber);
             var quotes = await _repo.GetQuotesWithEndlasNumber(work.EndlasNumber);
-            if (workList.Any() || quotes.Count() > 0)
+            if (workList.Any() || quotes.Count() > 1)
             {
                 ViewBag.EndlasNumberConflict = "true";
                 ViewData["CustomerId"] = new SelectList(await _repo.GetAllCustomers(), "CustomerId", "CustomerName");
@@ -188,15 +189,18 @@ namespace EndlasNet.Web.Controllers
             {
                 return NotFound();
             }
+            ViewBag.WorkType = workType;
+
             var workList = await _repo.GetWorkWithEndlasNumber(work.EndlasNumber);
             var quotes = await _repo.GetQuotesWithEndlasNumber(work.EndlasNumber);
-            if (workList.Any() || quotes.Count() > 0)
+
+            if(workList.Any() || (workType == WorkType.Job && quotes.Count() > 1))
             {
                 ViewBag.EndlasNumberConflict = "true";
-                if (workType == WorkType.Job)
-                    await SetViewData();
+               
                 return View(work);
             }
+
             if (ModelState.IsValid)
             {
                 try
