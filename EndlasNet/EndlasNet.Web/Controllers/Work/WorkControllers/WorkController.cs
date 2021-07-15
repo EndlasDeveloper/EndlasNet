@@ -84,7 +84,7 @@ namespace EndlasNet.Web.Controllers
             var quotes = await _repo.GetQuotesWithEndlasNumber(work.EndlasNumber);
             if (workList.Any() || quotes.Count() > 1)
             {
-                ViewBag.EndlasNumberConflict = "true";
+                ViewBag.EndlasNumberConflict = true;
                 ViewData["CustomerId"] = new SelectList(await _repo.GetAllCustomers(), "CustomerId", "CustomerName");
                 return View(work);
             }
