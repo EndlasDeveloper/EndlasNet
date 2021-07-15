@@ -54,7 +54,8 @@ namespace EndlasNet.Web.Controllers
                     work = await _repo.GetWorkOrder(id);
                     break;
                 case WorkType.Work:
-                    return NotFound();
+                    work = await _repo.GetWork(id);
+                    break;
                 default:
                     break;
             }
