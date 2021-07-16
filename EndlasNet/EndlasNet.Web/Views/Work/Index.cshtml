@@ -85,12 +85,30 @@
                     NA
                 </td>
             }
-            <td>
-                <a asp-action="ManageWorkItems" asp-route-workId="@item.WorkId">Manage work items</a> |
-                <a asp-action="Edit" asp-route-id="@item.WorkId" asp-route-workType="@workType">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.WorkId" asp-route-workType="@workType">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.WorkId" asp-route-workType="@workType">Delete</a>
-            </td>
+            else if(workType == WorkType.Work)
+            {
+                if(item.Customer == null)
+                {
+                    <td>
+                        NA
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+                    </td>
+                }
+            }
+        <td>
+            <a asp-action="ManageWorkItems" asp-route-workId="@item.WorkId">Manage work items</a> |
+            @if (workType != WorkType.Work)
+            {
+                <a asp-action="Edit" asp-route-id="@item.WorkId" asp-route-workType="@workType">Edit</a> <span>|</span>
+            }
+            <a asp-action="Details" asp-route-id="@item.WorkId" asp-route-workType="@workType">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.WorkId" asp-route-workType="@workType">Delete</a>
+        </td>
         </tr>
 }
     </tbody>

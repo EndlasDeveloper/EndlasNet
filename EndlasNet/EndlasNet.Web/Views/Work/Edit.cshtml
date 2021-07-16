@@ -51,7 +51,7 @@
                 <input asp-for="EndlasNumber" value="temp" hidden />
 
             }
-            else if (workType == WorkType.WorkOrder)
+            else if (workType == WorkType.WorkOrder || workType == WorkType.Work)
             {
                 <div class="form-group">
                     <label asp-for="EndlasNumber" class="control-label"></label>
@@ -86,13 +86,14 @@
                 <span asp-validation-for="ProcessSheetNotesFile" class="text-danger"></span>
             </div>
 
-            @if (workType == WorkType.Job)
+            @if (workType == WorkType.Job || workType == WorkType.Work)
             {
                 <div class="form-group">
                     <label asp-for="PurchaseOrderNum" class="control-label"></label>
                     <input asp-for="PurchaseOrderNum" class="form-control" />
                     <span asp-validation-for="PurchaseOrderNum" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="PoDate" class="control-label"></label>
                     <input asp-for="PoDate" class="form-control" />
